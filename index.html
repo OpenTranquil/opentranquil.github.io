@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TranquilOS // SYS.ROOT</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;600&display=swap"
+		rel="stylesheet">
+</head>
+
+<body>
+	<header>
+		<nav>
+			<div class="logo">TRANQUIL_OS</div>
+			<ul class="nav-links">
+				<li><a href="#features">MODULES</a></li>
+				<li><a href="#roadmap">TIMELINE</a></li>
+				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="main-container">
+		<!-- Hero Section -->
+		<section class="hero">
+			<div class="hero-content">
+				<div class="badge-pill">STATUS: ALPHA // v0.1.0</div>
+				<h1>NEXT_GEN<br><span class="highlight">MICROKERNEL</span><br>ARCHITECTURE</h1>
+				<p>
+					> INITIALIZING AI-NATIVE CORE...<br>
+					> LOAD: SECURITY_CAPABILITIES [OK]<br>
+					> LOAD: USERSPACE_DRIVERS [OK]
+				</p>
+				<div class="hero-buttons">
+					<button class="btn btn-primary">INIT_SYSTEM()</button>
+					<a href="https://github.com/nerossoft/TranquilOS" class="btn">READ_MANUAL</a>
+				</div>
+			</div>
+			<div class="hero-visual">
+				<div class="hud-container">
+					<div class="hud-circle outer-ring"></div>
+					<div class="hud-circle mid-ring"></div>
+					<div class="hud-circle inner-ring"></div>
+					<div class="hud-core"></div>
+					<div class="hud-label label-1">KERNEL::ACTIVE</div>
+					<div class="hud-label label-2">SECURE::TRUE</div>
+					<div class="hud-label label-3">AI::STANDBY</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Tech Specs Strip -->
+		<section class="tech-specs">
+			<div class="stat-item">
+				<span class="stat-number">AArch64</span>
+				<span class="stat-label">TARGET_ARCH</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">SMP</span>
+				<span class="stat-label">MULTI_CORE</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">12KB</span>
+				<span class="stat-label">KERNEL_SIZE</span>
+			</div>
+		</section>
+
+		<!-- Architecture Blueprint -->
+		<section class="blueprint-section">
+			<div class="section-header">
+				<p>// SYSTEM_ARCH_V1</p>
+				<h2>KERNEL_BLUEPRINT</h2>
+			</div>
+			<div class="blueprint-container">
+				<div class="blueprint-layer user-layer">
+					<span class="layer-label">EL0: USERSPACE</span>
+					<div class="blueprint-box">SYSTEM_D</div>
+					<div class="blueprint-box">FS_MGR</div>
+					<div class="blueprint-box">NET_MGR</div>
+					<div class="blueprint-box">SHELL_UI</div>
+				</div>
+				<div class="blueprint-connector">
+					<span>IPC_BUS [SYNC]</span>
+					<div class="connector-line"></div>
+				</div>
+				<div class="blueprint-layer kernel-layer">
+					<span class="layer-label">EL1: MICROKERNEL</span>
+					<div class="blueprint-box core-box">SCHEDULER</div>
+					<div class="blueprint-box core-box">CAP_SERVER</div>
+					<div class="blueprint-box core-box">IRQ_ROUTER</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Performance Telemetry -->
+		<section class="telemetry-section">
+			<div class="section-header">
+				<p>// PERF_METRICS</p>
+				<h2>SYSTEM_TELEMETRY</h2>
+			</div>
+			<div class="telemetry-grid">
+				<div class="telemetry-card">
+					<span class="tele-label">BOOT_TIME</span>
+					<span class="tele-value">142ms</span>
+					<div class="tele-bar">
+						<div style="width: 80%"></div>
+					</div>
+				</div>
+				<div class="telemetry-card">
+					<span class="tele-label">CTX_SWITCH</span>
+					<span class="tele-value">&lt;2µs</span>
+					<div class="tele-bar">
+						<div style="width: 95%"></div>
+					</div>
+				</div>
+				<div class="telemetry-card">
+					<span class="tele-label">IPC_THROUGHPUT</span>
+					<span class="tele-value">4.2M/s</span>
+					<div class="tele-bar">
+						<div style="width: 70%"></div>
+					</div>
+				</div>
+				<div class="telemetry-card">
+					<span class="tele-label">BINARY_SIZE</span>
+					<span class="tele-value">12KB</span>
+					<div class="tele-bar">
+						<div style="width: 100%"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- System Modules (Bento) -->
+		<section id="features" class="features">
+			<div class="section-header">
+				<p>// SYSTEM_MODULES</p>
+				<h2>CORE_COMPONENTS</h2>
+			</div>
+
+			<div class="bento-grid">
+				<!-- Microkernel -->
+				<div class="bento-item bento-large">
+					<div class="bento-icon">[KERNEL]</div>
+					<h3>Microkernel Architecture</h3>
+					<p>Minimalist privileged core. Drivers run in userspace (EL0). Fault isolation guarantees system
+						stability.</p>
+				</div>
+
+				<!-- AI -->
+				<div class="bento-item">
+					<div class="bento-icon">[AI]</div>
+					<h3>AI-Native</h3>
+					<p>Deeply integrated inference scheduler for intelligent resource management.</p>
+				</div>
+
+				<!-- Terminal Visual -->
+				<div class="bento-item bento-tall terminal-card">
+					<div class="terminal-header">
+						<span>root@tranquil:~#</span>
+						<span>BASH</span>
+					</div>
+					<div class="terminal-body">
+						<pre><code>$ ./kernel_init
+[  0.000] Booting Tranquil...
+[  0.024] ARCH: ARMv8-A
+[  0.035] MMU: Enabled
+[  0.041] IRQ: GICv3 Init
+[  0.057] SCHED: Priority
+[  0.102] PROCMGR: Ready
+[  0.115] Starting SystemD...
+[  0.150] Userspace: Active
+$ _</code></pre>
+					</div>
+				</div>
+
+				<!-- Security -->
+				<div class="bento-item">
+					<div class="bento-icon">[SEC]</div>
+					<h3>Capability Security</h3>
+					<p>Fine-grained access control objects (Caps) for object-capability model security.</p>
+				</div>
+
+				<!-- Modern Stack -->
+				<div class="bento-item bento-large">
+					<div class="bento-icon">[TECH]</div>
+					<h3>Modern Tech Stack</h3>
+					<p>Written in C and Assembly. Optimized for high-performance IPC and low-latency scheduling.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Roadmap -->
+		<section id="roadmap" class="roadmap">
+			<div class="section-header">
+				<p>// DEVELOPMENT_LOG</p>
+				<h2>EXECUTION_PLAN</h2>
+			</div>
+			<div class="roadmap-grid">
+				<div class="timeline">
+					<div class="timeline-item">
+						<h3>PHASE_1: KERNEL_CORE</h3>
+						<ul>
+							<li>MMU & Virtual Memory Setup</li>
+							<li>IRQ Handling & Context Switching</li>
+							<li>Capability System Implementation</li>
+						</ul>
+					</div>
+					<div class="timeline-item">
+						<h3>PHASE_2: SYSTEM_SERVICES</h3>
+						<ul>
+							<li>Process Manager Service</li>
+							<li>Memory Manager Service</li>
+							<li>IPC Optimization</li>
+						</ul>
+					</div>
+					<div class="timeline-item">
+						<h3>PHASE_3: USERSPACE</h3>
+						<ul>
+							<li>File System (VFS) & Drivers</li>
+							<li>Network Stack Implementation</li>
+							<li>A2UI Surface Flinger</li>
+						</ul>
+					</div>
+				</div>
+				<div class="roadmap-visual">
+					<div class="log-console">
+						<div class="log-header">
+							<span>SYSTEM_LOG</span>
+							<span>[REC]</span>
+						</div>
+						<div class="log-body">
+							<span class="log-line">09:01:22.450 [KRN] SCHED: Load balancing...</span>
+							<span class="log-line">09:01:22.455 [KRN] MEM: Page fault mapped @0x4000</span>
+							<span class="log-line">09:01:23.100 [SYS] IPC: msg sent (pid:12 -> pid:4)</span>
+							<span class="log-line">09:01:23.102 [SOC] NET: Packet received (len:64)</span>
+							<span class="log-line">09:01:24.001 [USR] SHELL: Command dispatch 'ls'</span>
+							<span class="log-line">09:01:24.005 [FS] VFS: Directory lookup '/bin'</span>
+							<span class="log-line highlight-log">09:01:24.010 [SYS] PROC: New process spawned
+								(pid:33)</span>
+							<span class="log-line">09:01:25.200 [KRN] IRQ: GICv3 interrupt #27</span>
+							<span class="log-line">09:01:25.205 [DRV] UART: Buffer flush</span>
+							<span class="cursor">_</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<div class="copyright">
+				<p>COPYRIGHT (C) 2026 TRANQUIL_OS. ALL RIGHTS RESERVED.</p>
+				<p>STATUS: OPERATIONAL_</p>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Background Grid Overlay -->
+	<div
+		style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; background: radial-gradient(circle, transparent 90%, rgba(0,0,0,0.8) 100%);">
+	</div>
+</body>
+
+</html>
