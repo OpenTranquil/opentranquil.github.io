@@ -667,192 +667,212 @@ nav {
 	z-index: 5;
 }
 
-#box-hal-mmu {
-	position: relative;
+/* --- Architecture Redesign (7-Layer Detailed Model) --- */
+
+.blueprint-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
 }
 
-#box-hal-mmu::before {
-	content: '▼';
+.blueprint-layer {
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 0;
+	/* No rounded corners */
+	padding: 1.2rem 0.8rem 0.8rem 0.8rem;
+	position: relative;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.layer-label {
 	position: absolute;
-	top: -20px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 0.6rem;
-	color: var(--text-secondary);
-	opacity: 0.5;
-}
-
-/* 3. IPC Core -> Endpoint (Capability Lookup) */
-#box-ipc {
-	position: relative;
-}
-
-#box-ipc::after {
-	content: '';
-	position: absolute;
-	bottom: -40px;
-	left: 50%;
-	width: 1px;
-	height: 40px;
-	background: var(--accent-color);
-	opacity: 0.3;
-}
-
-/* Internal Kernel Connections (IRQ -> HAL) */
-#box-irq {
-	position: relative;
-}
-
-#box-irq::after {
-	content: '';
-	position: absolute;
-	bottom: -45px;
-	/* Drop through HAL layer to CHIP */
-	left: 50%;
-	width: 1px;
-	height: 45px;
-	border-left: 1px dashed var(--accent-dim);
-	z-index: 5;
-}
-
-#box-hal-irq {
-	position: relative;
-}
-
-#box-gic-drv {
-	position: relative;
-}
-
-#box-gic-drv::before {
-	content: '▲';
-	position: absolute;
-	top: -20px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-family: var(--font-mono);
-	font-size: 0.6rem;
-	color: var(--text-secondary);
+	top: -9px;
+	left: 0;
+	/* Align with sharp edge */
 	background: var(--bg-color);
-	padding: 0 4px;
-	z-index: 10;
-}
-
-/* Timer Wire */
-#box-timer-drv {
-	position: relative;
-}
-
-#box-timer-drv::before {
-	content: '▲';
-	position: absolute;
-	top: -30px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 0.6rem;
+	padding: 0 0.4rem;
+	font-size: 0.65rem;
 	color: var(--accent-color);
-	opacity: 0.5;
+	/* Use accent color for labels */
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: bold;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-bottom: none;
 }
 
-/* UART Wire - connected to Console Service via HAL? 
-   Actually Console is in L4 (Console Drv). Let's connect L4 Console to L5 UART */
-#box-uart-drv {
-	position: relative;
+.layer-content {
+	display: flex;
+	gap: 0.5rem;
+	width: 100%;
+	justify-content: space-between;
 }
 
-#box-uart-drv::before {
-	content: '▲';
-	position: absolute;
-	top: -20px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 0.6rem;
-	color: var(--text-secondary);
-}
-
-#box-hal {
-	position: relative;
-}
-
-#box-hal::before {
-	content: 'HW_IRQ ▲';
-	position: absolute;
-	top: -20px;
-	left: 50%;
-	transform: translateX(-50%);
+/* Common Box Style - Original Theme */
+.blueprint-box {
+	border: 1px solid var(--accent-dim);
+	/* Use unified dim accent */
+	background: rgba(var(--accent-rgb), 0.05);
+	color: var(--text-main);
+	border-radius: 0;
+	/* No rounded corners */
+	padding: 0.4rem;
+	text-align: center;
+	font-size: 0.7rem;
 	font-family: var(--font-mono);
-	font-size: 0.6rem;
-	color: var(--text-secondary);
-	background: var(--bg-color);
-	padding: 0 4px;
-	z-index: 10;
-}
-
-/* Detailed Sub-labels in Boxes */
-/* UART Wire - connected to Console Service via HAL? 
-   Actually Console is in L4 (Console Drv). Let's connect L4 Console to L5 UART */
-#box-uart-drv {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	transition: all 0.3s ease;
 }
 
-#box-uart-drv::before {
-	content: '▲';
-	position: absolute;
-	top: -20px;
-	left: 50%;
-	transform: translateX(-50%);
-	font-size: 0.6rem;
-	color: var(--text-secondary);
+.blueprint-box:hover {
+	border-color: var(--accent-color);
+	box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.1);
+	z-index: 2;
 }
 
-/* Physical Layer Wires (Connecting Drivers -> Silicon) */
-#box-phy-cpu {
-	position: relative;
-}
-
-#box-phy-cpu::before {
-	content: '';
-	position: absolute;
-	top: -30px;
-	left: 50%;
-	width: 1px;
-	height: 30px;
-	background: #333;
-}
-
-#box-gic-drv::after {
-	content: '';
-	position: absolute;
-	bottom: -40px;
-	left: 50%;
-	width: 1px;
-	height: 40px;
-	border-left: 1px dotted #444;
-	z-index: 5;
-}
-
-/* User Stack Wires (Apps -> Services) */
-#box-systemd {
-	position: relative;
-}
-
-/* Connect Shell to SystemD/Services visually? 
-   Actually they are in the same stack now. 
-   Let's just ensure the gap looks good.
-*/
-
-.box-detail {
+.box-title {
+	font-size: 0.7rem;
+	font-weight: bold;
+	margin-bottom: 0.3rem;
+	border-bottom: 1px solid var(--accent-dim);
+	padding-bottom: 2px;
+	width: 100%;
 	display: block;
-	font-size: 0.6rem;
-	color: var(--text-secondary);
-	margin-top: 4px;
-	font-weight: 400;
-	letter-spacing: 0;
-	opacity: 0.8;
+	color: var(--accent-color);
 }
 
-/* Physical Layer Specifics */
-.physical-layer .blueprint-box {
-	background: #1a1a1a;
+.sub-text {
+	font-size: 0.6rem;
+	opacity: 0.8;
+	font-weight: normal;
+	color: var(--text-secondary);
+}
+
+/* Detailed List Boxes (High Density) */
+.box-list {
+	align-items: flex-start;
+	text-align: left;
+	min-width: 120px;
+}
+
+.list-item {
+	font-size: 0.6rem;
+	padding: 1px 0;
+	border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: var(--text-secondary);
+}
+
+.list-item:last-child {
+	border-bottom: none;
+}
+
+/* Specific Layout Helpers */
+.box-container {
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: transparent;
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	padding: 0.3rem;
+}
+
+.box-row {
+	display: flex;
+	gap: 0.2rem;
+	width: 100%;
+}
+
+.box-grid-2 {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.2rem;
+	width: 100%;
+	flex: 1;
+}
+
+.nested-box {
+	border: 1px solid var(--accent-dim);
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 0;
+	/* No rounded corners */
+	padding: 2px;
+	font-size: 0.6rem;
+	flex: 1;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 1.5rem;
+	color: var(--text-secondary);
+}
+
+.full-width {
+	width: 100%;
+}
+
+.box-simple {
+	align-items: center;
+	justify-content: center;
+}
+
+.box-vertical {
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	padding: 0.5rem 0.2rem;
+	min-width: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Layer Specific Styling - REMOVED MULTI-COLOR, UNIFIED THEME */
+/* Use subtle opacity variations instead of colors to distinguish importance */
+
+.layer-apps .blueprint-box {
+	background: rgba(var(--accent-rgb), 0.08);
+}
+
+.layer-services .blueprint-box {
+	background: rgba(var(--accent-rgb), 0.06);
+}
+
+.layer-systemd .blueprint-box {
+	/* Highlight SystemD slightly as Core */
+	background: rgba(var(--accent-rgb), 0.1);
+	border-color: var(--accent-color);
+}
+
+.layer-kernel .blueprint-box {
+	background: rgba(var(--accent-rgb), 0.04);
+}
+
+/* Hardware Layers - Darker / Greyscale to represent physicality */
+.layer-hal .blueprint-box,
+.layer-drivers .blueprint-box,
+.layer-hw .blueprint-box {
+	border-color: #444;
+	background: #111;
+	color: #888;
+}
+
+.layer-hal .box-title,
+.layer-drivers .box-title,
+.layer-hw .box-title {
+	color: #aaa;
+	border-color: #333;
+}
+
+.layer-apps .nested-box,
+.layer-services .nested-box {
+	border-color: var(--accent-dim);
 }
 
 .telemetry-section {
