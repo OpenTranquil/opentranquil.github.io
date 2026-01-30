@@ -28,7 +28,7 @@
 		<!-- Hero Section -->
 		<section class="hero">
 			<div class="hero-content">
-				<div class="badge-pill">STATUS: ALPHA // v0.1.0</div>
+				<div class="badge-pill">STATUS: ALPHA // v1.1.53</div>
 				<h1>NEXT_GEN<br><span class="highlight">MICROKERNEL</span><br>ARCHITECTURE</h1>
 				<p>
 					> INITIALIZING AI-NATIVE CORE...<br>
@@ -76,22 +76,110 @@
 				<h2>KERNEL_BLUEPRINT</h2>
 			</div>
 			<div class="blueprint-container">
+				<!-- EL0: USERSPACE (Split into Apps & Services) -->
 				<div class="blueprint-layer user-layer">
 					<span class="layer-label">EL0: USERSPACE</span>
-					<div class="blueprint-box">SYSTEM_D</div>
-					<div class="blueprint-box">FS_MGR</div>
-					<div class="blueprint-box">NET_MGR</div>
-					<div class="blueprint-box">SHELL_UI</div>
+					<div class="kernel-stack" style="gap: 1rem;">
+						<!-- Row 1: Applications -->
+						<div class="layer-row" style="background: rgba(255,255,255,0.02);">
+							<span class="row-label">APPS</span>
+							<div class="blueprint-box">SHELL_UI<span class="box-detail">TERMINAL</span></div>
+							<div class="blueprint-box">IDLE<span class="box-detail">HLT_LOOP</span></div>
+						</div>
+
+						<!-- Row 2: System Services -->
+						<div class="layer-row" style="background: rgba(255,255,255,0.02);">
+							<span class="row-label">SERVICES</span>
+							<div class="blueprint-box" id="box-systemd">SYSTEM_D<span class="box-detail">INIT</span>
+							</div>
+							<div class="blueprint-box">FS_MGR<span class="box-detail">VFS</span></div>
+							<div class="blueprint-box" id="box-devmgr">DEV_MGR<span class="box-detail">DEVFS</span>
+							</div>
+							<div class="blueprint-box">NET_MGR<span class="box-detail">LwIP</span></div>
+						</div>
+					</div>
 				</div>
-				<div class="blueprint-connector">
-					<span>IPC_BUS [SYNC]</span>
-					<div class="connector-line"></div>
+
+				<!-- System Bus -->
+				<div class="system-bus-container">
+					<div class="bus-line">
+						<span class="bus-label">SYSTEM_BUS / IPC_TRANSPORT</span>
+					</div>
 				</div>
-				<div class="blueprint-layer kernel-layer">
+
+				<!-- EL1: MICROKERNEL -->
+				<div class="blueprint-layer user-layer">
 					<span class="layer-label">EL1: MICROKERNEL</span>
-					<div class="blueprint-box core-box">SCHEDULER</div>
-					<div class="blueprint-box core-box">CAP_SERVER</div>
-					<div class="blueprint-box core-box">IRQ_ROUTER</div>
+					<div class="kernel-stack">
+						<!-- Layer 1: IPC & Dispatch -->
+						<div class="layer-row">
+							<span class="row-label">IPC_DISPATCH</span>
+							<div class="blueprint-box core-box" id="box-syscall">SYSCALL<span
+									class="box-detail">SVC_HANDLER</span></div>
+							<div class="blueprint-box core-box">EXCEPTION<span class="box-detail">DATA_ABORT</span>
+							</div>
+							<div class="blueprint-box core-box" id="box-ipc">IPC_CORE<span
+									class="box-detail">FASTPATH</span></div>
+							<div class="blueprint-box core-box" id="box-upcall">UPCALL<span
+									class="box-detail">USER_EVT</span></div>
+						</div>
+
+						<!-- Layer 2: Capabilities -->
+						<div class="layer-row">
+							<span class="row-label">CAPABILITY</span>
+							<div class="blueprint-box core-box">CNODE<span class="box-detail">CAP_TABLE</span></div>
+							<div class="blueprint-box core-box" id="box-endp">ENDPOINT<span
+									class="box-detail">IPC</span></div>
+							<div class="blueprint-box core-box">VSPACE<span class="box-detail">VIRTUAL MEMORY
+									SPACE</span></div>
+							<div class="blueprint-box core-box">SCONTEXT<span class="box-detail">SCHEDULE CONTEXT</span>
+							</div>
+							<div class="blueprint-box core-box">XCONTEXT<span class="box-detail">EXECUTE CONTEXT</span>
+							</div>
+							<div class="blueprint-box core-box">FUTEX<span class="box-detail">T_WAIT</span></div>
+						</div>
+
+						<!-- Layer 3: Core Logic (Enhanced) -->
+						<div class="layer-row">
+							<span class="row-label">CORE_LOGIC</span>
+							<div class="blueprint-box core-box" id="box-sched">SCHEDULER<span
+									class="box-detail">PRIORITY_RR</span>
+							</div>
+							<div class="blueprint-box core-box">DEV_CORE<span class="box-detail">KEY DEVICE MGR</span>
+							</div>
+							<div class="blueprint-box core-box" id="box-irq">IRQ_MGR<span class="box-detail">IRQ</span>
+							</div>
+							<div class="blueprint-box core-box">TIMER<span class="box-detail">TIMER / TIME</span></div>
+						</div>
+
+						<!-- Layer 4: HAL -->
+						<div class="layer-row">
+							<span class="row-label">HAL_ARCH</span>
+							<div class="blueprint-box core-box" id="box-hal-cpu">HAL_CPU<span
+									class="box-detail">FEAT</span></div>
+							<div class="blueprint-box core-box" id="box-hal-ctx">HAL_CTX<span
+									class="box-detail">REGS</span></div>
+							<div class="blueprint-box core-box" id="box-hal-mmu">HAL_MMU<span
+									class="box-detail">VMSAv8</span></div>
+							<div class="blueprint-box core-box">HAL_ATOMIC<span class="box-detail">LL/SC</span></div>
+							<div class="blueprint-box core-box" id="box-hal-irq">HAL_IRQ<span
+									class="box-detail">MASK</span></div>
+						</div>
+
+						<!-- Layer 5: Drivers -->
+						<div class="layer-row">
+							<span class="row-label">DRIVERS</span>
+							<div class="blueprint-box core-box" id="box-timer-drv">GEN_TIMER<span
+									class="box-detail">CNTP</span></div>
+							<div class="blueprint-box core-box" id="box-uart-drv">UART_DRV<span
+									class="box-detail">PL011</span></div>
+							<div class="blueprint-box core-box" id="box-gic-drv">IRQ_CHIP<span
+									class="box-detail">GICv3</span></div>
+							<div class="blueprint-box core-box">PERF<span class="box-detail">PMUv3</span></div>
+							<div class="blueprint-box core-box">WATCHDOG<span class="box-detail">PL080</span></div>
+							<div class="blueprint-box core-box">RTC<span class="box-detail">PL031</span></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>

@@ -104,7 +104,7 @@ nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1rem 2rem;
+	padding: 2rem 1rem;
 	width: 90%;
 	/* Match main-container width */
 	max-width: var(--max-width);
@@ -124,8 +124,8 @@ nav {
 .logo::before {
 	content: '';
 	display: block;
-	width: 10px;
-	height: 10px;
+	width: 2rem;
+	height: 2rem;
 	background: var(--accent-color);
 }
 
@@ -183,7 +183,7 @@ nav {
 /* --- Hero Section --- */
 .hero {
 	min-height: 80vh;
-	padding: 6rem 0;
+	padding: 6rem 2rem;
 	/* Align with container */
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -195,10 +195,10 @@ nav {
 
 /* Technical Markers */
 .hero::after {
-	content: 'SYS.STATUS: ONLINE // KERNEL.VER: 0.1.0-A';
+	content: 'SYS.STATUS: ONLINE // KERNEL.VER: 1.1.53-A';
 	position: absolute;
 	bottom: 1rem;
-	right: 0;
+	right: 1rem;
 	font-family: var(--font-mono);
 	font-size: 0.7rem;
 	color: var(--text-secondary);
@@ -443,17 +443,420 @@ nav {
 	color: var(--text-secondary);
 }
 
-.connector-line {
-	height: 40px;
-	width: 1px;
-	background: var(--border-color);
-	margin-top: 0.5rem;
+/* New Microkernel Layers */
+.kernel-stack {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 0.5rem;
 }
 
-/* --- Telemetry Section --- */
+.layer-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+	padding: 1rem;
+	border: 1px dotted var(--grid-line);
+	background: rgba(0, 0, 0, 0.3);
+	position: relative;
+	min-height: 80px;
+}
+
+.row-label {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 25px;
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	transform: rotate(180deg);
+	background: rgba(255, 255, 255, 0.03);
+	border-right: 1px solid var(--border-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-mono);
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+	letter-spacing: 1px;
+	padding: 5px 0;
+}
+
+/* Fix blueprint-layer to allow stacking */
+.kernel-layer {
+	flex-direction: column;
+	padding: 0;
+	/* Reset padding since inner stack has padding */
+	background: transparent;
+	border: none;
+}
+
+/* Adjust the main container style specifically for kernel layer to fit the stack */
+.kernel-layer .layer-label {
+	top: -25px;
+	/* Move label up a bit since we removed padding */
+}
+
+/* Ensure inner core boxes fit well in rows */
+.layer-row .blueprint-box {
+	min-width: 100px;
+	padding: 0.8rem 1.2rem;
+	font-size: 0.8rem;
+}
+
+/* System Bus Visualization */
+.system-bus-container {
+	width: 100%;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	margin: 1rem 0;
+}
+
+.bus-line {
+	width: 90%;
+	height: 4px;
+	background: var(--accent-color);
+	position: relative;
+	box-shadow: 0 0 15px var(--accent-color);
+}
+
+.bus-label {
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-family: var(--font-mono);
+	font-size: 0.7rem;
+	color: var(--accent-color);
+	background: var(--bg-color);
+	padding: 0 10px;
+}
+
+/* Wires: Connecting to Bus */
+
+/* Downwards from Userspace */
+#box-systemd,
+#box-devmgr {
+	position: relative;
+}
+
+#box-systemd::after,
+#box-devmgr::after {
+	content: '';
+	position: absolute;
+	bottom: -40px;
+	/* Connect to bus area */
+	left: 50%;
+	width: 1px;
+	height: 40px;
+	background: var(--accent-color);
+	opacity: 0.5;
+}
+
+/* Upwards from Kernel */
+#box-syscall,
+#box-upcall {
+	position: relative;
+}
+
+#box-syscall::before,
+#box-upcall::before {
+	content: '';
+	position: absolute;
+	top: -40px;
+	/* Connect to bus area */
+	left: 50%;
+	width: 1px;
+	height: 40px;
+	background: var(--accent-color);
+	opacity: 0.5;
+}
+
+/* Specific Labels on Wires with Arrows */
+#box-syscall::after {
+	content: 'SVC ▼';
+	position: absolute;
+	top: -30px;
+	left: 5px;
+	font-family: var(--font-mono);
+	font-size: 0.6rem;
+	color: var(--accent-color);
+	background: var(--bg-color);
+	padding: 0 4px;
+}
+
+#box-upcall::after {
+	content: 'EVT ▲';
+	position: absolute;
+	top: -30px;
+	left: 5px;
+	font-family: var(--font-mono);
+	font-size: 0.6rem;
+	color: var(--accent-color);
+	background: var(--bg-color);
+	padding: 0 4px;
+}
+
+/* User to Bus Arrows */
+#box-systemd::before {
+	content: '▼';
+	position: absolute;
+	bottom: -45px;
+	left: 50%;
+	transform: translateX(-50%);
+	color: var(--accent-color);
+	font-size: 0.6rem;
+	background: var(--bg-color);
+}
+
+/* Internal Kernel Interactions (Control & State Flow) */
+
+/* 1. Scheduler -> Context (Control Flow) */
+#box-sched {
+	position: relative;
+}
+
+#box-sched::after {
+	content: '';
+	position: absolute;
+	bottom: -45px;
+	/* Drop through Caps layer to HAL */
+	left: 50%;
+	width: 1px;
+	height: 45px;
+	border-left: 1px dashed var(--accent-color);
+	opacity: 0.6;
+	z-index: 5;
+}
+
+#box-hal-ctx {
+	position: relative;
+}
+
+#box-hal-ctx::before {
+	content: '▼';
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.6rem;
+	color: var(--accent-color);
+	opacity: 0.6;
+}
+
+/* 2. VM Manager -> HAL MMU (State Update) */
+#box-vm {
+	position: relative;
+}
+
+#box-vm::after {
+	content: '';
+	position: absolute;
+	bottom: -45px;
+	left: 50%;
+	width: 1px;
+	height: 45px;
+	border-left: 1px dotted var(--text-secondary);
+	opacity: 0.5;
+	z-index: 5;
+}
+
+#box-hal-mmu {
+	position: relative;
+}
+
+#box-hal-mmu::before {
+	content: '▼';
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+	opacity: 0.5;
+}
+
+/* 3. IPC Core -> Endpoint (Capability Lookup) */
+#box-ipc {
+	position: relative;
+}
+
+#box-ipc::after {
+	content: '';
+	position: absolute;
+	bottom: -40px;
+	left: 50%;
+	width: 1px;
+	height: 40px;
+	background: var(--accent-color);
+	opacity: 0.3;
+}
+
+/* Internal Kernel Connections (IRQ -> HAL) */
+#box-irq {
+	position: relative;
+}
+
+#box-irq::after {
+	content: '';
+	position: absolute;
+	bottom: -45px;
+	/* Drop through HAL layer to CHIP */
+	left: 50%;
+	width: 1px;
+	height: 45px;
+	border-left: 1px dashed var(--accent-dim);
+	z-index: 5;
+}
+
+#box-hal-irq {
+	position: relative;
+}
+
+#box-gic-drv {
+	position: relative;
+}
+
+#box-gic-drv::before {
+	content: '▲';
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-family: var(--font-mono);
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+	background: var(--bg-color);
+	padding: 0 4px;
+	z-index: 10;
+}
+
+/* Timer Wire */
+#box-timer-drv {
+	position: relative;
+}
+
+#box-timer-drv::before {
+	content: '▲';
+	position: absolute;
+	top: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.6rem;
+	color: var(--accent-color);
+	opacity: 0.5;
+}
+
+/* UART Wire - connected to Console Service via HAL? 
+   Actually Console is in L4 (Console Drv). Let's connect L4 Console to L5 UART */
+#box-uart-drv {
+	position: relative;
+}
+
+#box-uart-drv::before {
+	content: '▲';
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+}
+
+#box-hal {
+	position: relative;
+}
+
+#box-hal::before {
+	content: 'HW_IRQ ▲';
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-family: var(--font-mono);
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+	background: var(--bg-color);
+	padding: 0 4px;
+	z-index: 10;
+}
+
+/* Detailed Sub-labels in Boxes */
+/* UART Wire - connected to Console Service via HAL? 
+   Actually Console is in L4 (Console Drv). Let's connect L4 Console to L5 UART */
+#box-uart-drv {
+	position: relative;
+}
+
+#box-uart-drv::before {
+	content: '▲';
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+}
+
+/* Physical Layer Wires (Connecting Drivers -> Silicon) */
+#box-phy-cpu {
+	position: relative;
+}
+
+#box-phy-cpu::before {
+	content: '';
+	position: absolute;
+	top: -30px;
+	left: 50%;
+	width: 1px;
+	height: 30px;
+	background: #333;
+}
+
+#box-gic-drv::after {
+	content: '';
+	position: absolute;
+	bottom: -40px;
+	left: 50%;
+	width: 1px;
+	height: 40px;
+	border-left: 1px dotted #444;
+	z-index: 5;
+}
+
+/* User Stack Wires (Apps -> Services) */
+#box-systemd {
+	position: relative;
+}
+
+/* Connect Shell to SystemD/Services visually? 
+   Actually they are in the same stack now. 
+   Let's just ensure the gap looks good.
+*/
+
+.box-detail {
+	display: block;
+	font-size: 0.6rem;
+	color: var(--text-secondary);
+	margin-top: 4px;
+	font-weight: 400;
+	letter-spacing: 0;
+	opacity: 0.8;
+}
+
+/* Physical Layer Specifics */
+.physical-layer .blueprint-box {
+	background: #1a1a1a;
+}
+
 .telemetry-section {
 	padding: 6rem 2rem;
-	border-bottom: 1px solid var(--border-color);
 }
 
 .telemetry-grid {
