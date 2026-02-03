@@ -163,6 +163,63 @@
 	font-size: 0.9em;
 }
 
+#content-area a {
+	color: var(--accent-color);
+	text-decoration: none;
+	border-bottom: 1px solid var(--accent-color);
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+#content-area a:hover {
+	color: var(--text-primary);
+	border-bottom-color: var(--text-primary);
+	background: rgba(255, 51, 0, 0.1);
+}
+
+#content-area a:visited {
+	opacity: 0.8;
+}
+
+#content-area cite {
+	display: block;
+	background: rgba(255, 255, 255, 0.02);
+	font-style: normal;
+	color: var(--text-secondary);
+}
+
+#content-area cite strong,
+#content-area cite p strong {
+	color: var(--text-primary);
+	font-weight: 600;
+}
+
+#content-area cite a {
+	color: var(--text-secondary);
+	border-bottom: none;
+	font-family: var(--font-mono);
+	font-size: 0.9em;
+	padding: 0.1rem 0.3rem;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 2px;
+	transition: all 0.2s ease;
+}
+
+#content-area cite a:hover {
+	color: var(--accent-color);
+	border-bottom: none;
+	background: rgba(255, 51, 0, 0.15);
+}
+
+#content-area cite ul {
+	margin-top: 0.5rem;
+	margin-bottom: 0;
+}
+
+#content-area cite li {
+	margin-bottom: 0.3rem;
+}
+
 #content-area blockquote {
 	border-left: 3px solid var(--accent-color);
 	padding-left: 1rem;

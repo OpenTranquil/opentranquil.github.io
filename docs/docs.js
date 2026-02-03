@@ -275,11 +275,25 @@ function renderContent(markdown, title) {
 	marked.setOptions({
 		highlight: function (code, lang) {
 			return code; // Use Prism later if needed, for now simple code blocks
-		}
+		},
+		breaks: true,
+		gfm: true
 	});
 
 	const html = marked.parse(markdown);
 	els.content.innerHTML = html;
+
+	// Process cite tags - parse markdown inside cite tags
+	// Use setTimeout to ensure DOM is fully updated
+	setTimeout(() => {
+		const citeTags = els.content.querySelectorAll('cite');
+		citeTags.forEach(cite => {
+			const innerMarkdown = cite.textContent;
+			// Parse as full markdown to support lists, bold, links, etc.
+			const innerHtml = marked.parse(innerMarkdown);
+			cite.innerHTML = innerHtml;
+		});
+	}, 0);
 
 	// Process Mermaid diagrams
 	const mermaidBlocks = els.content.querySelectorAll('.language-mermaid');
