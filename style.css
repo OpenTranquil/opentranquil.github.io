@@ -134,6 +134,7 @@ nav {
 	gap: 2rem;
 	list-style: none;
 	font-size: 0.8rem;
+	align-items: center;
 }
 
 .nav-links a {
@@ -280,6 +281,10 @@ nav {
 	padding: 2px 5px;
 	border: 1px solid var(--accent-dim);
 }
+
+/* --- Interactions & Wires (Visual Overlays) --- */
+
+/* Removed per user request - clean block diagram only */
 
 .label-1 {
 	top: 20%;
@@ -1211,6 +1216,96 @@ footer {
 	font-family: var(--font-mono);
 	font-size: 0.75rem;
 	color: var(--text-secondary);
+}
+
+/* --- Philosophy Section --- */
+.philosophy-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 1.5rem;
+	margin-top: 2rem;
+}
+
+.phi-card {
+	background: rgba(255, 255, 255, 0.03);
+	border-left: 3px solid var(--accent-dim);
+	padding: 1.5rem;
+	transition: all 0.3s ease;
+}
+
+.phi-card:hover {
+	background: rgba(var(--accent-rgb), 0.05);
+	border-left-color: var(--accent-color);
+	transform: translateX(5px);
+}
+
+.phi-card h3 {
+	font-family: var(--font-mono);
+	margin-bottom: 0.5rem;
+	color: var(--accent-color);
+}
+
+.phi-card p {
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: #aaa;
+}
+
+/* --- Hardware Section --- */
+.hw-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1rem;
+	margin-top: 2rem;
+}
+
+.hw-item {
+	background: rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	text-align: center;
+}
+
+.hw-icon {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #fff;
+	margin-bottom: 0.2rem;
+}
+
+.status-badge {
+	font-size: 0.6rem;
+	padding: 2px 6px;
+	border-radius: 2px;
+	font-weight: bold;
+}
+
+.status-badge.ready {
+	background: rgba(74, 255, 158, 0.2);
+	color: #4aff9e;
+	border: 1px solid #4aff9e;
+}
+
+.status-badge.beta {
+	background: rgba(255, 170, 74, 0.2);
+	color: #ffaa4a;
+	border: 1px solid #ffaa4a;
+}
+
+.status-badge.planned {
+	background: rgba(255, 255, 255, 0.1);
+	color: #aaa;
+	border: 1px solid #555;
+}
+
+.status-badge.experimental {
+	background: rgba(176, 74, 255, 0.2);
+	color: #b04aff;
+	border: 1px solid #b04aff;
 }
 
 /* Responsive */

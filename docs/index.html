@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TranquilOS Documentation</title>
+	<link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="docs.css">
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+		rel="stylesheet">
+	<!-- Mermaid -->
+	<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+	<!-- Marked -->
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+	<header>
+		<nav>
+			<div class="logo">TRANQUIL_OS / DOCS</div>
+			<ul class="nav-links">
+				<li><a href="../index.html">HOME</a></li>
+				<li><a href="#" class="active">DOCS</a></li>
+				<li>
+					<button id="lang-switch" class="cta-button">EN / <span class="accent">ZH</span></button>
+				</li>
+				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="docs-container">
+		<aside class="docs-sidebar">
+			<div class="sidebar-search">
+				<input type="text" placeholder="Search docs..." id="doc-search">
+			</div>
+			<nav id="doc-nav">
+				<!-- Dynamically populated -->
+				<div class="loading">Loading navigation...</div>
+			</nav>
+		</aside>
+
+		<main class="docs-content">
+			<div id="content-area">
+				<!-- Dynamically populated -->
+				<div class="loading">Select a document to view.</div>
+			</div>
+		</main>
+	</div>
+
+	<script src="docs.js"></script>
+</body>
+
+</html>

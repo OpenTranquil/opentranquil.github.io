@@ -17,8 +17,10 @@
 		<nav>
 			<div class="logo">TRANQUIL_OS</div>
 			<ul class="nav-links">
+				<li><a href="index.html" class="active">HOME</a></li>
 				<li><a href="#features">MODULES</a></li>
 				<li><a href="#roadmap">TIMELINE</a></li>
+				<li><a href="docs/index.html">DOCS</a></li>
 				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
 			</ul>
 		</nav>
@@ -78,9 +80,9 @@
 			<div class="blueprint-container">
 				<!-- LAYER 1: USER APPLICATIONS -->
 				<div class="blueprint-layer layer-apps">
-					<span class="layer-label">LAYER 1 - USER APPLICATIONS (Light Blue Section)</span>
+					<span class="layer-label">LAYER 1 - USER APPLICATIONS</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-container">
+						<div class="blueprint-box box-container" id="box-shell">
 							<span class="box-title">Shell/SystemUI</span>
 							<div class="box-row">
 								<div class="nested-box">graphics_2d library</div>
@@ -107,10 +109,10 @@
 
 				<!-- LAYER 2: SYSTEM SERVICES -->
 				<div class="blueprint-layer layer-services">
-					<span class="layer-label">LAYER 2 - SYSTEM SERVICES (Green Section)</span>
+					<span class="layer-label">LAYER 2 - SYSTEM SERVICES</span>
 					<div class="layer-content">
 						<!-- DevMgr -->
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-devmgr">
 							<span class="box-title">DevMgr</span>
 							<div class="list-item">display_mgr (ramfb driver)</div>
 							<div class="list-item">fw_cfg interface</div>
@@ -119,7 +121,7 @@
 							<div class="list-item">service.c (IPC endpoint)</div>
 						</div>
 						<!-- FsMgr -->
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-fsmgr">
 							<span class="box-title">FsMgr</span>
 							<div class="list-item">fsmgr_s structure</div>
 							<div class="list-item">session_mgr (per-process)</div>
@@ -142,9 +144,9 @@
 
 				<!-- LAYER 3: SYSTEMD -->
 				<div class="blueprint-layer layer-systemd">
-					<span class="layer-label">LAYER 3 - SYSTEMD (Orange/Yellow Section)</span>
+					<span class="layer-label">LAYER 3 - SYSTEMD</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-procmgr">
 							<span class="box-title">ProcMgr</span>
 							<div class="list-item">process_s structure</div>
 							<div class="list-item">thread_s structure</div>
@@ -159,13 +161,13 @@
 							<div class="list-item">shared_memory_s (SHM)</div>
 							<div class="list-item">physical memory tracking</div>
 						</div>
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-ipcmgr">
 							<span class="box-title">IpcMgr</span>
 							<div class="list-item">ipc_endpoint_s mgmt</div>
 							<div class="list-item">service registration</div>
 							<div class="list-item">endpoint ref tracking</div>
 						</div>
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-upcall">
 							<span class="box-title">Upcall Handler</span>
 							<div class="list-item">upcall_endpoint_s</div>
 							<div class="list-item">page fault handling</div>
@@ -181,7 +183,7 @@
 
 				<!-- LAYER 4: MICROKERNEL -->
 				<div class="blueprint-layer layer-kernel">
-					<span class="layer-label">LAYER 4 - MICROKERNEL (Purple Section)</span>
+					<span class="layer-label">LAYER 4 - MICROKERNEL</span>
 					<div class="layer-content">
 						<!-- A. Capability System -->
 						<div class="blueprint-box box-list">
@@ -194,7 +196,7 @@
 							<div class="list-item">capability_ref_t</div>
 						</div>
 						<!-- B. IPC Subsystem -->
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-ipc-sub">
 							<span class="box-title">B. IPC Subsystem</span>
 							<div class="list-item">ipc_call_with_args()</div>
 							<div class="list-item">ipc_reply_with_val()</div>
@@ -220,7 +222,7 @@
 							<div class="list-item">bootmm (early alloc)</div>
 						</div>
 						<!-- E. Interrupt Mgmt -->
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-int-mgr">
 							<span class="box-title">E. Interrupt Mgmt</span>
 							<div class="list-item">int_mgr_s (global)</div>
 							<div class="list-item">local_int_mgr_s</div>
@@ -228,7 +230,7 @@
 							<div class="list-item">timer_mgr_s</div>
 						</div>
 						<!-- F. Syscall Interface -->
-						<div class="blueprint-box box-list">
+						<div class="blueprint-box box-list" id="box-syscall">
 							<span class="box-title">F. Syscall Interface</span>
 							<div class="list-item">syscall_process()</div>
 							<div class="list-item">cap_call_dispatch()</div>
@@ -240,7 +242,7 @@
 
 				<!-- LAYER 5: HAL -->
 				<div class="blueprint-layer layer-hal">
-					<span class="layer-label">LAYER 5 - HARDWARE ABSTRACTION LAYER (Gray Section)</span>
+					<span class="layer-label">LAYER 5 - HARDWARE ABSTRACTION LAYER</span>
 					<div class="layer-content">
 						<div class="blueprint-box box-simple">hal_cpu<br><span class="sub-text">priv level,
 								barrier</span></div>
@@ -252,32 +254,31 @@
 								vectors</span></div>
 						<div class="blueprint-box box-simple">hal_mmu<br><span class="sub-text">page table ops</span>
 						</div>
+						<div class="blueprint-box box-simple">hal_atomic<br><span class="sub-text">atomic ops</span>
+						</div>
 					</div>
 				</div>
 
 				<!-- LAYER 6: DRIVERS -->
 				<div class="blueprint-layer layer-drivers">
-					<span class="layer-label">LAYER 6 - HARDWARE DRIVERS (Dark Gray)</span>
+					<span class="layer-label">LAYER 6 - HARDWARE DRIVERS</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-simple">arch-gic</div>
+						<div class="blueprint-box box-simple" id="box-gic-drv">arch-gic</div>
 						<div class="blueprint-box box-simple">arm-timer</div>
 						<div class="blueprint-box box-simple">arm-uart</div>
 						<div class="blueprint-box box-simple">arm-dma</div>
-						<div class="blueprint-box box-simple">arm-psci</div>
-						<div class="blueprint-box box-simple">arm-cache</div>
+						<div class="blueprint-box box-simple">virtio-mmio</div>
 					</div>
 				</div>
 
 				<!-- LAYER 7: HARDWARE -->
 				<div class="blueprint-layer layer-hw">
-					<span class="layer-label">LAYER 7 - HARDWARE (Black)</span>
+					<span class="layer-label">LAYER 7 - PHYSICAL HARDWARE</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-hw">ARM Cortex-A</div>
-						<div class="blueprint-box box-hw">GIC</div>
-						<div class="blueprint-box box-hw">System Timer</div>
-						<div class="blueprint-box box-hw">PL011 UART</div>
-						<div class="blueprint-box box-hw">RAM/ROM</div>
-						<div class="blueprint-box box-hw">MMU</div>
+						<div class="blueprint-box box-simple">Cortex-A53 (ARMv8)</div>
+						<div class="blueprint-box box-simple">GIC-400 IntCtl</div>
+						<div class="blueprint-box box-simple">DRAM (Unknown Size)</div>
+						<div class="blueprint-box box-simple">MMU (System)</div>
 					</div>
 				</div>
 			</div>
