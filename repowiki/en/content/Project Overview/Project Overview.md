@@ -27,7 +27,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-TranquilOS is an AI-powered microkernel operating system designed for the ARM64 architecture. Its purpose is to provide a minimal yet capable kernel that delegates most system services to user-space while enforcing strict capability-based security. The project emphasizes a clean separation of concerns: the kernel handles only essential primitives (memory management primitives, scheduling, interrupts, IPC, and upcalls), while user-space services manage devices, filesystems, networking, and higher-level orchestration via a unified capability ABI.
+TranquilOS is an microkernel operating system designed for the ARM64 architecture. Its purpose is to provide a minimal yet capable kernel that delegates most system services to user-space while enforcing strict capability-based security. The project emphasizes a clean separation of concerns: the kernel handles only essential primitives (memory management primitives, scheduling, interrupts, IPC, and upcalls), while user-space services manage devices, filesystems, networking, and higher-level orchestration via a unified capability ABI.
 
 Key goals and philosophy:
 - Capability-based security inspired by seL4: fine-grained rights management and explicit capability passing for all kernel objects.
