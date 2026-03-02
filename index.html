@@ -4,9 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="OSKERN.AI - Next-generation microkernel operating system designed for the AI era. Capability-based security, userspace drivers, and AI-native architecture.">
+	<meta name="description" content="OSKERN.AI - Re-implementing operating system for AI era. Kernel + Agent = New OS. Integrating AI and agents into the core OS architecture.">
 	<meta name="theme-color" content="#ff4500">
-	<title>OSKERN.AI // NEXT_GEN_MICROKERNEL</title>
+	<title>OSKERN.AI // KERNEL + AGENT = NEW_OS</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,15 +37,15 @@
 	</header>
 
 	<div class="main-container">
-		<!-- Hero Section -->
+	<!-- Hero Section -->
 		<section class="hero">
 			<div class="hero-content">
-				<div class="badge-pill">STATUS: ALPHA // v1.1.53</div>
-				<h1>NEXT_GEN<br><span class="highlight">MICROKERNEL</span><br>ARCHITECTURE</h1>
-				<p>
-					> Vibe Coding by AI [OK]<br>
-					> LOAD: SECURITY_CAPABILITIES [OK]<br>
-					> LOAD: USERSPACE_DRIVERS [OK]
+				<div class="badge-pill">MISSION: RE-IMPLEMENTING OS FOR AI ERA</div>
+				<h1>KERNEL + AGENT =<br><span class="highlight">NEW_OS</span></h1>
+				<p class="hero-statement">
+					> Reconstructing modern operating systems<br>
+					> Integrating AI & Agents at the core<br>
+					> Replacing traditional app/OS architecture
 				</p>
 				<div class="hero-buttons">
 					<button class="btn btn-primary"><span>INIT_SYSTEM()</span></button>
@@ -59,238 +59,25 @@
 					<div class="hud-circle inner-ring"></div>
 					<div class="hud-core"></div>
 					<div class="hud-label label-1">KERNEL::ACTIVE</div>
-					<div class="hud-label label-2">SECURE::TRUE</div>
-					<div class="hud-label label-3">AI::STANDBY</div>
+					<div class="hud-label label-2">AGENT::INTEGRATED</div>
+					<div class="hud-label label-3">NEW_OS::BOOT</div>
 				</div>
 			</div>
 		</section>
 
-		<!-- Tech Specs Strip -->
+	<!-- Tech Specs Strip -->
 		<section class="tech-specs">
 			<div class="stat-item">
-				<span class="stat-number">AArch64</span>
-				<span class="stat-label">TARGET_ARCH</span>
+				<span class="stat-number">KERNEL</span>
+				<span class="stat-label">MICROKERNEL_ARCH</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">SMP</span>
-				<span class="stat-label">MULTI_CORE</span>
+				<span class="stat-number">AGENT</span>
+				<span class="stat-label">AI_NATIVE_CORE</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">12KB</span>
-				<span class="stat-label">KERNEL_SIZE</span>
-			</div>
-		</section>
-
-		<!-- Architecture Blueprint -->
-		<section class="blueprint-section">
-			<div class="section-header">
-				<p>// SYSTEM_ARCH_V1</p>
-				<h2>KERNEL_BLUEPRINT</h2>
-			</div>
-			<div class="blueprint-container">
-				<!-- LAYER 1: USER APPLICATIONS -->
-				<div class="blueprint-layer layer-apps">
-					<span class="layer-label">LAYER 1 - USER APPLICATIONS</span>
-					<div class="layer-content">
-						<div class="blueprint-box box-container" id="box-shell">
-							<span class="box-title">Shell/SystemUI</span>
-							<div class="box-row">
-								<div class="nested-box">graphics_2d library</div>
-								<div class="nested-box">libgraphics</div>
-								<div class="nested-box">Shared libsystem</div>
-							</div>
-							<div class="box-row">
-								<div class="nested-box">font_8x8 renderer</div>
-								<div class="nested-box">Status Bar, Navigation</div>
-								<div class="nested-box">libgraphics</div>
-							</div>
-							<div class="nested-box full-width">AI Orb Animation</div>
-						</div>
-						<div class="blueprint-box box-container">
-							<span class="box-title">User Applications</span>
-							<div class="box-row">
-								<div class="nested-box box-simple">App 1</div>
-								<div class="nested-box box-simple">App 2</div>
-								<div class="nested-box box-simple">App 3</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- LAYER 2: SYSTEM SERVICES -->
-				<div class="blueprint-layer layer-services">
-					<span class="layer-label">LAYER 2 - SYSTEM SERVICES</span>
-					<div class="layer-content">
-						<!-- DevMgr -->
-						<div class="blueprint-box box-list" id="box-devmgr">
-							<span class="box-title">DevMgr</span>
-							<div class="list-item">display_mgr (ramfb driver)</div>
-							<div class="list-item">fw_cfg interface</div>
-							<div class="list-item">device_tree parser</div>
-							<div class="list-item">framebuffer management</div>
-							<div class="list-item">service.c (IPC endpoint)</div>
-						</div>
-						<!-- FsMgr -->
-						<div class="blueprint-box box-list" id="box-fsmgr">
-							<span class="box-title">FsMgr</span>
-							<div class="list-item">fsmgr_s structure</div>
-							<div class="list-item">session_mgr (per-process)</div>
-							<div class="list-item">fd_table (file descriptors)</div>
-							<div class="list-item">VFS layer with vfs_ops</div>
-							<div class="list-item">vfs_file_s structure</div>
-							<div class="list-item">rootfs (CPIO parser)</div>
-						</div>
-						<!-- NetMgr -->
-						<div class="blueprint-box box-simple">
-							<span class="box-title">NetMgr</span>
-						</div>
-						<!-- Idle -->
-						<div class="blueprint-box box-simple">
-							<span class="box-title">Idle</span>
-							<span class="sub-text">per-CPU idle threads</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- LAYER 3: SYSTEMD -->
-				<div class="blueprint-layer layer-systemd">
-					<span class="layer-label">LAYER 3 - SYSTEMD</span>
-					<div class="layer-content">
-						<div class="blueprint-box box-list" id="box-procmgr">
-							<span class="box-title">ProcMgr</span>
-							<div class="list-item">process_s structure</div>
-							<div class="list-item">thread_s structure</div>
-							<div class="list-item">ELF loader (elf_parse)</div>
-							<div class="list-item">process lifecycle</div>
-							<div class="list-item">vspace management</div>
-						</div>
-						<div class="blueprint-box box-list">
-							<span class="box-title">MemMgr</span>
-							<div class="list-item">memory_manager_s</div>
-							<div class="list-item">page allocation</div>
-							<div class="list-item">shared_memory_s (SHM)</div>
-							<div class="list-item">physical memory tracking</div>
-						</div>
-						<div class="blueprint-box box-list" id="box-ipcmgr">
-							<span class="box-title">IpcMgr</span>
-							<div class="list-item">ipc_endpoint_s mgmt</div>
-							<div class="list-item">service registration</div>
-							<div class="list-item">endpoint ref tracking</div>
-						</div>
-						<div class="blueprint-box box-list" id="box-upcall">
-							<span class="box-title">Upcall Handler</span>
-							<div class="list-item">upcall_endpoint_s</div>
-							<div class="list-item">page fault handling</div>
-							<div class="list-item">exception forwarding</div>
-						</div>
-						<div class="blueprint-box box-list">
-							<span class="box-title">Ramdisk</span>
-							<div class="list-item">CPIO archive parser</div>
-							<div class="list-item">binary loading</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- LAYER 4: MICROKERNEL -->
-				<div class="blueprint-layer layer-kernel">
-					<span class="layer-label">LAYER 4 - MICROKERNEL</span>
-					<div class="layer-content">
-						<!-- A. Capability System -->
-						<div class="blueprint-box box-list">
-							<span class="box-title">A. Capability System</span>
-							<div class="list-item">cap_cnode.c</div>
-							<div class="list-item">cap_vspace.c</div>
-							<div class="list-item">cap_scontext.c</div>
-							<div class="list-item">cap_xcontext.c</div>
-							<div class="list-item">cap_ipc_endpoint.c</div>
-							<div class="list-item">capability_ref_t</div>
-						</div>
-						<!-- B. IPC Subsystem -->
-						<div class="blueprint-box box-list" id="box-ipc-sub">
-							<span class="box-title">B. IPC Subsystem</span>
-							<div class="list-item">ipc_call_with_args()</div>
-							<div class="list-item">ipc_reply_with_val()</div>
-							<div class="list-item">caller blocking</div>
-							<div class="list-item">context switching on IPC</div>
-						</div>
-						<!-- C. Scheduler -->
-						<div class="blueprint-box box-list">
-							<span class="box-title">C. Scheduler</span>
-							<div class="list-item">scheduler_manager_s</div>
-							<div class="list-item">local_scheduler_s</div>
-							<div class="list-item">schedule_context_s</div>
-							<div class="list-item">FIFO ready queue</div>
-							<div class="list-item">thread affinity</div>
-						</div>
-						<!-- D. Memory Mgmt -->
-						<div class="blueprint-box box-list">
-							<span class="box-title">D. Memory Mgmt</span>
-							<div class="list-item">address_space_s</div>
-							<div class="list-item">page_allocator_s</div>
-							<div class="list-item">sparse memory model</div>
-							<div class="list-item">page_struct_tbl</div>
-							<div class="list-item">bootmm (early alloc)</div>
-						</div>
-						<!-- E. Interrupt Mgmt -->
-						<div class="blueprint-box box-list" id="box-int-mgr">
-							<span class="box-title">E. Interrupt Mgmt</span>
-							<div class="list-item">int_mgr_s (global)</div>
-							<div class="list-item">local_int_mgr_s</div>
-							<div class="list-item">irq_device_s (GIC)</div>
-							<div class="list-item">timer_mgr_s</div>
-						</div>
-						<!-- F. Syscall Interface -->
-						<div class="blueprint-box box-list" id="box-syscall">
-							<span class="box-title">F. Syscall Interface</span>
-							<div class="list-item">syscall_process()</div>
-							<div class="list-item">cap_call_dispatch()</div>
-							<div class="list-item">fast_call_dispatch()</div>
-							<div class="list-item">register args (x0-x7)</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- LAYER 5: HAL -->
-				<div class="blueprint-layer layer-hal">
-					<span class="layer-label">LAYER 5 - HARDWARE ABSTRACTION LAYER</span>
-					<div class="layer-content">
-						<div class="blueprint-box box-simple">hal_cpu<br><span class="sub-text">priv level,
-								barrier</span></div>
-						<div class="blueprint-box box-simple">hal_context<br><span class="sub-text">reg
-								save/restore</span></div>
-						<div class="blueprint-box box-simple">hal_interrupt<br><span class="sub-text">enable/disable
-								IRQ</span></div>
-						<div class="blueprint-box box-simple">hal_exception<br><span class="sub-text">exception
-								vectors</span></div>
-						<div class="blueprint-box box-simple">hal_mmu<br><span class="sub-text">page table ops</span>
-						</div>
-						<div class="blueprint-box box-simple">hal_atomic<br><span class="sub-text">atomic ops</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- LAYER 6: DRIVERS -->
-				<div class="blueprint-layer layer-drivers">
-					<span class="layer-label">LAYER 6 - HARDWARE DRIVERS</span>
-					<div class="layer-content">
-						<div class="blueprint-box box-simple" id="box-gic-drv">arch-gic</div>
-						<div class="blueprint-box box-simple">arm-timer</div>
-						<div class="blueprint-box box-simple">arm-uart</div>
-						<div class="blueprint-box box-simple">arm-dma</div>
-						<div class="blueprint-box box-simple">virtio-mmio</div>
-					</div>
-				</div>
-
-				<!-- LAYER 7: HARDWARE -->
-				<div class="blueprint-layer layer-hw">
-					<span class="layer-label">LAYER 7 - PHYSICAL HARDWARE</span>
-					<div class="layer-content">
-						<div class="blueprint-box box-simple">Cortex-A53 (ARMv8)</div>
-						<div class="blueprint-box box-simple">GIC-400 IntCtl</div>
-						<div class="blueprint-box box-simple">DRAM (Unknown Size)</div>
-						<div class="blueprint-box box-simple">MMU (System)</div>
-					</div>
-				</div>
+				<span class="stat-number">NEW_OS</span>
+				<span class="stat-label">INTEGRATED_STACK</span>
 			</div>
 		</section>
 
@@ -332,46 +119,41 @@
 			</div>
 		</section>
 
-		<!-- System Modules (Bento) -->
+	<!-- System Modules (Bento) -->
 		<section id="features" class="features">
 			<div class="section-header">
-				<p>// SYSTEM_MODULES</p>
-				<h2>CORE_COMPONENTS</h2>
+				<p>// NEW_OS_ARCHITECTURE</p>
+				<h2>KERNEL + AGENT INTEGRATION</h2>
 			</div>
 
 			<div class="bento-grid">
 				<!-- Microkernel -->
 				<div class="bento-item bento-large">
 					<div class="bento-icon">[KERNEL]</div>
-					<h3>Microkernel Architecture</h3>
-					<p>Minimalist privileged core. Drivers run in userspace (EL0). Fault isolation guarantees system
-						stability.</p>
+					<h3>Microkernel Core</h3>
+					<p>Minimalist privileged core with capability-based security. Drivers in userspace for fault isolation and system stability.</p>
 				</div>
 
-				<!-- AI -->
-				<div class="bento-item">
-					<div class="bento-icon">[AI]</div>
-					<h3>AI-Native</h3>
-					<p>Deeply integrated inference scheduler for intelligent resource management.</p>
+				<!-- Agent Integration -->
+				<div class="bento-item bento-large">
+					<div class="bento-icon">[AGENT]</div>
+					<h3>AI Agent Core</h3>
+					<p>Native AI agent integration at OS level. Intelligent resource management, predictive scheduling, and autonomous system optimization.</p>
 				</div>
 
-				<!-- Terminal Visual -->
-				<div class="bento-item bento-tall terminal-card">
-					<div class="terminal-header">
-						<span>root@tranquil:~#</span>
-						<span>BASH</span>
-					</div>
-					<div class="terminal-body">
-						<pre><code>$ ./kernel_init
-[  0.000] Booting Tranquil...
-[  0.024] ARCH: ARMv8-A
-[  0.035] MMU: Enabled
-[  0.041] IRQ: GICv3 Init
-[  0.057] SCHED: Priority
-[  0.102] PROCMGR: Ready
-[  0.115] Starting SystemD...
-[  0.150] Userspace: Active
-$ _</code></pre>
+				<!-- The Vision -->
+				<div class="bento-item bento-tall vision-card">
+					<div class="vision-content">
+						<h3>THE NEW OS VISION</h3>
+						<p class="vision-statement">Traditional OS + Applications = Fragmented Experience</p>
+						<div class="vision-equation">
+							<span class="eq-part">Kernel</span>
+							<span class="eq-operator">+</span>
+							<span class="eq-part">Agent</span>
+							<span class="eq-operator">=</span>
+							<span class="eq-result">New OS</span>
+						</div>
+						<p class="vision-desc">A unified architecture where AI is not an afterthought, but the foundation.</p>
 					</div>
 				</div>
 
@@ -379,19 +161,39 @@ $ _</code></pre>
 				<div class="bento-item">
 					<div class="bento-icon">[SEC]</div>
 					<h3>Capability Security</h3>
-					<p>Fine-grained access control objects (Caps) for object-capability model security.</p>
+					<p>Fine-grained access control with object-capability model. Zero-trust security at the kernel level.</p>
 				</div>
 
 				<!-- Modern Stack -->
-				<div class="bento-item bento-large">
+				<div class="bento-item">
 					<div class="bento-icon">[TECH]</div>
-					<h3>Modern Tech Stack</h3>
-					<p>Written in C and Assembly. Optimized for high-performance IPC and low-latency scheduling.</p>
+					<h3>Modern Stack</h3>
+					<p>Built in C and Assembly. Optimized for high-performance IPC, low-latency scheduling, and AI workloads.</p>
+				</div>
+
+				<!-- Terminal Visual -->
+				<div class="bento-item bento-tall terminal-card">
+					<div class="terminal-header">
+						<span>root@new-os:~#</span>
+						<span>AGENT_SHELL</span>
+					</div>
+					<div class="terminal-body">
+						<pre><code>$ system.init()
+[BOOT] Kernel: Online
+[BOOT] Agent: Integrated
+[BOOT] Capability System: Active
+[BOOT] IPC: Ready
+[BOOT] AI Scheduler: Learning
+[BOOT] New OS: Operational
+$ agent.query("status")
+> "System optimized for AI workloads"
+$ _</code></pre>
+					</div>
 				</div>
 			</div>
 		</section>
 
-		<!-- Roadmap -->
+	<!-- Roadmap -->
 		<section id="roadmap" class="roadmap">
 			<div class="section-header">
 				<p>// DEVELOPMENT_LOG</p>
@@ -402,25 +204,25 @@ $ _</code></pre>
 					<div class="timeline-item">
 						<h3>PHASE_1: KERNEL_CORE</h3>
 						<ul>
-							<li>MMU & Virtual Memory Setup</li>
-							<li>IRQ Handling & Context Switching</li>
-							<li>Capability System Implementation</li>
+							<li>Microkernel Implementation</li>
+							<li>Capability-Based Security System</li>
+							<li>IPC & Process Management</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_2: SYSTEM_SERVICES</h3>
+						<h3>PHASE_2: AGENT_INTEGRATION</h3>
 						<ul>
-							<li>Process Manager Service</li>
-							<li>Memory Manager Service</li>
-							<li>IPC Optimization</li>
+							<li>AI Agent Core Framework</li>
+							<li>Intelligent Resource Scheduler</li>
+							<li>Native Agent-OS Interface</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_3: USERSPACE</h3>
+						<h3>PHASE_3: NEW_OS_REALIZATION</h3>
 						<ul>
-							<li>File System (VFS) & Drivers</li>
-							<li>Network Stack Implementation</li>
-							<li>A2UI Surface Flinger</li>
+							<li>Unified Kernel+Agent Architecture</li>
+							<li>AI-First User Experience</li>
+							<li>Next-Gen Application Model</li>
 						</ul>
 					</div>
 				</div>
@@ -433,12 +235,11 @@ $ _</code></pre>
 						<div class="log-body">
 							<span class="log-line">09:01:22.450 [KRN] SCHED: Load balancing...</span>
 							<span class="log-line">09:01:22.455 [KRN] MEM: Page fault mapped @0x4000</span>
-							<span class="log-line">09:01:23.100 [SYS] IPC: msg sent (pid:12 -> pid:4)</span>
-							<span class="log-line">09:01:23.102 [SOC] NET: Packet received (len:64)</span>
+							<span class="log-line">09:01:23.100 [AGT] AI: Learning user patterns...</span>
+							<span class="log-line">09:01:23.102 [AGT] OPT: Resource allocation optimized</span>
 							<span class="log-line">09:01:24.001 [USR] SHELL: Command dispatch 'ls'</span>
 							<span class="log-line">09:01:24.005 [FS] VFS: Directory lookup '/bin'</span>
-							<span class="log-line highlight-log">09:01:24.010 [SYS] PROC: New process spawned
-								(pid:33)</span>
+							<span class="log-line highlight-log">09:01:24.010 [SYS] NEW_OS: Kernel+Agent unified</span>
 							<span class="log-line">09:01:25.200 [KRN] IRQ: GICv3 interrupt #27</span>
 							<span class="log-line">09:01:25.205 [DRV] UART: Buffer flush</span>
 							<span class="cursor">_</span>
@@ -451,7 +252,7 @@ $ _</code></pre>
 		<footer>
 			<div class="copyright">
 				<p>COPYRIGHT © 2026 OSKERN.AI. ALL RIGHTS RESERVED.</p>
-				<p>STATUS: OPERATIONAL<span class="cursor"></span></p>
+				<p>STATUS: RE-IMAGINING OS FOR AI ERA<span class="cursor"></span></p>
 			</div>
 		</footer>
 	</div>

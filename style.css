@@ -473,7 +473,7 @@ nav {
 
 .hero {
 	min-height: 85vh;
-	padding: 8rem 2rem 6rem;
+	padding: 4rem 2rem 4rem;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	align-items: center;
@@ -661,6 +661,16 @@ nav {
 	height: 2px;
 	background: var(--accent-color);
 	margin-bottom: 1rem;
+}
+
+.hero p.hero-statement {
+	font-family: var(--font-mono);
+	font-size: 0.95rem;
+	color: var(--text-secondary);
+}
+
+.hero p.hero-statement::before {
+	content: '';
 }
 
 .hero-buttons {
@@ -1266,6 +1276,71 @@ nav {
 
 .terminal-body .highlight-log {
 	color: var(--accent-color);
+}
+
+/* Vision Card */
+.vision-card {
+	background: linear-gradient(135deg,
+		rgba(255, 69, 0, 0.08) 0%,
+		rgba(13, 13, 20, 0.9) 100%) !important;
+	border: 1px solid rgba(255, 69, 0, 0.2) !important;
+}
+
+.vision-content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.vision-content h3 {
+	font-size: 1.25rem;
+	margin-bottom: 1rem;
+	color: var(--accent-color);
+}
+
+.vision-statement {
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	margin-bottom: 1.5rem;
+	font-style: italic;
+}
+
+.vision-equation {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	padding: 1.5rem 0;
+	margin: 1rem 0;
+	border-top: 1px solid var(--border-color);
+	border-bottom: 1px solid var(--border-color);
+	font-family: var(--font-mono);
+	font-size: 1.1rem;
+}
+
+.eq-part {
+	color: var(--text-primary);
+	padding: 0.5rem 1rem;
+	background: rgba(255, 69, 0, 0.1);
+	border: 1px solid rgba(255, 69, 0, 0.3);
+	border-radius: var(--radius-sm);
+}
+
+.eq-operator {
+	color: var(--accent-color);
+	font-weight: bold;
+}
+
+.eq-result {
+	color: var(--accent-bright);
+	font-weight: bold;
+	text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.vision-desc {
+	font-size: 0.9rem;
+	color: var(--text-secondary);
+	margin-top: auto;
 }
 
 .cursor {
