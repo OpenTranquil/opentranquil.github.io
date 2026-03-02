@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>TranquilOS // SYS.ROOT</title>
+	<title>MICROKERNEL // OSKERN.AI</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,9 +17,9 @@
 		<nav>
 			<div class="logo">OSKERN.AI</div>
 			<ul class="nav-links">
-				<li><a href="index.html" class="active">HOME</a></li>
+				<li><a href="index.html">HOME</a></li>
 				<li><a href="insight.html">INSIGHT</a></li>
-				<li><a href="products.html">PRODUCTS</a></li>
+				<li><a href="products.html" class="active">PRODUCTS</a></li>
 				<li><a href="about.html">ABOUT</a></li>
 				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
 			</ul>
@@ -27,31 +27,15 @@
 	</header>
 
 	<div class="main-container">
-		<!-- Hero Section -->
-		<section class="hero">
-			<div class="hero-content">
+		<!-- Page Header -->
+		<section class="page-header product-header">
+			<div class="page-content">
+				<div class="breadcrumb">
+					<a href="products.html">PRODUCTS</a> / <span class="current">MICROKERNEL</span>
+				</div>
 				<div class="badge-pill">STATUS: ALPHA // v1.1.53</div>
-				<h1>NEXT_GEN<br><span class="highlight">MICROKERNEL</span><br>ARCHITECTURE</h1>
-				<p>
-					> Vibe Coding by AI [OK]<br>
-					> LOAD: SECURITY_CAPABILITIES [OK]<br>
-					> LOAD: USERSPACE_DRIVERS [OK]
-				</p>
-				<div class="hero-buttons">
-					<button class="btn btn-primary">INIT_SYSTEM()</button>
-					<a href="https://github.com/nerossoft/TranquilOS" class="btn">READ_MANUAL</a>
-				</div>
-			</div>
-			<div class="hero-visual">
-				<div class="hud-container">
-					<div class="hud-circle outer-ring"></div>
-					<div class="hud-circle mid-ring"></div>
-					<div class="hud-circle inner-ring"></div>
-					<div class="hud-core"></div>
-					<div class="hud-label label-1">KERNEL::ACTIVE</div>
-					<div class="hud-label label-2">SECURE::TRUE</div>
-					<div class="hud-label label-3">AI::STANDBY</div>
-				</div>
+				<h1>MICRO<span class="highlight">KERNEL</span></h1>
+				<p class="tagline">Next-Generation Microkernel Architecture for the AI Era</p>
 			</div>
 		</section>
 
@@ -71,8 +55,18 @@
 			</div>
 		</section>
 
-		<!-- Architecture Blueprint -->
-		<section class="blueprint-section">
+		<!-- Product Nav Tabs -->
+		<section class="product-nav">
+			<div class="nav-tabs">
+				<a href="#modules" class="tab active">MODULES</a>
+				<a href="#timeline" class="tab">TIMELINE</a>
+				<a href="docs/index.html" class="tab">DOCS</a>
+				<a href="https://github.com/nerossoft/TranquilOS" class="tab">SOURCE</a>
+			</div>
+		</section>
+
+		<!-- Modules Section -->
+		<section id="modules" class="product-section">
 			<div class="section-header">
 				<p>// SYSTEM_ARCH_V1</p>
 				<h2>KERNEL_BLUEPRINT</h2>
@@ -322,67 +316,8 @@
 			</div>
 		</section>
 
-		<!-- System Modules (Bento) -->
-		<section id="features" class="features">
-			<div class="section-header">
-				<p>// SYSTEM_MODULES</p>
-				<h2>CORE_COMPONENTS</h2>
-			</div>
-
-			<div class="bento-grid">
-				<!-- Microkernel -->
-				<div class="bento-item bento-large">
-					<div class="bento-icon">[KERNEL]</div>
-					<h3>Microkernel Architecture</h3>
-					<p>Minimalist privileged core. Drivers run in userspace (EL0). Fault isolation guarantees system
-						stability.</p>
-				</div>
-
-				<!-- AI -->
-				<div class="bento-item">
-					<div class="bento-icon">[AI]</div>
-					<h3>AI-Native</h3>
-					<p>Deeply integrated inference scheduler for intelligent resource management.</p>
-				</div>
-
-				<!-- Terminal Visual -->
-				<div class="bento-item bento-tall terminal-card">
-					<div class="terminal-header">
-						<span>root@tranquil:~#</span>
-						<span>BASH</span>
-					</div>
-					<div class="terminal-body">
-						<pre><code>$ ./kernel_init
-[  0.000] Booting Tranquil...
-[  0.024] ARCH: ARMv8-A
-[  0.035] MMU: Enabled
-[  0.041] IRQ: GICv3 Init
-[  0.057] SCHED: Priority
-[  0.102] PROCMGR: Ready
-[  0.115] Starting SystemD...
-[  0.150] Userspace: Active
-$ _</code></pre>
-					</div>
-				</div>
-
-				<!-- Security -->
-				<div class="bento-item">
-					<div class="bento-icon">[SEC]</div>
-					<h3>Capability Security</h3>
-					<p>Fine-grained access control objects (Caps) for object-capability model security.</p>
-				</div>
-
-				<!-- Modern Stack -->
-				<div class="bento-item bento-large">
-					<div class="bento-icon">[TECH]</div>
-					<h3>Modern Tech Stack</h3>
-					<p>Written in C and Assembly. Optimized for high-performance IPC and low-latency scheduling.</p>
-				</div>
-			</div>
-		</section>
-
-		<!-- Roadmap -->
-		<section id="roadmap" class="roadmap">
+		<!-- Timeline Section -->
+		<section id="timeline" class="product-section">
 			<div class="section-header">
 				<p>// DEVELOPMENT_LOG</p>
 				<h2>EXECUTION_PLAN</h2>
@@ -440,7 +375,7 @@ $ _</code></pre>
 
 		<footer>
 			<div class="copyright">
-				<p>COPYRIGHT (C) 2026 TRANQUIL_OS. ALL RIGHTS RESERVED.</p>
+				<p>COPYRIGHT (C) 2026 OSKERN.AI. ALL RIGHTS RESERVED.</p>
 				<p>STATUS: OPERATIONAL_</p>
 			</div>
 		</footer>

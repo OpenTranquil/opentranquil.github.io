@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AGENT // OSKERN.AI</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;600&display=swap"
+		rel="stylesheet">
+</head>
+
+<body>
+	<header>
+		<nav>
+			<div class="logo">OSKERN.AI</div>
+			<ul class="nav-links">
+				<li><a href="index.html">HOME</a></li>
+				<li><a href="insight.html">INSIGHT</a></li>
+				<li><a href="products.html" class="active">PRODUCTS</a></li>
+				<li><a href="about.html">ABOUT</a></li>
+				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="main-container">
+		<!-- Page Header -->
+		<section class="page-header product-header">
+			<div class="page-content">
+				<div class="breadcrumb">
+					<a href="products.html">PRODUCTS</a> / <span class="current">AGENT</span>
+				</div>
+				<div class="badge-pill">STATUS: INFERENCE_READY</div>
+				<h1>AI<span class="highlight">_AGENT</span></h1>
+				<p class="tagline">Intelligent System Resource Management</p>
+			</div>
+		</section>
+
+		<!-- AI Capabilities Strip -->
+		<section class="tech-specs">
+			<div class="stat-item">
+				<span class="stat-number">ML</span>
+				<span class="stat-label">SCHEDULER</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">&lt;5ms</span>
+				<span class="stat-label">INFERENCE_LATENCY</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">+23%</span>
+				<span class="stat-label">THROUGHPUT_GAIN</span>
+			</div>
+		</section>
+
+		<!-- Product Nav Tabs -->
+		<section class="product-nav">
+			<div class="nav-tabs">
+				<a href="#capabilities" class="tab active">CAPABILITIES</a>
+				<a href="#architecture" class="tab">ARCHITECTURE</a>
+				<a href="#timeline" class="tab">TIMELINE</a>
+				<a href="docs/agent.html" class="tab">DOCS</a>
+			</div>
+		</section>
+
+		<!-- Capabilities Section -->
+		<section id="capabilities" class="product-section">
+			<div class="section-header">
+				<p>// AI_FEATURES</p>
+				<h2>CORE_CAPABILITIES</h2>
+			</div>
+			<div class="capabilities-grid">
+				<div class="capability-card">
+					<div class="cap-icon">[SCHED]</div>
+					<h3>ML-Driven Scheduling</h3>
+					<p>Reinforcement learning optimizes thread scheduling decisions based on workload patterns and system state.</p>
+					<ul>
+						<li>> Pattern recognition for workloads</li>
+						<li>> Dynamic priority adjustment</li>
+						<li>> Power-performance optimization</li>
+					</ul>
+				</div>
+				<div class="capability-card">
+					<div class="cap-icon">[MEM]</div>
+					<h3>Neural Memory Prediction</h3>
+					<p>Lightweight neural networks predict page faults and pre-fetch memory before access.</p>
+					<ul>
+						<li>> 40% latency reduction</li>
+						<li>> Prefetch accuracy >85%</li>
+						<li>> Minimal memory overhead</li>
+					</ul>
+				</div>
+				<div class="capability-card">
+					<div class="cap-icon">[RES]</div>
+					<h3>Adaptive Resource Mgmt</h3>
+					<p>Real-time resource allocation using predictive models for CPU, memory, and I/O bandwidth.</p>
+					<ul>
+						<li>> QoS-aware scheduling</li>
+						<li>> Workload classification</li>
+						<li>> Anomaly detection</li>
+					</ul>
+				</div>
+				<div class="capability-card">
+					<div class="cap-icon">[EDGE]</div>
+					<h3>On-Device Inference</h3>
+					<p>Quantized models run efficiently on mobile SoCs with minimal memory footprint.</p>
+					<ul>
+						<li>> <100MB memory footprint</li>
+						<li>> INT8 quantization support</li>
+						<li>> Hardware accelerator integration</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Architecture Section -->
+		<section id="architecture" class="product-section">
+			<div class="section-header">
+				<p>// AGENT_ARCH</p>
+				<h2>SYSTEM_DESIGN</h2>
+			</div>
+			<div class="agent-architecture">
+				<div class="arch-diagram">
+					<!-- Input Layer -->
+					<div class="arch-layer">
+						<div class="layer-title">INPUT LAYER</div>
+						<div class="layer-content">
+							<div class="arch-box">System Metrics</div>
+							<div class="arch-box">Workload Signals</div>
+							<div class="arch-box">Hardware Counters</div>
+						</div>
+					</div>
+					<!-- Feature Extraction -->
+					<div class="arch-arrow">▼</div>
+					<div class="arch-layer">
+						<div class="layer-title">FEATURE EXTRACTION</div>
+						<div class="layer-content">
+							<div class="arch-box">Time Series Encoder</div>
+							<div class="arch-box">Pattern Detector</div>
+							<div class="arch-box">State Embedding</div>
+						</div>
+					</div>
+					<!-- ML Inference -->
+					<div class="arch-arrow">▼</div>
+					<div class="arch-layer highlight-layer">
+						<div class="layer-title">INFERENCE ENGINE</div>
+						<div class="layer-content">
+							<div class="arch-box">Scheduler DNN</div>
+							<div class="arch-box">Memory Predictor</div>
+							<div class="arch-box">Policy Network</div>
+						</div>
+					</div>
+					<!-- Output Layer -->
+					<div class="arch-arrow">▼</div>
+					<div class="arch-layer">
+						<div class="layer-title">ACTION LAYER</div>
+						<div class="layer-content">
+							<div class="arch-box">Priority Update</div>
+							<div class="arch-box">Prefetch Request</div>
+							<div class="arch-box">Resource Realloc</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Timeline Section -->
+		<section id="timeline" class="product-section">
+			<div class="section-header">
+				<p>// AI_ROADMAP</p>
+				<h2>AGENT_TIMELINE</h2>
+			</div>
+			<div class="roadmap-grid">
+				<div class="timeline">
+					<div class="timeline-item">
+						<h3>Q1_2026: FOUNDATION</h3>
+						<ul>
+							<li>Basic ML scheduler prototype</li>
+							<li>Memory access pattern collector</li>
+							<li>Offline training pipeline</li>
+						</ul>
+					</div>
+					<div class="timeline-item">
+						<h3>Q2_2026: INTEGRATION</h3>
+						<ul>
+							<li>Online inference engine</li>
+							<li>Kernel-space integration</li>
+							<li>Real-time decision making</li>
+						</ul>
+					</div>
+					<div class="timeline-item">
+						<h3>Q3_2026: OPTIMIZATION</h3>
+						<ul>
+							<li>Model quantization (INT8)</li>
+							<li>Hardware acceleration (NPU)</li>
+							<li>Production-ready deployment</li>
+						</ul>
+					</div>
+				</div>
+				<div class="roadmap-visual">
+					<div class="log-console ai-console">
+						<div class="log-header">
+							<span>AGENT_LOG</span>
+							<span>[AI_ACTIVE]</span>
+						</div>
+						<div class="log-body">
+							<span class="log-line">09:01:22.450 [AI] SCHED: Predicting next workload...</span>
+							<span class="log-line">09:01:22.455 [AI] MEM: Prefetch pattern detected @0x8000</span>
+							<span class="log-line highlight-log">09:01:23.100 [AI] POLICY: Priority boost pid:12</span>
+							<span class="log-line">09:01:23.102 [AI] RES: Realloc CPU cores 2→4</span>
+							<span class="log-line">09:01:24.001 [AI] INFER: Model update complete (23ms)</span>
+							<span class="log-line">09:01:24.005 [AI] QOS: SLA target met (99.9%)</span>
+							<span class="log-line">09:01:24.010 [AI] ANOMALY: No issues detected</span>
+							<span class="log-line">09:01:25.200 [AI] POWER: Perf/Watt optimized</span>
+							<span class="cursor">_</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<div class="copyright">
+				<p>COPYRIGHT (C) 2026 OSKERN.AI. ALL RIGHTS RESERVED.</p>
+				<p>STATUS: OPERATIONAL_</p>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Background Grid Overlay -->
+	<div
+		style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; background: radial-gradient(circle, transparent 90%, rgba(0,0,0,0.8) 100%);">
+	</div>
+</body>
+
+</html>
