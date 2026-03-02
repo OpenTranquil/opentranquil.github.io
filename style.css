@@ -475,7 +475,7 @@ nav {
 	min-height: 85vh;
 	padding: 4rem 2rem 4rem;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1.5fr 1fr;
 	align-items: center;
 	border-bottom: 1px solid var(--border-color);
 	position: relative;
