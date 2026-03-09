@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 320 320" role="img" aria-label="TranquilOS mark black">
+  <rect width="320" height="320" rx="64" fill="#ffffff"/>
+  <path d="M78 226H242" fill="none" stroke="#111111" stroke-width="11" stroke-linecap="round"/>
+  <path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="#111111" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M106 240Q162 206 218 240" fill="none" stroke="#111111" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="162" cy="170" r="5" fill="#111111"/>
+</svg>
