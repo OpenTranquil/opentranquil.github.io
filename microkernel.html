@@ -4,9 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="MICROKERNEL - Next-generation microkernel architecture with capability-based security and userspace drivers.">
+	<meta name="description" content="MICROKERNEL - Capability-based microkernel for the AI era. Type-1 hypervisor, migrating-thread IPC, 14 driver categories.">
 	<meta name="theme-color" content="#ff4500">
-	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-reverse.svg">
+	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 	<title>MICROKERNEL // TranquilOS</title>
 	<link rel="stylesheet" href="style.css">
 </head>
@@ -15,7 +15,7 @@
 	<header>
 		<nav>
 			<a href="index.html" class="logo">
-				<img src="branding/tranquilos-final-line/mark-color.svg" alt="OSKERN.AI" width="64" height="64">
+				<img src="branding/tranquilos-final-line/mark-color.svg" alt="TranquilOS" width="64" height="64">
 				<span>TranquilOS</span>
 			</a>
 			<ul class="nav-links">
@@ -201,12 +201,6 @@
 							<div class="list-item">CNode / VSpace mgmt</div>
 							<div class="list-item">PID allocation</div>
 						</div>
-						<div class="blueprint-box box-list">
-							<span class="box-title">MemMgr</span>
-							<div class="list-item">buddy allocator</div>
-							<div class="list-item">vspace management</div>
-							<div class="list-item">shared memory (SHM)</div>
-						</div>
 						<div class="blueprint-box box-list" id="box-ipcmgr">
 							<span class="box-title">IpcMgr</span>
 							<div class="list-item">endpoint namespace</div>
@@ -353,7 +347,7 @@
 				</div>
 				<div class="telemetry-card">
 					<span class="tele-label">CTX_SWITCH</span>
-					<span class="tele-value">&lt;2µs</span>
+					<span class="tele-value">&lt;2&micro;s</span>
 					<div class="tele-bar">
 						<div style="width: 95%"></div>
 					</div>
@@ -402,7 +396,7 @@
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_3: USERSAPCE [ACTIVE]</h3>
+						<h3>PHASE_3: USERSPACE [ACTIVE]</h3>
 						<ul>
 							<li>File System (ext2/fat32/VFS)</li>
 							<li>Network Stack (lwIP/HTTPS)</li>
@@ -424,8 +418,7 @@
 							<span class="log-line">09:01:23.102 [SOC] NET: Packet received (len:64)</span>
 							<span class="log-line">09:01:24.001 [USR] SHELL: Command dispatch 'ls'</span>
 							<span class="log-line">09:01:24.005 [FS] VFS: Directory lookup '/bin'</span>
-							<span class="log-line highlight-log">09:01:24.010 [SYS] PROC: New process spawned
-								(pid:33)</span>
+							<span class="log-line highlight-log">09:01:24.010 [SYS] PROC: New process spawned (pid:33)</span>
 							<span class="log-line">09:01:25.200 [KRN] IRQ: GICv3 interrupt #27</span>
 							<span class="log-line">09:01:25.205 [DRV] UART: Buffer flush</span>
 							<span class="cursor">_</span>
@@ -434,14 +427,14 @@
 				</div>
 			</div>
 		</section>
-
-		<footer>
-			<div class="copyright">
-				<p>COPYRIGHT © 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
-				<p>STATUS: OPERATIONAL<span class="cursor"></span></p>
-			</div>
-		</footer>
 	</div>
+
+	<footer>
+		<div class="copyright">
+			<p>COPYRIGHT &copy; 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
+			<p>STATUS: OPERATIONAL<span class="cursor"></span></p>
+		</div>
+	</footer>
 
 </body>
 

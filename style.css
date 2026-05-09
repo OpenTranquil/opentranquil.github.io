@@ -20,19 +20,29 @@ body {
 .main-container {
 	max-width: 860px;
 	margin: 0 auto;
-	padding: 15px 30px 40px;
+	padding: 0 30px;
+	background: #FFF;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+}
+
+/* ---- Footer ---- */
+footer {
+	max-width: 860px;
+	margin: 0 auto;
+	padding: 6px 30px;
 	background: #FFF;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
 	border-bottom: 1px solid #999;
-	min-height: 100vh;
+	border-top: 3px double #333;
 }
 
 /* ---- Header & Navigation ---- */
 header {
 	max-width: 860px;
 	margin: 0 auto;
-	padding: 15px 30px;
+	padding: 10px 30px;
 	background: #FFF;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
@@ -69,6 +79,7 @@ nav {
 .nav-links {
 	list-style: none;
 	display: flex;
+	flex: 1;
 	flex-wrap: wrap;
 	gap: 15px;
 	align-items: center;
@@ -79,6 +90,14 @@ nav {
 	text-decoration: underline;
 	font-family: "Courier New", Courier, monospace;
 	font-size: 13px;
+	padding: 4px 0;
+}
+
+@media (max-width: 480px) {
+	.nav-links a {
+		padding: 6px 0;
+		display: block;
+	}
 }
 
 .nav-links a:visited {
@@ -339,7 +358,7 @@ nav {
 
 /* ---- Telemetry ---- */
 .telemetry-section {
-	padding: 25px 0;
+	padding: 20px 0;
 }
 
 .telemetry-grid {
@@ -383,7 +402,7 @@ nav {
 
 /* ---- Bento Grid (simplified to card grid) ---- */
 .features {
-	padding: 25px 0;
+	padding: 20px 0;
 }
 
 .bento-grid {
@@ -502,7 +521,7 @@ nav {
 
 /* ---- Roadmap ---- */
 .roadmap {
-	padding: 25px 0;
+	padding: 20px 0;
 }
 
 .roadmap-grid {
@@ -618,7 +637,7 @@ footer {
    Products Page
    ============================================ */
 .products-grid-section {
-	padding: 20px 0;
+	padding: 15px 0;
 }
 
 .products-grid {
@@ -719,7 +738,7 @@ footer {
 }
 
 .product-section {
-	padding: 25px 0;
+	padding: 20px 0;
 }
 
 /* ---- Blueprint ---- */
@@ -924,7 +943,7 @@ footer {
    About Page
    ============================================ */
 .about-section {
-	padding: 20px 0;
+	padding: 15px 0;
 }
 
 .mission-content {
@@ -1033,7 +1052,7 @@ footer {
    Insight Page
    ============================================ */
 .insight-full {
-	padding: 20px 0;
+	padding: 15px 0;
 }
 
 .insight-grid-full {
@@ -1120,18 +1139,38 @@ footer {
 	header {
 		border-left: none;
 		border-right: none;
+		padding: 12px 15px;
 	}
-	
+
 	.main-container {
 		margin: 0;
 		border-left: none;
 		border-right: none;
-		border-bottom: none;
 		padding: 15px;
+	}
+
+	footer {
+		border-left: none;
+		border-right: none;
+		padding: 12px 15px;
 	}
 
 	.hero {
 		flex-direction: column;
+	}
+
+	.hero-visual {
+		flex: 0 0 auto;
+	}
+
+	.hud-container {
+		width: 120px;
+		height: 120px;
+	}
+
+	.tech-specs {
+		gap: 20px;
+		flex-wrap: wrap;
 	}
 
 	.telemetry-grid {
@@ -1146,6 +1185,10 @@ footer {
 		grid-template-columns: 1fr;
 	}
 
+	.bento-tall {
+		grid-row: span 1;
+	}
+
 	.tech-stack-grid,
 	.community-content {
 		grid-template-columns: 1fr 1fr;
@@ -1153,6 +1196,19 @@ footer {
 
 	.roadmap-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.blueprint-layer .layer-content {
+		flex-direction: column;
+	}
+
+	.blueprint-box {
+		min-width: auto;
+	}
+
+	.nav-tabs .tab {
+		padding: 8px 10px;
+		font-size: 11px;
 	}
 }
 
@@ -1162,8 +1218,30 @@ footer {
 		grid-template-columns: 1fr;
 	}
 
+	.telemetry-grid {
+		grid-template-columns: 1fr;
+	}
+
 	.nav-links {
 		flex-direction: column;
-		gap: 5px;
+		gap: 6px;
+		width: 100%;
+	}
+
+	.nav-links .cta-button {
+		margin-left: 0;
+		text-align: center;
+	}
+
+	.logo {
+		margin-bottom: 5px;
+	}
+
+	.hero-content h1 {
+		font-size: 22px;
+	}
+
+	.page-header h1 {
+		font-size: 22px;
 	}
 }
