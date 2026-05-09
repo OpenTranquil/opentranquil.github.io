@@ -4,10 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="TranquilOS - Re-implementing operating system for AI era. Kernel + Agent = New OS. Integrating AI and agents into the core OS architecture.">
+	<meta name="description" content="TranquilOS - Capability-based microkernel OS for ARMv8-A. Type-1 hypervisor, migrating-thread IPC, DeepSeek AI agent integration.">
 	<meta name="theme-color" content="#ff4500">
 	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
-	<title>TranquilOS // KERNEL + AGENT = NEW_OS</title>
+	<title>TranquilOS // Capability-Based Microkernel for ARMv8-A</title>
 	<link rel="stylesheet" href="style.css">
 </head>
 
@@ -38,12 +38,12 @@
 	<!-- Hero Section -->
 		<section class="hero">
 			<div class="hero-content">
-				<div class="badge-pill">MISSION: RE-IMPLEMENTING OS FOR AI ERA</div>
+				<div class="badge-pill">Kernel v1.4.11 // 1,583 commits // ARMv8-A</div>
 				<h1>KERNEL + AI AGENT =<br><span class="highlight">NEW_OS</span></h1>
 				<p class="hero-statement">
-					> Reconstructing modern operating systems<br>
-					> Integrating AI & Agents at the core<br>
-					> Replacing traditional app/OS architecture
+					> Capability-based microkernel OS<br>
+					> Type-1 hypervisor (EL2) with SMP support<br>
+					> DeepSeek-powered agent manager
 				</p>
 				<div class="hero-buttons">
 					<button class="btn btn-primary"><span>INIT_SYSTEM()</span></button>
@@ -63,45 +63,52 @@
 	<!-- Tech Specs Strip -->
 		<section class="tech-specs">
 			<div class="stat-item">
-				<span class="stat-number">KERNEL</span>
-				<span class="stat-label">MICROKERNEL_ARCH</span>
+				<span class="stat-number">AArch64</span>
+				<span class="stat-label">TARGET_ARCH</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">AGENT</span>
-				<span class="stat-label">AI_NATIVE_CORE</span>
+				<span class="stat-number">Capability</span>
+				<span class="stat-label">SECURITY_MODEL</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">NEW_OS</span>
-				<span class="stat-label">INTEGRATED_STACK</span>
+				<span class="stat-number">GN+Ninja</span>
+				<span class="stat-label">BUILD_SYSTEM</span>
 			</div>
 		</section>
 
-		<!-- Performance Telemetry -->
+		<!-- Project Stats -->
 		<section class="telemetry-section">
 			<div class="section-header">
-				<p>// PERF_METRICS</p>
-				<h2>SYSTEM_TELEMETRY</h2>
+				<p>// PROJECT_STATS</p>
+				<h2>REPO_OVERVIEW</h2>
 			</div>
 			<div class="telemetry-grid">
 				<div class="telemetry-card">
-					<span class="tele-label">BOOT_TIME</span>
-					<span class="tele-value">142ms</span>
+					<span class="tele-label">COMMITS</span>
+					<span class="tele-value">1,583</span>
+					<div class="tele-bar">
+						<div style="width: 90%"></div>
+					</div>
+				</div>
+				<div class="telemetry-card">
+					<span class="tele-label">LINES_OF_CODE</span>
+					<span class="tele-value">607K</span>
 					<div class="tele-bar">
 						<div style="width: 80%"></div>
 					</div>
 				</div>
 				<div class="telemetry-card">
-					<span class="tele-label">CTX_SWITCH</span>
-					<span class="tele-value">&lt;2µs</span>
+					<span class="tele-label">DEVELOPMENT</span>
+					<span class="tele-value">~5yr</span>
 					<div class="tele-bar">
-						<div style="width: 95%"></div>
+						<div style="width: 85%"></div>
 					</div>
 				</div>
 				<div class="telemetry-card">
-					<span class="tele-label">IPC_THROUGHPUT</span>
-					<span class="tele-value">4.2M/s</span>
+					<span class="tele-label">SOURCE_FILES</span>
+					<span class="tele-value">7,083</span>
 					<div class="tele-bar">
-						<div style="width: 70%"></div>
+						<div style="width: 75%"></div>
 					</div>
 				</div>
 			</div>
@@ -123,8 +130,32 @@
 
 				<div class="bento-item bento-large">
 					<div class="bento-icon">[AGENT]</div>
-					<h3>AI Agent Core</h3>
-					<p>Native AI agent integration at OS level. Intelligent resource management, predictive scheduling, and autonomous system optimization.</p>
+					<h3>AI Agent Service</h3>
+					<p>DeepSeek-powered agent manager (agentmgr). Chat interface via IPC to kernel services for system queries and task execution.</p>
+				</div>
+
+				<div class="bento-item">
+					<div class="bento-icon">[SEC]</div>
+					<h3>Capability Security</h3>
+					<p>Object-capability access control. Every resource access is explicit and authorized. Fine-grained, method-level permissions.</p>
+				</div>
+
+				<div class="bento-item">
+					<div class="bento-icon">[HV]</div>
+					<h3>Type-1 Hypervisor</h3>
+					<p>EL2 hypervisor with stage-2 page tables, VCPU management, virtual GIC/Timer/PMU for ARMv8-A platforms.</p>
+				</div>
+
+				<div class="bento-item">
+					<div class="bento-icon">[APP]</div>
+					<h3>23 User Apps</h3>
+					<p>Rich ecosystem: settings, file manager, NES emulator, Minecraft-like game, AI chat, terminal, and more.</p>
+				</div>
+
+				<div class="bento-item">
+					<div class="bento-icon">[TECH]</div>
+					<h3>Modern Stack</h3>
+					<p>Built in C and ARM64 Assembly. GN/Ninja build system. SMP multi-core, migrating-thread IPC, LVGL GUI toolkit.</p>
 				</div>
 
 				<div class="bento-item bento-tall vision-card">
@@ -171,11 +202,11 @@
 [BOOT] Kernel v1.4.11: Active
 [BOOT] Agent (DeepSeek): Integrated
 [BOOT] Window Compositor: Ready
-[BOOT] Network Stack (lwIP): Up
-[BOOT] Filesystem (VFS/ext2): Mounted
+[BOOT] Network (lwIP): Up
+[BOOT] FS (VFS/ext2): Mounted
 [BOOT] 23 Apps: Registered
 $ agent.query("status")
-> "System operational. 1,583 commits strong."
+> "System operational. 1,583 commits."
 $ _</code></pre>
 					</div>
 				</div>
@@ -201,17 +232,17 @@ $ _</code></pre>
 					<div class="timeline-item">
 						<h3>PHASE_2: AGENT_INTEGRATION [DONE]</h3>
 						<ul>
-							<li>AI Agent Core Framework</li>
-							<li>Intelligent Resource Scheduler</li>
-							<li>Native Agent-OS Interface</li>
+							<li>agentmgr Service Process</li>
+							<li>DeepSeek API Integration</li>
+							<li>Kernel IPC Channel</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
 						<h3>PHASE_3: NEW_OS_REALIZATION [ACTIVE]</h3>
 						<ul>
-							<li>Unified Kernel+Agent Architecture</li>
-							<li>AI-First User Experience</li>
-							<li>Next-Gen Application Model</li>
+							<li>Filesystem (ext2/fat32/VFS)</li>
+							<li>Network Stack (lwIP/HTTPS)</li>
+							<li>Real Hardware (CM4, Pi4b)</li>
 						</ul>
 					</div>
 				</div>
@@ -222,13 +253,13 @@ $ _</code></pre>
 							<span>[REC]</span>
 						</div>
 						<div class="log-body">
-							<span class="log-line">09:01:22.450 [KRN] SCHED: Load balancing...</span>
+							<span class="log-line">09:01:22.450 [KRN] SCHED: Context switch (pid:3 -> pid:7)</span>
 							<span class="log-line">09:01:22.455 [KRN] MEM: Page fault mapped @0x4000</span>
-							<span class="log-line">09:01:23.100 [AGT] AI: Learning user patterns...</span>
-							<span class="log-line">09:01:23.102 [AGT] OPT: Resource allocation optimized</span>
+							<span class="log-line">09:01:23.100 [AGT] API: DeepSeek response received</span>
+							<span class="log-line">09:01:23.102 [SYS] IPC: Message (pid:12 -> pid:4)</span>
 							<span class="log-line">09:01:24.001 [USR] SHELL: Command dispatch 'ls'</span>
 							<span class="log-line">09:01:24.005 [FS] VFS: Directory lookup '/bin'</span>
-							<span class="log-line highlight-log">09:01:24.010 [SYS] NEW_OS: Kernel+Agent unified</span>
+							<span class="log-line highlight-log">09:01:24.010 [SYS] PROC: New process spawned (pid:33)</span>
 							<span class="log-line">09:01:25.200 [KRN] IRQ: GICv3 interrupt #27</span>
 							<span class="log-line">09:01:25.205 [DRV] UART: Buffer flush</span>
 							<span class="cursor">_</span>

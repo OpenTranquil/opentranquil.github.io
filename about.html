@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="About TranquilOS - Building next-generation operating system for the AI era with microkernel architecture.">
+	<meta name="description" content="About TranquilOS - Capability-based microkernel operating system for AArch64. Built by NeoYang since 2021.">
 	<meta name="theme-color" content="#ff4500">
 	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-reverse.svg">
 	<title>ABOUT // TranquilOS</title>
@@ -41,8 +41,8 @@
 				<div class="badge-pill">STATUS: TRANSPARENT</div>
 				<h1>ABOUT<span class="highlight">_US</span></h1>
 				<p>
-					> RE-IMPLEMENTING_OS_STACK [OK]<br>
-					> AI_ERA_OPTIMIZED [OK]<br>
+					> MICROKERNEL_OS_STACK [OK]<br>
+					> CAPABILITY_SECURITY [OK]<br>
 					> OPEN_SOURCE [OK]
 				</p>
 			</div>
@@ -56,13 +56,14 @@
 			</div>
 			<div class="mission-content">
 				<p class="mission-text">
-					We are building a next-generation operating system from the ground up,
-					designed for the AI era. Traditional OS architectures were created in an era
-					where intelligent workloads were science fiction. Today, they run everywhere.
+					TranquilOS is a capability-based microkernel operating system for AArch64,
+					built from scratch by NeoYang. Development began in 2021 and continues today
+					with 1,583 commits and over 607,000 lines of C and ARM64 assembly.
 				</p>
 				<p class="mission-text">
-					Our mission is to reconstruct the modern operating system, integrating AI and agents into it, replacing the traditional application/operating system architecture.
-					Kernel + Agent = New OS
+					The project combines a minimal microkernel with userspace system services
+					(process management, filesystem, networking, GUI) and 23 user applications,
+					including an AI chat interface powered by DeepSeek.
 				</p>
 			</div>
 		</section>
@@ -106,19 +107,19 @@
 			<div class="philosophy-grid">
 				<div class="phi-card">
 					<h3>[SECURITY]</h3>
-					<p>Capability-based security model ensures fine-grained access control. Every resource access is explicit and verified.</p>
+					<p>Capability-based security ensures fine-grained access control. Kernel objects accessed via typed capabilities with method-level permissions.</p>
 				</div>
 				<div class="phi-card">
 					<h3>[PERFORMANCE]</h3>
-					<p>Microkernel design with userspace drivers provides fault isolation without sacrificing throughput.</p>
+					<p>Microkernel with userspace drivers and migrating-thread IPC for low-latency cross-process communication on SMP systems.</p>
 				</div>
 				<div class="phi-card">
-					<h3>[INTELLIGENCE]</h3>
-					<p>AI-native architecture integrates machine learning at the kernel level for predictive resource management.</p>
+					<h3>[MODULARITY]</h3>
+					<p>System services (FsMgr, NetMgr, WindowMgr) run as independent EL0 processes. Services can be updated and restarted independently.</p>
 				</div>
 				<div class="phi-card">
 					<h3>[TRANSPARENCY]</h3>
-					<p>Open source development ensures community trust, auditability, and collaborative improvement.</p>
+					<p>Open source under active development on GitHub. 1,583 commits of incremental, reviewable progress.</p>
 				</div>
 			</div>
 		</section>
@@ -147,8 +148,8 @@
 				</div>
 				<div class="tech-item">
 					<div class="tech-icon">[ML]</div>
-					<h4>AI Integration</h4>
-					<p>DeepSeek-powered agent manager with kernel-level ML scheduling</p>
+					<h4>DeepSeek Integration</h4>
+					<p>agentmgr service with DeepSeek-powered chat interface</p>
 				</div>
 				<div class="tech-item">
 					<div class="tech-icon">[ARM]</div>

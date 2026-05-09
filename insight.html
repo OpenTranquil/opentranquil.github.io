@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="TranquilOS Insight - Latest news and updates on OS development, kernel research, and AI systems.">
+	<meta name="description" content="TranquilOS Insight - Development updates and milestones for the capability-based microkernel OS.">
 	<meta name="theme-color" content="#ff4500">
 	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-reverse.svg">
 	<title>INSIGHT // TranquilOS</title>
@@ -41,9 +41,9 @@
 				<div class="badge-pill">STATUS: LIVE_FEED</div>
 				<h1>INSIGHT<span class="highlight">_STREAM</span></h1>
 				<p>
-					> CURATED_NEWS // OSDEV [OK]<br>
-					> KERNEL_RESEARCH [OK]<br>
-					> AI_SYSTEMS [OK]
+					> PROJECT_MILESTONES [OK]<br>
+					> DEVELOPMENT_UPDATES [OK]<br>
+					> RELEASE_NOTES [OK]
 				</p>
 			</div>
 		</section>
@@ -54,9 +54,112 @@
 				<!-- OS & Kernel News -->
 				<div class="insight-category">
 					<div class="category-header">
-						<span class="category-icon">[KERNEL]</span>
-						<h3>OSDEV_UPDATES</h3>
+						<span class="category-icon">[DEV]</span>
+						<h3>PROJECT_UPDATES</h3>
 					</div>
+					<div class="insight-cards">
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-kernel">RELEASE</span>
+								<span class="date">2026-05-05</span>
+							</div>
+							<h4>TranquilOS v1.4.11</h4>
+							<p>Latest release with hypervisor support, 23 user apps, DeepSeek agentmgr, and LVGL-based GUI stack.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-system">FEATURE</span>
+								<span class="date">2026-04-28</span>
+							</div>
+							<h4>agentmgr Service</h4>
+							<p>New agent management service with DeepSeek API integration. Chat interface for system queries and task execution via IPC.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-arch">ARCH</span>
+								<span class="date">2026-04-20</span>
+							</div>
+							<h4>Type-1 Hypervisor</h4>
+							<p>EL2 hypervisor with stage-2 page tables, VCPU management, and virtualized GIC/Timer for ARMv8-A.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-kernel">MILESTONE</span>
+								<span class="date">2026-04-15</span>
+							</div>
+							<h4>1,500 Commits</h4>
+							<p>Project reaches 1,500+ commits across microkernel, system services, drivers, hypervisor, and user applications.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-system">PLATFORM</span>
+								<span class="date">2026-04-10</span>
+							</div>
+							<h4>CM4 Real Hardware Boot</h4>
+							<p>TranquilOS successfully boots on Raspberry Pi CM4 hardware via SD card, alongside QEMU virt/Pi3b/Pi4b targets.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+					</div>
+				</div>
+
+				<!-- Development Log -->
+				<div class="insight-category">
+					<div class="category-header">
+						<span class="category-icon">[LOG]</span>
+						<h3>RECENT_COMMITS</h3>
+					</div>
+					<div class="insight-cards">
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-ai">AGENT</span>
+								<span class="date">2026-05-07</span>
+							</div>
+							<h4>agentmgr: More Actions</h4>
+							<p>Extended agentmgr with additional action handlers for system service interaction via IPC endpoints.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-research">CONFIG</span>
+								<span class="date">2026-05-05</span>
+							</div>
+							<h4>Config: JSON Migration</h4>
+							<p>System configuration migrated from INI to JSON format with libjson port for structured settings management.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-edge">GUI</span>
+								<span class="date">2026-04-18</span>
+							</div>
+							<h4>Window Compositor</h4>
+							<p>Custom window compositor with LVGL toolkit, FreeType font rendering, and PortableGL for software 3D.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-ai">NET</span>
+								<span class="date">2026-04-12</span>
+							</div>
+							<h4>Network Stack</h4>
+							<p>lwIP TCP/IP stack integration with HTTP/HTTPS support via mbedTLS for secure network communication.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+						<article class="insight-card">
+							<div class="card-meta">
+								<span class="tag tag-research">FS</span>
+								<span class="date">2026-04-08</span>
+							</div>
+							<h4>Filesystem Support</h4>
+							<p>VFS layer with ext2 and FAT32 filesystem drivers, plus procfs and sysfs for system introspection.</p>
+							<a href="#" class="read-more">READ &rarr;</a>
+						</article>
+					</div>
+				</div>
 					<div class="insight-cards">
 						<article class="insight-card">
 							<div class="card-meta">

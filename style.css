@@ -20,7 +20,7 @@ body {
 .main-container {
 	max-width: 860px;
 	margin: 0 auto;
-	padding: 0 30px;
+	padding: 12px 30px 0;
 	background: #FFF;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
@@ -30,12 +30,12 @@ body {
 footer {
 	max-width: 860px;
 	margin: 0 auto;
-	padding: 6px 30px;
+	padding: 3px 30px;
 	background: #FFF;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
 	border-bottom: 1px solid #999;
-	border-top: 3px double #333;
+	border-top: 2px solid #000;
 }
 
 /* ---- Header & Navigation ---- */
@@ -160,9 +160,8 @@ nav {
 
 /* ---- Page Header ---- */
 .page-header {
-	margin-bottom: 30px;
-	border-bottom: 1px solid #999;
-	padding-bottom: 15px;
+	margin-bottom: 25px;
+	padding-bottom: 0;
 }
 
 .page-header h1 {
@@ -215,9 +214,8 @@ nav {
 	display: flex;
 	gap: 40px;
 	align-items: center;
-	padding: 10px 0 30px;
-	border-bottom: 1px solid #CCC;
-	margin-bottom: 30px;
+	padding: 0 0 25px;
+	margin-bottom: 15px;
 }
 
 .hero-content {
@@ -358,7 +356,7 @@ nav {
 
 /* ---- Telemetry ---- */
 .telemetry-section {
-	padding: 20px 0;
+	padding: 15px 0 8px;
 }
 
 .telemetry-grid {
@@ -402,7 +400,7 @@ nav {
 
 /* ---- Bento Grid (simplified to card grid) ---- */
 .features {
-	padding: 20px 0;
+	padding: 15px 0 8px;
 }
 
 .bento-grid {
@@ -521,7 +519,7 @@ nav {
 
 /* ---- Roadmap ---- */
 .roadmap {
-	padding: 20px 0;
+	padding: 15px 0 8px;
 }
 
 .roadmap-grid {
@@ -622,7 +620,7 @@ nav {
 
 /* ---- Footer ---- */
 footer {
-	margin-top: 40px;
+	margin-top: 0px;
 	padding-top: 15px;
 	border-top: 3px double #333;
 }
@@ -637,7 +635,7 @@ footer {
    Products Page
    ============================================ */
 .products-grid-section {
-	padding: 15px 0;
+	padding: 12px 0 6px;
 }
 
 .products-grid {
@@ -738,7 +736,7 @@ footer {
 }
 
 .product-section {
-	padding: 20px 0;
+	padding: 15px 0 8px;
 }
 
 /* ---- Blueprint ---- */
@@ -943,7 +941,7 @@ footer {
    About Page
    ============================================ */
 .about-section {
-	padding: 15px 0;
+	padding: 12px 0 6px;
 }
 
 .mission-content {
@@ -1052,7 +1050,7 @@ footer {
    Insight Page
    ============================================ */
 .insight-full {
-	padding: 15px 0;
+	padding: 12px 0 6px;
 }
 
 .insight-grid-full {

@@ -4,9 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="AGENT - AI-native intelligence layer for TranquilOS. DeepSeek-powered agent manager replacing traditional application/OS architecture.">
+<meta name="description" content="AGENT - DeepSeek-powered agent manager service for TranquilOS. AI chat interface with kernel IPC integration.">
 	<meta name="theme-color" content="#ff4500">
-	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-reverse.svg">
+	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 	<title>AGENT // TranquilOS</title>
 	<link rel="stylesheet" href="style.css">
 </head>
@@ -41,25 +41,25 @@
 				<div class="breadcrumb">
 					<a href="products.html">PRODUCTS</a> / <span class="current">AGENT</span>
 				</div>
-				<div class="badge-pill">ROLE: NEW_OS_INTELLIGENCE</div>
+				<div class="badge-pill">SERVICE: agentmgr</div>
 				<h1>AI<span class="highlight">_AGENT</span></h1>
-				<p class="tagline">The Intelligence Layer of New OS — Replacing Traditional Application/OS Architecture</p>
+				<p class="tagline">DeepSeek-powered agent manager service for TranquilOS</p>
 			</div>
 		</section>
 
-	<!-- AI Capabilities Strip -->
+	<!-- Tech Specs Strip -->
 		<section class="tech-specs">
 			<div class="stat-item">
-				<span class="stat-number">AGENT</span>
-				<span class="stat-label">AI_NATIVE_CORE</span>
+				<span class="stat-number">DeepSeek</span>
+				<span class="stat-label">LLM_BACKEND</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">KERNEL</span>
-				<span class="stat-label">DEEP_INTEGRATION</span>
+				<span class="stat-number">IPC</span>
+				<span class="stat-label">KERNEL_INTERFACE</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">NEW_OS</span>
-				<span class="stat-label">UNIFIED_ARCH</span>
+				<span class="stat-number">agentmgr</span>
+				<span class="stat-label">USERSPACE_SERVICE</span>
 			</div>
 		</section>
 
@@ -76,47 +76,47 @@
 		<section id="capabilities" class="product-section">
 			<div class="section-header">
 				<p>// AGENT_CAPABILITIES</p>
-				<h2>KERNEL_AGENT_INTEGRATION</h2>
+				<h2>WHAT_IT_DOES</h2>
 			</div>
 			<div class="capabilities-grid">
 				<div class="capability-card">
-					<div class="cap-icon">[OS]</div>
-					<h3>OS Replacement Arch</h3>
-					<p>Agent replaces traditional application layer with AI-first interaction model. Natural language becomes the new UI paradigm.</p>
+					<div class="cap-icon">[CHAT]</div>
+					<h3>AI Chat Interface</h3>
+					<p>Natural language chat app powered by DeepSeek LLM. Users can query system state and execute tasks through conversation.</p>
 					<ul>
-						<li>> Intent-based computing</li>
-						<li>> Context-aware execution</li>
-						<li>> Autonomous task orchestration</li>
+						<li>> DeepSeek model integration</li>
+						<li>> Shell-based chat UI (LVGL)</li>
+						<li>> Request/response interaction</li>
 					</ul>
 				</div>
 				<div class="capability-card">
-					<div class="cap-icon">[KRN]</div>
-					<h3>Kernel Integration</h3>
-					<p>Deep bidirectional integration via agentmgr service. Zero-overhead IPC channel reads kernel state and dispatches agent commands.</p>
+					<div class="cap-icon">[IPC]</div>
+					<h3>Kernel IPC Channel</h3>
+					<p>agentmgr communicates with the microkernel via migrating-thread IPC, reading kernel state and dispatching service requests.</p>
 					<ul>
-						<li>> Real-time state synchronization</li>
-						<li>> Capability-based communication</li>
-						<li>> Migrating-thread IPC channel</li>
+						<li>> Capability-based endpoint access</li>
+						<li>> Kernel state query via IPC</li>
+						<li>> Low-latency migrating-thread IPC</li>
 					</ul>
 				</div>
 				<div class="capability-card">
-					<div class="cap-icon">[RES]</div>
-					<h3>Intelligent Resources</h3>
-					<p>AI-driven resource management predicts and allocates CPU, memory, and I/O before applications request.</p>
+					<div class="cap-icon">[SYS]</div>
+					<h3>System Service</h3>
+					<p>agentmgr runs as a standard EL0 userspace service, alongside FsMgr, NetMgr, WindowMgr, and other system services.</p>
 					<ul>
-						<li>> Predictive scheduling</li>
-						<li>> Memory access pattern learning</li>
-						<li>> QoS-aware allocation</li>
+						<li>> Process managed by ProcMgr</li>
+						<li>> Communicates via IpcMgr endpoints</li>
+						<li>> Standard service lifecycle</li>
 					</ul>
 				</div>
 				<div class="capability-card">
-					<div class="cap-icon">[UI]</div>
-					<h3>Agent-First UX</h3>
-					<p>23 user apps with conversational AI interface. SystemUI provides AI Chat powered by DeepSeek model integration.</p>
+					<div class="cap-icon">[TASK]</div>
+					<h3>Agent Actions</h3>
+					<p>Executes system operations on behalf of user requests: file management, process control, system status queries.</p>
 					<ul>
-						<li>> DeepSeek-powered AI chat</li>
-						<li>> Proactive assistance</li>
-						<li>> Unified task model</li>
+						<li>> File operations via FsMgr</li>
+						<li>> Process launch via ProcMgr</li>
+						<li>> System status reporting</li>
 					</ul>
 				</div>
 			</div>
@@ -126,47 +126,33 @@
 		<section id="architecture" class="product-section">
 			<div class="section-header">
 				<p>// AGENT_ARCH</p>
-				<h2>KERNEL_AGENT_ARCHITECTURE</h2>
+				<h2>HOW_IT_WORKS</h2>
 			</div>
 			<div class="agent-architecture">
 				<div class="arch-diagram">
-					<!-- Agent Core Layer -->
 					<div class="arch-layer highlight-layer">
-						<div class="layer-title">AGENT CORE (agentmgr)</div>
+						<div class="layer-title">AI Chat App (userspace)</div>
 						<div class="layer-content">
-							<div class="arch-box">Intent Parser</div>
-							<div class="arch-box">Task Planner</div>
-							<div class="arch-box">Context Manager</div>
+							<div class="arch-box">DeepSeek API</div>
+							<div class="arch-box">Chat Shell UI</div>
 						</div>
 					</div>
-					<!-- Kernel Interface -->
 					<div class="arch-arrow">▼</div>
 					<div class="arch-layer">
-						<div class="layer-title">KERNEL INTERFACE</div>
+						<div class="layer-title">agentmgr Service (EL0)</div>
 						<div class="layer-content">
+							<div class="arch-box">Action Dispatch</div>
 							<div class="arch-box">IPC Endpoint</div>
-							<div class="arch-box">Capability Handler</div>
-							<div class="arch-box">State Reader</div>
+							<div class="arch-box">State Query</div>
 						</div>
 					</div>
-					<!-- Microkernel Layer -->
 					<div class="arch-arrow">▼</div>
 					<div class="arch-layer">
-						<div class="layer-title">MICROKERNEL + HYPERVISOR</div>
+						<div class="layer-title">Microkernel + System Services</div>
 						<div class="layer-content">
-							<div class="arch-box">Scheduler (SMP)</div>
-							<div class="arch-box">Memory Mgr</div>
-							<div class="arch-box">IPC Subsystem</div>
-						</div>
-					</div>
-					<!-- Hardware Layer -->
-					<div class="arch-arrow">▼</div>
-					<div class="arch-layer">
-						<div class="layer-title">HARDWARE</div>
-						<div class="layer-content">
-							<div class="arch-box">CPU / NPU</div>
-							<div class="arch-box">Memory</div>
-							<div class="arch-box">I/O Devices</div>
+							<div class="arch-box">ProcMgr</div>
+							<div class="arch-box">FsMgr</div>
+							<div class="arch-box">IpcMgr</div>
 						</div>
 					</div>
 				</div>
@@ -177,32 +163,32 @@
 		<section id="timeline" class="product-section">
 			<div class="section-header">
 				<p>// AGENT_ROADMAP</p>
-				<h2>AGENT_TIMELINE</h2>
+				<h2>DEVELOPMENT_STATUS</h2>
 			</div>
 			<div class="roadmap-grid">
 				<div class="timeline">
 					<div class="timeline-item">
-						<h3>PHASE_1: AGENT_CORE</h3>
+						<h3>PHASE_1: AGENT_SERVICE [DONE]</h3>
 						<ul>
-							<li>Intent Parsing Engine</li>
-							<li>Task Planning Framework</li>
-							<li>Context Memory System</li>
+							<li>agentmgr service process</li>
+							<li>IPC endpoint registration</li>
+							<li>DeepSeek API integration</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_2: KERNEL_INTEGRATION</h3>
+						<h3>PHASE_2: KERNEL_IPC [DONE]</h3>
 						<ul>
-							<li>IPC Channel with Kernel</li>
-							<li>Capability-Based Access</li>
-							<li>Real-Time State Sync</li>
+							<li>Capability-based IPC channel</li>
+							<li>System state query interface</li>
+							<li>Service action dispatch</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_3: NEW_OS_REALIZATION</h3>
+						<h3>PHASE_3: ENHANCEMENTS [ACTIVE]</h3>
 						<ul>
-							<li>Agent-First User Experience</li>
-							<li>Traditional App Replacement</li>
-							<li>Unified Kernel+Agent OS</li>
+							<li>Multi-modal agent interaction</li>
+							<li>Extended service integration</li>
+							<li>Agent workflow automation</li>
 						</ul>
 					</div>
 				</div>
@@ -213,14 +199,12 @@
 							<span>[DEEPSEEK_ACTIVE]</span>
 						</div>
 						<div class="log-body">
-							<span class="log-line">09:01:22.450 [AGT] INTENT: Parse user request...</span>
-							<span class="log-line">09:01:22.455 [AGT] PLAN: Generate task sequence</span>
-							<span class="log-line highlight-log">09:01:23.100 [AGT] API: DeepSeek inference complete</span>
-							<span class="log-line">09:01:23.102 [AGT] KRN: Request resource via IPC</span>
-							<span class="log-line">09:01:24.001 [AGT] EXEC: Task completed by agentmgr</span>
-							<span class="log-line">09:01:24.005 [AGT] UI: Render response to Shell</span>
-							<span class="log-line">09:01:24.010 [AGT] LEARN: Update context memory</span>
-							<span class="log-line">09:01:25.200 [AGT] NEW_OS: Agent-kernel unified</span>
+							<span class="log-line">09:01:22.450 [AGT] API: DeepSeek request sent</span>
+							<span class="log-line">09:01:22.455 [AGT] API: Inference response received</span>
+							<span class="log-line highlight-log">09:01:23.100 [AGT] IPC: Action dispatched to ProcMgr</span>
+							<span class="log-line">09:01:23.102 [AGT] KRN: State query via IPC endpoint</span>
+							<span class="log-line">09:01:24.001 [AGT] FS: File operation via FsMgr IPC</span>
+							<span class="log-line">09:01:24.005 [AGT] UI: Response rendered to chat shell</span>
 							<span class="cursor">_</span>
 						</div>
 					</div>
@@ -233,7 +217,7 @@
 	<footer>
 		<div class="copyright">
 			<p>COPYRIGHT &copy; 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
-			<p>AGENT: KERNEL + AGENT = NEW_OS<span class="cursor"></span></p>
+			<p>AGENT: DeepSeek-powered agentmgr<span class="cursor"></span></p>
 		</div>
 	</footer>
 
