@@ -7,20 +7,16 @@
 	<meta name="description" content="AGENT - The AI core of New OS. Deeply integrated with kernel to replace traditional application/OS architecture. Kernel + Agent = New OS.">
 	<meta name="theme-color" content="#ff4500">
 	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-reverse.svg">
-	<title>AGENT // KERNEL + AGENT = NEW_OS</title>
+	<title>AGENT // TranquilOS</title>
 	<link rel="stylesheet" href="style.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
-		rel="stylesheet">
 </head>
 
 <body>
 	<header>
 		<nav>
 			<a href="index.html" class="logo">
-				<img src="branding/tranquilos-final-line/mark-reverse.svg" alt="OSKERN.AI" width="64" height="64">
-				<span>OSKERN.AI</span>
+				<img src="branding/tranquilos-final-line/mark-color.svg" alt="OSKERN.AI" width="64" height="64">
+				<span>TranquilOS</span>
 			</a>
 			<ul class="nav-links">
 				<li><a href="index.html">HOME</a></li>
@@ -96,11 +92,11 @@
 				<div class="capability-card">
 					<div class="cap-icon">[KRN]</div>
 					<h3>Kernel Integration</h3>
-					<p>Deep bidirectional integration with microkernel. Agent reads system state, kernel executes agent decisions.</p>
+					<p>Deep bidirectional integration via agentmgr service. Zero-overhead IPC channel reads kernel state and dispatches agent commands.</p>
 					<ul>
 						<li>> Real-time state synchronization</li>
 						<li>> Capability-based communication</li>
-						<li>> Zero-overhead IPC channel</li>
+						<li>> Migrating-thread IPC channel</li>
 					</ul>
 				</div>
 				<div class="capability-card">
@@ -116,9 +112,9 @@
 				<div class="capability-card">
 					<div class="cap-icon">[UI]</div>
 					<h3>Agent-First UX</h3>
-					<p>Traditional applications replaced by agent-mediated experiences. Shell/SystemUI provides AI Orb animation and natural interface.</p>
+					<p>23 user apps with conversational AI interface. SystemUI provides AI Chat powered by DeepSeek model integration.</p>
 					<ul>
-						<li>> Conversational interface</li>
+						<li>> DeepSeek-powered AI chat</li>
 						<li>> Proactive assistance</li>
 						<li>> Unified task model</li>
 					</ul>
@@ -136,7 +132,7 @@
 				<div class="arch-diagram">
 					<!-- Agent Core Layer -->
 					<div class="arch-layer highlight-layer">
-						<div class="layer-title">AGENT CORE</div>
+						<div class="layer-title">AGENT CORE (agentmgr)</div>
 						<div class="layer-content">
 							<div class="arch-box">Intent Parser</div>
 							<div class="arch-box">Task Planner</div>
@@ -156,9 +152,9 @@
 					<!-- Microkernel Layer -->
 					<div class="arch-arrow">▼</div>
 					<div class="arch-layer">
-						<div class="layer-title">MICROKERNEL</div>
+						<div class="layer-title">MICROKERNEL + HYPERVISOR</div>
 						<div class="layer-content">
-							<div class="arch-box">Scheduler</div>
+							<div class="arch-box">Scheduler (SMP)</div>
 							<div class="arch-box">Memory Mgr</div>
 							<div class="arch-box">IPC Subsystem</div>
 						</div>
@@ -168,7 +164,7 @@
 					<div class="arch-layer">
 						<div class="layer-title">HARDWARE</div>
 						<div class="layer-content">
-							<div class="arch-box">CPU/NPU</div>
+							<div class="arch-box">CPU / NPU</div>
 							<div class="arch-box">Memory</div>
 							<div class="arch-box">I/O Devices</div>
 						</div>
@@ -214,17 +210,17 @@
 					<div class="log-console ai-console">
 						<div class="log-header">
 							<span>AGENT_LOG</span>
-							<span>[AI_ACTIVE]</span>
+							<span>[DEEPSEEK_ACTIVE]</span>
 						</div>
 						<div class="log-body">
 							<span class="log-line">09:01:22.450 [AGT] INTENT: Parse user request...</span>
 							<span class="log-line">09:01:22.455 [AGT] PLAN: Generate task sequence</span>
-							<span class="log-line highlight-log">09:01:23.100 [AGT] KRN: Request resource via IPC</span>
-							<span class="log-line">09:01:23.102 [AGT] CTX: Update context memory</span>
-							<span class="log-line">09:01:24.001 [AGT] EXEC: Task completed successfully</span>
-							<span class="log-line">09:01:24.005 [AGT] UI: Render response to user</span>
-							<span class="log-line">09:01:24.010 [AGT] LEARN: Update model from feedback</span>
-							<span class="log-line">09:01:25.200 [AGT] NEW_OS: Kernel+Agent unified</span>
+							<span class="log-line highlight-log">09:01:23.100 [AGT] API: DeepSeek inference complete</span>
+							<span class="log-line">09:01:23.102 [AGT] KRN: Request resource via IPC</span>
+							<span class="log-line">09:01:24.001 [AGT] EXEC: Task completed by agentmgr</span>
+							<span class="log-line">09:01:24.005 [AGT] UI: Render response to Shell</span>
+							<span class="log-line">09:01:24.010 [AGT] LEARN: Update context memory</span>
+							<span class="log-line">09:01:25.200 [AGT] NEW_OS: Agent-kernel unified</span>
 							<span class="cursor">_</span>
 						</div>
 					</div>
@@ -234,16 +230,12 @@
 
 		<footer>
 			<div class="copyright">
-				<p>COPYRIGHT © 2026 OSKERN.AI. ALL RIGHTS RESERVED.</p>
+				<p>COPYRIGHT © 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
 				<p>AGENT: KERNEL + AGENT = NEW_OS<span class="cursor"></span></p>
 			</div>
 		</footer>
 	</div>
 
-	<!-- Background Grid Overlay -->
-	<div
-		style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; background: radial-gradient(circle, transparent 90%, rgba(0,0,0,0.8) 100%);">
-	</div>
 </body>
 
 </html>

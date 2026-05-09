@@ -7,20 +7,16 @@
 	<meta name="description" content="MICROKERNEL - Next-generation microkernel architecture with capability-based security and userspace drivers.">
 	<meta name="theme-color" content="#ff4500">
 	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-reverse.svg">
-	<title>MICROKERNEL // OSKERN.AI</title>
+	<title>MICROKERNEL // TranquilOS</title>
 	<link rel="stylesheet" href="style.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
-		rel="stylesheet">
 </head>
 
 <body>
 	<header>
 		<nav>
 			<a href="index.html" class="logo">
-				<img src="branding/tranquilos-final-line/mark-reverse.svg" alt="OSKERN.AI" width="64" height="64">
-				<span>OSKERN.AI</span>
+				<img src="branding/tranquilos-final-line/mark-color.svg" alt="OSKERN.AI" width="64" height="64">
+				<span>TranquilOS</span>
 			</a>
 			<ul class="nav-links">
 				<li><a href="index.html">HOME</a></li>
@@ -45,7 +41,7 @@
 				<div class="breadcrumb">
 					<a href="products.html">PRODUCTS</a> / <span class="current">MICROKERNEL</span>
 				</div>
-				<div class="badge-pill">STATUS: ALPHA // v1.1.53</div>
+				<div class="badge-pill">STATUS: ALPHA // v1.4.11</div>
 				<h1>MICRO<span class="highlight">KERNEL</span></h1>
 				<p class="tagline">Next-Generation Microkernel Architecture for the AI Era</p>
 			</div>
@@ -62,8 +58,12 @@
 				<span class="stat-label">MULTI_CORE</span>
 			</div>
 			<div class="stat-item">
-				<span class="stat-number">12KB</span>
-				<span class="stat-label">KERNEL_SIZE</span>
+				<span class="stat-number">EL2</span>
+				<span class="stat-label">HYPERVISOR</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">GN+Ninja</span>
+				<span class="stat-label">BUILD_SYSTEM</span>
 			</div>
 		</section>
 
@@ -86,205 +86,252 @@
 			<div class="blueprint-container">
 				<!-- LAYER 1: USER APPLICATIONS -->
 				<div class="blueprint-layer layer-apps">
-					<span class="layer-label">LAYER 1 - USER APPLICATIONS</span>
+					<span class="layer-label">LAYER 1 - USER APPLICATIONS (23 APPS)</span>
 					<div class="layer-content">
 						<div class="blueprint-box box-container" id="box-shell">
-							<span class="box-title">Shell/SystemUI</span>
+							<span class="box-title">Shell / SystemUI</span>
 							<div class="box-row">
-								<div class="nested-box">graphics_2d library</div>
-								<div class="nested-box">libgraphics</div>
-								<div class="nested-box">Shared libsystem</div>
+								<div class="nested-box">LVGL GUI toolkit</div>
+								<div class="nested-box">FreeType rendering</div>
+								<div class="nested-box">PortableGL (OpenGL)</div>
 							</div>
 							<div class="box-row">
-								<div class="nested-box">font_8x8 renderer</div>
-								<div class="nested-box">Status Bar, Navigation</div>
-								<div class="nested-box">libgraphics</div>
+								<div class="nested-box">Window Compositor</div>
+								<div class="nested-box">AI Chat Assistant</div>
+								<div class="nested-box">Launcher / Status Bar</div>
 							</div>
-							<div class="nested-box full-width">AI Orb Animation</div>
 						</div>
 						<div class="blueprint-box box-container">
-							<span class="box-title">User Applications</span>
+							<span class="box-title">Applications (23)</span>
 							<div class="box-row">
-								<div class="nested-box box-simple">App 1</div>
-								<div class="nested-box box-simple">App 2</div>
-								<div class="nested-box box-simple">App 3</div>
+								<div class="nested-box box-simple">settings</div>
+								<div class="nested-box box-simple">calculator</div>
+								<div class="nested-box box-simple">calendar</div>
+							</div>
+							<div class="box-row">
+								<div class="nested-box box-simple">clock</div>
+								<div class="nested-box box-simple">memo</div>
+								<div class="nested-box box-simple">music</div>
+							</div>
+							<div class="box-row">
+								<div class="nested-box box-simple">files</div>
+								<div class="nested-box box-simple">snake</div>
+								<div class="nested-box box-simple">minesweeper</div>
+							</div>
+							<div class="box-row">
+								<div class="nested-box box-simple">bounce</div>
+								<div class="nested-box box-simple">craft (Minecraft)</div>
+								<div class="nested-box box-simple">whiteboard</div>
+							</div>
+							<div class="box-row">
+								<div class="nested-box box-simple">NES emulator</div>
+								<div class="nested-box box-simple">gltest (3D)</div>
+								<div class="nested-box box-simple">monitor</div>
+							</div>
+							<div class="box-row">
+								<div class="nested-box box-simple">about</div>
+								<div class="nested-box box-simple">ai (DeepSeek)</div>
+								<div class="nested-box box-simple">terminal</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<!-- LAYER 2: SYSTEM SERVICES -->
+				<!-- LAYER 2: OS SERVICES -->
 				<div class="blueprint-layer layer-services">
-					<span class="layer-label">LAYER 2 - SYSTEM SERVICES</span>
+					<span class="layer-label">LAYER 2 - OS SERVICES</span>
 					<div class="layer-content">
-						<!-- DevMgr -->
 						<div class="blueprint-box box-list" id="box-devmgr">
 							<span class="box-title">DevMgr</span>
-							<div class="list-item">display_mgr (ramfb driver)</div>
+							<div class="list-item">device framework</div>
+							<div class="list-item">display (ramfb)</div>
+							<div class="list-item">input / touch</div>
 							<div class="list-item">fw_cfg interface</div>
-							<div class="list-item">device_tree parser</div>
-							<div class="list-item">framebuffer management</div>
-							<div class="list-item">service.c (IPC endpoint)</div>
 						</div>
-						<!-- FsMgr -->
 						<div class="blueprint-box box-list" id="box-fsmgr">
 							<span class="box-title">FsMgr</span>
-							<div class="list-item">fsmgr_s structure</div>
-							<div class="list-item">session_mgr (per-process)</div>
-							<div class="list-item">fd_table (file descriptors)</div>
-							<div class="list-item">VFS layer with vfs_ops</div>
-							<div class="list-item">vfs_file_s structure</div>
-							<div class="list-item">rootfs (CPIO parser)</div>
+							<div class="list-item">VFS (vfs_ops)</div>
+							<div class="list-item">ext2, fat32</div>
+							<div class="list-item">procfs, sysfs</div>
+							<div class="list-item">fd_table / session</div>
 						</div>
-						<!-- NetMgr -->
-						<div class="blueprint-box box-simple">
+						<div class="blueprint-box box-list" id="box-netmgr">
 							<span class="box-title">NetMgr</span>
+							<div class="list-item">lwIP TCP/IP stack</div>
+							<div class="list-item">HTTP / HTTPS</div>
+							<div class="list-item">mbedTLS crypto</div>
 						</div>
-						<!-- Idle -->
+						<div class="blueprint-box box-list">
+							<span class="box-title">WindowMgr</span>
+							<div class="list-item">window compositor</div>
+							<div class="list-item">surface manager</div>
+						</div>
+						<div class="blueprint-box box-list">
+							<span class="box-title">AgentMgr</span>
+							<div class="list-item">AI agent lifecycle</div>
+							<div class="list-item">DeepSeek integration</div>
+						</div>
 						<div class="blueprint-box box-simple">
-							<span class="box-title">Idle</span>
-							<span class="sub-text">per-CPU idle threads</span>
+							<span class="box-title">AudioMgr</span>
+							<span class="sub-text">MP3 (minimp3)</span>
+						</div>
+						<div class="blueprint-box box-simple">
+							<span class="box-title">FontMgr</span>
+							<span class="sub-text">FreeType</span>
+						</div>
+						<div class="blueprint-box box-simple">
+							<span class="box-title">AppMgr</span>
+							<span class="sub-text">app lifecycle</span>
+						</div>
+						<div class="blueprint-box box-simple">
+							<span class="box-title">Zygote</span>
+							<span class="sub-text">process fork</span>
 						</div>
 					</div>
 				</div>
 
-				<!-- LAYER 3: SYSTEMD -->
+				<!-- LAYER 3: SYSTEM DAEMON -->
 				<div class="blueprint-layer layer-systemd">
-					<span class="layer-label">LAYER 3 - SYSTEMD</span>
+					<span class="layer-label">LAYER 3 - SYSTEM DAEMON (systemd / EL0)</span>
 					<div class="layer-content">
 						<div class="blueprint-box box-list" id="box-procmgr">
 							<span class="box-title">ProcMgr</span>
-							<div class="list-item">process_s structure</div>
-							<div class="list-item">thread_s structure</div>
+							<div class="list-item">process_s / thread_s</div>
 							<div class="list-item">ELF loader (elf_parse)</div>
-							<div class="list-item">process lifecycle</div>
-							<div class="list-item">vspace management</div>
+							<div class="list-item">CNode / VSpace mgmt</div>
+							<div class="list-item">PID allocation</div>
 						</div>
 						<div class="blueprint-box box-list">
 							<span class="box-title">MemMgr</span>
-							<div class="list-item">memory_manager_s</div>
-							<div class="list-item">page allocation</div>
-							<div class="list-item">shared_memory_s (SHM)</div>
-							<div class="list-item">physical memory tracking</div>
+							<div class="list-item">buddy allocator</div>
+							<div class="list-item">vspace management</div>
+							<div class="list-item">shared memory (SHM)</div>
 						</div>
 						<div class="blueprint-box box-list" id="box-ipcmgr">
 							<span class="box-title">IpcMgr</span>
-							<div class="list-item">ipc_endpoint_s mgmt</div>
+							<div class="list-item">endpoint namespace</div>
 							<div class="list-item">service registration</div>
-							<div class="list-item">endpoint ref tracking</div>
-						</div>
-						<div class="blueprint-box box-list" id="box-upcall">
-							<span class="box-title">Upcall Handler</span>
-							<div class="list-item">upcall_endpoint_s</div>
-							<div class="list-item">page fault handling</div>
-							<div class="list-item">exception forwarding</div>
-						</div>
-						<div class="blueprint-box box-list">
-							<span class="box-title">Ramdisk</span>
-							<div class="list-item">CPIO archive parser</div>
-							<div class="list-item">binary loading</div>
+							<div class="list-item">name lookup</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- LAYER 4: MICROKERNEL -->
 				<div class="blueprint-layer layer-kernel">
-					<span class="layer-label">LAYER 4 - MICROKERNEL</span>
+					<span class="layer-label">LAYER 4 - MICROKERNEL (EL1)</span>
 					<div class="layer-content">
-						<!-- A. Capability System -->
 						<div class="blueprint-box box-list">
 							<span class="box-title">A. Capability System</span>
-							<div class="list-item">cap_cnode.c</div>
-							<div class="list-item">cap_vspace.c</div>
-							<div class="list-item">cap_scontext.c</div>
-							<div class="list-item">cap_xcontext.c</div>
-							<div class="list-item">cap_ipc_endpoint.c</div>
-							<div class="list-item">capability_ref_t</div>
+							<div class="list-item">CNode, VSpace, SContext</div>
+							<div class="list-item">XContext, IPC Endpoint</div>
+							<div class="list-item">Timer, Futex, Console</div>
+							<div class="list-item">method-level permissions</div>
 						</div>
-						<!-- B. IPC Subsystem -->
 						<div class="blueprint-box box-list" id="box-ipc-sub">
 							<span class="box-title">B. IPC Subsystem</span>
-							<div class="list-item">ipc_call_with_args()</div>
-							<div class="list-item">ipc_reply_with_val()</div>
-							<div class="list-item">caller blocking</div>
-							<div class="list-item">context switching on IPC</div>
+							<div class="list-item">migrating-thread IPC</div>
+							<div class="list-item">elastic IPC support</div>
+							<div class="list-item">fastcall / upcall</div>
+							<div class="list-item">split exec/sched context</div>
 						</div>
-						<!-- C. Scheduler -->
 						<div class="blueprint-box box-list">
 							<span class="box-title">C. Scheduler</span>
-							<div class="list-item">scheduler_manager_s</div>
-							<div class="list-item">local_scheduler_s</div>
-							<div class="list-item">schedule_context_s</div>
+							<div class="list-item">per-CPU local scheduler</div>
+							<div class="list-item">pluggable framework</div>
 							<div class="list-item">FIFO ready queue</div>
-							<div class="list-item">thread affinity</div>
+							<div class="list-item">thread affinity (SMP)</div>
 						</div>
-						<!-- D. Memory Mgmt -->
 						<div class="blueprint-box box-list">
 							<span class="box-title">D. Memory Mgmt</span>
 							<div class="list-item">address_space_s</div>
 							<div class="list-item">page_allocator_s</div>
 							<div class="list-item">sparse memory model</div>
-							<div class="list-item">page_struct_tbl</div>
 							<div class="list-item">bootmm (early alloc)</div>
 						</div>
-						<!-- E. Interrupt Mgmt -->
 						<div class="blueprint-box box-list" id="box-int-mgr">
-							<span class="box-title">E. Interrupt Mgmt</span>
-							<div class="list-item">int_mgr_s (global)</div>
-							<div class="list-item">local_int_mgr_s</div>
-							<div class="list-item">irq_device_s (GIC)</div>
-							<div class="list-item">timer_mgr_s</div>
+							<span class="box-title">E. IRQ & Timer</span>
+							<div class="list-item">GICv2 / GICv3 support</div>
+							<div class="list-item">RB-tree timer mgmt</div>
+							<div class="list-item">high-precision time</div>
 						</div>
-						<!-- F. Syscall Interface -->
 						<div class="blueprint-box box-list" id="box-syscall">
-							<span class="box-title">F. Syscall Interface</span>
-							<div class="list-item">syscall_process()</div>
+							<span class="box-title">F. Syscall & Futex</span>
 							<div class="list-item">cap_call_dispatch()</div>
 							<div class="list-item">fast_call_dispatch()</div>
-							<div class="list-item">register args (x0-x7)</div>
+							<div class="list-item">futex synchronization</div>
+							<div class="list-item">args x0-x7 registers</div>
 						</div>
 					</div>
 				</div>
 
-				<!-- LAYER 5: HAL -->
+				<!-- LAYER 5: HYPERVISOR -->
+				<div class="blueprint-layer layer-hypervisor">
+					<span class="layer-label">LAYER 5 - TYPE-1 HYPERVISOR (EL2)</span>
+					<div class="layer-content">
+						<div class="blueprint-box box-list">
+							<span class="box-title">VM Management</span>
+							<div class="list-item">VM / VCPU lifecycle</div>
+							<div class="list-item">stage-2 page tables</div>
+							<div class="list-item">memory isolation</div>
+						</div>
+						<div class="blueprint-box box-list">
+							<span class="box-title">Virtual Devices</span>
+							<div class="list-item">virtual GIC (vGIC)</div>
+							<div class="list-item">virtual Timer (vTimer)</div>
+							<div class="list-item">virtual PMU (vPMU)</div>
+						</div>
+						<div class="blueprint-box box-simple">
+							<span class="box-title">Hypcall</span>
+							<span class="sub-text">guest-host IPC</span>
+						</div>
+						<div class="blueprint-box box-simple">
+							<span class="box-title">PCPU Mgmt</span>
+							<span class="sub-text">multi-core VM</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- LAYER 6: HAL -->
 				<div class="blueprint-layer layer-hal">
-					<span class="layer-label">LAYER 5 - HARDWARE ABSTRACTION LAYER</span>
+					<span class="layer-label">LAYER 6 - HARDWARE ABSTRACTION LAYER</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-simple">hal_cpu<br><span class="sub-text">priv level,
-								barrier</span></div>
-						<div class="blueprint-box box-simple">hal_context<br><span class="sub-text">reg
-								save/restore</span></div>
-						<div class="blueprint-box box-simple">hal_interrupt<br><span class="sub-text">enable/disable
-								IRQ</span></div>
-						<div class="blueprint-box box-simple">hal_exception<br><span class="sub-text">exception
-								vectors</span></div>
-						<div class="blueprint-box box-simple">hal_mmu<br><span class="sub-text">page table ops</span>
-						</div>
-						<div class="blueprint-box box-simple">hal_atomic<br><span class="sub-text">atomic ops</span>
-						</div>
+						<div class="blueprint-box box-simple">hal_cpu<br><span class="sub-text">priv level, barrier</span></div>
+						<div class="blueprint-box box-simple">hal_context<br><span class="sub-text">reg save/restore</span></div>
+						<div class="blueprint-box box-simple">hal_interrupt<br><span class="sub-text">enable/disable IRQ</span></div>
+						<div class="blueprint-box box-simple">hal_exception<br><span class="sub-text">exception vectors</span></div>
+						<div class="blueprint-box box-simple">hal_mmu<br><span class="sub-text">page table ops</span></div>
+						<div class="blueprint-box box-simple">hal_atomic<br><span class="sub-text">atomic ops</span></div>
 					</div>
 				</div>
 
-				<!-- LAYER 6: DRIVERS -->
+				<!-- LAYER 7: DRIVERS -->
 				<div class="blueprint-layer layer-drivers">
-					<span class="layer-label">LAYER 6 - HARDWARE DRIVERS</span>
+					<span class="layer-label">LAYER 7 - HARDWARE DRIVERS (14 CATEGORIES)</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-simple" id="box-gic-drv">arch-gic</div>
-						<div class="blueprint-box box-simple">arm-timer</div>
-						<div class="blueprint-box box-simple">arm-uart</div>
-						<div class="blueprint-box box-simple">arm-dma</div>
-						<div class="blueprint-box box-simple">virtio-mmio</div>
+						<div class="blueprint-box box-simple" id="box-gic-drv">GICv2/GICv3</div>
+						<div class="blueprint-box box-simple">Generic Timer</div>
+						<div class="blueprint-box box-simple">PL011 UART</div>
+						<div class="blueprint-box box-simple">PL031 RTC</div>
+						<div class="blueprint-box box-simple">PMU/SPE/DSU</div>
+						<div class="blueprint-box box-simple">PL310 Cache</div>
+						<div class="blueprint-box box-simple">PL080 DMA</div>
+						<div class="blueprint-box box-simple">Mali GPU</div>
+						<div class="blueprint-box box-simple">SP805 WDT</div>
+						<div class="blueprint-box box-simple">PSCI / spin</div>
+						<div class="blueprint-box box-simple">VirtIO-MMIO</div>
+						<div class="blueprint-box box-simple">HVdriver</div>
 					</div>
 				</div>
 
-				<!-- LAYER 7: HARDWARE -->
+				<!-- LAYER 8: HARDWARE -->
 				<div class="blueprint-layer layer-hw">
-					<span class="layer-label">LAYER 7 - PHYSICAL HARDWARE</span>
+					<span class="layer-label">LAYER 8 - PHYSICAL HARDWARE</span>
 					<div class="layer-content">
-						<div class="blueprint-box box-simple">Cortex-A53 (ARMv8)</div>
-						<div class="blueprint-box box-simple">GIC-400 IntCtl</div>
-						<div class="blueprint-box box-simple">DRAM (Unknown Size)</div>
-						<div class="blueprint-box box-simple">MMU (System)</div>
+						<div class="blueprint-box box-simple">Cortex-A53 (ARMv8-A)</div>
+						<div class="blueprint-box box-simple">GIC-400 Interrupt</div>
+						<div class="blueprint-box box-simple">DRAM (2GB+)</div>
+						<div class="blueprint-box box-simple">MMU (ARMv8)</div>
+						<div class="blueprint-box box-simple">Mali GPU / NPU</div>
 					</div>
 				</div>
 			</div>
@@ -337,27 +384,30 @@
 			<div class="roadmap-grid">
 				<div class="timeline">
 					<div class="timeline-item">
-						<h3>PHASE_1: KERNEL_CORE</h3>
+						<h3>PHASE_1: KERNEL_CORE [DONE]</h3>
 						<ul>
-							<li>MMU & Virtual Memory Setup</li>
-							<li>IRQ Handling & Context Switching</li>
-							<li>Capability System Implementation</li>
+							<li>MMU & Virtual Memory</li>
+							<li>IRQ & Context Switching</li>
+							<li>Capability System (CNode, VSpace)</li>
+							<li>Migrating-Thread IPC</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_2: SYSTEM_SERVICES</h3>
+						<h3>PHASE_2: SYSTEM_SERVICES [DONE]</h3>
 						<ul>
-							<li>Process Manager Service</li>
-							<li>Memory Manager Service</li>
-							<li>IPC Optimization</li>
+							<li>ProcMgr / MemMgr / IpcMgr</li>
+							<li>Hypervisor (EL2, VMs)</li>
+							<li>GUI Stack (LVGL, FreeType)</li>
+							<li>23 User Applications</li>
 						</ul>
 					</div>
 					<div class="timeline-item">
-						<h3>PHASE_3: USERSPACE</h3>
+						<h3>PHASE_3: USERSAPCE [ACTIVE]</h3>
 						<ul>
-							<li>File System (VFS) & Drivers</li>
-							<li>Network Stack Implementation</li>
-							<li>A2UI Surface Flinger</li>
+							<li>File System (ext2/fat32/VFS)</li>
+							<li>Network Stack (lwIP/HTTPS)</li>
+							<li>AI Agent Deep Integration</li>
+							<li>Real HW (CM4, Pi4b)</li>
 						</ul>
 					</div>
 				</div>
@@ -387,16 +437,12 @@
 
 		<footer>
 			<div class="copyright">
-				<p>COPYRIGHT © 2026 OSKERN.AI. ALL RIGHTS RESERVED.</p>
+				<p>COPYRIGHT © 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
 				<p>STATUS: OPERATIONAL<span class="cursor"></span></p>
 			</div>
 		</footer>
 	</div>
 
-	<!-- Background Grid Overlay -->
-	<div
-		style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; background: radial-gradient(circle, transparent 90%, rgba(0,0,0,0.8) 100%);">
-	</div>
 </body>
 
 </html>

@@ -7,20 +7,16 @@
 	<meta name="description" content="OSKERN.AI - Re-implementing operating system for AI era. Kernel + Agent = New OS. Integrating AI and agents into the core OS architecture.">
 	<meta name="theme-color" content="#ff4500">
 	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/icon-32.svg">
-	<title>OSKERN.AI // KERNEL + AGENT = NEW_OS</title>
+	<title>TranquilOS // KERNEL + AGENT = NEW_OS</title>
 	<link rel="stylesheet" href="style.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
-		rel="stylesheet">
 </head>
 
 <body>
 	<header>
 		<nav>
 			<a href="index.html" class="logo">
-				<img src="branding/tranquilos-final-line/mark-reverse.svg" alt="OSKERN.AI" width="64" height="64">
-				<span>OSKERN.AI</span>
+				<img src="branding/tranquilos-final-line/mark-color.svg" alt="OSKERN.AI" width="64" height="64">
+				<span>TranquilOS</span>
 			</a>
 			<ul class="nav-links">
 				<li><a href="index.html" class="active">HOME</a></li>
@@ -56,13 +52,10 @@
 			</div>
 			<div class="hero-visual">
 				<div class="hud-container">
-					<div class="hud-circle outer-ring"></div>
-					<div class="hud-circle mid-ring"></div>
-					<div class="hud-circle inner-ring"></div>
 					<div class="hud-core"></div>
-					<div class="hud-label label-1">KERNEL::ACTIVE</div>
-					<div class="hud-label label-2">AGENT::INTEGRATED</div>
-					<div class="hud-label label-3">NEW_OS::BOOT</div>
+					<div class="hud-label label-1">KERNEL</div>
+					<div class="hud-label label-2">AGENT</div>
+					<div class="hud-label label-3">NEW_OS</div>
 				</div>
 			</div>
 		</section>
@@ -170,7 +163,12 @@
 				<div class="bento-item">
 					<div class="bento-icon">[TECH]</div>
 					<h3>Modern Stack</h3>
-					<p>Built in C and Assembly. Optimized for high-performance IPC, low-latency scheduling, and AI workloads.</p>
+					<p>Built in C and Assembly. GN/Ninja build system. SMP multi-core, Type-1 hypervisor, and AI workloads.</p>
+				</div>
+				<div class="bento-item">
+					<div class="bento-icon">[APP]</div>
+					<h3>23 User Apps</h3>
+					<p>Rich ecosystem: settings, file manager, NES emulator, Minecraft-like game, AI chat, terminal, and more.</p>
 				</div>
 
 				<!-- Terminal Visual -->
@@ -181,14 +179,15 @@
 					</div>
 					<div class="terminal-body">
 						<pre><code>$ system.init()
-[BOOT] Kernel: Online
-[BOOT] Agent: Integrated
-[BOOT] Capability System: Active
-[BOOT] IPC: Ready
-[BOOT] AI Scheduler: Learning
-[BOOT] New OS: Operational
+[BOOT] EL2 Hypervisor: Online
+[BOOT] Kernel v1.4.11: Active
+[BOOT] Agent (DeepSeek): Integrated
+[BOOT] Window Compositor: Ready
+[BOOT] Network Stack (lwIP): Up
+[BOOT] Filesystem (VFS/ext2): Mounted
+[BOOT] 23 Apps: Registered
 $ agent.query("status")
-> "System optimized for AI workloads"
+> "System operational. 1,583 commits strong."
 $ _</code></pre>
 					</div>
 				</div>
@@ -253,16 +252,12 @@ $ _</code></pre>
 
 		<footer>
 			<div class="copyright">
-				<p>COPYRIGHT © 2026 OSKERN.AI. ALL RIGHTS RESERVED.</p>
+				<p>COPYRIGHT © 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
 				<p>STATUS: RE-IMAGINING OS FOR AI ERA<span class="cursor"></span></p>
 			</div>
 		</footer>
 	</div>
 
-	<!-- Background Grid Overlay -->
-	<div
-		style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; background: radial-gradient(circle, transparent 90%, rgba(0,0,0,0.8) 100%);">
-	</div>
 </body>
 
 </html>

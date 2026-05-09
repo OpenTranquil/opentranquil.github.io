@@ -1,107 +1,79 @@
-/* Docs specific styles */
+/* Docs page - Classic 90s style */
 .docs-container {
 	display: flex;
-	width: 90%;
-	max-width: var(--max-width);
+	max-width: 1100px;
 	margin: 0 auto;
 	min-height: calc(100vh - 80px);
-	border-left: 1px solid var(--border-color);
-	border-right: 1px solid var(--border-color);
-	background: rgba(8, 8, 8, 0.95);
+	border: 1px solid #999;
+	background: #FFF;
 }
 
 .docs-sidebar {
-	width: 300px;
-	border-right: 1px solid var(--border-color);
+	width: 280px;
+	border-right: 1px solid #CCC;
 	flex-shrink: 0;
-	display: flex;
-	flex-direction: column;
-	height: calc(100vh - 80px);
-	position: sticky;
-	top: 80px;
 	overflow-y: auto;
-	background: var(--panel-bg);
+	background: #FAFAFA;
 }
 
 .sidebar-search {
-	padding: 1rem;
-	border-bottom: 1px solid var(--border-color);
+	padding: 10px;
+	border-bottom: 1px solid #CCC;
 }
 
 .sidebar-search input {
 	width: 100%;
-	padding: 0.5rem;
-	background: rgba(0, 0, 0, 0.3);
-	border: 1px solid var(--border-color);
-	color: var(--text-primary);
-	font-family: var(--font-mono);
-	font-size: 0.8rem;
-}
-
-.sidebar-search input:focus {
-	border-color: var(--accent-color);
-	outline: none;
+	padding: 4px;
+	border: 2px inset #CCC;
+	font-family: "Courier New", monospace;
+	font-size: 12px;
 }
 
 #doc-nav {
-	padding: 1rem 0;
-	display: flex;
-	flex-direction: column;
+	padding: 10px 0;
 }
 
 .nav-group {
-	margin-bottom: 1.5rem;
-	width: 100%;
-}
-
-.nav-subgroup {
-	width: 100%;
+	margin-bottom: 15px;
 }
 
 .nav-group-title {
-	padding: 0.5rem 1.5rem;
-	font-family: var(--font-mono);
-	font-size: 0.75rem;
-	color: var(--text-secondary);
-	text-transform: uppercase;
-	font-weight: 600;
+	padding: 5px 15px;
+	font-family: "Courier New", monospace;
+	font-size: 11px;
+	color: #888;
+	font-weight: bold;
 }
 
 .nav-item {
 	display: block;
-	padding: 0.5rem 1.5rem;
-	font-size: 0.9rem;
-	color: var(--text-primary);
+	padding: 4px 15px 4px 20px;
+	font-size: 13px;
+	color: #222;
 	border-left: 2px solid transparent;
 	cursor: pointer;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	transition: all 0.2s ease;
 	text-decoration: none;
-	width: 100%;
 }
 
 .nav-item:hover {
-	background: rgba(255, 255, 255, 0.05);
-	color: var(--accent-color);
+	background: #EEE;
+	border-left-color: #CCC;
 }
 
 .nav-item.active {
-	border-left-color: var(--accent-color);
-	background: rgba(var(--accent-rgb), 0.05);
-	color: var(--accent-color);
+	border-left-color: #CC0000;
+	background: #FFF0F0;
+	font-weight: bold;
 }
 
 .docs-content {
 	flex-grow: 1;
-	padding: 3rem 4rem;
+	padding: 30px 40px;
 	overflow-x: hidden;
 }
 
-/* Markdown Content Styling */
 #content-area {
-	max-width: 900px;
+	max-width: 800px;
 	margin: 0 auto;
 }
 
@@ -109,202 +81,155 @@
 #content-area h2,
 #content-area h3,
 #content-area h4 {
-	margin-top: 2rem;
-	margin-bottom: 1rem;
-	color: var(--text-primary);
+	font-family: "Courier New", monospace;
+	margin-top: 25px;
+	margin-bottom: 12px;
+	color: #111;
 }
 
 #content-area h1 {
-	font-size: 2.5rem;
-	border-bottom: 1px solid var(--border-color);
-	padding-bottom: 0.5rem;
+	font-size: 24px;
+	border-bottom: 2px solid #333;
+	padding-bottom: 6px;
 	margin-top: 0;
 }
 
+#content-area h2 { font-size: 20px; }
+#content-area h3 { font-size: 16px; }
+#content-area h4 { font-size: 14px; }
+
 #content-area p {
-	margin-bottom: 1.2rem;
+	margin-bottom: 12px;
 	line-height: 1.7;
-	color: #ccc;
+	color: #333;
 }
 
 #content-area ul,
 #content-area ol {
-	margin-bottom: 1.2rem;
-	padding-left: 1.5rem;
-	color: #ccc;
+	margin-bottom: 12px;
+	padding-left: 25px;
+	color: #333;
 }
 
 #content-area li {
-	margin-bottom: 0.5rem;
+	margin-bottom: 5px;
 }
 
 #content-area code {
-	font-family: var(--font-mono);
-	background: rgba(255, 255, 255, 0.1);
-	padding: 0.2rem 0.4rem;
-	border-radius: 3px;
-	font-size: 0.85em;
-	color: var(--accent-color);
+	font-family: "Courier New", monospace;
+	background: #EEE;
+	border: 1px solid #DDD;
+	padding: 1px 4px;
+	font-size: 13px;
 }
 
 #content-area pre {
-	background: #000;
-	border: 1px solid var(--border-color);
-	padding: 1rem;
+	background: #F5F5F5;
+	border: 1px solid #CCC;
+	padding: 12px;
 	overflow-x: auto;
-	margin-bottom: 1.5rem;
-	border-radius: var(--radius-md);
+	margin-bottom: 15px;
 }
 
 #content-area pre code {
 	background: transparent;
+	border: none;
 	padding: 0;
-	color: var(--text-primary);
-	font-size: 0.9em;
+	font-size: 12px;
 }
 
 #content-area a {
-	color: var(--accent-color);
-	text-decoration: none;
-	border-bottom: 1px solid var(--accent-color);
-	transition: all 0.2s ease;
-	cursor: pointer;
-}
-
-#content-area a:hover {
-	color: var(--text-primary);
-	border-bottom-color: var(--text-primary);
-	background: rgba(255, 51, 0, 0.1);
+	color: #0000CC;
+	text-decoration: underline;
 }
 
 #content-area a:visited {
-	opacity: 0.8;
+	color: #551A8B;
 }
 
-#content-area cite {
-	display: block;
-	background: rgba(255, 255, 255, 0.02);
-	font-style: normal;
-	color: var(--text-secondary);
-}
-
-#content-area cite strong,
-#content-area cite p strong {
-	color: var(--text-primary);
-	font-weight: 600;
-}
-
-#content-area cite a {
-	color: var(--text-secondary);
-	border-bottom: none;
-	font-family: var(--font-mono);
-	font-size: 0.9em;
-	padding: 0.1rem 0.3rem;
-	background: rgba(255, 255, 255, 0.05);
-	border-radius: 2px;
-	transition: all 0.2s ease;
-}
-
-#content-area cite a:hover {
-	color: var(--accent-color);
-	border-bottom: none;
-	background: rgba(255, 51, 0, 0.15);
-}
-
-#content-area cite ul {
-	margin-top: 0.5rem;
-	margin-bottom: 0;
-}
-
-#content-area cite li {
-	margin-bottom: 0.3rem;
+#content-area a:hover {
+	color: #CC0000;
 }
 
 #content-area blockquote {
-	border-left: 3px solid var(--accent-color);
-	padding-left: 1rem;
-	margin: 1.5rem 0;
+	border-left: 3px solid #CCC;
+	padding: 8px 12px;
+	margin: 15px 0;
 	font-style: italic;
-	color: var(--text-secondary);
-	background: rgba(255, 255, 255, 0.02);
-	padding: 1rem;
+	color: #666;
+	background: #FAFAFA;
 }
 
 #content-area img {
 	max-width: 100%;
-	border: 1px solid var(--border-color);
-	margin: 1rem 0;
+	border: 1px solid #CCC;
+	margin: 10px 0;
 }
 
 #content-area table {
 	width: 100%;
 	border-collapse: collapse;
-	margin: 1.5rem 0;
-	font-size: 0.9rem;
+	margin: 15px 0;
+	font-size: 13px;
 }
 
 #content-area th,
 #content-area td {
-	padding: 0.75rem;
-	border: 1px solid var(--border-color);
+	padding: 6px 10px;
+	border: 1px solid #CCC;
 	text-align: left;
 }
 
 #content-area th {
-	background: var(--panel-bg);
-	font-weight: 600;
-	color: var(--accent-color);
+	background: #EEE;
+	font-weight: bold;
 }
 
-/* Ensure all nav elements are properly aligned */
-.nav-links a,
-.nav-links button {
-	vertical-align: middle;
+#content-area cite {
+	display: block;
+	background: #FAFAFA;
+	border: 1px solid #DDD;
+	padding: 10px;
+	margin: 10px 0;
+	font-style: normal;
+	color: #555;
 }
 
-/* Button overrides for lang switch */
-#lang-switch {
-	cursor: pointer;
-	transition: all 0.2s ease;
-	font-family: var(--font-mono);
-	text-transform: uppercase;
-	letter-spacing: -0.5px;
-	vertical-align: middle;
-	/* Base color for non-current language - keep accent color from cta-button */
-}
-
-/* Current language (with .accent class) should be white */
-#lang-switch .accent {
-	color: var(--text-primary) !important;
-}
-
-#lang-switch:hover {
-	background: var(--accent-color);
-	color: #000 !important;
-}
-
-#lang-switch:hover .accent {
-	color: #000 !important;
-}
-
-.btn-sm {
-	padding: 0.3rem 0.8rem;
-	font-size: 0.75rem;
+#content-area cite a {
+	font-family: "Courier New", monospace;
+	font-size: 12px;
 }
 
 .loading {
-	color: var(--text-secondary);
-	font-family: var(--font-mono);
+	color: #999;
+	font-family: "Courier New", monospace;
 	text-align: center;
-	margin-top: 2rem;
+	margin-top: 20px;
 }
 
 .mermaid {
-	margin: 2rem 0;
+	margin: 20px 0;
 	text-align: center;
-	background: rgba(255, 255, 255, 0.02);
-	/* Slight bg for diagrams */
-	padding: 1rem;
+	background: #FAFAFA;
+	padding: 10px;
+	border: 1px solid #DDD;
+}
+
+/* Language switch button */
+#lang-switch {
+	cursor: pointer;
+	font-family: "Courier New", monospace;
+	font-size: 12px;
+}
+
+#lang-switch:hover {
+	background: #CC0000;
+	color: #FFF !important;
+}
+
+.btn-sm {
+	padding: 2px 8px;
+	font-size: 11px;
 }
 
 /* Responsive */
@@ -316,13 +241,12 @@
 	.docs-sidebar {
 		width: 100%;
 		height: auto;
-		position: relative;
-		top: 0;
-		border-bottom: 1px solid var(--border-color);
-		max-height: 300px;
+		max-height: 250px;
+		border-right: none;
+		border-bottom: 1px solid #CCC;
 	}
 
 	.docs-content {
-		padding: 2rem 1rem;
+		padding: 20px 15px;
 	}
 }
