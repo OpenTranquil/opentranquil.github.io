@@ -162,6 +162,8 @@ p code,li code,td code,.prose code{font-size:.88em;color:var(--color-accent);bac
 
 /* ---------- split (text + panel) ---------- */
 .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-10);align-items:start}
+.split-h2{margin:0 0 var(--space-3);font-size:var(--text-3xl);line-height:var(--leading-snug);font-weight:var(--weight-heavy)}
+.split .lede{margin-bottom:var(--space-6)}
 
 /* ---------- chips wall ---------- */
 .chips{display:flex;flex-wrap:wrap;gap:var(--space-3)}
