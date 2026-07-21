@@ -20,26 +20,26 @@ code,kbd,pre{font-family:var(--font-mono)}
 ::-webkit-scrollbar-thumb:hover{background:var(--color-text-3)}
 
 /* ---------- header ---------- */
-.hd{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--ln);background:color-mix(in oklch,var(--bg) 82%,transparent);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
-.hd-in{max-width:var(--wrap);height:60px;margin:auto;padding:0 28px;display:flex;align-items:center;gap:28px}
-.brand{display:flex;align-items:center;gap:10px;font:600 14px/1 var(--mono);letter-spacing:.3px;flex-shrink:0}
-.brand:hover{color:var(--tx)}
+.hd{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--color-border-1);background:var(--color-bg-glass);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6)}
+.hd-in{max-width:var(--wrap-width);height:var(--header-height);margin:auto;padding:0 var(--space-6);display:flex;align-items:center;gap:var(--space-6)}
+.brand{display:flex;align-items:center;gap:var(--space-3);font:var(--weight-semi) var(--text-sm)/1 var(--font-mono);letter-spacing:var(--tracking-wide);flex-shrink:0}
+.brand:hover{color:var(--color-text-1)}
 .brand img{width:22px;height:22px}
-.hd-nav{display:flex;gap:2px;margin-right:auto}
-.hd-nav a{position:relative;padding:7px 12px;color:var(--mut);font-size:13.5px;border-radius:var(--r);white-space:nowrap;transition:color .15s}
-.hd-nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:1px;background:var(--ac);transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
-.hd-nav a:hover{color:var(--tx)}
+.hd-nav{display:flex;gap:var(--space-1);margin-right:auto}
+.hd-nav a{position:relative;padding:7px 12px;color:var(--color-text-2);font-size:var(--text-sm);border-radius:var(--radius-md);white-space:nowrap;transition:color var(--duration-fast)}
+.hd-nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:1px;background:var(--color-accent);transform:scaleX(0);transform-origin:left;transition:transform var(--duration-normal) var(--ease-spring)}
+.hd-nav a:hover{color:var(--color-text-1)}
 .hd-nav a:hover::after{transform:scaleX(1)}
-.hd-nav a.on{color:var(--tx)}
+.hd-nav a.on{color:var(--color-text-1)}
 .hd-nav a.on::after{transform:scaleX(1)}
-.hd-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.hd-btn{height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 11px;border:1px solid var(--ln);border-radius:var(--r);background:transparent;color:var(--mut);font:500 12.5px/1 var(--sans);cursor:pointer;white-space:nowrap;transition:.15s}
-.hd-btn:hover{border-color:var(--ln2);color:var(--tx)}
-.hd-btn .accent{color:var(--ac)}
-.hd-btn.gh{color:var(--tx)}
+.hd-r{display:flex;align-items:center;gap:var(--space-2);flex-shrink:0}
+.hd-btn{height:32px;display:inline-flex;align-items:center;gap:var(--space-2);padding:0 11px;border:1px solid var(--color-border-1);border-radius:var(--radius-md);background:transparent;color:var(--color-text-2);font:var(--weight-medium) 12.5px/1 var(--font-sans);cursor:pointer;white-space:nowrap;transition:all var(--duration-fast)}
+.hd-btn:hover{border-color:var(--color-border-2);color:var(--color-text-1)}
+.hd-btn .accent{color:var(--color-accent)}
+.hd-btn.gh{color:var(--color-text-1)}
 #nav-toggle{position:absolute;opacity:0;pointer-events:none}
-.nav-burger{display:none;width:34px;height:32px;border:1px solid var(--ln);border-radius:var(--r);background:transparent;cursor:pointer;position:relative;flex-shrink:0}
-.nav-burger span{position:absolute;left:8px;right:8px;height:1.5px;background:var(--tx);transition:.2s}
+.nav-burger{display:none;width:34px;height:32px;border:1px solid var(--color-border-1);border-radius:var(--radius-md);background:transparent;cursor:pointer;position:relative;flex-shrink:0}
+.nav-burger span{position:absolute;left:8px;right:8px;height:1.5px;background:var(--color-text-1);transition:all var(--duration-fast)}
 .nav-burger span:nth-child(1){top:10px}.nav-burger span:nth-child(2){top:15px}.nav-burger span:nth-child(3){top:20px}
 
 /* ---------- generic layout ---------- */
