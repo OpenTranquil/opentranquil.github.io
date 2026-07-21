@@ -55,11 +55,13 @@ code,kbd,pre{font-family:var(--font-mono)}
 .grad{background:linear-gradient(115deg,var(--color-accent-dim) 10%,var(--color-accent) 85%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 
 /* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;border:1px solid var(--ln2);border-radius:var(--r);background:transparent;color:var(--tx);font:550 13.5px/1 var(--sans);cursor:pointer;transition:border-color .15s,color .15s,box-shadow .15s,transform .15s}
-.btn:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
-.btn.primary{border-color:transparent;color:#fff;background:linear-gradient(180deg,#6E9BFF 0%,#4878F2 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 10px 28px -12px rgba(91,140,255,.55)}
-.btn.primary:hover{color:#fff;filter:brightness(1.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 14px 34px -12px rgba(91,140,255,.7)}
-.btn .arr{font-family:var(--mono);transition:transform .15s}
+.btn{display:inline-flex;align-items:center;gap:var(--space-2);height:40px;padding:0 var(--space-4);border:1px solid var(--color-border-2);border-radius:var(--radius-md);background:transparent;color:var(--color-text-1);font:var(--weight-semi) var(--text-sm)/1 var(--font-sans);cursor:pointer;transition:border-color var(--duration-fast),color var(--duration-fast),box-shadow var(--duration-fast),transform var(--duration-fast)}
+.btn:hover{border-color:var(--color-accent);color:var(--color-accent);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.primary{border-color:transparent;color:#fff;background:linear-gradient(180deg,var(--color-accent-dim) 0%,var(--color-accent) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 10px 28px -12px var(--color-glow)}
+.btn.primary:hover{color:#fff;filter:brightness(1.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 14px 34px -12px var(--color-glow)}
+.btn.primary:active{filter:brightness(0.96);transform:translateY(0)}
+.btn .arr{font-family:var(--font-mono);transition:transform var(--duration-fast) var(--ease-out)}
 .btn:hover .arr{transform:translateX(3px)}
 
 /* ---------- home hero ---------- */
