@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS 架构 — EL2 Type-1 hypervisor、EL1 object-capability 微内核、特权 SystemDaemon、迁移线程 IPC、调度/执行上下文分离、initcall 启动链与服务 ABI。">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
+<title>架构 — TranquilOS</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
+  <a href="index.html" class="brand" aria-label="TranquilOS 首页">
+    <img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="主导航">
+    <a href="architecture.html" class="on">架构</a>
+    <a href="features.html">特性</a>
+    <a href="build.html">构建</a>
+    <a href="roadmap.html">路线图</a>
+    <a href="download.html">下载</a>
+    <a href="docs/index.html">文档</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="en/architecture.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Architecture</p>
+    <h1>以权限级别、对象授权与服务边界组织的系统。</h1>
+    <p class="lede">TranquilOS 把 ARMv8-A 的异常级别变成架构语言：EL2 运行 Type-1 hypervisor，EL1 是只做对象分发与调度的 capability 微内核，EL0 承载从 SystemDaemon 到图形应用的全部系统功能。层与层之间只通过 capability 调用、迁移线程 IPC 与共享内存交互。</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Blueprint</p>
+      <h2>三层运行时，各自只做自己该做的事。</h2>
+      <p>启动沿 EL2 → EL1 → EL0 逐层交接；运行时请求沿相反方向经 capability 调用下沉。EL0 内部组件之间只经 IPC + SHM 通信。</p>
+    </div>
+    <div class="svg-scroll">
+    <svg class="arch-svg" viewBox="0 0 1120 500" role="img" aria-label="TranquilOS 分层架构图：EL2 hypervisor、EL1 microkernel、EL0 SystemDaemon / Framework Services / Applications">
+      <defs>
+        <marker id="arrw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--dim)"></path>
+        </marker>
+      </defs>
+
+      <!-- privilege rail -->
+      <rect class="layer" x="28" y="24" width="56" height="88" rx="6"></rect>
+      <text class="el" x="56" y="72" text-anchor="middle">EL2</text>
+      <rect class="layer" x="28" y="128" width="56" height="88" rx="6"></rect>
+      <text class="el" x="56" y="176" text-anchor="middle">EL1</text>
+      <rect class="layer" x="28" y="232" width="56" height="240" rx="6"></rect>
+      <text class="el" x="56" y="356" text-anchor="middle">EL0</text>
+
+      <!-- EL2 row -->
+      <rect class="layer" x="100" y="24" width="992" height="88" rx="8"></rect>
+      <text class="name" x="124" y="62">Hypervisor</text>
+      <text class="desc" x="124" y="82">Type-1 · 可选启动级</text>
+      <g>
+        <rect class="comp" x="628" y="53" width="68" height="30" rx="4"></rect><text class="comp-t" x="662" y="72" text-anchor="middle">stage-2</text>
+        <rect class="comp" x="706" y="53" width="100" height="30" rx="4"></rect><text class="comp-t" x="756" y="72" text-anchor="middle">VM/VCPU</text>
+        <rect class="comp" x="816" y="53" width="52" height="30" rx="4"></rect><text class="comp-t" x="842" y="72" text-anchor="middle">vGIC</text>
+        <rect class="comp" x="878" y="53" width="62" height="30" rx="4"></rect><text class="comp-t" x="909" y="72" text-anchor="middle">vTimer</text>
+        <rect class="comp" x="950" y="53" width="52" height="30" rx="4"></rect><text class="comp-t" x="976" y="72" text-anchor="middle">vPMU</text>
+        <rect class="comp" x="1012" y="53" width="68" height="30" rx="4"></rect><text class="comp-t" x="1046" y="72" text-anchor="middle">hypcall</text>
+      </g>
+
+      <!-- EL1 row -->
+      <rect class="layer" x="100" y="128" width="992" height="88" rx="8"></rect>
+      <text class="name" x="124" y="166">Microkernel</text>
+      <text class="desc" x="124" y="186">capability 对象分发</text>
+      <g>
+        <rect class="comp" x="512" y="157" width="88" height="30" rx="4"></rect><text class="comp-t" x="556" y="176" text-anchor="middle">capability</text>
+        <rect class="comp" x="610" y="157" width="104" height="30" rx="4"></rect><text class="comp-t" x="662" y="176" text-anchor="middle">migrating IPC</text>
+        <rect class="comp" x="724" y="157" width="104" height="30" rx="4"></rect><text class="comp-t" x="776" y="176" text-anchor="middle">SMP scheduler</text>
+        <rect class="comp" x="838" y="157" width="52" height="30" rx="4"></rect><text class="comp-t" x="864" y="176" text-anchor="middle">futex</text>
+        <rect class="comp" x="900" y="157" width="92" height="30" rx="4"></rect><text class="comp-t" x="946" y="176" text-anchor="middle">IRQ · timer</text>
+        <rect class="comp" x="1002" y="157" width="66" height="30" rx="4"></rect><text class="comp-t" x="1035" y="176" text-anchor="middle">drivers</text>
+      </g>
+
+      <!-- boot flow arrows -->
+      <line class="flow" x1="140" y1="112" x2="140" y2="126"></line>
+      <line class="flow" x1="140" y1="216" x2="140" y2="230"></line>
+      <text class="desc" x="150" y="123">boot</text>
+      <text class="desc" x="150" y="227">boot</text>
+
+      <!-- EL0 boxes -->
+      <rect class="layer" x="100" y="232" width="300" height="240" rx="8"></rect>
+      <text class="name" x="124" y="262">SystemDaemon</text>
+      <text class="desc" x="124" y="280">特权 EL0 进程 · 17 个 IPC 方法</text>
+      <text class="desc" x="124" y="312">procmgr — 进程 / 线程生命周期</text>
+      <text class="desc" x="124" y="336">memmgr — 物理页分配 · SHM</text>
+      <text class="desc" x="124" y="360">ipcmgr — endpoint 命名空间</text>
+      <text class="desc" x="124" y="384">virtmgr — VM 生命周期</text>
+      <text class="desc" x="124" y="424">直接发起 capcall，不经 libsyscall</text>
+
+      <rect class="layer" x="424" y="232" width="380" height="240" rx="8"></rect>
+      <text class="name" x="448" y="262">Framework Services</text>
+      <text class="desc" x="448" y="280">独立 EL0 进程 · endpoint pool 注册</text>
+      <g>
+        <rect class="comp" x="448" y="292" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="306" text-anchor="middle">windowmgr</text>
+        <rect class="comp" x="560" y="292" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="306" text-anchor="middle">fsmgr</text>
+        <rect class="comp" x="672" y="292" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="306" text-anchor="middle">netmgr</text>
+        <rect class="comp" x="448" y="320" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="334" text-anchor="middle">devmgr</text>
+        <rect class="comp" x="560" y="320" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="334" text-anchor="middle">appmgr</text>
+        <rect class="comp" x="672" y="320" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="334" text-anchor="middle">audiomgr</text>
+        <rect class="comp" x="448" y="348" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="362" text-anchor="middle">fontmgr</text>
+        <rect class="comp" x="560" y="348" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="362" text-anchor="middle">statemgr</text>
+        <rect class="comp" x="672" y="348" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="362" text-anchor="middle">timemgr</text>
+        <rect class="comp" x="448" y="376" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="390" text-anchor="middle">agentmgr</text>
+        <rect class="comp" x="560" y="376" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="390" text-anchor="middle">mmimgr</text>
+        <rect class="comp" x="672" y="376" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="390" text-anchor="middle">imemgr</text>
+      </g>
+      <text class="desc" x="448" y="428">服务接口由 .idl 描述，wrapper / dispatch 代码生成</text>
+
+      <rect class="layer" x="828" y="232" width="264" height="240" rx="8"></rect>
+      <text class="name" x="852" y="262">Applications</text>
+      <text class="desc" x="852" y="280">普通用户态程序</text>
+      <g>
+        <rect class="comp" x="852" y="292" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="305" text-anchor="middle">systemui</text>
+        <rect class="comp" x="968" y="292" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="305" text-anchor="middle">launcher</text>
+        <rect class="comp" x="852" y="317" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="330" text-anchor="middle">settings</text>
+        <rect class="comp" x="968" y="317" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="330" text-anchor="middle">files</text>
+        <rect class="comp" x="852" y="342" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="355" text-anchor="middle">monitor</text>
+        <rect class="comp" x="968" y="342" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="355" text-anchor="middle">memo</text>
+        <rect class="comp" x="852" y="367" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="380" text-anchor="middle">music</text>
+        <rect class="comp" x="968" y="367" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="380" text-anchor="middle">calendar</text>
+        <rect class="comp" x="852" y="392" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="405" text-anchor="middle">clock</text>
+        <rect class="comp" x="968" y="392" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="405" text-anchor="middle">whiteboard</text>
+        <rect class="comp" x="852" y="417" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="430" text-anchor="middle">calculator</text>
+        <rect class="comp" x="968" y="417" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="430" text-anchor="middle">nes</text>
+        <rect class="comp" x="852" y="442" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="455" text-anchor="middle">ai</text>
+        <rect class="comp" x="968" y="442" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="455" text-anchor="middle">about</text>
+      </g>
+
+      <!-- IPC arrows between EL0 boxes -->
+      <line class="flow" x1="402" y1="356" x2="422" y2="356" marker-start="url(#arrw)"></line>
+      <line class="flow" x1="806" y1="356" x2="826" y2="356" marker-start="url(#arrw)"></line>
+      <text class="desc" x="412" y="344" text-anchor="middle">IPC</text>
+      <text class="desc" x="816" y="344" text-anchor="middle">IPC</text>
+    </svg>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Capability System</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">所有内核对象，只经 capability 访问。</h2>
+        <p class="lede">每个进程持有一个 CNode，保存它可访问的内核对象引用。CNode 由 directory array 实现——兼具数组索引的速度与动态扩展能力，扩展时不拷贝已有 slot。capability 引用（cref）是 64 位值：高 32 位为 cnode ID，低 32 位为 slot 索引，根 CNode ID 为 1。每次方法分发前，内核检查对象类型与 32 位 rights mask。</p>
+        <div class="badges" style="margin-top:24px">
+          <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
+          <span class="badge">SContext</span><span class="badge">XContext</span><span class="badge">Timer</span>
+          <span class="badge">Futex</span><span class="badge">IRQ</span><span class="badge">Console</span>
+        </div>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>系统调用路径</th><th>标识位</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td>Capability call</td><td><code>CAP_CALL_MASK</code></td><td>路由到 capability 对象（VSpace、CNode、Endpoint、Timer…）</td></tr>
+            <tr><td>Fast call</td><td><code>FAST_CALL_MASK</code></td><td>内核内联高性能调用（当前为 stub）</td></tr>
+            <tr><td>Compact syscall</td><td>—</td><td>Linux 兼容表；未知调用经 upcall 转交用户态 libsyscall 分发</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:16px"><b>upcall</b> 是反向路径：内核把无法处理的系统调用、页错误等事件转交进程注册的用户态处理函数，让策略留在用户态。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">IPC Model</p>
+      <h2>迁移线程 IPC：让跨进程调用像函数调用。</h2>
+      <p>传统 IPC 要等 server 线程被调度上 CPU 才能响应，延迟不确定。TranquilOS 的同步 IPC 把调用方的执行上下文直接迁入被调进程的地址空间——IPC 不依赖调度器行为，因此更快、更可预期。</p>
+    </div>
+    <div class="grid c2" style="margin-bottom:16px">
+      <article class="card">
+        <span class="tag">MIGRATING THREAD</span>
+        <h3>只切执行上下文，不动调度状态</h3>
+        <p>得益于 scontext / xcontext 分离：IPC 时内核构造目标进程的 <code>execute_context_s</code>，按 AAPCS 把参数放入 x0–x7，接口函数地址放入 pc，跳板函数地址放入 lr——接口返回时跳板发起 REPLY 调用切回调用方。调度元数据全程由调度器独立控制，IPC 再频繁也不会饿死其他线程。</p>
+      </article>
+      <article class="card">
+        <span class="tag">ENDPOINT &amp; POOL</span>
+        <h3>单线程端点与弹性端点池</h3>
+        <p>Endpoint 为单线程模型，一个 handler 线程处理一个端点；Endpoint Pool 在预分配的多个端点间负载均衡，支撑多线程服务（弹性 IPC）。客户端接口在两种模式下保持一致。内核内置 name service（cref <code>0x1</code>），服务经 <code>sys_register_service()</code> 注册，客户端以 <code>sys_get_service()</code> 查找。</p>
+      </article>
+    </div>
+    <div class="pipe">
+      <div><span class="n">01</span><b>alloc_shm</b><p>客户端向 SystemDaemon 申请共享内存。</p></div>
+      <div><span class="n">02</span><b>map &amp; copy</b><p>映射 SHM 并写入请求数据。</p></div>
+      <div><span class="n">03</span><b>ipc call</b><p>发起 IPC，SHM 句柄作为参数传递。</p></div>
+      <div><span class="n">04</span><b>get_shm</b><p>服务端映射同一块 SHM。</p></div>
+      <div><span class="n">05</span><b>process</b><p>直接在共享数据上处理，零拷贝。</p></div>
+      <div><span class="n">06</span><b>reply &amp; free</b><p>应答后客户端释放 SHM。</p></div>
+    </div>
+    <p class="note" style="margin-top:16px">SHM 是进程间唯一的数据通道——TranquilOS 没有消息拷贝式 IPC，所有批量数据都走共享内存，IPC 参数槽只传句柄与标量。</p>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Scheduler</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">调度与执行，是两份数据结构。</h2>
+        <p class="lede">传统 TCB 被拆成 <code>schedule_context_s</code>（调度实体）与 <code>execute_context_s</code>（执行实体）。per-CPU 调度器只操作调度元数据，真正切换上下文时才触碰寄存器状态。SMP 下每个 CPU 有独立本地调度器，配跨核负载均衡；CFS 调度类以可加载内核模块形式挂接。</p>
+        <div class="badges" style="margin-top:24px">
+          <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
+          <span class="badge">preemptive</span><span class="badge">CFS module</span>
+        </div>
+      </div>
+      <div>
+<pre><code>schedule_context_s   // 调度元数据
+  · priority / timeslice
+  · runqueue 节点 / CPU 亲和性
+  · 由调度器与调度策略操作
+
+execute_context_s    // 执行状态
+  · x0–x30 · sp · pc · pstate
+  · 仅在实际上下文切换时构造/恢复
+  · IPC 迁移时独立构造，不经调度器</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">SystemDaemon &amp; Memory</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">内核只留 boot allocator，内存策略在 EL0。</h2>
+        <p class="lede">微内核内部只保留启动期分配器，为自身与 SystemDaemon 启动提供内存。SystemDaemon 是链地址 <code>0x43080000</code> 的特权 EL0 进程，直接发起 capcall，以单例组件形式提供四个管理器：procmgr（进程/线程、ELF 装载）、memmgr（物理页 buddy 分配、SHM）、ipcmgr（endpoint/pool、name service、capability 克隆）、virtmgr（虚拟机管理）。</p>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>组件</th><th>职责</th></tr></thead>
+          <tbody>
+            <tr><td>procmgr</td><td>spawn ELF、进程/线程销毁、PID 查找</td></tr>
+            <tr><td>memmgr</td><td>buddy 物理页分配、虚拟地址空间、SHM 管理</td></tr>
+            <tr><td>ipcmgr</td><td>endpoint / pool 创建、命名服务、capability 克隆</td></tr>
+            <tr><td>virtmgr</td><td>VM 创建与生命周期管理</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Boot</p>
+      <h2>启动：initcall 分级初始化，镜像布局固定。</h2>
+      <p>链接器把初始化函数按 LV0–LV7 放入专用段，内核逐级执行；bootloader 根据 CurrentEL 决定先起 hypervisor 还是直入内核。</p>
+    </div>
+    <div class="split">
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>LV</th><th>宏</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td><code>early_device_init</code></td><td>最早期的设备初始化</td></tr>
+            <tr><td>1</td><td><code>early_device_percpu_init</code></td><td>per-CPU 早期设备</td></tr>
+            <tr><td>2</td><td><code>key_device_init</code></td><td>关键设备（GIC、timer…）</td></tr>
+            <tr><td>3</td><td><code>key_device_percpu_init</code></td><td>per-CPU 关键设备</td></tr>
+            <tr><td>4</td><td><code>normal_device_init</code></td><td>常规设备</td></tr>
+            <tr><td>5</td><td><code>normal_device_percpu_init</code></td><td>per-CPU 常规设备</td></tr>
+            <tr><td>6</td><td><code>module_init</code></td><td>内核模块（如 CFS）</td></tr>
+            <tr><td>7</td><td><code>module_percpu_init</code></td><td>per-CPU 模块初始化</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+<pre><code>boot.img (64MB)
+  offset 0      Bootloader    8MB
+  offset 2048   DTB           8MB
+  offset 4096   Hypervisor   16MB
+  offset 8192   Kernel       16MB
+  offset 12288  SystemDaemon  8MB
+  offset 14336  Ramdisk cpio  8MB
+
+system.img (128MB, ext2)
+  bin/  framework services
+  apps/ user applications
+  etc/  fonts · icons · init config</code></pre>
+      </div>
+    </div>
+    <div class="pipe" style="margin-top:16px">
+      <div><span class="n">01</span><b>init</b><p>首个用户态进程。解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <span class="mono">/root/etc/init.rc</span>。</p></div>
+      <div><span class="n">02</span><b>zygote</b><p>读取 <span class="mono">init.json</span>，把服务 ELF 从 ext2 载入 SHM，经 <span class="mono">start_process_from_shm()</span> 启动框架服务。</p></div>
+      <div><span class="n">03</span><b>appmgr</b><p>按 <span class="mono">applist.json</span> 管理应用注册表，按需启动应用进程。</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Service ABI</p>
+      <h2>每个服务，同一副骨架；接口用 IDL 描述，代码生成。</h2>
+      <p>所有 framework 服务遵循相同结构：<code>main.c</code> 初始化并注册，<code>service/service.c</code> 按方法号分发，<code>client/</code> 是薄 IPC 封装。IDL 生成器产出 types/client/service 五个文件，并做 ABI 版本与尺寸校验。</p>
+    </div>
+    <div class="split">
+      <div>
+<pre><code>// service.c — 每个服务相同的分发模式
+static handler_fn handlers[] = {
+  [IPC_SERVICE_FUNCTION_CREATE] = handler_create,
+  [IPC_SERVICE_FUNCTION_DESTROY] = handler_destroy,
+  // ...
+};
+
+IPC_ENDPOINT void service_entry(
+    uint64_t cref, uint64_t method,
+    uint64_t a1, uint64_t a2, uint64_t a3) {
+  if (method &lt; HANDLERS_COUNT &amp;&amp; handlers[method])
+    OSIpcEndPointPoolReply(handlers[method](a1, a2, a3));
+  else
+    OSIpcEndPointPoolReply(0);
+}</code></pre>
+      </div>
+      <div>
+<pre><code>// statemgr_ipc.idl
+service statemgr_ipc {
+    id = 0x9;
+
+    struct query  { version = 1; char key[64]; };
+    struct result { version = 1; uint32_t found; };
+
+    uint64_t get(persistent in query *request,
+                 persistent out result *response) id = 0x1;
+};</code></pre>
+        <p class="note" style="margin-top:16px"><b>persistent</b> 参数让固定控制结构体的 SHM 缓冲区跨调用复用：客户端懒申请、服务端复用映射，每次调用仍执行 IPC。传输结构体必须带 <b>version</b>，生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验；结构体不允许指针字段，变长数据显式传 SHM 句柄与长度。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

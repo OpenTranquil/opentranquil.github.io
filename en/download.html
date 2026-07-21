@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Download prebuilt TranquilOS system images — QEMU virt virtual platform image and Raspberry Pi CM4 board image, with verification, boot and flashing instructions.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
+<title>Downloads — TranquilOS</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
+  <a href="index.html" class="brand" aria-label="TranquilOS home">
+    <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="Primary navigation">
+    <a href="architecture.html">Architecture</a>
+    <a href="features.html">Features</a>
+    <a href="build.html">Build</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="download.html" class="on">Downloads</a>
+    <a href="docs/index.html">Docs</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="../download.html" hreflang="zh-CN" lang="zh-CN"><span class="accent">中文</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="Toggle theme">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Downloads</p>
+    <h1>Prebuilt images, ready to boot.</h1>
+    <p class="lede">The images let you quickly validate the boot chain, graphical session, userspace services and apps. To modify the kernel or services, use the <a href="build.html">source build</a> path instead.</p>
+  </section>
+
+  <section class="sec">
+    <div class="grid c2">
+      <article class="dl-card">
+        <span class="plat">QEMU Virt</span>
+        <h3>tranquil-virt.img</h3>
+        <div class="meta"><span>target: qemu virt · aarch64</span><span>size: 512 MB</span></div>
+        <p>Virtual-machine image for validating the boot flow, SMP, ramfb graphics, VirtIO devices and userspace services on a desktop host. Produced by <code>./run_qemu_virt.sh</code>.</p>
+        <a class="btn primary" href="../downloads/tranquil-virt.img" download>Download image <span class="arr">↓</span></a>
+      </article>
+      <article class="dl-card">
+        <span class="plat">Raspberry Pi CM4</span>
+        <h3>tranquil-cm4.img</h3>
+        <div class="meta"><span>target: cm4 · hardware</span><span>size: 512 MB</span></div>
+        <p>Board image with the partitions and system content needed to boot a CM4 — for real-hardware boot, HDMI output and peripheral-path validation. Produced by <code>./run_board_cm4.sh</code>.</p>
+        <a class="btn primary" href="../downloads/tranquil-cm4.img" download>Download image <span class="arr">↓</span></a>
+      </article>
+    </div>
+    <p class="note" style="margin-top:16px"><b>Integrity:</b> images are large files and downloads or copies can truncate. Verify before flashing:</p>
+    <pre style="margin-top:12px"><code>shasum -a 256 tranquil-virt.img tranquil-cm4.img</code></pre>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Boot in QEMU</p>
+      <h2>Booting the virt image.</h2>
+    </div>
+    <div class="pipe">
+      <div><span class="n">01</span><b>Recommended: repo script</b><p>Full device parameters, display backend and debug options are maintained in <span class="mono">run_qemu_virt.sh</span> — prefer it.</p></div>
+      <div><span class="n">02</span><b>Place the image</b><p>Drop the downloaded <span class="mono">tranquil-virt.img</span> into the kernel repo's <span class="mono">out/</span> directory; the script will reuse it.</p></div>
+      <div><span class="n">03</span><b>Hand-written args</b><p>If writing QEMU arguments yourself, match CPU, GIC, ramfb, VirtIO block/net/input/sound and serial settings to the QemuVirt platform config.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Flash CM4</p>
+      <h2>Flashing a Compute Module 4.</h2>
+      <p>Writing to the wrong disk will overwrite other media — confirm the device at every step.</p>
+    </div>
+    <div class="grid c3">
+      <div class="card">
+        <span class="tag">MACOS</span>
+        <h3>diskutil + dd</h3>
+        <p>After inserting the SD card or exposing CM4 eMMC in mass-storage mode:</p>
+        <pre style="margin-top:12px"><code>diskutil list
+diskutil unmountDisk /dev/diskN
+sudo dd if=tranquil-cm4.img \
+  of=/dev/rdiskN bs=4m \
+  status=progress conv=sync
+sync && diskutil eject /dev/diskN</code></pre>
+      </div>
+      <div class="card">
+        <span class="tag">LINUX</span>
+        <h3>lsblk + dd</h3>
+        <p>Write to the whole-disk device, never a partition node (e.g. <code>sdX1</code>):</p>
+        <pre style="margin-top:12px"><code>lsblk
+sudo umount /dev/sdX*
+sudo dd if=tranquil-cm4.img \
+  of=/dev/sdX bs=4M \
+  status=progress conv=fsync
+sync</code></pre>
+      </div>
+      <div class="card">
+        <span class="tag">RPIBOOT</span>
+        <h3>Direct eMMC write</h3>
+        <p>Set the USB boot jumper on the CM4 IO board, connect the host to the USB slave port:</p>
+        <pre style="margin-top:12px"><code>rpiboot
+# once the eMMC appears as a
+# block device, follow the
+# macOS / Linux steps above,
+# then power off, remove the
+# jumper and boot</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Post-Boot Checks</p>
+        <h2 style="margin:0;font-size:28px;line-height:1.35;font-weight:650">What to verify after boot.</h2>
+      </div>
+      <div class="card">
+        <ul class="ck">
+          <li><b>Serial log</b>: bootloader, hypervisor, kernel and SystemDaemon come up in order; capability root, scheduler, IRQ/timer and service registration all complete</li>
+          <li><b>Display</b>: virt and CM4 graphics targets show the 800×480 system canvas</li>
+          <li><b>Services</b>: fsmgr, devmgr, windowmgr, appmgr register successfully; launcher, settings, files and other apps start</li>
+          <li class="no"><b>If it won't boot</b>: check image integrity first, then whether you wrote to a whole-disk device, the CM4 boot jumper and the serial log</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

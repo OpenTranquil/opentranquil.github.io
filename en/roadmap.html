@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS roadmap — shipped system capabilities, work in progress and directions under exploration.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
+<title>Roadmap — TranquilOS</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
+  <a href="index.html" class="brand" aria-label="TranquilOS home">
+    <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="Primary navigation">
+    <a href="architecture.html">Architecture</a>
+    <a href="features.html">Features</a>
+    <a href="build.html">Build</a>
+    <a href="roadmap.html" class="on">Roadmap</a>
+    <a href="download.html">Downloads</a>
+    <a href="docs/index.html">Docs</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="../roadmap.html" hreflang="zh-CN" lang="zh-CN"><span class="accent">中文</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="Toggle theme">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Roadmap</p>
+    <h1>No date promises — just directions.</h1>
+    <p class="lede">TranquilOS is a long-term systems project driven by one person. This page lists work in three lanes — Done / In Progress / Exploring — and stays in sync with the kernel repository's README features and TODO.</p>
+  </section>
+
+  <section class="sec">
+    <div class="lanes">
+      <div class="lane done">
+        <h3>Done</h3>
+        <p class="sub">Shipped · runs on QEMU / hardware</p>
+        <ul>
+          <li><b>AArch64 exception model + MMU</b> virtual memory (EL0–EL3)</li>
+          <li><b>SMP preemptive scheduler</b> per-CPU + load balancing, split scontext/xcontext</li>
+          <li><b>Capability access control</b> CNode / VSpace / Endpoint / Timer / Futex / IRQ</li>
+          <li><b>Migrating-thread synchronous IPC</b> + endpoint-pool elastic IPC</li>
+          <li><b>Upcall mechanism</b> kernel → userspace call forwarding</li>
+          <li><b>SystemDaemon</b> procmgr / memmgr / ipcmgr / virtmgr</li>
+          <li><b>EL2 Type-1 hypervisor</b> stage-2 · vGIC · vTimer · vPMU</li>
+          <li><b>Leveled initcalls</b> LV0–LV7</li>
+          <li><b>Loadable kernel modules</b> CFS scheduler plugin</li>
+          <li><b>12 framework services</b> window / file / network / device / app / font / audio…</li>
+          <li><b>Graphics stack + 14 apps</b> LVGL · FreeType · PortableGL · 800×480</li>
+          <li><b>GN/Ninja + IDL tooling</b> service interface code generation</li>
+          <li><b>Four boot platforms</b> QemuVirt · Pi3B · Pi4B · CM4</li>
+        </ul>
+      </div>
+      <div class="lane doing">
+        <h3>In Progress</h3>
+        <p class="sub">Tracked in the repo TODO</p>
+        <ul>
+          <li><b>Process-exit resource release</b> completing capability, memory and IPC resource reclamation when a process dies</li>
+          <li><b>Service startup dependencies</b> adding deps declarations to service configs so init builds the launch order from the dependency graph instead of a fixed sequence</li>
+        </ul>
+        <p class="sub" style="margin-top:18px">Ongoing polish</p>
+        <ul>
+          <li><b>Performance tracing</b> extending perf / perfmgr coverage across subsystems</li>
+          <li><b>Documentation</b> keeping design and interface docs in sync with the implementation</li>
+        </ul>
+      </div>
+      <div class="lane next">
+        <h3>Exploring</h3>
+        <p class="sub">Stubbed or scoped directions</p>
+        <ul>
+          <li><b>Trustee / TEE</b> trusted execution environment (<code>sys/trustee/</code> is currently a stub)</li>
+          <li><b>Fastcall</b> high-performance kernel-inline call path (currently a stub)</li>
+          <li><b>More scheduler classes</b> policy plugins beyond CFS on the module system</li>
+          <li><b>Deeper AI agent framework</b> tighter agentmgr integration with system services</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Follow Along</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">Progress lives in the repository.</h2>
+        <p class="lede" style="margin-bottom:24px">Every milestone corresponds to real commit history and a runnable image. To verify any "Done" item, clone the repo and boot it — one command.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="https://github.com/nerossoft/TranquilOS">GitHub repository <span class="arr">→</span></a>
+          <a class="btn" href="build.html">Build guide</a>
+        </div>
+      </div>
+      <div class="term">
+        <div class="term-h"><i></i><i></i><i></i><span>verify it yourself</span></div>
+        <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
+<span class="p">$</span> <span class="c">cd kernel && source env_setup.sh</span>
+<span class="p">$</span> <span class="c">./run_qemu_virt.sh</span>
+<span class="ok">✓ every "done" item, running in front of you</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

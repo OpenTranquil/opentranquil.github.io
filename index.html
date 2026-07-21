@@ -1,282 +1,240 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN" data-theme="dark">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="TranquilOS - Capability-based microkernel OS for ARMv8-A. Type-1 hypervisor, migrating-thread IPC, DeepSeek AI agent integration.">
-	<meta name="theme-color" content="#ff4500">
-	<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
-	<title>TranquilOS // Capability-Based Microkernel for ARMv8-A</title>
-	<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS 是面向 AArch64 的 object-capability 微内核操作系统：EL2 Type-1 hypervisor、EL1 微内核、EL0 SystemDaemon 与用户态系统服务，迁移线程 IPC，GN/Ninja 构建，可运行于 QEMU 与 Raspberry Pi。">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
+<title>TranquilOS — AArch64 Object-Capability 微内核操作系统</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
-
 <body>
-	<header>
-		<nav>
-			<a href="index.html" class="logo">
-				<img src="branding/tranquilos-final-line/mark-color.svg" alt="TranquilOS" width="64" height="64">
-				<span>TranquilOS</span>
-			</a>
-			<ul class="nav-links">
-				<li><a href="index.html" class="active">HOME</a></li>
-				<li><a href="insight.html">INSIGHT</a></li>
-				<li class="nav-dropdown">
-					<a href="products.html" class="dropbtn">PRODUCTS</a>
-					<div class="dropdown-content">
-						<a href="microkernel.html">MICROKERNEL</a>
-						<a href="agent.html">AGENT</a>
-					</div>
-				</li>
-				<li><a href="about.html">ABOUT</a></li>
-				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
-			</ul>
-		</nav>
-	</header>
 
-	<div class="main-container">
-	<!-- Hero Section -->
-		<section class="hero">
-			<div class="hero-content">
-				<div class="badge-pill">Kernel v1.4.11 // 1,583 commits // ARMv8-A</div>
-				<h1>KERNEL + AI AGENT =<br><span class="highlight">NEW_OS</span></h1>
-				<p class="hero-statement">
-					> Capability-based microkernel OS<br>
-					> Type-1 hypervisor (EL2) with SMP support<br>
-					> DeepSeek-powered agent manager
-				</p>
-				<div class="hero-buttons">
-					<button class="btn btn-primary"><span>INIT_SYSTEM()</span></button>
-					<a href="https://github.com/nerossoft/TranquilOS" class="btn"><span>READ_MANUAL</span></a>
-				</div>
-			</div>
-			<div class="hero-visual">
-				<div class="hud-container">
-					<div class="hud-core"></div>
-					<div class="hud-label label-1">KERNEL</div>
-					<div class="hud-label label-2">AGENT</div>
-					<div class="hud-label label-3">NEW_OS</div>
-				</div>
-			</div>
-		</section>
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
+  <a href="index.html" class="brand" aria-label="TranquilOS 首页">
+    <img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="主导航">
+    <a href="architecture.html">架构</a>
+    <a href="features.html">特性</a>
+    <a href="build.html">构建</a>
+    <a href="roadmap.html">路线图</a>
+    <a href="download.html">下载</a>
+    <a href="docs/index.html">文档</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="en/index.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
 
-	<!-- Tech Specs Strip -->
-		<section class="tech-specs">
-			<div class="stat-item">
-				<span class="stat-number">AArch64</span>
-				<span class="stat-label">TARGET_ARCH</span>
-			</div>
-			<div class="stat-item">
-				<span class="stat-number">Capability</span>
-				<span class="stat-label">SECURITY_MODEL</span>
-			</div>
-			<div class="stat-item">
-				<span class="stat-number">GN+Ninja</span>
-				<span class="stat-label">BUILD_SYSTEM</span>
-			</div>
-		</section>
+<main class="w">
 
-		<!-- Project Stats -->
-		<section class="telemetry-section">
-			<div class="section-header">
-				<p>// PROJECT_STATS</p>
-				<h2>REPO_OVERVIEW</h2>
-			</div>
-			<div class="telemetry-grid">
-				<div class="telemetry-card">
-					<span class="tele-label">COMMITS</span>
-					<span class="tele-value">1,583</span>
-					<div class="tele-bar">
-						<div style="width: 90%"></div>
-					</div>
-				</div>
-				<div class="telemetry-card">
-					<span class="tele-label">LINES_OF_CODE</span>
-					<span class="tele-value">607K</span>
-					<div class="tele-bar">
-						<div style="width: 80%"></div>
-					</div>
-				</div>
-				<div class="telemetry-card">
-					<span class="tele-label">DEVELOPMENT</span>
-					<span class="tele-value">~5yr</span>
-					<div class="tele-bar">
-						<div style="width: 85%"></div>
-					</div>
-				</div>
-				<div class="telemetry-card">
-					<span class="tele-label">SOURCE_FILES</span>
-					<span class="tele-value">7,083</span>
-					<div class="tele-bar">
-						<div style="width: 75%"></div>
-					</div>
-				</div>
-			</div>
-		</section>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">AArch64 · Object-Capability · Userspace Services</p>
+      <h1>一个从引导到图形桌面完整实现的<span class="grad">微内核操作系统</span>。</h1>
+      <p class="lead">TranquilOS 以 capability 作为统一授权模型：EL1 微内核只负责调度、IPC、异常与对象分发，进程、内存、文件系统、网络、窗口合成等全部系统能力都由边界清晰的用户态服务承担。覆盖 EL2 Type-1 hypervisor 到 14+ 图形应用的完整工程。</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="architecture.html">查看架构 <span class="arr">→</span></a>
+        <a class="btn" href="build.html">从源码构建</a>
+      </div>
+      <div class="hero-meta">
+        <span>first commit <b>2021-08</b></span>
+        <span>privilege <b>EL0–EL3</b></span>
+        <span>platforms <b>QEMU · Pi3B · Pi4B · CM4</b></span>
+      </div>
+    </div>
 
-	<!-- System Modules (Bento) -->
-		<section id="features" class="features">
-			<div class="section-header">
-				<p>// NEW_OS_ARCHITECTURE</p>
-				<h2>KERNEL + AGENT INTEGRATION</h2>
-			</div>
+    <div class="rings" role="img" aria-label="TranquilOS 权限层级示意：EL2 hypervisor、EL1 微内核、EL0 系统服务与应用">
+    <svg viewBox="0 0 560 560">
+      <!-- spokes -->
+      <g>
+        <line class="spoke" x1="320" y1="280" x2="530" y2="280"/><line class="spoke" x1="314.6" y1="300" x2="496.5" y2="405"/>
+        <line class="spoke" x1="300" y1="314.6" x2="405" y2="496.5"/><line class="spoke" x1="280" y1="320" x2="280" y2="530"/>
+        <line class="spoke" x1="260" y1="314.6" x2="155" y2="496.5"/><line class="spoke" x1="245.4" y1="300" x2="63.5" y2="405"/>
+        <line class="spoke" x1="240" y1="280" x2="30" y2="280"/><line class="spoke" x1="245.4" y1="260" x2="63.5" y2="155"/>
+        <line class="spoke" x1="260" y1="245.4" x2="155" y2="63.5"/><line class="spoke" x1="280" y1="240" x2="280" y2="30"/>
+        <line class="spoke" x1="300" y1="245.4" x2="405" y2="63.5"/><line class="spoke" x1="314.6" y1="260" x2="496.5" y2="155"/>
+      </g>
+      <!-- rings -->
+      <circle class="ring" cx="280" cy="280" r="230"/>
+      <circle class="ring" cx="280" cy="280" r="160"/>
+      <circle class="ring" cx="280" cy="280" r="95"/>
+      <!-- comets -->
+      <circle class="comet c1" cx="280" cy="280" r="230"/>
+      <circle class="comet c2" cx="280" cy="280" r="160"/>
+      <circle class="comet c3" cx="280" cy="280" r="95"/>
+      <!-- ring labels -->
+      <text class="el-l" x="117" y="121" text-anchor="middle">EL2</text>
+      <text class="el-l" x="167" y="171" text-anchor="middle">EL1</text>
+      <text class="el-l" x="213" y="217" text-anchor="middle">EL0</text>
+      <!-- nodes -->
+      <circle class="halo" cx="280" cy="50" r="11"/><circle class="node" cx="280" cy="50" r="4"/>
+      <text class="rl" x="298" y="54">hypervisor</text>
+      <circle class="halo" cx="418.6" cy="360" r="11"/><circle class="node" cx="418.6" cy="360" r="4"/>
+      <text class="rl" x="434" y="364">capability</text>
+      <circle class="halo" cx="141.4" cy="360" r="11"/><circle class="node" cx="141.4" cy="360" r="4"/>
+      <text class="rl" x="126" y="364" text-anchor="end">ipc</text>
+      <circle class="halo" cx="280" cy="120" r="11"/><circle class="node" cx="280" cy="120" r="4"/>
+      <text class="rl" x="298" y="124">scheduler</text>
+      <circle class="halo" cx="327.5" cy="362.3" r="11"/><circle class="node" cx="327.5" cy="362.3" r="4"/>
+      <text class="rl" x="343" y="366">systemd</text>
+      <circle class="halo" cx="185" cy="280" r="11"/><circle class="node" cx="185" cy="280" r="4"/>
+      <text class="rl" x="170" y="284" text-anchor="end">services</text>
+      <circle class="halo" cx="362.3" cy="232.5" r="11"/><circle class="node" cx="362.3" cy="232.5" r="4"/>
+      <text class="rl" x="378" y="236">apps</text>
+      <!-- core -->
+      <circle class="core" cx="280" cy="280" r="34"/>
+      <text class="core-t" x="280" y="284" text-anchor="middle">tranquil</text>
+    </svg>
+    </div>
+  </section>
 
-			<div class="bento-grid">
-				<div class="bento-item bento-large">
-					<div class="bento-icon">[KERNEL]</div>
-					<h3>Microkernel Core</h3>
-					<p>Minimal privileged core with capability-based security. Drivers in userspace for fault isolation and system stability.</p>
-				</div>
+  <section class="metrics" aria-label="项目指标">
+    <div><strong>EL0–EL3</strong><span>exception model</span></div>
+    <div><strong>4</strong><span>boot targets</span></div>
+    <div><strong>14+</strong><span>user apps</span></div>
+    <div><strong>800×480</strong><span>system canvas</span></div>
+  </section>
 
-				<div class="bento-item bento-large">
-					<div class="bento-icon">[AGENT]</div>
-					<h3>AI Agent Service</h3>
-					<p>DeepSeek-powered agent manager (agentmgr). Chat interface via IPC to kernel services for system queries and task execution.</p>
-				</div>
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Design Pillars</p>
+      <h2>三个贯穿全系统的决定。</h2>
+      <p>TranquilOS 不是内核玩具，而是一次对「微内核 + capability 授权 + 用户态服务」组合在 AArch64 上的完整验证。</p>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <span class="tag">CAPABILITY</span>
+        <h3>对象化授权，没有隐式权限</h3>
+        <p>进程持有的是 CNode 中的 capability slot，而不是全局特权。访问 VSpace、Endpoint、Timer、Futex、IRQ 都需 typed capability，方法分发前检查 rights mask。</p>
+      </article>
+      <article class="card">
+        <span class="tag">USERSPACE</span>
+        <h3>用户态是系统主体</h3>
+        <p>进程管理、物理内存分配、IPC 命名空间由特权 EL0 进程 SystemDaemon 承担；窗口、文件、网络、设备、应用生命周期是独立服务，故障域与职责边界一一对应。</p>
+      </article>
+      <article class="card">
+        <span class="tag">END-TO-END</span>
+        <h3>端到端的实现路径</h3>
+        <p>从 bootloader、DTB、hypervisor、kernel 到 zygote、framework services、图形应用，每一阶段都有明确的镜像位置、初始化职责与交接对象，全部可从源码复现。</p>
+      </article>
+    </div>
+  </section>
 
-				<div class="bento-item">
-					<div class="bento-icon">[SEC]</div>
-					<h3>Capability Security</h3>
-					<p>Object-capability access control. Every resource access is explicit and authorized. Fine-grained, method-level permissions.</p>
-				</div>
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Boot Chain</p>
+      <h2>启动链：六个阶段，每步职责单一。</h2>
+    </div>
+    <div class="pipe">
+      <div><span class="n">01</span><b>Bootloader</b><p>早期平台初始化、设备树解析与镜像装载；按 CPU CurrentEL 选择直入 EL1 内核，或先起 EL2 hypervisor。</p></div>
+      <div><span class="n">02</span><b>Hypervisor</b><p>EL2 Type-1：stage-2 地址转换、VM/VCPU/PCPU 生命周期、vGIC、vTimer、vPMU 与 hypcall 接口。</p></div>
+      <div><span class="n">03</span><b>Microkernel</b><p>EL1：capability 对象分发、迁移线程 IPC、SMP 调度、IRQ、timer、futex、upcall、模块与低层驱动。</p></div>
+      <div><span class="n">04</span><b>SystemDaemon</b><p>特权 EL0 进程：进程/线程创建、ELF 装载、物理页分配、SHM 映射、endpoint 命名空间、VM 管理。</p></div>
+      <div><span class="n">05</span><b>Framework</b><p>init → zygote 拉起 windowmgr、fsmgr、netmgr、devmgr、appmgr 等服务，全部经 SHM+IPC 互联。</p></div>
+      <div><span class="n">06</span><b>Applications</b><p>systemui、launcher、settings、files、monitor、music、whiteboard、nes、ai 等应用运行于同一服务边界之上。</p></div>
+    </div>
+  </section>
 
-				<div class="bento-item">
-					<div class="bento-icon">[HV]</div>
-					<h3>Type-1 Hypervisor</h3>
-					<p>EL2 hypervisor with stage-2 page tables, VCPU management, virtual GIC/Timer/PMU for ARMv8-A platforms.</p>
-				</div>
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Kernel Decisions</p>
+      <h2>核心机制围绕隔离性、调用延迟与接口可维护性设计。</h2>
+    </div>
+    <div class="grid c4">
+      <article class="card">
+        <span class="tag">CAP</span>
+        <h3>Object-capability</h3>
+        <p>seL4 启发的对象能力模型。cref 为 64 位引用：高 32 位 cnode ID，低 32 位 slot。CNode 用 directory array 实现线性索引与无拷贝扩展。</p>
+      </article>
+      <article class="card">
+        <span class="tag">IPC</span>
+        <h3>迁移线程 IPC</h3>
+        <p>同步调用不经消息队列唤醒服务线程，调用方执行上下文直接迁入被调地址空间；endpoint pool 横向扩展服务端并发。</p>
+      </article>
+      <article class="card">
+        <span class="tag">SMP</span>
+        <h3>调度/执行上下文分离</h3>
+        <p>scontext 与 xcontext 拆分：per-CPU scheduler 只操作调度元数据，真正切换时才触碰寄存器状态；CFS 以可加载内核模块实现。</p>
+      </article>
+      <article class="card">
+        <span class="tag">IDL</span>
+        <h3>服务接口代码生成</h3>
+        <p>.idl 描述服务接口，生成 client wrapper、server dispatch、传输结构体与 ABI 校验；persistent SHM 参数让固定控制结构复用映射。</p>
+      </article>
+    </div>
+  </section>
 
-				<div class="bento-item">
-					<div class="bento-icon">[APP]</div>
-					<h3>23 User Apps</h3>
-					<p>Rich ecosystem: settings, file manager, NES emulator, Minecraft-like game, AI chat, terminal, and more.</p>
-				</div>
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Coverage</p>
+      <h2>实现覆盖内核、虚拟化、服务、图形、网络与工具链。</h2>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <h3>内核核心</h3>
+        <p>异常模型、MMU、SMP per-CPU 调度、capability 分发、迁移线程 IPC、fastcall、upcall、futex、IRQ、高精度 timer、模块系统、perf 追踪。</p>
+      </article>
+      <article class="card">
+        <h3>虚拟化</h3>
+        <p>EL2 Type-1 hypervisor：stage-2 页表、VM/VCPU/PCPU 生命周期、vGIC、vTimer、vPMU、hypcall。</p>
+      </article>
+      <article class="card">
+        <h3>系统服务</h3>
+        <p>SystemDaemon 四组件（procmgr/memmgr/ipcmgr/virtmgr）+ windowmgr、fsmgr、netmgr、devmgr、appmgr、audiomgr、fontmgr、statemgr、timemgr、agentmgr 等框架服务。</p>
+      </article>
+      <article class="card">
+        <h3>图形与应用</h3>
+        <p>800×480 横屏画布，LVGL + FreeType + PortableGL 图形栈；14+ 用户应用运行于窗口合成器之上。</p>
+      </article>
+      <article class="card">
+        <h3>存储与网络</h3>
+        <p>VFS 抽象 rootfs、ext2、FAT32、procfs、sysfs；lwIP TCP/IP 协议栈，mbedTLS 支持 HTTPS。</p>
+      </article>
+      <article class="card">
+        <h3>工具链</h3>
+        <p>GN/Ninja 构建全部 ELF 与镜像；IDL 生成器消除服务胶水代码；四套平台脚本覆盖 QEMU 与树莓派真机。</p>
+      </article>
+    </div>
+  </section>
 
-				<div class="bento-item">
-					<div class="bento-icon">[TECH]</div>
-					<h3>Modern Stack</h3>
-					<p>Built in C and ARM64 Assembly. GN/Ninja build system. SMP multi-core, migrating-thread IPC, LVGL GUI toolkit.</p>
-				</div>
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Run It</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">从源码到可启动镜像，一条命令。</h2>
+        <p class="lede" style="margin-bottom:24px">安装 aarch64-elf 交叉工具链后，运行脚本会完成 GN/Ninja 构建、boot.img 与 system.img 组装，并启动 4 核 SMP、2G 内存、带 VirtIO 与 ramfb 显示的 QEMU 虚拟机。</p>
+        <a class="btn primary" href="build.html">完整构建指南 <span class="arr">→</span></a>
+      </div>
+      <div class="term">
+        <div class="term-h"><i></i><i></i><i></i><span>quick start</span></div>
+        <div class="term-b"><span class="cm"># 需要 toolchains/aarch64-elf（见构建页）</span>
+<span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
+<span class="p">$</span> <span class="c">cd kernel</span>
+<span class="p">$</span> <span class="c">source env_setup.sh && ./run_qemu_virt.sh</span>
+<span class="ok">✓ boot.img · system.img assembled</span>
+<span class="ok">✓ qemu: 4 cores · 2G · virtio blk/net/input/snd · ramfb</span></div>
+      </div>
+    </div>
+  </section>
 
-				<div class="bento-item bento-tall vision-card">
-					<div class="vision-content">
-						<h3>THE NEW OS VISION</h3>
-						<p class="vision-statement">Traditional OS + Applications = Fragmented Experience</p>
-						<div class="vision-equation">
-							<span class="eq-part">Kernel</span>
-							<span class="eq-operator">+</span>
-							<span class="eq-part">Agent</span>
-							<span class="eq-operator">=</span>
-							<span class="eq-result">New OS</span>
-						</div>
-						<p class="vision-desc">A unified architecture where AI is not an afterthought, but the foundation.</p>
-					</div>
-				</div>
+</main>
 
-				<div class="bento-item">
-					<div class="bento-icon">[SEC]</div>
-					<h3>Capability Security</h3>
-					<p>Fine-grained access control with object-capability model. Zero-trust security at the kernel level.</p>
-				</div>
-
-				<div class="bento-item">
-					<div class="bento-icon">[APP]</div>
-					<h3>23 User Apps</h3>
-					<p>Rich ecosystem: settings, file manager, NES emulator, Minecraft-like game, AI chat, terminal, and more.</p>
-				</div>
-
-				<div class="bento-item">
-					<div class="bento-icon">[TECH]</div>
-					<h3>Modern Stack</h3>
-					<p>Built in C and Assembly. GN/Ninja build system. SMP multi-core, Type-1 hypervisor, and AI workloads.</p>
-				</div>
-
-				<div class="bento-item bento-tall terminal-card">
-					<div class="terminal-header">
-						<span>root@tranquilos:~#</span>
-						<span>AGENT_SHELL</span>
-					</div>
-					<div class="terminal-body">
-						<pre><code>$ system.init()
-[BOOT] EL2 Hypervisor: Online
-[BOOT] Kernel v1.4.11: Active
-[BOOT] Agent (DeepSeek): Integrated
-[BOOT] Window Compositor: Ready
-[BOOT] Network (lwIP): Up
-[BOOT] FS (VFS/ext2): Mounted
-[BOOT] 23 Apps: Registered
-$ agent.query("status")
-> "System operational. 1,583 commits."
-$ _</code></pre>
-					</div>
-				</div>
-			</div>
-		</section>
-
-	<!-- Roadmap -->
-		<section id="roadmap" class="roadmap">
-			<div class="section-header">
-				<p>// DEVELOPMENT_LOG</p>
-				<h2>EXECUTION_PLAN</h2>
-			</div>
-			<div class="roadmap-grid">
-				<div class="timeline">
-					<div class="timeline-item">
-						<h3>PHASE_1: KERNEL_CORE [DONE]</h3>
-						<ul>
-							<li>Microkernel Implementation</li>
-							<li>Capability-Based Security System</li>
-							<li>IPC & Process Management</li>
-						</ul>
-					</div>
-					<div class="timeline-item">
-						<h3>PHASE_2: AGENT_INTEGRATION [DONE]</h3>
-						<ul>
-							<li>agentmgr Service Process</li>
-							<li>DeepSeek API Integration</li>
-							<li>Kernel IPC Channel</li>
-						</ul>
-					</div>
-					<div class="timeline-item">
-						<h3>PHASE_3: NEW_OS_REALIZATION [ACTIVE]</h3>
-						<ul>
-							<li>Filesystem (ext2/fat32/VFS)</li>
-							<li>Network Stack (lwIP/HTTPS)</li>
-							<li>Real Hardware (CM4, Pi4b)</li>
-						</ul>
-					</div>
-				</div>
-				<div class="roadmap-visual">
-					<div class="log-console">
-						<div class="log-header">
-							<span>SYSTEM_LOG</span>
-							<span>[REC]</span>
-						</div>
-						<div class="log-body">
-							<span class="log-line">09:01:22.450 [KRN] SCHED: Context switch (pid:3 -> pid:7)</span>
-							<span class="log-line">09:01:22.455 [KRN] MEM: Page fault mapped @0x4000</span>
-							<span class="log-line">09:01:23.100 [AGT] API: DeepSeek response received</span>
-							<span class="log-line">09:01:23.102 [SYS] IPC: Message (pid:12 -> pid:4)</span>
-							<span class="log-line">09:01:24.001 [USR] SHELL: Command dispatch 'ls'</span>
-							<span class="log-line">09:01:24.005 [FS] VFS: Directory lookup '/bin'</span>
-							<span class="log-line highlight-log">09:01:24.010 [SYS] PROC: New process spawned (pid:33)</span>
-							<span class="log-line">09:01:25.200 [KRN] IRQ: GICv3 interrupt #27</span>
-							<span class="log-line">09:01:25.205 [DRV] UART: Buffer flush</span>
-							<span class="cursor">_</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
-
-	<footer>
-		<div class="copyright">
-			<p>COPYRIGHT &copy; 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
-			<p>STATUS: OPERATIONAL<span class="cursor"></span></p>
-		</div>
-	</footer>
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
 
 </body>
-
 </html>

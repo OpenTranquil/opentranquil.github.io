@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS feature list — implementation status of the microkernel, EL2 hypervisor, core system services, framework services, drivers, filesystems, networking and user applications.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
+<title>Features — TranquilOS</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
+  <a href="index.html" class="brand" aria-label="TranquilOS home">
+    <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="Primary navigation">
+    <a href="architecture.html">Architecture</a>
+    <a href="features.html" class="on">Features</a>
+    <a href="build.html">Build</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="download.html">Downloads</a>
+    <a href="docs/index.html">Docs</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="../features.html" hreflang="zh-CN" lang="zh-CN"><span class="accent">中文</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="Toggle theme">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Features</p>
+    <h1>Implementation status, item by item.</h1>
+    <p class="lede">This list mirrors the Features section of the kernel repository README. <span style="color:var(--ok);font-weight:700">✓</span> means implemented and running on QEMU / Raspberry Pi targets; open exploration items live on the <a href="roadmap.html">roadmap</a>.</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Microkernel</p>
+      <h2>The EL1 microkernel.</h2>
+    </div>
+    <div class="grid c2">
+      <div class="card">
+        <ul class="ck">
+          <li><b>AArch64 exception model</b> (EL0–EL3) &amp; MMU virtual memory</li>
+          <li><b>SMP multicore</b>: per-CPU scheduling with load balancing</li>
+          <li><b>Preemptive scheduler</b>: split execute / schedule contexts</li>
+          <li><b>Capability-based access control</b>: CNode, VSpace, Endpoint, Timer, Futex, IRQ…</li>
+          <li><b>Migrating-thread synchronous IPC</b> + elastic IPC (endpoint pools)</li>
+          <li><b>Fastcall &amp; upcall</b>: kernel ↔ userspace call forwarding</li>
+        </ul>
+      </div>
+      <div class="card">
+        <ul class="ck">
+          <li><b>Initcall system</b> (LV0–LV7) for ordered boot initialization</li>
+          <li><b>High-precision timers</b> &amp; timekeeping (ARM Generic Timer)</li>
+          <li><b>IRQ management</b>: GICv2 / GICv3</li>
+          <li><b>Futex</b> synchronization</li>
+          <li><b>Power management</b> framework (PSCI)</li>
+          <li><b>Loadable kernel modules</b>: CFS scheduler plugin</li>
+          <li><b>Performance tracing</b> (perf / perfmgr) and backtrace</li>
+          <li><b>Console subsystem</b>: UART, VirtIO console</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Hypervisor</p>
+      <h2>EL2 Type-1 virtualization.</h2>
+    </div>
+    <div class="card">
+      <ul class="ck">
+        <li><b>Type-1 hypervisor</b>: stage-2 page-table translation</li>
+        <li><b>VM / VCPU / PCPU</b> lifecycle management</li>
+        <li><b>VGIC, VTimer, VPMU</b> virtualization</li>
+        <li><b>Hypcall</b> interface — the foundation for guest ↔ host communication</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">SystemDaemon</p>
+      <h2>Core system services (privileged EL0).</h2>
+    </div>
+    <div class="grid c4">
+      <div class="card"><span class="tag">procmgr</span><h3>Process management</h3><p>Process / thread lifecycle, ELF loading, PID lookup.</p></div>
+      <div class="card"><span class="tag">memmgr</span><h3>Memory management</h3><p>Buddy physical-page allocator, virtual address spaces, SHM.</p></div>
+      <div class="card"><span class="tag">ipcmgr</span><h3>IPC namespace</h3><p>Endpoint / pool creation, name service, capability cloning.</p></div>
+      <div class="card"><span class="tag">virtmgr</span><h3>VM management</h3><p>VM creation and lifecycle management.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Framework Services</p>
+      <h2>Framework services (independent EL0 processes).</h2>
+    </div>
+    <div class="grid c3">
+      <div class="card"><span class="tag">devmgr</span><h3>Device management</h3><p>Device driver framework and peripheral management.</p></div>
+      <div class="card"><span class="tag">fsmgr</span><h3>Filesystems</h3><p>VFS abstraction: rootfs, ext2, FAT32, procfs, sysfs.</p></div>
+      <div class="card"><span class="tag">netmgr</span><h3>Network stack</h3><p>lwIP TCP/IP; mbedTLS for HTTPS scenarios.</p></div>
+      <div class="card"><span class="tag">windowmgr</span><h3>Window compositor</h3><p>Window compositing and surface management on the 800×480 canvas.</p></div>
+      <div class="card"><span class="tag">appmgr</span><h3>App lifecycle</h3><p>App registry management; launches app processes on demand.</p></div>
+      <div class="card"><span class="tag">mmimgr</span><h3>Multi-modal input</h3><p>Unified management and dispatch of keyboard, pointer and other input.</p></div>
+      <div class="card"><span class="tag">audiomgr</span><h3>Audio service</h3><p>Audio output management (VirtIO sound).</p></div>
+      <div class="card"><span class="tag">fontmgr</span><h3>Font rendering</h3><p>FreeType rasterization and text layout support.</p></div>
+      <div class="card"><span class="tag">statemgr</span><h3>State store</h3><p>System-wide key-value state service.</p></div>
+      <div class="card"><span class="tag">timemgr</span><h3>Time service</h3><p>Timekeeping, RTC alarms and NTP sync.</p></div>
+      <div class="card"><span class="tag">agentmgr</span><h3>AI agent framework</h3><p>A system-level service framework for AI agents.</p></div>
+      <div class="card"><span class="tag">imemgr</span><h3>Input methods</h3><p>Input method editor (IME) service.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Drivers &amp; Graphics</p>
+      <h2>In-kernel drivers and the graphics stack.</h2>
+    </div>
+    <div class="split">
+      <div class="card">
+        <h3 style="margin-bottom:14px">Built-in kernel drivers</h3>
+        <div class="badges">
+          <span class="badge">UART PL011</span><span class="badge">GICv2 / v3</span><span class="badge">ARM Timer</span>
+          <span class="badge">RTC PL031</span><span class="badge">PMU</span><span class="badge">Cache CCS</span>
+          <span class="badge">DMA PL330</span><span class="badge">Mali GPU</span><span class="badge">Watchdog</span>
+          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">VirtIO block</span>
+          <span class="badge">VirtIO net</span><span class="badge">VirtIO input</span><span class="badge">spin-table</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:14px">Graphics &amp; third-party libraries</h3>
+        <ul class="ck">
+          <li><b>LVGL</b> UI component library</li>
+          <li><b>FreeType</b> font rendering</li>
+          <li><b>PortableGL</b> software GL</li>
+          <li><b>lwIP · mbedTLS · musl · cJSON · minimp3 · toybox</b></li>
+          <li>Upstream sources are never modified directly — adaptation layers live in <code>os/libs/</code> and <code>sys/ulibs/</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Applications</p>
+      <h2>14+ user applications.</h2>
+      <p>All running on the same service boundaries, registered and launched via appmgr.</p>
+    </div>
+    <div class="chips">
+      <span>systemui</span><span>launcher</span><span>settings</span><span>files</span><span>monitor</span>
+      <span>memo</span><span>music</span><span>calendar</span><span>clock</span><span>whiteboard</span>
+      <span>calculator</span><span>nes</span><span>ai</span><span>boot_animation</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

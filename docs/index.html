@@ -1,68 +1,335 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN" data-theme="dark">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="TranquilOS Documentation - Capability-based microkernel operating system for AArch64.">
-	<meta name="theme-color" content="#ff4500">
-	<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
-	<title>TranquilOS Documentation</title>
-	<link rel="stylesheet" href="../style.css">
-	<link rel="stylesheet" href="docs.css">
-	<!-- Mermaid -->
-	<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-	<!-- Marked -->
-	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS 文档中心 — 入门、架构、内核机制、系统服务与接口工具的工程文档。">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
+<title>文档 — TranquilOS</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="docs.css">
+<script src="../script.js" defer></script>
+<script src="docs.js" defer></script>
 </head>
-
 <body>
-	<header>
-		<nav>
-			<a href="../index.html" class="logo">
-				<img src="../branding/tranquilos-final-line/mark-color.svg" alt="TranquilOS" width="64" height="64">
-				<span>TranquilOS // DOCS</span>
-			</a>
-			<ul class="nav-links">
-				<li><a href="../index.html">HOME</a></li>
-				<li><a href="#" class="active">DOCS</a></li>
-				<li>
-					<button id="lang-switch" class="cta-button">EN / <span class="accent">ZH</span></button>
-				</li>
-				<li><a href="https://github.com/nerossoft/TranquilOS" class="cta-button">SOURCE::GIT</a></li>
-			</ul>
-		</nav>
-	</header>
 
-	<div class="main-container">
-		<div class="docs-container">
-			<aside class="docs-sidebar">
-				<div class="sidebar-search">
-					<input type="text" placeholder="Search docs..." id="doc-search">
-				</div>
-				<nav id="doc-nav">
-					<!-- Dynamically populated -->
-					<div class="loading">Loading navigation...</div>
-				</nav>
-			</aside>
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
+  <a href="../index.html" class="brand" aria-label="TranquilOS 首页">
+    <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="主导航">
+    <a href="../architecture.html">架构</a>
+    <a href="../features.html">特性</a>
+    <a href="../build.html">构建</a>
+    <a href="../roadmap.html">路线图</a>
+    <a href="../download.html">下载</a>
+    <a href="index.html" class="on">文档</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="../en/docs/index.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
 
-			<main class="docs-content">
-				<div id="content-area">
-					<!-- Dynamically populated -->
-					<div class="loading">Select a document to view.</div>
-				</div>
-			</main>
-		</div>
+<div class="docs-shell">
 
-		<footer>
-			<div class="copyright">
-				<p>COPYRIGHT &copy; 2026 TranquilOS. ALL RIGHTS RESERVED.</p>
-				<p>STATUS: OPERATIONAL<span class="cursor"></span></p>
-			</div>
-		</footer>
-	</div>
+  <aside class="docs-side">
+    <div class="docs-search"><input type="search" id="doc-q" placeholder="搜索文档…" aria-label="搜索文档"></div>
+    <nav id="doc-nav" aria-label="文档导航">
+      <div class="docs-group">
+        <b>入门</b>
+        <a href="#intro">项目简介</a>
+        <a href="#quickstart">快速开始</a>
+        <a href="#layout">仓库结构</a>
+      </div>
+      <div class="docs-group">
+        <b>架构</b>
+        <a href="#bootchain">启动链与权限模型</a>
+        <a href="#capability">Capability 系统</a>
+        <a href="#memory">内存管理</a>
+      </div>
+      <div class="docs-group">
+        <b>内核机制</b>
+        <a href="#ipc">IPC 模型</a>
+        <a href="#scheduler">调度器</a>
+        <a href="#syscall">系统调用路径</a>
+        <a href="#initcall">initcall 初始化</a>
+      </div>
+      <div class="docs-group">
+        <b>系统服务</b>
+        <a href="#systemd">SystemDaemon</a>
+        <a href="#service-pattern">框架服务模式</a>
+        <a href="#shm">SHM 数据传递</a>
+        <a href="#service-list">服务清单</a>
+      </div>
+      <div class="docs-group">
+        <b>接口与工具</b>
+        <a href="#idl">IDL 与代码生成</a>
+        <a href="#gn">GN 构建目标</a>
+        <a href="#platforms">平台与镜像</a>
+      </div>
+    </nav>
+  </aside>
 
-	<script src="docs.js"></script>
+  <main class="docs-body">
+    <div class="docs-empty" id="docs-empty">没有匹配的章节 — 换个关键词试试。</div>
+
+    <section class="doc-sec" id="intro">
+      <h2>项目简介</h2>
+      <p class="sub">Getting Started</p>
+      <p class="lede">TranquilOS 是面向 AArch64 的 object-capability 微内核操作系统。系统以 capability 作为统一授权模型，将进程管理、内存管理、IPC 命名空间、设备抽象、文件系统、网络协议栈、窗口合成与应用生命周期拆分为边界清晰的用户态服务；EL1 微内核专注于调度、IPC、异常、中断、定时器、futex、基础驱动与 capability 对象分发。</p>
+      <p>设计参考了 seL4 等内核的对象能力模型，目标是在 AArch64 平台上验证「微内核 + capability 授权 + 用户态系统服务」的系统化组合：内核对象如何被显式授权、服务如何发现与通信、图形桌面如何作为普通用户态组件运行、构建系统如何把分散组件组装为可启动镜像。</p>
+      <p>完整设计文档在内核仓库 <code>docs/</code> 目录：<code>basic_theory.md</code>（AArch64 架构、MMU、上下文切换、驱动、capability、IPC、调度）、<code>microkernel_design.md</code>（微内核设计）、<code>idl.md</code>（接口定义与代码生成）、<code>async_ipc_design.md</code>。</p>
+    </section>
+
+    <section class="doc-sec" id="quickstart">
+      <h2>快速开始</h2>
+      <p class="sub">Build &amp; Run</p>
+      <p>前置条件：从 <code>newos.org/toolchains</code> 下载交叉工具链并解压到仓库 <code>toolchains/</code>；macOS 需要 <code>brew install e2fsprogs</code>（组装 ext2 system.img）。<code>env_setup.sh</code> 必须在每个新 shell 中 source，其中 <code>OS_BASE_DIR</code> 硬编码为 <code>~/kernel</code>，仓库检出到其他路径时先修改。</p>
+      <pre><code># QemuVirt（主要开发平台）：构建 + 组装镜像 + 启动 QEMU
+source env_setup.sh && ./run_qemu_virt.sh
+
+# 手动构建
+source env_setup.sh
+gn gen out --args='platform="QemuVirt"'
+ninja -C out
+
+# 单目标构建
+ninja -C out Windowmgr</code></pre>
+      <p>QEMU 配置：4 核 SMP、2G 内存、macOS 上 HVF 硬件加速、ramfb 显示、VirtIO tablet/keyboard/network/block/sound。其他平台：<code>run_qemu_pi3b.sh</code>（headless 串口）、<code>run_qemu_pi4b.sh</code>（SD 卡镜像）、<code>run_board_cm4.sh</code>（真机，经 rpiboot 刷写）。</p>
+    </section>
+
+    <section class="doc-sec" id="layout">
+      <h2>仓库结构</h2>
+      <p class="sub">Project Layout</p>
+      <pre><code>sys/             系统基础（TCB）
+  kernel/        微内核（EL1）
+  virt/          Type-1 hypervisor（EL2）
+  boot/          Bootloader
+  trustee/       可信执行环境（stub）
+  uapps/         启动与核心服务：base/ init、idle；core/ devmgr、fsmgr
+  ulibs/         libc、libcrt、libsyscall、libsystem、libsync、libfdt、libalgorithm
+os/              OS 用户态
+  base/          zygote、netmgr
+  framework/     windowmgr、mmimgr、appmgr、audiomgr、fontmgr、statemgr 等
+  apps/          用户应用
+  libs/          libwindow、libgraphics、libgl、liblvgl、liblwip 等
+  thrid_party/   lvgl、freetype、mbedtls、lwip、musl 等三方源码
+platform/        平台配置：QemuVirt / Pi3b / Pi4b / CM4（DTB、链接脚本、构建运行脚本）
+build/           GN 构建系统与工具链定义
+images/          ramdisk（cpio）与 system 镜像模板
+docs/            设计文档</code></pre>
+      <p><b>三方库约定：</b>不直接修改上游源码，平台适配与兼容封装集中在 <code>os/libs/</code> 与 <code>sys/ulibs/</code>；升级三方库时整目录替换并验证适配层。</p>
+    </section>
+
+    <section class="doc-sec" id="bootchain">
+      <h2>启动链与权限模型</h2>
+      <p class="sub">Boot Chain · Privilege Levels</p>
+      <p>TranquilOS 把 ARMv8-A 异常级别用作架构边界：EL2 运行可选的 Type-1 hypervisor，EL1 是微内核，EL0 承载 SystemDaemon、框架服务与应用。bootloader 根据 CPU CurrentEL 决定启动路径：</p>
+      <pre><code>从 EL2 启动：bootloader → hypervisor → kernel → systemd
+从 EL1 启动：bootloader → kernel → systemd</code></pre>
+      <p>hypervisor 提供 stage-2 地址转换、VM/VCPU/PCPU 生命周期管理、vGIC、vTimer、vPMU 与 hypcall 接口；虚拟机与内核一同打包进 boot.img。</p>
+      <p>用户态启动顺序：<b>init</b>（首个用户态进程）解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <code>/root/etc/init.rc</code>；<b>zygote</b> 读取 <code>init.json</code>，把服务 ELF 从 ext2 载入 SHM 后调 <code>start_process_from_shm()</code> 启动框架服务；<b>appmgr</b> 按 <code>applist.json</code> 管理应用注册表并按需拉起应用。</p>
+    </section>
+
+    <section class="doc-sec" id="capability">
+      <h2>Capability 系统</h2>
+      <p class="sub">Object Capability · CNode</p>
+      <p>capability 是内核对象与细粒度权限的统一管理结构，也是用户态与微内核交互的统一方式。用户态对内核的所有操作可归结为「对某个内核对象执行某个方法」：<code>OS_{Type}{Method}(ref, args...)</code>——权限因此可以细化到每个对象、每个方法。</p>
+      <p>每个进程拥有 <b>CNode</b> 保存其全部 capability。CNode 由 directory array 构成：兼具数组索引的速度与动态数组的扩展性，扩展时不拷贝、保持线性索引。capability 引用（cref）为 64 位：高 32 位是 cnode ID，低 32 位是 slot 索引；根 CNode ID 为 1。方法分发前内核校验对象类型与 32 位 rights mask。</p>
+      <p>内核对象类型包括：VSpace（虚拟地址空间）、CNode（capability 存储）、SContext / XContext（调度 / 执行状态）、IPC Endpoint / Pool、Timer、Futex、IRQ、Console。</p>
+    </section>
+
+    <section class="doc-sec" id="memory">
+      <h2>内存管理</h2>
+      <p class="sub">Boot Allocator · Buddy · VSpace</p>
+      <p>内核只保留 <b>boot allocator</b>，为内核启动阶段与 SystemDaemon 运行分配内存；全部内存策略都在用户态。SystemDaemon 的 <b>memmgr</b> 以 buddy 分配器管理物理页，并管理进程的虚拟地址空间与 SHM 共享内存。</p>
+      <p>内核侧覆盖 AArch64 MMU 的完整配置：MAIR/TCR、block/table 描述符、identity map、ASID 与 TLB 管理；VSpace 对象代表一个进程的地址空间，经 capability 调用操作。</p>
+    </section>
+
+    <section class="doc-sec" id="ipc">
+      <h2>IPC 模型</h2>
+      <p class="sub">Migrating Thread · Endpoint · Upcall</p>
+      <p>传统内核的进程间同步（socket、pipe、共享内核缓冲）响应依赖调度器行为，延迟不确定。TranquilOS 提供<b>控制流立即切换</b>的迁移线程 IPC：client 发起同步调用时，内核把 server 地址空间与一个构造好的 <code>execute_context_s</code> 装上 CPU——参数按 AAPCS 放入 x0–x7，接口函数地址放入 pc；lr 中放入<b>跳板函数</b>地址，接口返回时跳板发起 REPLY 调用切回 client。调度元数据全程由调度器独立控制，IPC 不影响调度公平性。</p>
+      <ul>
+        <li><b>IPC Endpoint</b>：单线程模型，一个 handler 线程服务一个端点。</li>
+        <li><b>Endpoint Pool</b>：在预分配的多个端点间负载均衡，支撑多线程服务；其上构建<b>弹性 IPC</b>。</li>
+        <li><b>Upcall</b>：内核 → 用户态的反向调用，用于系统调用转发、页错误等事件。</li>
+        <li><b>Name service</b>：内核端点 cref <code>0x1</code>。服务以 <code>sys_register_service()</code> / <code>sys_register_service_pool()</code> 注册，客户端以 <code>sys_get_service()</code> / <code>sys_get_service_pool()</code> 查找。</li>
+      </ul>
+    </section>
+
+    <section class="doc-sec" id="scheduler">
+      <h2>调度器</h2>
+      <p class="sub">Split Context · SMP · CFS Module</p>
+      <p>传统 TCB 被拆分为<b>执行实体</b> <code>execute_context_s</code>（x0–x30、sp、pc、pstate 等寄存器状态）与<b>调度实体</b> <code>schedule_context_s</code>（优先级、时间片、队列节点、CPU 亲和性）。per-CPU 调度器只操作调度元数据，真正切换上下文时才构造 / 恢复执行状态——这也让迁移线程 IPC 的实现大为简化。</p>
+      <p>SMP 下每个 CPU 有独立本地调度器并做跨核负载均衡，支持抢占。CFS 调度类以<b>可加载内核模块</b>实现（<code>sys/kernel/module/</code>），验证模块系统的真实可用性。</p>
+    </section>
+
+    <section class="doc-sec" id="syscall">
+      <h2>系统调用路径</h2>
+      <p class="sub">Capcall · Fastcall · Upcall</p>
+      <p>系统调用号在 x8 中，按标识位走三条分发路径：</p>
+      <table class="tbl">
+        <thead><tr><th>路径</th><th>标识位</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td>Capability call</td><td><code>CAP_CALL_MASK</code></td><td>路由到 capability 对象：VSpace、CNode、IPC endpoint、Timer 等，capcall 是微内核的主要系统调用</td></tr>
+          <tr><td>Fast call</td><td><code>FAST_CALL_MASK</code></td><td>内核内联的高性能调用（当前为 stub）</td></tr>
+          <tr><td>Compact syscall</td><td>—</td><td>Linux 兼容表（目前仅 getpid）；其余经 upcall 转交进程注册的用户态 handler（libsyscall 函数表分发）</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-sec" id="initcall">
+      <h2>initcall 初始化</h2>
+      <p class="sub">LV0–LV7</p>
+      <p>初始化函数经宏放入专用 ELF 段，链接脚本为每级定义起止符号，<code>initcall_run(level)</code> 按 LV0 → LV7 顺序执行：</p>
+      <table class="tbl">
+        <thead><tr><th>LV</th><th>宏</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td><code>early_device_init</code></td><td>最早期设备初始化</td></tr>
+          <tr><td>1</td><td><code>early_device_percpu_init</code></td><td>per-CPU 早期设备</td></tr>
+          <tr><td>2</td><td><code>key_device_init</code></td><td>关键设备</td></tr>
+          <tr><td>3</td><td><code>key_device_percpu_init</code></td><td>per-CPU 关键设备</td></tr>
+          <tr><td>4</td><td><code>normal_device_init</code></td><td>常规设备</td></tr>
+          <tr><td>5</td><td><code>normal_device_percpu_init</code></td><td>per-CPU 常规设备</td></tr>
+          <tr><td>6</td><td><code>module_init</code></td><td>内核模块</td></tr>
+          <tr><td>7</td><td><code>module_percpu_init</code></td><td>per-CPU 模块初始化</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-sec" id="systemd">
+      <h2>SystemDaemon</h2>
+      <p class="sub">Privileged EL0 · 17 IPC Methods</p>
+      <p>SystemDaemon 运行在 EL0，是最高特权的用户态进程，链接在 <code>0x43080000</code>，直接发起 capcall（<code>libkernel/capcall.h</code>）而不经 libsyscall。传统内核中的高层资源管理由它承担，各组件以单例对象管理以约束接口暴露：</p>
+      <ul>
+        <li><b>procmgr</b>：进程 / 线程生命周期，ELF 装载（spawn、exit、PID 查找）</li>
+        <li><b>memmgr</b>：物理页分配、SHM 共享内存管理</li>
+        <li><b>ipcmgr</b>：IPC endpoint / pool 创建、name service、capability 克隆</li>
+        <li><b>virtmgr</b>：虚拟机管理</li>
+      </ul>
+      <p>对外通过 <code>systemd_client.c</code> 暴露 17 个 IPC 方法，数据传递走 SHM。vfs、devmgr 等核心服务也由它拉起。</p>
+    </section>
+
+    <section class="doc-sec" id="service-pattern">
+      <h2>框架服务模式</h2>
+      <p class="sub">Service Skeleton</p>
+      <p>每个 OS 服务（<code>os/framework/*</code> 与 <code>sys/uapps/core/*</code>）遵循相同结构：</p>
+      <pre><code>main.c            初始化、经 IPC 注册服务、事件循环
+service/service.c 按方法号分发的 IPC handler 表，调用内部处理函数
+client/           薄 IPC 客户端封装，用 SHM 传数据
+include/          服务内部头文件
+client/include/   公开客户端 API 头文件</code></pre>
+      <p>分发模式在所有服务中一致：handler 函数指针表按方法号索引，<code>service_entry</code> 校验方法号后调用对应 handler 并以 <code>OSIpcEndPointPoolReply()</code> 应答；启动时以 <code>sys_register_service_pool(IPC_SERVICE_ID_*, &amp;service_entry)</code> 注册。</p>
+    </section>
+
+    <section class="doc-sec" id="shm">
+      <h2>SHM 数据传递</h2>
+      <p class="sub">Zero-Copy Convention</p>
+      <p>进程间所有数据传输都使用共享内存，这是唯一的数据通道——没有消息拷贝式 IPC。通用流程：</p>
+      <ul>
+        <li>客户端经 <code>systemd-&gt;ops.alloc_shm()</code> 申请 SHM</li>
+        <li>映射并写入数据</li>
+        <li>发起 IPC 调用，SHM 句柄作为参数传递</li>
+        <li>服务端经 <code>systemd-&gt;ops.get_shm()</code> 映射同一块 SHM</li>
+        <li>直接处理共享数据（零拷贝）</li>
+        <li>应答；客户端释放 SHM</li>
+      </ul>
+    </section>
+
+    <section class="doc-sec" id="service-list">
+      <h2>服务清单</h2>
+      <p class="sub">Framework Services</p>
+      <table class="tbl">
+        <thead><tr><th>服务</th><th>职责</th></tr></thead>
+        <tbody>
+          <tr><td>appmgr</td><td>应用生命周期：注册表、按需拉起</td></tr>
+          <tr><td>windowmgr</td><td>窗口合成器与 surface 管理、输入分发</td></tr>
+          <tr><td>statemgr</td><td>系统级 KV 状态存储</td></tr>
+          <tr><td>devmgr</td><td>设备驱动框架与外设管理</td></tr>
+          <tr><td>fsmgr</td><td>文件系统抽象：rootfs、ext2、FAT32、procfs、sysfs</td></tr>
+          <tr><td>netmgr</td><td>lwIP TCP/IP 网络栈</td></tr>
+          <tr><td>mmimgr</td><td>多模态输入管理</td></tr>
+          <tr><td>audiomgr</td><td>音频服务</td></tr>
+          <tr><td>fontmgr</td><td>FreeType 字体渲染</td></tr>
+          <tr><td>agentmgr</td><td>AI agent 框架</td></tr>
+          <tr><td>timemgr</td><td>计时、RTC 闹钟、NTP 同步</td></tr>
+          <tr><td>imemgr</td><td>输入法编辑器</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="doc-sec" id="idl">
+      <h2>IDL 与代码生成</h2>
+      <p class="sub">Interface Definition · ABI</p>
+      <p>服务用 <code>.idl</code> 文件描述同步 IPC 接口，生成器（<code>tools/idl_gen.py</code>，通常由 GN 构建任务自动调用）产出五个文件：<code>&lt;service&gt;_types.h</code>、<code>&lt;service&gt;_client.h/.c</code>、<code>&lt;service&gt;_service.h/.c</code>。</p>
+      <pre><code>service statemgr_ipc {
+    id = 0x9;
+
+    struct query  { version = 1; char key[64]; };
+    struct result { version = 1; uint32_t found; };
+
+    uint64_t get(persistent in query *request,
+                 persistent out result *response) id = 0x1;
+};</code></pre>
+      <p><b>参数方向</b>控制生成代码的拷贝行为：<code>in</code> IPC 前复制进 SHM，<code>out</code> IPC 前清空、IPC 后复制回，<code>inout</code> 两者兼有（未标注的结构体指针默认 inout）；标量直接走 IPC 参数槽，每方法最多三个参数。</p>
+      <p><b>persistent</b> 仅用于结构体指针：底层 SHM 缓冲区跨调用复用（不缓存业务数据，每次调用仍执行 IPC）。客户端按「方法名 + 参数名」懒申请独立 SHM，每方法一把锁串行化；服务端缓存并复用映射。变长或大块数据应显式传 SHM 句柄与长度，persistent 只适用于固定大小的控制结构体。</p>
+      <p><b>传输与映射</b>：默认经 endpoint pool IPC、经 SystemDaemon 映射 SHM；可用服务属性切换 <code>transport = endpoint</code>、<code>mapping = direct</code>。</p>
+      <p><b>ABI 规则</b>：传输结构体必须声明 <code>version &gt; 0</code>；生成器附加 <code>abi_size</code> / <code>abi_version</code> 字段，服务端在调用处理函数前校验。传输结构体不允许指针字段（指针只在所属进程地址空间有效）。完整语法见 <code>tools/idl_ref/tranquil_idl.ebnf</code>。</p>
+    </section>
+
+    <section class="doc-sec" id="gn">
+      <h2>GN 构建目标</h2>
+      <p class="sub">GN / Ninja</p>
+      <table class="tbl">
+        <thead><tr><th>目标类型</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td><code>executable()</code></td><td>ELF：kernel、SystemDaemon、框架服务、应用</td></tr>
+          <tr><td><code>source_set()</code></td><td>编译进每个使用者的库（不产出独立 .a）</td></tr>
+          <tr><td><code>group()</code></td><td>依赖打包的元目标（如 <code>uapp_runtime</code>）</td></tr>
+          <tr><td><code>config()</code></td><td>编译 / 链接标志包，经 <code>configs +=</code> 应用</td></tr>
+        </tbody>
+      </table>
+      <p>每个 executable 链接平台专用链接脚本（<code>platform/$PLATFORM/linker/*.lds</code>），用户态可执行文件用 <code>libcrt/uapp.lds</code>，且必须把 <code>libcrt/start.S</code>（提供 <code>_start</code>）列为首个源文件。常用依赖组：<code>//sys/ulibs:uapp_runtime</code>、<code>uapp_runtime_with_syscall</code>、<code>//sys/ulibs/libsystem:systemd_client</code>。</p>
+    </section>
+
+    <section class="doc-sec" id="platforms">
+      <h2>平台与镜像</h2>
+      <p class="sub">Platforms · Images</p>
+      <table class="tbl">
+        <thead><tr><th>平台</th><th>定位</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>QemuVirt</td><td>主要开发平台</td><td>设备组合最完整（ramfb、VirtIO 全家桶），内核改动先在此验证</td></tr>
+          <tr><td>Pi3B（QEMU）</td><td>平台验证</td><td><code>-nographic</code> 串口，headless</td></tr>
+          <tr><td>Pi4B（QEMU）</td><td>平台验证</td><td>MBR 分区 SD 卡镜像（mkpiimg.sh）</td></tr>
+          <tr><td>CM4</td><td>真实硬件</td><td>经 rpiboot USB 刷写，需实体底板</td></tr>
+        </tbody>
+      </table>
+      <pre><code>boot.img (64MB)
+  offset 0      Bootloader    8MB     system.img (128MB, ext2)
+  offset 2048   DTB           8MB       bin/   framework services
+  offset 4096   Hypervisor   16MB       apps/  user applications
+  offset 8192   Kernel       16MB       etc/   fonts · icons · init config
+  offset 12288  SystemDaemon  8MB
+  offset 14336  Ramdisk cpio  8MB</code></pre>
+    </section>
+
+  </main>
+</div>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
 </body>
-
 </html>

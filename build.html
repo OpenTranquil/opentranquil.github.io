@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS 构建指南 — 工具链准备、GN/Ninja 构建流水线、QemuVirt / Pi3B / Pi4B / CM4 四平台运行方式与镜像布局。">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
+<title>构建 — TranquilOS</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
+  <a href="index.html" class="brand" aria-label="TranquilOS 首页">
+    <img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="主导航">
+    <a href="architecture.html">架构</a>
+    <a href="features.html">特性</a>
+    <a href="build.html" class="on">构建</a>
+    <a href="roadmap.html">路线图</a>
+    <a href="download.html">下载</a>
+    <a href="docs/index.html">文档</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="en/build.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Build</p>
+    <h1>从源码树到可启动镜像，路径是确定的。</h1>
+    <p class="lede">构建产物不是单一 kernel binary，而是一组按启动阶段组织的镜像与 ELF：GN 生成目标图，Ninja 编译 boot、hypervisor、kernel 与用户态组件，脚本组装 boot.img、system.img 与 ramdisk，并按平台配置启动 QEMU 或树莓派环境。</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Prerequisites</p>
+      <h2>准备工具链。</h2>
+    </div>
+    <div class="grid c2">
+      <div class="card">
+        <span class="tag">TOOLCHAIN</span>
+        <h3>交叉编译器</h3>
+        <p>TranquilOS 产出 freestanding AArch64 二进制，不能用宿主机默认编译器。从 <code>newos.org/toolchains</code> 下载工具链并解压到仓库 <code>toolchains/</code> 目录。默认使用 <code>aarch64-elf</code>（面向 bare-metal 的 GCC 12.2.0）。</p>
+      </div>
+      <div class="card">
+        <span class="tag">MACOS ONLY</span>
+        <h3>e2fsprogs</h3>
+        <p>system.img 是 ext2 文件系统镜像。macOS 上组装镜像依赖 Homebrew 的 e2fsprogs。缺少它时编译可以成功，但镜像组装会失败。</p>
+        <pre style="margin-top:14px"><code>brew install e2fsprogs</code></pre>
+      </div>
+    </div>
+    <p class="note" style="margin-top:16px"><b>注意：</b><code>env_setup.sh</code> 必须在每个新 shell 中 source，它导出 <code>OS_BASE_DIR=~/kernel</code> 并把 gn 与编译器加入 PATH。<code>OS_BASE_DIR</code> 硬编码为 <code>~/kernel</code>——仓库检出到其他路径时先修改它。</p>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Quick Start</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">一条命令，构建并启动。</h2>
+        <p class="lede" style="margin-bottom:24px">QemuVirt 是主要开发平台：脚本依次完成构建、镜像组装，并启动 4 核 SMP、2G 内存的虚拟机（macOS 上使用 HVF 硬件加速），带 ramfb 显示与 VirtIO 全家桶。调度、IPC、capability、MMU 等内核改动都应先在 QemuVirt 上验证。</p>
+        <a class="btn primary" href="download.html">不想编译？下载预构建镜像 <span class="arr">→</span></a>
+      </div>
+      <div class="term">
+        <div class="term-h"><i></i><i></i><i></i><span>quick start — qemu virt</span></div>
+        <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
+<span class="p">$</span> <span class="c">cd kernel</span>
+<span class="cm"># 解压工具链到 toolchains/ 之后：</span>
+<span class="p">$</span> <span class="c">source env_setup.sh && ./run_qemu_virt.sh</span>
+<span class="ok">✓ gn gen out --args='platform="QemuVirt"'</span>
+<span class="ok">✓ ninja: boot · hypervisor · kernel · systemd · apps</span>
+<span class="ok">✓ boot.img (64M) · system.img (128M, ext2)</span>
+<span class="ok">✓ qemu virt: 4 cores · 2G · HVF · ramfb 800×480</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Platform Matrix</p>
+      <h2>四个启动目标。</h2>
+    </div>
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>平台</th><th>脚本</th><th>显示</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>QemuVirt</td><td><code>./run_qemu_virt.sh</code></td><td>ramfb 图形</td><td>主要开发平台。VirtIO console/block/net/input/sound，设备组合最完整。</td></tr>
+        <tr><td>Pi3B (QEMU)</td><td><code>./run_qemu_pi3b.sh</code></td><td><code>-nographic</code> 串口</td><td>树莓派 3B 模拟，headless，适合串口路径验证。</td></tr>
+        <tr><td>Pi4B (QEMU)</td><td><code>./run_qemu_pi4b.sh</code></td><td>SD 卡镜像</td><td>经 <code>mkpiimg.sh</code> 生成 MBR 分区 SD 镜像启动。</td></tr>
+        <tr><td>CM4（真机）</td><td><code>./run_board_cm4.sh</code></td><td>HDMI</td><td>真实硬件。经 USB 以 <code>rpiboot</code> 刷写 Compute Module 4，需要实体底板。</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Manual Build</p>
+      <h2>手动构建与单目标编译。</h2>
+    </div>
+    <div class="split">
+      <div>
+<pre><code>source env_setup.sh
+
+# 配置（platform 默认 QemuVirt，可省略）
+gn gen out --args='platform="QemuVirt"'
+
+# 全量构建
+ninja -C out
+
+# 只构建某个服务 / 应用
+ninja -C out Windowmgr</code></pre>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>工具链</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td><code>aarch64-elf</code></td><td>默认，macOS 交叉编译（GCC 12.2.0）</td></tr>
+            <tr><td><code>aarch64-linux-gnu</code></td><td>Linux 交叉编译，需自行安装</td></tr>
+            <tr><td><code>clang</code></td><td>Clang 构建，需自行安装</td></tr>
+            <tr><td><code>hostgcc</code></td><td>宿主 GCC，用于工具类目标</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:16px">切换工具链：<code>gn gen out --args='toolchain="clang"'</code>。GN 目标只有四种：<b>executable / source_set / group / config</b>；每个用户态可执行文件以 <code>libcrt/start.S</code> 提供 <code>_start</code>，并链接平台专用链接脚本。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Pipeline</p>
+      <h2>run 脚本背后的四步流水线。</h2>
+    </div>
+    <div class="pipe">
+      <div><span class="n">01</span><b>build.sh</b><p><span class="mono">gn gen</span> + <span class="mono">ninja</span>：编译全部 ELF——bootloader、hypervisor、kernel、SystemDaemon、服务与应用。</p></div>
+      <div><span class="n">02</span><b>make_boot_img.sh</b><p><span class="mono">objcopy</span> 转 raw binary，按固定偏移 <span class="mono">dd</span> 进 64MB boot.img。</p></div>
+      <div><span class="n">03</span><b>make_system_img.sh</b><p>strip ELF，经 <span class="mono">mke2fs</span> + <span class="mono">debugfs</span> 生成 128MB ext2 system.img，写入服务、应用、字体与配置。</p></div>
+      <div><span class="n">04</span><b>run.sh</b><p>启动 QEMU：4 核 SMP、2G 内存、macOS HVF 加速、VirtIO 设备与 ramfb 显示。</p></div>
+    </div>
+    <div class="split" style="margin-top:16px">
+      <div>
+<pre><code>boot.img (64MB)
+  offset 0      Bootloader    8MB
+  offset 2048   DTB           8MB
+  offset 4096   Hypervisor   16MB
+  offset 8192   Kernel       16MB
+  offset 12288  SystemDaemon  8MB
+  offset 14336  Ramdisk cpio  8MB</code></pre>
+      </div>
+      <div>
+<pre><code>system.img (128MB, ext2)
+  bin/   framework services
+  apps/  user applications
+  etc/   fonts · icons · init config
+
+# QEMU 后端可用环境变量覆盖：
+QEMU_DISPLAY_BACKEND="cocoa,zoom-interpolation=on,..."
+QEMU_SERIAL_BACKEND="mon:stdio"
+QEMU_MONITOR_BACKEND="none"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Repository</p>
+      <h2>源码树导览。</h2>
+    </div>
+    <div class="grid c3">
+      <div class="card"><h3>sys/</h3><p>系统基础（TCB）：<code>kernel/</code> 微内核、<code>virt/</code> hypervisor、<code>boot/</code> 引导、<code>uapps/</code> init 与核心服务、<code>ulibs/</code> libc 与 syscall 等底层库。</p></div>
+      <div class="card"><h3>os/</h3><p>OS 用户态：<code>base/</code> zygote 与 netmgr、<code>framework/</code> 窗口/应用/字体/音频等服务、<code>apps/</code> 用户应用、<code>libs/</code> 共享库、<code>thrid_party/</code> 三方源码。</p></div>
+      <div class="card"><h3>platform/</h3><p>平台配置：QemuVirt、Pi3b、Pi4b、CM4 各自的 DTB、链接脚本、固件与构建/运行脚本。</p></div>
+      <div class="card"><h3>build/</h3><p>GN 构建系统与工具链定义。</p></div>
+      <div class="card"><h3>images/</h3><p>ramdisk（cpio）与 system 镜像模板。</p></div>
+      <div class="card"><h3>docs/</h3><p>设计文档：basic_theory、microkernel_design、idl、async_ipc_design。</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

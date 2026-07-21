@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS is an object-capability microkernel operating system for AArch64: EL2 Type-1 hypervisor, EL1 microkernel, privileged EL0 SystemDaemon and userspace services, migrating-thread IPC, GN/Ninja build, runs on QEMU and Raspberry Pi.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
+<title>TranquilOS — Object-Capability Microkernel OS for AArch64</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
+  <a href="index.html" class="brand" aria-label="TranquilOS home">
+    <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="Primary navigation">
+    <a href="architecture.html">Architecture</a>
+    <a href="features.html">Features</a>
+    <a href="build.html">Build</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="download.html">Downloads</a>
+    <a href="docs/index.html">Docs</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="../index.html" hreflang="zh-CN" lang="zh-CN"><span class="accent">中文</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="Toggle theme">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">AArch64 · Object-Capability · Userspace Services</p>
+      <h1>A <span class="grad">microkernel operating system</span> implemented end to end, from bootloader to graphical desktop.</h1>
+      <p class="lead">TranquilOS uses capabilities as its single authorization model: the EL1 microkernel only handles scheduling, IPC, exceptions and object dispatch, while processes, memory, filesystems, networking, window composition and every other system capability live in clearly bounded userspace services — a complete system spanning an EL2 Type-1 hypervisor to 14+ graphical applications.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="architecture.html">View architecture <span class="arr">→</span></a>
+        <a class="btn" href="build.html">Build from source</a>
+      </div>
+      <div class="hero-meta">
+        <span>first commit <b>2021-08</b></span>
+        <span>privilege <b>EL0–EL3</b></span>
+        <span>platforms <b>QEMU · Pi3B · Pi4B · CM4</b></span>
+      </div>
+    </div>
+
+    <div class="rings" role="img" aria-label="TranquilOS privilege levels: EL2 hypervisor, EL1 microkernel, EL0 system services and apps">
+    <svg viewBox="0 0 560 560">
+      <!-- spokes -->
+      <g>
+        <line class="spoke" x1="320" y1="280" x2="530" y2="280"/><line class="spoke" x1="314.6" y1="300" x2="496.5" y2="405"/>
+        <line class="spoke" x1="300" y1="314.6" x2="405" y2="496.5"/><line class="spoke" x1="280" y1="320" x2="280" y2="530"/>
+        <line class="spoke" x1="260" y1="314.6" x2="155" y2="496.5"/><line class="spoke" x1="245.4" y1="300" x2="63.5" y2="405"/>
+        <line class="spoke" x1="240" y1="280" x2="30" y2="280"/><line class="spoke" x1="245.4" y1="260" x2="63.5" y2="155"/>
+        <line class="spoke" x1="260" y1="245.4" x2="155" y2="63.5"/><line class="spoke" x1="280" y1="240" x2="280" y2="30"/>
+        <line class="spoke" x1="300" y1="245.4" x2="405" y2="63.5"/><line class="spoke" x1="314.6" y1="260" x2="496.5" y2="155"/>
+      </g>
+      <!-- rings -->
+      <circle class="ring" cx="280" cy="280" r="230"/>
+      <circle class="ring" cx="280" cy="280" r="160"/>
+      <circle class="ring" cx="280" cy="280" r="95"/>
+      <!-- comets -->
+      <circle class="comet c1" cx="280" cy="280" r="230"/>
+      <circle class="comet c2" cx="280" cy="280" r="160"/>
+      <circle class="comet c3" cx="280" cy="280" r="95"/>
+      <!-- ring labels -->
+      <text class="el-l" x="117" y="121" text-anchor="middle">EL2</text>
+      <text class="el-l" x="167" y="171" text-anchor="middle">EL1</text>
+      <text class="el-l" x="213" y="217" text-anchor="middle">EL0</text>
+      <!-- nodes -->
+      <circle class="halo" cx="280" cy="50" r="11"/><circle class="node" cx="280" cy="50" r="4"/>
+      <text class="rl" x="298" y="54">hypervisor</text>
+      <circle class="halo" cx="418.6" cy="360" r="11"/><circle class="node" cx="418.6" cy="360" r="4"/>
+      <text class="rl" x="434" y="364">capability</text>
+      <circle class="halo" cx="141.4" cy="360" r="11"/><circle class="node" cx="141.4" cy="360" r="4"/>
+      <text class="rl" x="126" y="364" text-anchor="end">ipc</text>
+      <circle class="halo" cx="280" cy="120" r="11"/><circle class="node" cx="280" cy="120" r="4"/>
+      <text class="rl" x="298" y="124">scheduler</text>
+      <circle class="halo" cx="327.5" cy="362.3" r="11"/><circle class="node" cx="327.5" cy="362.3" r="4"/>
+      <text class="rl" x="343" y="366">systemd</text>
+      <circle class="halo" cx="185" cy="280" r="11"/><circle class="node" cx="185" cy="280" r="4"/>
+      <text class="rl" x="170" y="284" text-anchor="end">services</text>
+      <circle class="halo" cx="362.3" cy="232.5" r="11"/><circle class="node" cx="362.3" cy="232.5" r="4"/>
+      <text class="rl" x="378" y="236">apps</text>
+      <!-- core -->
+      <circle class="core" cx="280" cy="280" r="34"/>
+      <text class="core-t" x="280" y="284" text-anchor="middle">tranquil</text>
+    </svg>
+    </div>
+  </section>
+
+  <section class="metrics" aria-label="Project metrics">
+    <div><strong>EL0–EL3</strong><span>exception model</span></div>
+    <div><strong>4</strong><span>boot targets</span></div>
+    <div><strong>14+</strong><span>user apps</span></div>
+    <div><strong>800×480</strong><span>system canvas</span></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Design Pillars</p>
+      <h2>Three decisions that shape the whole system.</h2>
+      <p>TranquilOS is not a kernel toy — it is a full validation of the "microkernel + capability authorization + userspace services" combination on AArch64.</p>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <span class="tag">CAPABILITY</span>
+        <h3>Object-based authorization, no implicit privilege</h3>
+        <p>Processes hold capability slots in a CNode, not global privileges. Accessing a VSpace, Endpoint, Timer, Futex or IRQ requires a typed capability, and the rights mask is checked before every method dispatch.</p>
+      </article>
+      <article class="card">
+        <span class="tag">USERSPACE</span>
+        <h3>Userspace is the body of the system</h3>
+        <p>Process management, physical memory allocation and the IPC namespace belong to the privileged EL0 SystemDaemon; windows, files, networking, devices and app lifecycle are independent services. Failure domains map one-to-one to responsibilities.</p>
+      </article>
+      <article class="card">
+        <span class="tag">END-TO-END</span>
+        <h3>A complete implementation path</h3>
+        <p>From bootloader, DTB, hypervisor and kernel to zygote, framework services and graphical apps, every stage has a defined image location, initialization duty and handoff target — all reproducible from source.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Boot Chain</p>
+      <h2>Six stages, each with a single job.</h2>
+    </div>
+    <div class="pipe">
+      <div><span class="n">01</span><b>Bootloader</b><p>Early platform init, device-tree parsing and image loading; enters the EL1 kernel directly or starts the EL2 hypervisor first, depending on CPU CurrentEL.</p></div>
+      <div><span class="n">02</span><b>Hypervisor</b><p>EL2 Type-1: stage-2 translation, VM/VCPU/PCPU lifecycle, vGIC, vTimer, vPMU and the hypcall interface.</p></div>
+      <div><span class="n">03</span><b>Microkernel</b><p>EL1: capability object dispatch, migrating-thread IPC, SMP scheduling, IRQ, timers, futex, upcalls, modules and low-level drivers.</p></div>
+      <div><span class="n">04</span><b>SystemDaemon</b><p>Privileged EL0 process: process/thread creation, ELF loading, physical page allocation, SHM mapping, endpoint namespace, VM management.</p></div>
+      <div><span class="n">05</span><b>Framework</b><p>init → zygote brings up windowmgr, fsmgr, netmgr, devmgr, appmgr and the other services, all connected over SHM+IPC.</p></div>
+      <div><span class="n">06</span><b>Applications</b><p>systemui, launcher, settings, files, monitor, music, whiteboard, nes, ai and more run on the same service boundaries.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Kernel Decisions</p>
+      <h2>Core mechanisms are designed around isolation, call latency and interface maintainability.</h2>
+    </div>
+    <div class="grid c4">
+      <article class="card">
+        <span class="tag">CAP</span>
+        <h3>Object-capability</h3>
+        <p>An seL4-inspired object-capability model. A cref is a 64-bit reference: upper 32 bits cnode ID, lower 32 bits slot. The CNode uses a directory array for linear indexing with copy-free growth.</p>
+      </article>
+      <article class="card">
+        <span class="tag">IPC</span>
+        <h3>Migrating-thread IPC</h3>
+        <p>Synchronous calls don't wake a server thread through a message queue — the caller's execution context migrates into the callee's address space. Endpoint pools scale server concurrency.</p>
+      </article>
+      <article class="card">
+        <span class="tag">SMP</span>
+        <h3>Split schedule/execute contexts</h3>
+        <p>scontext and xcontext are separate: per-CPU schedulers only touch scheduling metadata; register state is only constructed on real context switches. CFS ships as a loadable kernel module.</p>
+      </article>
+      <article class="card">
+        <span class="tag">IDL</span>
+        <h3>Generated service bindings</h3>
+        <p>Interfaces are described in .idl files; the generator emits client wrappers, server dispatch, transport structs and ABI checks. Persistent SHM parameters reuse mappings for fixed control structs.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Coverage</p>
+      <h2>The implementation covers kernel, virtualization, services, graphics, networking and tooling.</h2>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <h3>Kernel core</h3>
+        <p>Exception model, MMU, SMP per-CPU scheduling, capability dispatch, migrating-thread IPC, fastcall, upcall, futex, IRQ, high-precision timers, module system, perf tracing.</p>
+      </article>
+      <article class="card">
+        <h3>Virtualization</h3>
+        <p>EL2 Type-1 hypervisor: stage-2 page tables, VM/VCPU/PCPU lifecycle, vGIC, vTimer, vPMU, hypcall.</p>
+      </article>
+      <article class="card">
+        <h3>System services</h3>
+        <p>Four SystemDaemon components (procmgr/memmgr/ipcmgr/virtmgr) plus framework services: windowmgr, fsmgr, netmgr, devmgr, appmgr, audiomgr, fontmgr, statemgr, timemgr, agentmgr and more.</p>
+      </article>
+      <article class="card">
+        <h3>Graphics &amp; apps</h3>
+        <p>An 800×480 landscape canvas with LVGL + FreeType + PortableGL; 14+ user applications run on top of the window compositor.</p>
+      </article>
+      <article class="card">
+        <h3>Storage &amp; network</h3>
+        <p>VFS over rootfs, ext2, FAT32, procfs and sysfs; lwIP TCP/IP stack with mbedTLS for HTTPS.</p>
+      </article>
+      <article class="card">
+        <h3>Tooling</h3>
+        <p>GN/Ninja builds every ELF and image; the IDL generator eliminates service glue code; four platform scripts cover QEMU and real Raspberry Pi hardware.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Run It</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">From source to a bootable image — one command.</h2>
+        <p class="lede" style="margin-bottom:24px">With the aarch64-elf cross toolchain installed, the run script performs the GN/Ninja build, assembles boot.img and system.img, and launches QEMU with 4-core SMP, 2 GB RAM, VirtIO devices and a ramfb display.</p>
+        <a class="btn primary" href="build.html">Full build guide <span class="arr">→</span></a>
+      </div>
+      <div class="term">
+        <div class="term-h"><i></i><i></i><i></i><span>quick start</span></div>
+        <div class="term-b"><span class="cm"># requires toolchains/aarch64-elf (see Build page)</span>
+<span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
+<span class="p">$</span> <span class="c">cd kernel</span>
+<span class="p">$</span> <span class="c">source env_setup.sh && ./run_qemu_virt.sh</span>
+<span class="ok">✓ boot.img · system.img assembled</span>
+<span class="ok">✓ qemu: 4 cores · 2G · virtio blk/net/input/snd · ramfb</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

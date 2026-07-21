@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS 路线图 — 已完成的系统能力、正在进行的工作与探索中的方向。">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
+<title>路线图 — TranquilOS</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
+  <a href="index.html" class="brand" aria-label="TranquilOS 首页">
+    <img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="主导航">
+    <a href="architecture.html">架构</a>
+    <a href="features.html">特性</a>
+    <a href="build.html">构建</a>
+    <a href="roadmap.html" class="on">路线图</a>
+    <a href="download.html">下载</a>
+    <a href="docs/index.html">文档</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="en/roadmap.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Roadmap</p>
+    <h1>不承诺日期，只标明方向。</h1>
+    <p class="lede">TranquilOS 是个人主导的长期系统工程项目。本页按「已完成 / 进行中 / 探索中」三档陈列工作状态，与内核仓库的 README 特性和 TODO 保持同步。</p>
+  </section>
+
+  <section class="sec">
+    <div class="lanes">
+      <div class="lane done">
+        <h3>已完成</h3>
+        <p class="sub">Shipped · 可在 QEMU / 真机运行</p>
+        <ul>
+          <li><b>AArch64 异常模型 + MMU</b> 虚拟内存（EL0–EL3）</li>
+          <li><b>SMP 抢占式调度器</b> per-CPU + 负载均衡，scontext/xcontext 分离</li>
+          <li><b>Capability 访问控制</b> CNode / VSpace / Endpoint / Timer / Futex / IRQ</li>
+          <li><b>迁移线程同步 IPC</b> + endpoint pool 弹性 IPC</li>
+          <li><b>upcall 机制</b> 内核 → 用户态调用转发</li>
+          <li><b>SystemDaemon</b> procmgr / memmgr / ipcmgr / virtmgr</li>
+          <li><b>EL2 Type-1 hypervisor</b> stage-2 · vGIC · vTimer · vPMU</li>
+          <li><b>initcall 分级初始化</b> LV0–LV7</li>
+          <li><b>可加载内核模块</b> CFS 调度类插件</li>
+          <li><b>12 个框架服务</b> 窗口 / 文件 / 网络 / 设备 / 应用 / 字体 / 音频等</li>
+          <li><b>图形栈 + 14 款应用</b> LVGL · FreeType · PortableGL · 800×480</li>
+          <li><b>GN/Ninja + IDL 工具链</b> 服务接口代码生成</li>
+          <li><b>四平台启动</b> QemuVirt · Pi3B · Pi4B · CM4</li>
+        </ul>
+      </div>
+      <div class="lane doing">
+        <h3>进行中</h3>
+        <p class="sub">In progress · 仓库 TODO 跟踪</p>
+        <ul>
+          <li><b>进程退出资源释放</b> 完善进程销毁时的 capability、内存与 IPC 资源回收路径</li>
+          <li><b>服务启动依赖排序</b> 服务配置增加 deps 声明，init 按依赖图构建拉起顺序，替代固定顺序启动</li>
+        </ul>
+        <p class="sub" style="margin-top:18px">持续打磨</p>
+        <ul>
+          <li><b>性能追踪</b> perf / perfmgr 覆盖更多子系统</li>
+          <li><b>文档补齐</b> 设计文档与接口文档随实现同步</li>
+        </ul>
+      </div>
+      <div class="lane next">
+        <h3>探索中</h3>
+        <p class="sub">Exploring · 已留桩或立项方向</p>
+        <ul>
+          <li><b>Trustee / TEE</b> 可信执行环境（<code>sys/trustee/</code> 当前为 stub）</li>
+          <li><b>Fastcall</b> 内核内联高性能调用路径（当前为 stub）</li>
+          <li><b>更多调度类</b> 基于模块系统的调度策略扩展（CFS 之外的插件）</li>
+          <li><b>AI agent 框架深化</b> agentmgr 与系统服务的进一步集成</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Follow Along</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">进展都在仓库里。</h2>
+        <p class="lede" style="margin-bottom:24px">每一个里程碑对应真实的提交历史与可运行的镜像。想验证任何一条「已完成」，克隆仓库、一条命令跑起来看。</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="https://github.com/nerossoft/TranquilOS">GitHub 仓库 <span class="arr">→</span></a>
+          <a class="btn" href="build.html">构建指南</a>
+        </div>
+      </div>
+      <div class="term">
+        <div class="term-h"><i></i><i></i><i></i><span>verify it yourself</span></div>
+        <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
+<span class="p">$</span> <span class="c">cd kernel && source env_setup.sh</span>
+<span class="p">$</span> <span class="c">./run_qemu_virt.sh</span>
+<span class="ok">✓ every "done" item, running in front of you</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

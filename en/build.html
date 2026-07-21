@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="TranquilOS build guide — toolchain setup, the GN/Ninja pipeline, running on QemuVirt / Pi3B / Pi4B / CM4, and the boot/system image layout.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
+<title>Build — TranquilOS</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../script.js" defer></script>
+</head>
+<body>
+
+<header class="hd"><div class="hd-in">
+  <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
+  <a href="index.html" class="brand" aria-label="TranquilOS home">
+    <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
+  </a>
+  <nav class="hd-nav" aria-label="Primary navigation">
+    <a href="architecture.html">Architecture</a>
+    <a href="features.html">Features</a>
+    <a href="build.html" class="on">Build</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="download.html">Downloads</a>
+    <a href="docs/index.html">Docs</a>
+  </nav>
+  <div class="hd-r">
+    <a class="hd-btn" href="../build.html" hreflang="zh-CN" lang="zh-CN"><span class="accent">中文</span></a>
+    <button class="hd-btn" id="tog" type="button" aria-label="Toggle theme">☾</button>
+    <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+  </div>
+  <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
+</div></header>
+
+<main class="w">
+
+  <section class="phero">
+    <p class="eyebrow">Build</p>
+    <h1>The path from source tree to bootable image is deterministic.</h1>
+    <p class="lede">The build does not produce a single kernel binary — it produces a set of images and ELFs organized by boot stage: GN generates the target graph, Ninja compiles boot, hypervisor, kernel and userspace components, then scripts assemble boot.img, system.img and the ramdisk, and configure the QEMU or Raspberry Pi boot environment per platform.</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Prerequisites</p>
+      <h2>Set up the toolchain.</h2>
+    </div>
+    <div class="grid c2">
+      <div class="card">
+        <span class="tag">TOOLCHAIN</span>
+        <h3>Cross compiler</h3>
+        <p>TranquilOS produces freestanding AArch64 binaries, so the host's default compiler won't do. Download a toolchain from <code>newos.org/toolchains</code> and extract it into the repository's <code>toolchains/</code> directory. The default is <code>aarch64-elf</code> (GCC 12.2.0 for bare-metal targets).</p>
+      </div>
+      <div class="card">
+        <span class="tag">MACOS ONLY</span>
+        <h3>e2fsprogs</h3>
+        <p>system.img is an ext2 filesystem image. Assembling it on macOS requires Homebrew's e2fsprogs. Without it, compilation can succeed while image assembly fails.</p>
+        <pre style="margin-top:14px"><code>brew install e2fsprogs</code></pre>
+      </div>
+    </div>
+    <p class="note" style="margin-top:16px"><b>Note:</b> <code>env_setup.sh</code> must be sourced in every new shell — it exports <code>OS_BASE_DIR=~/kernel</code> and puts gn and the compilers on PATH. <code>OS_BASE_DIR</code> is hardcoded to <code>~/kernel</code>; if you checked the repo out elsewhere, edit it first.</p>
+  </section>
+
+  <section class="sec">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Quick Start</p>
+        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">One command to build and boot.</h2>
+        <p class="lede" style="margin-bottom:24px">QemuVirt is the primary development platform: the script builds, assembles images, and launches a 4-core SMP, 2 GB RAM virtual machine (HVF-accelerated on macOS) with a ramfb display and the full VirtIO set. Validate scheduler, IPC, capability, MMU and other kernel changes here first.</p>
+        <a class="btn primary" href="download.html">Skip the build? Get prebuilt images <span class="arr">→</span></a>
+      </div>
+      <div class="term">
+        <div class="term-h"><i></i><i></i><i></i><span>quick start — qemu virt</span></div>
+        <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
+<span class="p">$</span> <span class="c">cd kernel</span>
+<span class="cm"># after extracting the toolchain into toolchains/:</span>
+<span class="p">$</span> <span class="c">source env_setup.sh && ./run_qemu_virt.sh</span>
+<span class="ok">✓ gn gen out --args='platform="QemuVirt"'</span>
+<span class="ok">✓ ninja: boot · hypervisor · kernel · systemd · apps</span>
+<span class="ok">✓ boot.img (64M) · system.img (128M, ext2)</span>
+<span class="ok">✓ qemu virt: 4 cores · 2G · HVF · ramfb 800×480</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Platform Matrix</p>
+      <h2>Four boot targets.</h2>
+    </div>
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Platform</th><th>Script</th><th>Display</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>QemuVirt</td><td><code>./run_qemu_virt.sh</code></td><td>ramfb graphics</td><td>Primary dev platform. VirtIO console/block/net/input/sound — the most complete device set.</td></tr>
+        <tr><td>Pi3B (QEMU)</td><td><code>./run_qemu_pi3b.sh</code></td><td><code>-nographic</code> serial</td><td>Raspberry Pi 3B emulation, headless — good for serial-path validation.</td></tr>
+        <tr><td>Pi4B (QEMU)</td><td><code>./run_qemu_pi4b.sh</code></td><td>SD card image</td><td>Boots from an MBR-partitioned SD image built by <code>mkpiimg.sh</code>.</td></tr>
+        <tr><td>CM4 (hardware)</td><td><code>./run_board_cm4.sh</code></td><td>HDMI</td><td>Real hardware. Flashes a Compute Module 4 over USB via <code>rpiboot</code>; requires a carrier board.</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Manual Build</p>
+      <h2>Manual and single-target builds.</h2>
+    </div>
+    <div class="split">
+      <div>
+<pre><code>source env_setup.sh
+
+# configure (platform defaults to QemuVirt, can be omitted)
+gn gen out --args='platform="QemuVirt"'
+
+# full build
+ninja -C out
+
+# build a single service / app
+ninja -C out Windowmgr</code></pre>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>Toolchain</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>aarch64-elf</code></td><td>Default; macOS cross-compile (GCC 12.2.0)</td></tr>
+            <tr><td><code>aarch64-linux-gnu</code></td><td>Linux cross-compile; install separately</td></tr>
+            <tr><td><code>clang</code></td><td>Clang build; install separately</td></tr>
+            <tr><td><code>hostgcc</code></td><td>Host GCC, for tooling targets</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:16px">Switch toolchains with <code>gn gen out --args='toolchain="clang"'</code>. GN targets come in only four kinds: <b>executable / source_set / group / config</b>. Every userspace executable provides <code>_start</code> via <code>libcrt/start.S</code> and links a platform-specific linker script.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Pipeline</p>
+      <h2>The four stages behind every run script.</h2>
+    </div>
+    <div class="pipe">
+      <div><span class="n">01</span><b>build.sh</b><p><span class="mono">gn gen</span> + <span class="mono">ninja</span>: compile all ELFs — bootloader, hypervisor, kernel, SystemDaemon, services and apps.</p></div>
+      <div><span class="n">02</span><b>make_boot_img.sh</b><p><span class="mono">objcopy</span> ELFs to raw binaries, then <span class="mono">dd</span> them into the 64 MB boot.img at fixed offsets.</p></div>
+      <div><span class="n">03</span><b>make_system_img.sh</b><p>Strip ELFs, then build the 128 MB ext2 system.img via <span class="mono">mke2fs</span> + <span class="mono">debugfs</span> with services, apps, fonts and configs.</p></div>
+      <div><span class="n">04</span><b>run.sh</b><p>Launch QEMU: 4-core SMP, 2 GB RAM, HVF on macOS, VirtIO devices and a ramfb display.</p></div>
+    </div>
+    <div class="split" style="margin-top:16px">
+      <div>
+<pre><code>boot.img (64MB)
+  offset 0      Bootloader    8MB
+  offset 2048   DTB           8MB
+  offset 4096   Hypervisor   16MB
+  offset 8192   Kernel       16MB
+  offset 12288  SystemDaemon  8MB
+  offset 14336  Ramdisk cpio  8MB</code></pre>
+      </div>
+      <div>
+<pre><code>system.img (128MB, ext2)
+  bin/   framework services
+  apps/  user applications
+  etc/   fonts · icons · init config
+
+# QEMU backends can be overridden via env:
+QEMU_DISPLAY_BACKEND="cocoa,zoom-interpolation=on,..."
+QEMU_SERIAL_BACKEND="mon:stdio"
+QEMU_MONITOR_BACKEND="none"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <p class="eyebrow">Repository</p>
+      <h2>A tour of the source tree.</h2>
+    </div>
+    <div class="grid c3">
+      <div class="card"><h3>sys/</h3><p>System foundation (TCB): <code>kernel/</code> microkernel, <code>virt/</code> hypervisor, <code>boot/</code> bootloader, <code>uapps/</code> init &amp; core services, <code>ulibs/</code> libc, syscall and other low-level libraries.</p></div>
+      <div class="card"><h3>os/</h3><p>OS userspace: <code>base/</code> zygote &amp; netmgr, <code>framework/</code> window/app/font/audio services, <code>apps/</code> user applications, <code>libs/</code> shared libraries, <code>thrid_party/</code> third-party sources.</p></div>
+      <div class="card"><h3>platform/</h3><p>Per-platform configs: DTBs, linker scripts, firmware and build/run scripts for QemuVirt, Pi3b, Pi4b and CM4.</p></div>
+      <div class="card"><h3>build/</h3><p>The GN build system and toolchain definitions.</p></div>
+      <div class="card"><h3>images/</h3><p>Ramdisk (cpio) and system image templates.</p></div>
+      <div class="card"><h3>docs/</h3><p>Design documents: basic_theory, microkernel_design, idl, async_ipc_design.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft"><div class="ft-in">
+  <div class="l"><img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span></div>
+  <div class="r">
+    <span>Capability-Based Microkernel for AArch64</span>
+    <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
+    <span>Built by NeoYang</span>
+  </div>
+</div></footer>
+
+</body>
+</html>
