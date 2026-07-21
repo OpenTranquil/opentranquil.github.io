@@ -43,18 +43,16 @@ code,kbd,pre{font-family:var(--font-mono)}
 .nav-burger span:nth-child(1){top:10px}.nav-burger span:nth-child(2){top:15px}.nav-burger span:nth-child(3){top:20px}
 
 /* ---------- generic layout ---------- */
-.w{max-width:var(--wrap);margin:auto;padding:0 28px}
-main{counter-reset:sec}
-.sec{position:relative;padding:96px 0;border-bottom:1px solid var(--ln);counter-increment:sec}
+.w{max-width:var(--wrap-width);margin:auto;padding:0 var(--space-6)}
+.sec{position:relative;padding:var(--space-section) 0;border-bottom:1px solid var(--color-border-1)}
 .sec:last-child{border-bottom:0}
-.sec::after{content:counter(sec,decimal-leading-zero);position:absolute;top:80px;right:0;font:650 120px/1 var(--mono);letter-spacing:-.05em;color:var(--tx);opacity:.045;pointer-events:none;z-index:0}
-.sec-head{position:relative;z-index:1;max-width:760px;margin-bottom:56px}
-.sec-head h2{margin:0 0 14px;font-size:clamp(26px,3.2vw,34px);line-height:1.22;font-weight:640;letter-spacing:-.022em}
-.sec-head p{margin:0;color:var(--mut);font-size:15px}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;margin:0 0 18px;font:600 11.5px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ac)}
-.eyebrow::before{content:"";width:6px;height:6px;border-radius:1.5px;background:var(--ac)}
-.lede{color:var(--mut);font-size:16px;max-width:760px;line-height:1.85}
-.grad{background:linear-gradient(115deg,var(--ac2) 10%,var(--ac) 85%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.sec-head{position:relative;z-index:1;max-width:var(--content-width);margin-bottom:var(--space-10)}
+.sec-head h2{margin:0 0 var(--space-3);font-size:clamp(var(--text-3xl),3.2vw,var(--text-4xl));line-height:var(--leading-snug);font-weight:var(--weight-bold);letter-spacing:var(--tracking-tight)}
+.sec-head p{margin:0;color:var(--color-text-2);font-size:var(--text-md)}
+.eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-4);font:var(--weight-semi) var(--text-xs)/1 var(--font-mono);letter-spacing:var(--tracking-ultra);text-transform:uppercase;color:var(--color-accent)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:var(--radius-sm);background:var(--color-accent)}
+.lede{color:var(--color-text-2);font-size:var(--text-md);max-width:68ch;line-height:var(--leading-relaxed)}
+.grad{background:linear-gradient(115deg,var(--color-accent-dim) 10%,var(--color-accent) 85%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;border:1px solid var(--ln2);border-radius:var(--r);background:transparent;color:var(--tx);font:550 13.5px/1 var(--sans);cursor:pointer;transition:border-color .15s,color .15s,box-shadow .15s,transform .15s}
