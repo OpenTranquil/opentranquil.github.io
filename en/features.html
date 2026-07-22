@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS feature list — implementation status of the microkernel, EL2 hypervisor, core system services, framework services, drivers, filesystems, networking and user applications.">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>Features — TranquilOS</title>
 <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../style.css">
 <script src="../script.js" defer></script>
 </head>
-<body>
+<body class="features-page">
 
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
@@ -20,7 +20,7 @@
   </a>
   <nav class="hd-nav" aria-label="Primary navigation">
     <a href="architecture.html">Architecture</a>
-    <a href="features.html" class="on">Features</a>
+    <a href="features.html" class="on" aria-current="page">Features</a>
     <a href="build.html">Build</a>
     <a href="roadmap.html">Roadmap</a>
     <a href="download.html">Downloads</a>
@@ -37,14 +37,12 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Features</p>
-    <h1>Implementation status, item by item.</h1>
-    <p class="lede">This list mirrors the Features section of the kernel repository README. <span class="ok">✓</span> means implemented and running on QEMU / Raspberry Pi targets; open exploration items live on the <a href="roadmap.html">roadmap</a>.</p>
+    <h1>What runs, at a glance.</h1>
+    <p class="lede"><span class="ok">✓</span> means running on QEMU or Raspberry Pi. Exploration items live on the <a href="roadmap.html">roadmap</a>; this list mirrors the repository README.</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Microkernel</p>
       <h2>The EL1 microkernel.</h2>
     </div>
     <div class="grid c2">
@@ -75,7 +73,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Hypervisor</p>
       <h2>EL2 Type-1 virtualization.</h2>
     </div>
     <div class="card">
@@ -90,10 +87,9 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">SystemDaemon</p>
-      <h2>Core system services (privileged EL0).</h2>
+      <h2>Core system services.</h2>
     </div>
-    <div class="grid c4">
+    <div class="grid c4 feature-ledger">
       <div class="card"><span class="tag">procmgr</span><h3>Process management</h3><p>Process / thread lifecycle, ELF loading, PID lookup.</p></div>
       <div class="card"><span class="tag">memmgr</span><h3>Memory management</h3><p>Buddy physical-page allocator, virtual address spaces, SHM.</p></div>
       <div class="card"><span class="tag">ipcmgr</span><h3>IPC namespace</h3><p>Endpoint / pool creation, name service, capability cloning.</p></div>
@@ -103,10 +99,9 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Framework Services</p>
-      <h2>Framework services (independent EL0 processes).</h2>
+      <h2>Independent framework services.</h2>
     </div>
-    <div class="grid c3">
+    <div class="grid c3 feature-ledger">
       <div class="card"><span class="tag">devmgr</span><h3>Device management</h3><p>Device driver framework and peripheral management.</p></div>
       <div class="card"><span class="tag">fsmgr</span><h3>Filesystems</h3><p>VFS abstraction: rootfs, ext2, FAT32, procfs, sysfs.</p></div>
       <div class="card"><span class="tag">netmgr</span><h3>Network stack</h3><p>lwIP TCP/IP; mbedTLS for HTTPS scenarios.</p></div>
@@ -124,7 +119,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Drivers &amp; Graphics</p>
       <h2>In-kernel drivers and the graphics stack.</h2>
     </div>
     <div class="split">
@@ -153,7 +147,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Applications</p>
       <h2>14+ user applications.</h2>
       <p>All running on the same service boundaries, registered and launched via appmgr.</p>
     </div>

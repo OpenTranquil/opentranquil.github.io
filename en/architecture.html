@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS architecture — EL2 Type-1 hypervisor, EL1 object-capability microkernel, privileged SystemDaemon, migrating-thread IPC, split schedule/execute contexts, initcall boot chain and the service ABI.">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>Architecture — TranquilOS</title>
 <link rel="stylesheet" href="../theme.css">
@@ -19,7 +19,7 @@
     <img src="../branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="Primary navigation">
-    <a href="architecture.html" class="on">Architecture</a>
+    <a href="architecture.html" class="on" aria-current="page">Architecture</a>
     <a href="features.html">Features</a>
     <a href="build.html">Build</a>
     <a href="roadmap.html">Roadmap</a>
@@ -37,16 +37,14 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Architecture</p>
-    <h1>A system organized by privilege levels, object authorization and service boundaries.</h1>
-    <p class="lede">TranquilOS turns ARMv8-A exception levels into an architectural language: EL2 runs a Type-1 hypervisor, EL1 is a capability microkernel that only dispatches objects and schedules, and EL0 carries everything from SystemDaemon to graphical apps. Layers interact only through capability calls, migrating-thread IPC and shared memory.</p>
+    <h1>Privilege layers. Capability authority. Isolated services.</h1>
+    <p class="lede">EL2 runs the hypervisor, EL1 the microkernel, and EL0 the system services and applications. Layers interact only through capabilities, IPC and shared memory.</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Blueprint</p>
-      <h2>Three runtime layers — each does only its own job.</h2>
-      <p>Boot hands off down the chain EL2 → EL1 → EL0; at runtime, requests sink back down through capability calls. Components inside EL0 talk only over IPC + SHM.</p>
+      <h2>Three runtime layers. Clear boundaries.</h2>
+      <p>Boot hands off EL2 → EL1 → EL0; runtime communication uses capabilities, IPC and SHM.</p>
     </div>
     <div class="svg-scroll">
     <svg class="arch-svg" viewBox="0 0 1120 500" role="img" aria-label="TranquilOS layered architecture: EL2 hypervisor, EL1 microkernel, EL0 SystemDaemon / Framework Services / Applications">
@@ -157,9 +155,8 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Capability System</p>
         <h2>Every kernel object is reached through a capability.</h2>
-        <p class="lede">Each process owns a CNode holding references to the kernel objects it may access. The CNode is built on a directory array — array-speed indexing with dynamic-array growth, expanding without copying existing slots. A capability reference (cref) is a 64-bit value: upper 32 bits cnode ID, lower 32 bits slot index; the root CNode has ID 1. The kernel checks object type and a 32-bit rights mask before every method dispatch.</p>
+        <p class="lede">Each process stores accessible kernel objects in a CNode. A 64-bit cref combines a cnode ID and slot; the kernel checks object type and rights before dispatch.</p>
         <div class="badges">
           <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
           <span class="badge">SContext</span><span class="badge">XContext</span><span class="badge">Timer</span>
@@ -182,9 +179,8 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">IPC Model</p>
-      <h2>Migrating-thread IPC: cross-process calls that behave like function calls.</h2>
-      <p>Traditional IPC only responds once the server thread gets scheduled onto a CPU — latency is nondeterministic. TranquilOS synchronous IPC migrates the caller's execution context into the callee's address space: IPC does not depend on scheduler behavior, so it is faster and predictable.</p>
+      <h2>Cross-process calls that behave like functions.</h2>
+      <p>Synchronous IPC migrates the caller's context into the callee's address space—no server-thread scheduling wait.</p>
     </div>
     <div class="grid c2">
       <article class="card">
@@ -212,9 +208,8 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Scheduler</p>
         <h2>Scheduling and execution are two data structures.</h2>
-        <p class="lede">The traditional TCB is split into a <code>schedule_context_s</code> (scheduling entity) and an <code>execute_context_s</code> (execution entity). Per-CPU schedulers manipulate only scheduling metadata; register state is constructed on real context switches. Under SMP each CPU runs a local scheduler with cross-core load balancing, and CFS is plugged in as a loadable kernel module.</p>
+        <p class="lede">The TCB is split into scheduling and execution entities. Each CPU schedules locally and touches register state only on real switches; CFS plugs in as a kernel module.</p>
         <div class="badges">
           <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
           <span class="badge">preemptive</span><span class="badge">CFS module</span>
@@ -237,9 +232,8 @@ execute_context_s    // execution state
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">SystemDaemon &amp; Memory</p>
         <h2>The kernel keeps only a boot allocator — memory policy lives in EL0.</h2>
-        <p class="lede">The microkernel keeps just a boot-time allocator for itself and SystemDaemon startup. SystemDaemon is a privileged EL0 process linked at <code>0x43080000</code> that issues capcalls directly, exposing four managers as singleton components: procmgr (processes/threads, ELF loading), memmgr (buddy physical-page allocation, SHM), ipcmgr (endpoints/pools, name service, capability cloning) and virtmgr (virtual machines).</p>
+        <p class="lede">The kernel keeps only a boot allocator. Memory policy lives in SystemDaemon across four components: procmgr, memmgr, ipcmgr and virtmgr.</p>
       </div>
       <div>
         <table class="tbl">
@@ -257,7 +251,6 @@ execute_context_s    // execution state
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Boot</p>
       <h2>Boot: leveled initcalls, fixed image layout.</h2>
       <p>The linker places initialization functions into dedicated sections for levels LV0–LV7, and the kernel runs them in order; the bootloader decides whether to start the hypervisor first or enter the kernel directly, based on CurrentEL.</p>
     </div>
@@ -301,9 +294,8 @@ system.img (128MB, ext2)
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Service ABI</p>
-      <h2>Every service shares one skeleton; interfaces are written in IDL and code-generated.</h2>
-      <p>All framework services follow the same structure: <code>main.c</code> initializes and registers, <code>service/service.c</code> dispatches by method number, and <code>client/</code> is a thin IPC wrapper. The IDL generator emits five files — types, client and service — with ABI version and size validation.</p>
+      <h2>One service skeleton. IDL-generated interfaces.</h2>
+      <p><code>main.c</code> registers, <code>service.c</code> dispatches, and <code>client/</code> wraps IPC; generation also validates the ABI.</p>
     </div>
     <div class="split">
       <div>

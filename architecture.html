@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS 架构 — EL2 Type-1 hypervisor、EL1 object-capability 微内核、特权 SystemDaemon、迁移线程 IPC、调度/执行上下文分离、initcall 启动链与服务 ABI。">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>架构 — TranquilOS</title>
 <link rel="stylesheet" href="theme.css">
@@ -19,7 +19,7 @@
     <img src="branding/tranquilos-final-line/mark-color.svg" alt=""><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="主导航">
-    <a href="architecture.html" class="on">架构</a>
+    <a href="architecture.html" class="on" aria-current="page">架构</a>
     <a href="features.html">特性</a>
     <a href="build.html">构建</a>
     <a href="roadmap.html">路线图</a>
@@ -37,16 +37,14 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Architecture</p>
-    <h1>以权限级别、对象授权与服务边界组织的系统。</h1>
-    <p class="lede">TranquilOS 把 ARMv8-A 的异常级别变成架构语言：EL2 运行 Type-1 hypervisor，EL1 是只做对象分发与调度的 capability 微内核，EL0 承载从 SystemDaemon 到图形应用的全部系统功能。层与层之间只通过 capability 调用、迁移线程 IPC 与共享内存交互。</p>
+    <h1>权限分层，能力授权，服务隔离。</h1>
+    <p class="lede">EL2 运行 hypervisor，EL1 运行微内核，EL0 承载系统服务与应用。层间只通过 capability、IPC 和共享内存交互。</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Blueprint</p>
-      <h2>三层运行时，各自只做自己该做的事。</h2>
-      <p>启动沿 EL2 → EL1 → EL0 逐层交接；运行时请求沿相反方向经 capability 调用下沉。EL0 内部组件之间只经 IPC + SHM 通信。</p>
+      <h2>三层运行时，边界清晰。</h2>
+      <p>启动沿 EL2 → EL1 → EL0 交接；运行时通过 capability、IPC 与 SHM 通信。</p>
     </div>
     <div class="svg-scroll">
     <svg class="arch-svg" viewBox="0 0 1120 500" role="img" aria-label="TranquilOS 分层架构图：EL2 hypervisor、EL1 microkernel、EL0 SystemDaemon / Framework Services / Applications">
@@ -157,9 +155,8 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Capability System</p>
         <h2>所有内核对象，只经 capability 访问。</h2>
-        <p class="lede">每个进程持有一个 CNode，保存它可访问的内核对象引用。CNode 由 directory array 实现——兼具数组索引的速度与动态扩展能力，扩展时不拷贝已有 slot。capability 引用（cref）是 64 位值：高 32 位为 cnode ID，低 32 位为 slot 索引，根 CNode ID 为 1。每次方法分发前，内核检查对象类型与 32 位 rights mask。</p>
+        <p class="lede">每个进程用 CNode 保存可访问的内核对象。64 位 cref 由 cnode ID 与 slot 组成；每次分发前，内核检查对象类型与 rights mask。</p>
         <div class="badges">
           <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
           <span class="badge">SContext</span><span class="badge">XContext</span><span class="badge">Timer</span>
@@ -182,9 +179,8 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">IPC Model</p>
-      <h2>迁移线程 IPC：让跨进程调用像函数调用。</h2>
-      <p>传统 IPC 要等 server 线程被调度上 CPU 才能响应，延迟不确定。TranquilOS 的同步 IPC 把调用方的执行上下文直接迁入被调进程的地址空间——IPC 不依赖调度器行为，因此更快、更可预期。</p>
+      <h2>跨进程调用，像函数调用。</h2>
+      <p>同步 IPC 把调用方上下文直接迁入被调地址空间，不等待服务线程调度。</p>
     </div>
     <div class="grid c2">
       <article class="card">
@@ -212,9 +208,8 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Scheduler</p>
         <h2>调度与执行，是两份数据结构。</h2>
-        <p class="lede">传统 TCB 被拆成 <code>schedule_context_s</code>（调度实体）与 <code>execute_context_s</code>（执行实体）。per-CPU 调度器只操作调度元数据，真正切换上下文时才触碰寄存器状态。SMP 下每个 CPU 有独立本地调度器，配跨核负载均衡；CFS 调度类以可加载内核模块形式挂接。</p>
+        <p class="lede">TCB 拆成调度实体与执行实体。每个 CPU 独立调度，只在真实切换时触碰寄存器状态；CFS 作为内核模块挂接。</p>
         <div class="badges">
           <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
           <span class="badge">preemptive</span><span class="badge">CFS module</span>
@@ -237,9 +232,8 @@ execute_context_s    // 执行状态
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">SystemDaemon &amp; Memory</p>
         <h2>内核只留 boot allocator，内存策略在 EL0。</h2>
-        <p class="lede">微内核内部只保留启动期分配器，为自身与 SystemDaemon 启动提供内存。SystemDaemon 是链地址 <code>0x43080000</code> 的特权 EL0 进程，直接发起 capcall，以单例组件形式提供四个管理器：procmgr（进程/线程、ELF 装载）、memmgr（物理页 buddy 分配、SHM）、ipcmgr（endpoint/pool、name service、capability 克隆）、virtmgr（虚拟机管理）。</p>
+        <p class="lede">内核只保留启动期分配器。内存策略位于 SystemDaemon，由 procmgr、memmgr、ipcmgr 与 virtmgr 四个组件实现。</p>
       </div>
       <div>
         <table class="tbl">
@@ -257,7 +251,6 @@ execute_context_s    // 执行状态
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Boot</p>
       <h2>启动：initcall 分级初始化，镜像布局固定。</h2>
       <p>链接器把初始化函数按 LV0–LV7 放入专用段，内核逐级执行；bootloader 根据 CurrentEL 决定先起 hypervisor 还是直入内核。</p>
     </div>
@@ -301,9 +294,8 @@ system.img (128MB, ext2)
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Service ABI</p>
-      <h2>每个服务，同一副骨架；接口用 IDL 描述，代码生成。</h2>
-      <p>所有 framework 服务遵循相同结构：<code>main.c</code> 初始化并注册，<code>service/service.c</code> 按方法号分发，<code>client/</code> 是薄 IPC 封装。IDL 生成器产出 types/client/service 五个文件，并做 ABI 版本与尺寸校验。</p>
+      <h2>同一服务骨架，IDL 生成接口。</h2>
+      <p><code>main.c</code> 注册服务，<code>service.c</code> 分发方法，<code>client/</code> 封装 IPC；生成器同时校验 ABI。</p>
     </div>
     <div class="split">
       <div>

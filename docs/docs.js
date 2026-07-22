@@ -35,9 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const spy = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        links.forEach(a => a.classList.remove("on"));
+        links.forEach(a => {
+          a.classList.remove("on");
+          a.removeAttribute("aria-current");
+        });
         const active = byId[entry.target.id];
-        if (active) active.classList.add("on");
+        if (active) {
+          active.classList.add("on");
+          active.setAttribute("aria-current", "location");
+        }
       });
     }, { rootMargin: "-20% 0px -70% 0px", threshold: 0 });
     secs.forEach(s => spy.observe(s));

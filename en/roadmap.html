@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS roadmap — shipped system capabilities, work in progress and directions under exploration.">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>Roadmap — TranquilOS</title>
 <link rel="stylesheet" href="../theme.css">
@@ -22,7 +22,7 @@
     <a href="architecture.html">Architecture</a>
     <a href="features.html">Features</a>
     <a href="build.html">Build</a>
-    <a href="roadmap.html" class="on">Roadmap</a>
+    <a href="roadmap.html" class="on" aria-current="page">Roadmap</a>
     <a href="download.html">Downloads</a>
     <a href="docs/index.html">Docs</a>
   </nav>
@@ -37,9 +37,8 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Roadmap</p>
-    <h1>No date promises — just directions.</h1>
-    <p class="lede">TranquilOS is a long-term systems project driven by one person. This page lists work in three lanes — Done / In Progress / Exploring — and stays in sync with the kernel repository's README features and TODO.</p>
+    <h1>Direction, not date promises.</h1>
+    <p class="lede">Work is grouped as Done, In Progress or Exploring, in sync with the repository README and TODO.</p>
   </section>
 
   <section class="sec">
@@ -92,16 +91,15 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Follow Along</p>
         <h2 class="split-h2">Progress lives in the repository.</h2>
-        <p class="lede">Every milestone corresponds to real commit history and a runnable image. To verify any "Done" item, clone the repo and boot it — one command.</p>
+        <p class="lede">Every milestone has commit history and a runnable image. Clone the repository to verify it.</p>
         <div class="hero-actions">
           <a class="btn primary" href="https://github.com/nerossoft/TranquilOS">GitHub repository <span class="arr">→</span></a>
           <a class="btn" href="build.html">Build guide</a>
         </div>
       </div>
       <div class="term">
-        <div class="term-h"><i></i><i></i><i></i><span>verify it yourself</span></div>
+        <div class="term-h"><span>verify it yourself</span></div>
         <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
 <span class="p">$</span> <span class="c">cd kernel && source env_setup.sh</span>
 <span class="p">$</span> <span class="c">./run_qemu_virt.sh</span>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS 构建指南 — 工具链准备、GN/Ninja 构建流水线、QemuVirt / Pi3B / Pi4B / CM4 四平台运行方式与镜像布局。">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>构建 — TranquilOS</title>
 <link rel="stylesheet" href="theme.css">
@@ -21,7 +21,7 @@
   <nav class="hd-nav" aria-label="主导航">
     <a href="architecture.html">架构</a>
     <a href="features.html">特性</a>
-    <a href="build.html" class="on">构建</a>
+    <a href="build.html" class="on" aria-current="page">构建</a>
     <a href="roadmap.html">路线图</a>
     <a href="download.html">下载</a>
     <a href="docs/index.html">文档</a>
@@ -37,14 +37,12 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Build</p>
-    <h1>从源码树到可启动镜像，路径是确定的。</h1>
-    <p class="lede">构建产物不是单一 kernel binary，而是一组按启动阶段组织的镜像与 ELF：GN 生成目标图，Ninja 编译 boot、hypervisor、kernel 与用户态组件，脚本组装 boot.img、system.img 与 ramdisk，并按平台配置启动 QEMU 或树莓派环境。</p>
+    <h1>一条确定的构建链。</h1>
+    <p class="lede">GN/Ninja 编译 boot、hypervisor、kernel 与用户态组件；脚本组装镜像并启动目标平台。</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Prerequisites</p>
       <h2>准备工具链。</h2>
     </div>
     <div class="grid c2">
@@ -66,13 +64,12 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Quick Start</p>
         <h2 class="split-h2">一条命令，构建并启动。</h2>
-        <p class="lede">QemuVirt 是主要开发平台：脚本依次完成构建、镜像组装，并启动 4 核 SMP、2G 内存的虚拟机（macOS 上使用 HVF 硬件加速），带 ramfb 显示与 VirtIO 全家桶。调度、IPC、capability、MMU 等内核改动都应先在 QemuVirt 上验证。</p>
+        <p class="lede">QemuVirt 是主要开发平台。脚本完成构建、镜像组装并启动带 ramfb 与 VirtIO 的 4 核虚拟机。</p>
         <a class="btn primary" href="download.html">不想编译？下载预构建镜像 <span class="arr">→</span></a>
       </div>
       <div class="term">
-        <div class="term-h"><i></i><i></i><i></i><span>quick start — qemu virt</span></div>
+        <div class="term-h"><span>quick start — qemu virt</span></div>
         <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
 <span class="p">$</span> <span class="c">cd kernel</span>
 <span class="cm"># 解压工具链到 toolchains/ 之后：</span>
@@ -87,7 +84,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Platform Matrix</p>
       <h2>四个启动目标。</h2>
     </div>
     <div class="tbl-wrap">
@@ -105,7 +101,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Manual Build</p>
       <h2>手动构建与单目标编译。</h2>
     </div>
     <div class="split">
@@ -138,7 +133,6 @@ ninja -C out Windowmgr</code></pre>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Pipeline</p>
       <h2>run 脚本背后的四步流水线。</h2>
     </div>
     <div class="pipe">
@@ -173,7 +167,6 @@ QEMU_MONITOR_BACKEND="none"</code></pre>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Repository</p>
       <h2>源码树导览。</h2>
     </div>
     <div class="grid c3">

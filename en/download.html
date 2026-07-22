@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Download prebuilt TranquilOS system images — QEMU virt virtual platform image and Raspberry Pi CM4 board image, with verification, boot and flashing instructions.">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>Downloads — TranquilOS</title>
 <link rel="stylesheet" href="../theme.css">
@@ -23,7 +23,7 @@
     <a href="features.html">Features</a>
     <a href="build.html">Build</a>
     <a href="roadmap.html">Roadmap</a>
-    <a href="download.html" class="on">Downloads</a>
+    <a href="download.html" class="on" aria-current="page">Downloads</a>
     <a href="docs/index.html">Docs</a>
   </nav>
   <div class="hd-r">
@@ -37,9 +37,8 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Downloads</p>
-    <h1>Prebuilt images, ready to boot.</h1>
-    <p class="lede">The images let you quickly validate the boot chain, graphical session, userspace services and apps. To modify the kernel or services, use the <a href="build.html">source build</a> path instead.</p>
+    <h1>Download. Boot. Verify.</h1>
+    <p class="lede">Use the images to validate the complete system. To change code, <a href="build.html">build from source</a>.</p>
   </section>
 
   <section class="sec">
@@ -65,7 +64,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Boot in QEMU</p>
       <h2>Booting the virt image.</h2>
     </div>
     <div class="pipe">
@@ -77,7 +75,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Flash CM4</p>
       <h2>Flashing a Compute Module 4.</h2>
       <p>Writing to the wrong disk will overwrite other media — confirm the device at every step.</p>
     </div>
@@ -121,7 +118,6 @@ sync</code></pre>
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Post-Boot Checks</p>
         <h2 class="split-h2 flat">What to verify after boot.</h2>
       </div>
       <div class="card">

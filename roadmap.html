@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS 路线图 — 已完成的系统能力、正在进行的工作与探索中的方向。">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>路线图 — TranquilOS</title>
 <link rel="stylesheet" href="theme.css">
@@ -22,7 +22,7 @@
     <a href="architecture.html">架构</a>
     <a href="features.html">特性</a>
     <a href="build.html">构建</a>
-    <a href="roadmap.html" class="on">路线图</a>
+    <a href="roadmap.html" class="on" aria-current="page">路线图</a>
     <a href="download.html">下载</a>
     <a href="docs/index.html">文档</a>
   </nav>
@@ -37,9 +37,8 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Roadmap</p>
-    <h1>不承诺日期，只标明方向。</h1>
-    <p class="lede">TranquilOS 是个人主导的长期系统工程项目。本页按「已完成 / 进行中 / 探索中」三档陈列工作状态，与内核仓库的 README 特性和 TODO 保持同步。</p>
+    <h1>只写方向，不写日期。</h1>
+    <p class="lede">按「已完成 / 进行中 / 探索中」展示状态，并与仓库 README 和 TODO 同步。</p>
   </section>
 
   <section class="sec">
@@ -92,16 +91,15 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Follow Along</p>
         <h2 class="split-h2">进展都在仓库里。</h2>
-        <p class="lede">每一个里程碑对应真实的提交历史与可运行的镜像。想验证任何一条「已完成」，克隆仓库、一条命令跑起来看。</p>
+        <p class="lede">每个里程碑都有提交记录和可运行镜像。克隆仓库即可验证。</p>
         <div class="hero-actions">
           <a class="btn primary" href="https://github.com/nerossoft/TranquilOS">GitHub 仓库 <span class="arr">→</span></a>
           <a class="btn" href="build.html">构建指南</a>
         </div>
       </div>
       <div class="term">
-        <div class="term-h"><i></i><i></i><i></i><span>verify it yourself</span></div>
+        <div class="term-h"><span>verify it yourself</span></div>
         <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
 <span class="p">$</span> <span class="c">cd kernel && source env_setup.sh</span>
 <span class="p">$</span> <span class="c">./run_qemu_virt.sh</span>

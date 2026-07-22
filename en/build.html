@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS build guide — toolchain setup, the GN/Ninja pipeline, running on QemuVirt / Pi3B / Pi4B / CM4, and the boot/system image layout.">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>Build — TranquilOS</title>
 <link rel="stylesheet" href="../theme.css">
@@ -21,7 +21,7 @@
   <nav class="hd-nav" aria-label="Primary navigation">
     <a href="architecture.html">Architecture</a>
     <a href="features.html">Features</a>
-    <a href="build.html" class="on">Build</a>
+    <a href="build.html" class="on" aria-current="page">Build</a>
     <a href="roadmap.html">Roadmap</a>
     <a href="download.html">Downloads</a>
     <a href="docs/index.html">Docs</a>
@@ -37,14 +37,12 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Build</p>
-    <h1>The path from source tree to bootable image is deterministic.</h1>
-    <p class="lede">The build does not produce a single kernel binary — it produces a set of images and ELFs organized by boot stage: GN generates the target graph, Ninja compiles boot, hypervisor, kernel and userspace components, then scripts assemble boot.img, system.img and the ramdisk, and configure the QEMU or Raspberry Pi boot environment per platform.</p>
+    <h1>One deterministic build chain.</h1>
+    <p class="lede">GN/Ninja compiles boot, hypervisor, kernel and userspace components; scripts assemble the images and start the target platform.</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Prerequisites</p>
       <h2>Set up the toolchain.</h2>
     </div>
     <div class="grid c2">
@@ -66,13 +64,12 @@
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Quick Start</p>
         <h2 class="split-h2">One command to build and boot.</h2>
-        <p class="lede">QemuVirt is the primary development platform: the script builds, assembles images, and launches a 4-core SMP, 2 GB RAM virtual machine (HVF-accelerated on macOS) with a ramfb display and the full VirtIO set. Validate scheduler, IPC, capability, MMU and other kernel changes here first.</p>
+        <p class="lede">QemuVirt is the primary development platform. The script builds, assembles the images and starts a 4-core VM with ramfb and VirtIO.</p>
         <a class="btn primary" href="download.html">Skip the build? Get prebuilt images <span class="arr">→</span></a>
       </div>
       <div class="term">
-        <div class="term-h"><i></i><i></i><i></i><span>quick start — qemu virt</span></div>
+        <div class="term-h"><span>quick start — qemu virt</span></div>
         <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
 <span class="p">$</span> <span class="c">cd kernel</span>
 <span class="cm"># after extracting the toolchain into toolchains/:</span>
@@ -87,7 +84,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Platform Matrix</p>
       <h2>Four boot targets.</h2>
     </div>
     <div class="tbl-wrap">
@@ -105,7 +101,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Manual Build</p>
       <h2>Manual and single-target builds.</h2>
     </div>
     <div class="split">
@@ -138,7 +133,6 @@ ninja -C out Windowmgr</code></pre>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Pipeline</p>
       <h2>The four stages behind every run script.</h2>
     </div>
     <div class="pipe">
@@ -173,7 +167,6 @@ QEMU_MONITOR_BACKEND="none"</code></pre>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Repository</p>
       <h2>A tour of the source tree.</h2>
     </div>
     <div class="grid c3">

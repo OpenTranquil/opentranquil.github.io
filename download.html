@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="下载 TranquilOS 预构建系统镜像 — QEMU virt 虚拟平台镜像与 Raspberry Pi CM4 板级镜像，含校验、启动与烧录说明。">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>下载 — TranquilOS</title>
 <link rel="stylesheet" href="theme.css">
@@ -23,7 +23,7 @@
     <a href="features.html">特性</a>
     <a href="build.html">构建</a>
     <a href="roadmap.html">路线图</a>
-    <a href="download.html" class="on">下载</a>
+    <a href="download.html" class="on" aria-current="page">下载</a>
     <a href="docs/index.html">文档</a>
   </nav>
   <div class="hd-r">
@@ -37,9 +37,8 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Downloads</p>
-    <h1>预构建镜像，开箱即跑。</h1>
-    <p class="lede">镜像用于快速验证启动链、图形会话、用户态服务与应用层功能。需要修改内核或服务时，请走<a href="build.html">源码构建</a>路径。</p>
+    <h1>下载，启动，验证。</h1>
+    <p class="lede">镜像用于快速验证完整系统。需要修改代码，请从<a href="build.html">源码构建</a>。</p>
   </section>
 
   <section class="sec">
@@ -65,7 +64,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Boot in QEMU</p>
       <h2>启动 virt 镜像。</h2>
     </div>
     <div class="pipe">
@@ -77,7 +75,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Flash CM4</p>
       <h2>烧录到 Compute Module 4。</h2>
       <p>写错目标盘会覆盖其他磁盘——每一步都先确认设备编号。</p>
     </div>
@@ -119,7 +116,6 @@ sync</code></pre>
   <section class="sec">
     <div class="split">
       <div>
-        <p class="eyebrow">Post-Boot Checks</p>
         <h2 class="split-h2 flat">启动后验证这些项。</h2>
       </div>
       <div class="card">

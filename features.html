@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS 特性清单 — 微内核、EL2 hypervisor、核心系统服务、框架服务、驱动、文件系统、网络与用户应用的实现状态。">
-<meta name="theme-color" content="#0A0A0B">
+<meta name="theme-color" content="#11110F">
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>特性 — TranquilOS</title>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
 </head>
-<body>
+<body class="features-page">
 
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
@@ -20,7 +20,7 @@
   </a>
   <nav class="hd-nav" aria-label="主导航">
     <a href="architecture.html">架构</a>
-    <a href="features.html" class="on">特性</a>
+    <a href="features.html" class="on" aria-current="page">特性</a>
     <a href="build.html">构建</a>
     <a href="roadmap.html">路线图</a>
     <a href="download.html">下载</a>
@@ -37,14 +37,12 @@
 <main class="w">
 
   <section class="phero">
-    <p class="eyebrow">Features</p>
-    <h1>实现状态，逐条列出。</h1>
-    <p class="lede">以下清单与内核仓库 README 的 Features 保持一致。<span class="ok">✓</span> 表示已实现并可在 QEMU / 树莓派目标上运行；未完成的探索项见<a href="roadmap.html">路线图</a>。</p>
+    <h1>实现到哪，一目了然。</h1>
+    <p class="lede"><span class="ok">✓</span> 表示已在 QEMU 或树莓派运行。探索项见<a href="roadmap.html">路线图</a>；清单同步仓库 README。</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Microkernel</p>
       <h2>EL1 微内核。</h2>
     </div>
     <div class="grid c2">
@@ -75,7 +73,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Hypervisor</p>
       <h2>EL2 Type-1 虚拟化。</h2>
     </div>
     <div class="card">
@@ -90,10 +87,9 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">SystemDaemon</p>
-      <h2>核心系统服务（特权 EL0）。</h2>
+      <h2>核心系统服务。</h2>
     </div>
-    <div class="grid c4">
+    <div class="grid c4 feature-ledger">
       <div class="card"><span class="tag">procmgr</span><h3>进程管理</h3><p>进程 / 线程生命周期、ELF 装载、PID 查找。</p></div>
       <div class="card"><span class="tag">memmgr</span><h3>内存管理</h3><p>buddy 物理页分配器、虚拟地址空间、SHM 共享内存。</p></div>
       <div class="card"><span class="tag">ipcmgr</span><h3>IPC 命名空间</h3><p>endpoint / pool 创建、name service、capability 克隆。</p></div>
@@ -103,10 +99,9 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Framework Services</p>
-      <h2>框架服务（独立 EL0 进程）。</h2>
+      <h2>独立框架服务。</h2>
     </div>
-    <div class="grid c3">
+    <div class="grid c3 feature-ledger">
       <div class="card"><span class="tag">devmgr</span><h3>设备管理</h3><p>设备驱动框架与外设管理。</p></div>
       <div class="card"><span class="tag">fsmgr</span><h3>文件系统</h3><p>VFS 抽象：rootfs、ext2、FAT32、procfs、sysfs。</p></div>
       <div class="card"><span class="tag">netmgr</span><h3>网络协议栈</h3><p>lwIP TCP/IP；mbedTLS 支持 HTTPS 场景。</p></div>
@@ -124,7 +119,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Drivers &amp; Graphics</p>
       <h2>内核驱动与图形栈。</h2>
     </div>
     <div class="split">
@@ -153,7 +147,6 @@
 
   <section class="sec">
     <div class="sec-head">
-      <p class="eyebrow">Applications</p>
       <h2>14+ 用户应用。</h2>
       <p>全部运行在统一的服务边界之上，经 appmgr 注册与拉起。</p>
     </div>

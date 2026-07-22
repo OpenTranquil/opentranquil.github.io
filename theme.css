@@ -6,7 +6,8 @@
    Layer 0 — Primitives
    ============================================ */
 :root {
-  --font-sans: "Alibaba PuHuiTi", "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-sans: "Avenir Next", "Alibaba PuHuiTi", "PingFang SC", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Iowan Old Style", "Baskerville", "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", "Times New Roman", serif;
   --font-mono: "SF Mono", "Cascadia Code", "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 }
 
@@ -16,51 +17,51 @@
 
 /* --- Color: Light theme (default) --- */
 :root {
-  --color-bg:            #FAFAF8;
-  --color-surface-1:     #F1F1ED;
-  --color-surface-2:     #E8E8E2;
-  --color-surface-3:     #DCDCD4;
-  --color-border-1:      rgba(20,20,18,.07);
-  --color-border-2:      rgba(20,20,18,.14);
-  --color-border-3:      rgba(20,20,18,.22);
-  --color-text-1:        #141412;
-  --color-text-2:        #6E6E66;
-  --color-text-3:        #9A9A90;
-  --color-accent:        #2E5BFF;
-  --color-accent-dim:    #7DA2FF;
-  --color-accent-bright: #1A3FCC;
-  --color-accent-soft:   rgba(46,91,255,.08);
-  --color-ok:            #1F9D55;
-  --color-warn:          #D4A40E;
-  --color-err:           #D93025;
-  --color-glow:          rgba(46,91,255,.08);
-  --color-overlay:       rgba(0,0,0,.04);
-  --color-bg-glass:      color-mix(in oklch, var(--color-bg) 78%, transparent);
+  --color-bg:            #F1EFE8;
+  --color-surface-1:     #EAE7DE;
+  --color-surface-2:     #E1DDD3;
+  --color-surface-3:     #D5D0C4;
+  --color-border-1:      rgba(25,24,21,.10);
+  --color-border-2:      rgba(25,24,21,.18);
+  --color-border-3:      rgba(25,24,21,.30);
+  --color-text-1:        #191815;
+  --color-text-2:        #656159;
+  --color-text-3:        #8B867D;
+  --color-accent:        #294EC9;
+  --color-accent-dim:    #5C75D5;
+  --color-accent-bright: #173899;
+  --color-accent-soft:   rgba(41,78,201,.09);
+  --color-ok:            #39765B;
+  --color-warn:          #9B6B18;
+  --color-err:           #A63D36;
+  --color-glow:          rgba(41,78,201,.07);
+  --color-overlay:       rgba(25,24,21,.04);
+  --color-bg-glass:      color-mix(in oklch, var(--color-bg) 92%, transparent);
   color-scheme: light;
 }
 
 /* --- Color: Dark theme --- */
 [data-theme="dark"] {
-  --color-bg:            #08080B;
-  --color-surface-1:     #0E0E12;
-  --color-surface-2:     #16161C;
-  --color-surface-3:     #24242C;
-  --color-border-1:      rgba(255,255,255,.06);
-  --color-border-2:      rgba(255,255,255,.10);
-  --color-border-3:      rgba(255,255,255,.16);
-  --color-text-1:        #F4F4F0;
-  --color-text-2:        #9A9AA4;
-  --color-text-3:        #60606A;
-  --color-accent:        #5B8CFF;
-  --color-accent-dim:    #8FB4FF;
-  --color-accent-bright: #7BAAFF;
-  --color-accent-soft:   rgba(91,140,255,.10);
-  --color-ok:            #4ADE80;
-  --color-warn:          #F5C842;
-  --color-err:           #F87171;
-  --color-glow:          rgba(91,140,255,.10);
-  --color-overlay:       rgba(0,0,0,.30);
-  --color-bg-glass:      color-mix(in oklch, var(--color-bg) 78%, transparent);
+  --color-bg:            #11110F;
+  --color-surface-1:     #171714;
+  --color-surface-2:     #1E1E1A;
+  --color-surface-3:     #292823;
+  --color-border-1:      rgba(237,233,223,.10);
+  --color-border-2:      rgba(237,233,223,.18);
+  --color-border-3:      rgba(237,233,223,.30);
+  --color-text-1:        #EDE9DF;
+  --color-text-2:        #AAA69D;
+  --color-text-3:        #706D66;
+  --color-accent:        #6F89F2;
+  --color-accent-dim:    #91A3EB;
+  --color-accent-bright: #A8B7FF;
+  --color-accent-soft:   rgba(111,137,242,.11);
+  --color-ok:            #76A887;
+  --color-warn:          #C09A50;
+  --color-err:           #C66A62;
+  --color-glow:          rgba(111,137,242,.07);
+  --color-overlay:       rgba(0,0,0,.24);
+  --color-bg-glass:      color-mix(in oklch, var(--color-bg) 92%, transparent);
   color-scheme: dark;
 }
 
@@ -113,14 +114,14 @@
   --space-11:  4rem;
   --space-12:  5rem;
   --space-13:  6rem;
-  --space-section: clamp(5rem, 8vw, 10rem);
+  --space-section: clamp(3.5rem, 5vw, 6rem);
 }
 
 /* --- Layout --- */
 :root {
-  --wrap-width:     74rem;
+  --wrap-width:     78rem;
   --content-width:  48rem;
-  --header-height:  3.75rem;
+  --header-height:  3.5rem;
 }
 
 /* --- Animation --- */
