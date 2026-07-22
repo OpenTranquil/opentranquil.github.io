@@ -260,11 +260,11 @@ client/include/   公开客户端 API 头文件</code></pre>
     struct query  { version = 1; char key[64]; };
     struct result { version = 1; uint32_t found; };
 
-    uint64_t get(persistent in query *request,
-                 persistent out result *response) id = 0x1;
+    uint64_t get(in query *request,
+                 out result *response) id = 0x1;
 };</code></pre>
       <p><b>参数方向</b>控制生成代码的拷贝行为：<code>in</code> IPC 前复制进 SHM，<code>out</code> IPC 前清空、IPC 后复制回，<code>inout</code> 两者兼有（未标注的结构体指针默认 inout）；标量直接走 IPC 参数槽，每方法最多三个参数。</p>
-      <p><b>persistent</b> 仅用于结构体指针：底层 SHM 缓冲区跨调用复用（不缓存业务数据，每次调用仍执行 IPC）。客户端按「方法名 + 参数名」懒申请独立 SHM，每方法一把锁串行化；服务端缓存并复用映射。变长或大块数据应显式传 SHM 句柄与长度，persistent 只适用于固定大小的控制结构体。</p>
+      <p><b>服务端接收缓冲区</b>：结构体指针使用服务端持有的固定缓冲区。首次调用按「调用方 + 方法 + 参数槽」建立 SHM 授权；客户端保存连接级 CRef 与映射地址，后续调用直接复用。每个方法用独立锁覆盖输入复制、IPC 与输出复制；变长或调用方持有的大块数据仍显式传 SHM 句柄与长度。</p>
       <p><b>传输与映射</b>：默认经 endpoint pool IPC、经 SystemDaemon 映射 SHM；可用服务属性切换 <code>transport = endpoint</code>、<code>mapping = direct</code>。</p>
       <p><b>ABI 规则</b>：传输结构体必须声明 <code>version &gt; 0</code>；生成器附加 <code>abi_size</code> / <code>abi_version</code> 字段，服务端在调用处理函数前校验。传输结构体不允许指针字段（指针只在所属进程地址空间有效）。完整语法见 <code>tools/idl_ref/tranquil_idl.ebnf</code>。</p>
     </section>

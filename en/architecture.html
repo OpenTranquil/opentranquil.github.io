@@ -323,10 +323,10 @@ service statemgr_ipc {
     struct query  { version = 1; char key[64]; };
     struct result { version = 1; uint32_t found; };
 
-    uint64_t get(persistent in query *request,
-                 persistent out result *response) id = 0x1;
+    uint64_t get(in query *request,
+                 out result *response) id = 0x1;
 };</code></pre>
-        <p class="note"><b>persistent</b> parameters let the SHM buffer of a fixed-size control struct be reused across calls: lazily allocated by the client, mapped once by the server — every call still performs a real IPC. Transport structs must declare a <b>version</b>; the generator adds <b>abi_size</b> / <b>abi_version</b> fields validated by the server. Pointer fields are not allowed in transport structs — variable-length data passes an explicit SHM handle and length.</p>
+        <p class="note">Struct pointers use server-owned fixed receive buffers. The first call establishes SHM authorization per caller, method and parameter slot; later calls reuse the connection-level CRef and mapped address. A per-method lock covers copying, IPC and copy-back. Transport structs must declare a <b>version</b>; the generator adds <b>abi_size</b> / <b>abi_version</b> fields validated by the server. Variable-length data passes an explicit SHM handle and length.</p>
       </div>
     </div>
   </section>

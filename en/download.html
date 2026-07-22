@@ -38,7 +38,7 @@
 
   <section class="phero">
     <h1>Download. Boot. Verify.</h1>
-    <p class="lede">Use the images to validate the complete system. To change code, <a href="build.html">build from source</a>.</p>
+    <p class="lede">Prebuilt images are being prepared. For now, <a href="build.html">build from source</a>.</p>
   </section>
 
   <section class="sec">
@@ -48,18 +48,17 @@
         <h3>tranquil-virt.img</h3>
         <div class="meta"><span>target: qemu virt · aarch64</span><span>size: 512 MB</span></div>
         <p>Virtual-machine image for validating the boot flow, SMP, ramfb graphics, VirtIO devices and userspace services on a desktop host. Produced by <code>./run_qemu_virt.sh</code>.</p>
-        <a class="btn primary" href="../downloads/tranquil-virt.img" download>Download image <span class="arr">↓</span></a>
+        <span class="btn disabled" aria-disabled="true">Not released</span>
       </article>
       <article class="dl-card">
         <span class="plat">Raspberry Pi CM4</span>
         <h3>tranquil-cm4.img</h3>
         <div class="meta"><span>target: cm4 · hardware</span><span>size: 512 MB</span></div>
         <p>Board image with the partitions and system content needed to boot a CM4 — for real-hardware boot, HDMI output and peripheral-path validation. Produced by <code>./run_board_cm4.sh</code>.</p>
-        <a class="btn primary" href="../downloads/tranquil-cm4.img" download>Download image <span class="arr">↓</span></a>
+        <span class="btn disabled" aria-disabled="true">Not released</span>
       </article>
     </div>
-    <p class="note mt-4"><b>Integrity:</b> images are large files and downloads or copies can truncate. Verify before flashing:</p>
-    <pre class="mt-3"><code>shasum -a 256 tranquil-virt.img tranquil-cm4.img</code></pre>
+    <p class="note mt-4"><b>Integrity:</b> SHA-256 checksums will be published with the images.</p>
   </section>
 
   <section class="sec">

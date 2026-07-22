@@ -260,11 +260,11 @@ client/include/   public client API headers</code></pre>
     struct query  { version = 1; char key[64]; };
     struct result { version = 1; uint32_t found; };
 
-    uint64_t get(persistent in query *request,
-                 persistent out result *response) id = 0x1;
+    uint64_t get(in query *request,
+                 out result *response) id = 0x1;
 };</code></pre>
       <p><b>Parameter direction</b> controls copying in the generated code: <code>in</code> copies caller data into SHM before the IPC; <code>out</code> zeroes the SHM before and copies results back after; <code>inout</code> does both (the default for unannotated struct pointers). Scalars travel directly in IPC argument slots — at most three parameters per method.</p>
-      <p><b>persistent</b> applies only to struct-pointer parameters: the underlying SHM buffer is reused across calls (no business-data caching — every call still performs a real IPC). The client lazily allocates a dedicated SHM buffer per "method + parameter", with one lock per method serializing calls; the server caches and reuses the mapping. Variable-length or caller-owned bulk data should pass an explicit SHM handle and size — persistent is only for fixed-size control structs.</p>
+      <p><b>Server receive buffers</b>: struct pointers use fixed buffers owned by the server. The first call establishes SHM authorization per caller, method and parameter slot; the client keeps the connection-level CRef and mapped address for later calls. A per-method lock covers input copying, IPC and output copying. Variable-length or caller-owned bulk data still passes an explicit SHM handle and length.</p>
       <p><b>Transport &amp; mapping</b>: by default, IPC goes through an endpoint pool and SHM is mapped via SystemDaemon; service attributes can switch this: <code>transport = endpoint</code>, <code>mapping = direct</code>.</p>
       <p><b>ABI rules</b>: transport structs must declare <code>version &gt; 0</code>; the generator adds <code>abi_size</code> / <code>abi_version</code> fields that the server validates before invoking the handler. Transport structs may not contain pointer fields (pointers are only valid in their own address space). Full grammar: <code>tools/idl_ref/tranquil_idl.ebnf</code>.</p>
     </section>

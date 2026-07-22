@@ -69,6 +69,7 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .btn.primary:hover{border-color:var(--color-accent);color:var(--color-bg);filter:none;background:var(--color-accent)}
 .btn.primary:hover .arr{color:var(--color-bg)}
 .btn.primary:active{border-color:var(--color-accent-bright);background:var(--color-accent-bright);filter:none}
+.btn.disabled,.btn[aria-disabled="true"]{border-color:var(--color-border-1);background:transparent;color:var(--color-text-3);cursor:default;pointer-events:none}
 .btn .arr{font-family:var(--font-mono)}
 .btn.loading{pointer-events:none;opacity:.7;position:relative}
 .btn.loading::after{content:"";width:14px;height:14px;border:2px solid var(--color-border-1);border-top-color:var(--color-accent);border-radius:50%;animation:spin .6s linear infinite;margin-left:var(--space-1)}

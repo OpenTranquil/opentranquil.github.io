@@ -323,10 +323,10 @@ service statemgr_ipc {
     struct query  { version = 1; char key[64]; };
     struct result { version = 1; uint32_t found; };
 
-    uint64_t get(persistent in query *request,
-                 persistent out result *response) id = 0x1;
+    uint64_t get(in query *request,
+                 out result *response) id = 0x1;
 };</code></pre>
-        <p class="note"><b>persistent</b> 参数让固定控制结构体的 SHM 缓冲区跨调用复用：客户端懒申请、服务端复用映射，每次调用仍执行 IPC。传输结构体必须带 <b>version</b>，生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验；结构体不允许指针字段，变长数据显式传 SHM 句柄与长度。</p>
+        <p class="note">结构体指针使用服务端持有的固定接收缓冲区：首次调用按“调用方 + 方法 + 参数槽”建立 SHM 授权，后续复用连接级 CRef 与映射地址；每个方法用独立锁覆盖复制、IPC 与回写。传输结构体必须带 <b>version</b>，生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验；变长数据显式传 SHM 句柄与长度。</p>
       </div>
     </div>
   </section>

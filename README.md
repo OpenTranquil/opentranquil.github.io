@@ -18,7 +18,7 @@ Pure static HTML/CSS/JS. No build step, no dependencies, no frameworks.
 style.css  script.js     双语共享的设计系统与交互
 docs/docs.css  docs.js   文档中心专用
 branding/                品牌资产
-downloads/               系统镜像（.img）
+download.html            镜像发布状态、启动与烧录说明（二进制不提交到 Pages 仓库）
 repowiki/                仓库百科（独立内容，未接入站点）
 ```
 
