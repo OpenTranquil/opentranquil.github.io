@@ -3,11 +3,12 @@
 .docs-shell{max-width:var(--wrap-width);margin:0 auto;padding:clamp(var(--space-7),4vw,var(--space-9)) var(--space-6) var(--space-11);display:grid;grid-template-columns:17rem minmax(0,1fr);gap:clamp(var(--space-9),5vw,var(--space-12));align-items:start;counter-reset:doc-section}
 
 /* index */
-.docs-side{position:sticky;top:calc(var(--header-height) + var(--space-7));max-height:calc(100svh - var(--header-height) - var(--space-10));overflow:auto;padding:0 var(--space-6) var(--space-6) 0;border-right:1px solid var(--color-border-1)}
+.docs-side{position:sticky;top:calc(var(--header-height) + var(--space-7));max-height:calc(100svh - var(--header-height) - var(--space-10));overflow:auto;padding:0 var(--space-6) var(--space-6) 0;border-right:1px solid var(--color-border-1);scrollbar-width:thin;scrollbar-color:var(--color-border-2) transparent}
+.docs-side::-webkit-scrollbar{width:4px}
+.docs-side::-webkit-scrollbar-thumb{border:0;border-radius:0;background:var(--color-border-2)}
 .docs-search{position:relative;margin-bottom:var(--space-7)}
-.docs-search input{width:100%;height:42px;border:0;border-top:1px solid var(--color-border-2);border-bottom:1px solid var(--color-border-2);border-radius:0;background:transparent;color:var(--color-text-1);padding:0 var(--space-3) 0 var(--space-7);font:400 var(--text-sm)/1 var(--font-sans);outline:none;transition:border-color var(--duration-fast)}
+.docs-search input{width:100%;height:42px;border:0;border-top:1px solid var(--color-border-2);border-bottom:1px solid var(--color-border-2);border-radius:0;background:transparent;color:var(--color-text-1);padding:0;font:400 var(--text-sm)/1 var(--font-sans);outline:none;transition:border-color var(--duration-fast)}
 .docs-search input:focus{border-color:var(--color-accent)}
-.docs-search::before{content:"⌕";position:absolute;left:var(--space-2);top:50%;transform:translateY(-50%);color:var(--color-text-3);font-size:var(--text-md)}
 .docs-group{margin-bottom:var(--space-6)}
 .docs-group>b{display:block;padding:0 0 var(--space-3);font:var(--weight-semi) var(--text-xs)/1.4 var(--font-mono);letter-spacing:.15em;text-transform:uppercase;color:var(--color-text-3)}
 .docs-group a{display:block;padding:7px 0;color:var(--color-text-2);font-size:var(--text-base);line-height:1.4;transition:color var(--duration-fast)}
@@ -21,7 +22,6 @@
 .doc-sec.hide{display:none}
 .doc-sec::before{content:"D." counter(doc-section,decimal-leading-zero);display:block;margin-bottom:var(--space-4);font:var(--weight-medium) var(--text-xs)/1 var(--font-mono);letter-spacing:.16em;color:var(--color-text-3)}
 .doc-sec>h2{margin:0 0 var(--space-4);padding-bottom:var(--space-5);border-bottom:1px solid var(--color-border-2);font-family:var(--font-display);font-size:clamp(var(--text-3xl),4vw,var(--text-5xl));font-weight:500;line-height:1.15;letter-spacing:-.045em}
-.doc-sec>.sub{margin:0 0 var(--space-7);font:var(--weight-medium) var(--text-xs)/1.5 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--color-text-3)}
 .doc-sec h3{margin:var(--space-9) 0 var(--space-3);font-family:var(--font-display);font-size:var(--text-xl);font-weight:500}
 .doc-sec p{max-width:70ch;color:var(--color-text-2);line-height:1.9;margin:var(--space-4) 0}
 .doc-sec ul:not(.ck){max-width:70ch;color:var(--color-text-2);line-height:1.9;padding-left:var(--space-6);margin:var(--space-4) 0}
@@ -32,8 +32,10 @@
 .docs-empty.show{display:block}
 
 @media (max-width:900px){
-  .docs-shell{grid-template-columns:1fr;padding:var(--space-7) var(--space-4) var(--space-10);gap:var(--space-8)}
-  .docs-side{position:relative;top:auto;max-height:none;padding:0 0 var(--space-5);border-right:0;border-bottom:1px solid var(--color-border-2)}
+  .docs-shell{grid-template-columns:1fr;padding:var(--space-7) var(--space-4) var(--space-10);gap:var(--space-6)}
+  .docs-side{position:relative;top:auto;max-height:none;padding:0 0 var(--space-4);border-right:0;border-bottom:1px solid var(--color-border-2)}
+  .docs-search{margin-bottom:0}
+  .docs-shell:focus-within .docs-search,.docs-side.open .docs-search{margin-bottom:var(--space-6)}
   .docs-group{display:none}
   .docs-shell:focus-within .docs-group,.docs-side.open .docs-group{display:block}
   .doc-sec{margin-bottom:var(--space-10)}

@@ -81,7 +81,6 @@
 
     <section class="doc-sec" id="intro">
       <h2>项目简介</h2>
-      <p class="sub">Getting Started</p>
       <p class="lede">TranquilOS 是面向 AArch64 的 object-capability 微内核操作系统。系统以 capability 作为统一授权模型，将进程管理、内存管理、IPC 命名空间、设备抽象、文件系统、网络协议栈、窗口合成与应用生命周期拆分为边界清晰的用户态服务；EL1 微内核专注于调度、IPC、异常、中断、定时器、futex、基础驱动与 capability 对象分发。</p>
       <p>设计参考了 seL4 等内核的对象能力模型，目标是在 AArch64 平台上验证「微内核 + capability 授权 + 用户态系统服务」的系统化组合：内核对象如何被显式授权、服务如何发现与通信、图形桌面如何作为普通用户态组件运行、构建系统如何把分散组件组装为可启动镜像。</p>
       <p>完整设计文档在内核仓库 <code>docs/</code> 目录：<code>basic_theory.md</code>（AArch64 架构、MMU、上下文切换、驱动、capability、IPC、调度）、<code>microkernel_design.md</code>（微内核设计）、<code>idl.md</code>（接口定义与代码生成）、<code>async_ipc_design.md</code>。</p>
@@ -89,7 +88,6 @@
 
     <section class="doc-sec" id="quickstart">
       <h2>快速开始</h2>
-      <p class="sub">Build &amp; Run</p>
       <p>前置条件：从 <code>newos.org/toolchains</code> 下载交叉工具链并解压到仓库 <code>toolchains/</code>；macOS 需要 <code>brew install e2fsprogs</code>（组装 ext2 system.img）。<code>env_setup.sh</code> 必须在每个新 shell 中 source，其中 <code>OS_BASE_DIR</code> 硬编码为 <code>~/kernel</code>，仓库检出到其他路径时先修改。</p>
       <pre><code># QemuVirt（主要开发平台）：构建 + 组装镜像 + 启动 QEMU
 source env_setup.sh && ./run_qemu_virt.sh
@@ -106,7 +104,6 @@ ninja -C out Windowmgr</code></pre>
 
     <section class="doc-sec" id="layout">
       <h2>仓库结构</h2>
-      <p class="sub">Project Layout</p>
       <pre><code>sys/             系统基础（TCB）
   kernel/        微内核（EL1）
   virt/          Type-1 hypervisor（EL2）
@@ -129,7 +126,6 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="bootchain">
       <h2>启动链与权限模型</h2>
-      <p class="sub">Boot Chain · Privilege Levels</p>
       <p>TranquilOS 把 ARMv8-A 异常级别用作架构边界：EL2 运行可选的 Type-1 hypervisor，EL1 是微内核，EL0 承载 SystemDaemon、框架服务与应用。bootloader 根据 CPU CurrentEL 决定启动路径：</p>
       <pre><code>从 EL2 启动：bootloader → hypervisor → kernel → systemd
 从 EL1 启动：bootloader → kernel → systemd</code></pre>
@@ -139,7 +135,6 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="capability">
       <h2>Capability 系统</h2>
-      <p class="sub">Object Capability · CNode</p>
       <p>capability 是内核对象与细粒度权限的统一管理结构，也是用户态与微内核交互的统一方式。用户态对内核的所有操作可归结为「对某个内核对象执行某个方法」：<code>OS_{Type}{Method}(ref, args...)</code>——权限因此可以细化到每个对象、每个方法。</p>
       <p>每个进程拥有 <b>CNode</b> 保存其全部 capability。CNode 由 directory array 构成：兼具数组索引的速度与动态数组的扩展性，扩展时不拷贝、保持线性索引。capability 引用（cref）为 64 位：高 32 位是 cnode ID，低 32 位是 slot 索引；根 CNode ID 为 1。方法分发前内核校验对象类型与 32 位 rights mask。</p>
       <p>内核对象类型包括：VSpace（虚拟地址空间）、CNode（capability 存储）、SContext / XContext（调度 / 执行状态）、IPC Endpoint / Pool、Timer、Futex、IRQ、Console。</p>
@@ -147,14 +142,12 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="memory">
       <h2>内存管理</h2>
-      <p class="sub">Boot Allocator · Buddy · VSpace</p>
       <p>内核只保留 <b>boot allocator</b>，为内核启动阶段与 SystemDaemon 运行分配内存；全部内存策略都在用户态。SystemDaemon 的 <b>memmgr</b> 以 buddy 分配器管理物理页，并管理进程的虚拟地址空间与 SHM 共享内存。</p>
       <p>内核侧覆盖 AArch64 MMU 的完整配置：MAIR/TCR、block/table 描述符、identity map、ASID 与 TLB 管理；VSpace 对象代表一个进程的地址空间，经 capability 调用操作。</p>
     </section>
 
     <section class="doc-sec" id="ipc">
       <h2>IPC 模型</h2>
-      <p class="sub">Migrating Thread · Endpoint · Upcall</p>
       <p>传统内核的进程间同步（socket、pipe、共享内核缓冲）响应依赖调度器行为，延迟不确定。TranquilOS 提供<b>控制流立即切换</b>的迁移线程 IPC：client 发起同步调用时，内核把 server 地址空间与一个构造好的 <code>execute_context_s</code> 装上 CPU——参数按 AAPCS 放入 x0–x7，接口函数地址放入 pc；lr 中放入<b>跳板函数</b>地址，接口返回时跳板发起 REPLY 调用切回 client。调度元数据全程由调度器独立控制，IPC 不影响调度公平性。</p>
       <ul>
         <li><b>IPC Endpoint</b>：单线程模型，一个 handler 线程服务一个端点。</li>
@@ -166,14 +159,12 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="scheduler">
       <h2>调度器</h2>
-      <p class="sub">Split Context · SMP · CFS Module</p>
       <p>传统 TCB 被拆分为<b>执行实体</b> <code>execute_context_s</code>（x0–x30、sp、pc、pstate 等寄存器状态）与<b>调度实体</b> <code>schedule_context_s</code>（优先级、时间片、队列节点、CPU 亲和性）。per-CPU 调度器只操作调度元数据，真正切换上下文时才构造 / 恢复执行状态——这也让迁移线程 IPC 的实现大为简化。</p>
       <p>SMP 下每个 CPU 有独立本地调度器并做跨核负载均衡，支持抢占。CFS 调度类以<b>可加载内核模块</b>实现（<code>sys/kernel/module/</code>），验证模块系统的真实可用性。</p>
     </section>
 
     <section class="doc-sec" id="syscall">
       <h2>系统调用路径</h2>
-      <p class="sub">Capcall · Fastcall · Upcall</p>
       <p>系统调用号在 x8 中，按标识位走三条分发路径：</p>
       <table class="tbl">
         <thead><tr><th>路径</th><th>标识位</th><th>用途</th></tr></thead>
@@ -187,7 +178,6 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="initcall">
       <h2>initcall 初始化</h2>
-      <p class="sub">LV0–LV7</p>
       <p>初始化函数经宏放入专用 ELF 段，链接脚本为每级定义起止符号，<code>initcall_run(level)</code> 按 LV0 → LV7 顺序执行：</p>
       <table class="tbl">
         <thead><tr><th>LV</th><th>宏</th><th>用途</th></tr></thead>
@@ -206,7 +196,6 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="systemd">
       <h2>SystemDaemon</h2>
-      <p class="sub">Privileged EL0 · 17 IPC Methods</p>
       <p>SystemDaemon 运行在 EL0，是最高特权的用户态进程，链接在 <code>0x43080000</code>，直接发起 capcall（<code>libkernel/capcall.h</code>）而不经 libsyscall。传统内核中的高层资源管理由它承担，各组件以单例对象管理以约束接口暴露：</p>
       <ul>
         <li><b>procmgr</b>：进程 / 线程生命周期，ELF 装载（spawn、exit、PID 查找）</li>
@@ -219,7 +208,6 @@ docs/            设计文档</code></pre>
 
     <section class="doc-sec" id="service-pattern">
       <h2>框架服务模式</h2>
-      <p class="sub">Service Skeleton</p>
       <p>每个 OS 服务（<code>os/framework/*</code> 与 <code>sys/uapps/core/*</code>）遵循相同结构：</p>
       <pre><code>main.c            初始化、经 IPC 注册服务、事件循环
 service/service.c 按方法号分发的 IPC handler 表，调用内部处理函数
@@ -231,7 +219,6 @@ client/include/   公开客户端 API 头文件</code></pre>
 
     <section class="doc-sec" id="shm">
       <h2>SHM 数据传递</h2>
-      <p class="sub">Zero-Copy Convention</p>
       <p>进程间所有数据传输都使用共享内存，这是唯一的数据通道——没有消息拷贝式 IPC。通用流程：</p>
       <ul>
         <li>客户端经 <code>systemd-&gt;ops.alloc_shm()</code> 申请 SHM</li>
@@ -245,7 +232,6 @@ client/include/   公开客户端 API 头文件</code></pre>
 
     <section class="doc-sec" id="service-list">
       <h2>服务清单</h2>
-      <p class="sub">Framework Services</p>
       <table class="tbl">
         <thead><tr><th>服务</th><th>职责</th></tr></thead>
         <tbody>
@@ -267,7 +253,6 @@ client/include/   公开客户端 API 头文件</code></pre>
 
     <section class="doc-sec" id="idl">
       <h2>IDL 与代码生成</h2>
-      <p class="sub">Interface Definition · ABI</p>
       <p>服务用 <code>.idl</code> 文件描述同步 IPC 接口，生成器（<code>tools/idl_gen.py</code>，通常由 GN 构建任务自动调用）产出五个文件：<code>&lt;service&gt;_types.h</code>、<code>&lt;service&gt;_client.h/.c</code>、<code>&lt;service&gt;_service.h/.c</code>。</p>
       <pre><code>service statemgr_ipc {
     id = 0x9;
@@ -286,7 +271,6 @@ client/include/   公开客户端 API 头文件</code></pre>
 
     <section class="doc-sec" id="gn">
       <h2>GN 构建目标</h2>
-      <p class="sub">GN / Ninja</p>
       <table class="tbl">
         <thead><tr><th>目标类型</th><th>用途</th></tr></thead>
         <tbody>
@@ -301,7 +285,6 @@ client/include/   公开客户端 API 头文件</code></pre>
 
     <section class="doc-sec" id="platforms">
       <h2>平台与镜像</h2>
-      <p class="sub">Platforms · Images</p>
       <table class="tbl">
         <thead><tr><th>平台</th><th>定位</th><th>说明</th></tr></thead>
         <tbody>

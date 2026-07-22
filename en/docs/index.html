@@ -81,7 +81,6 @@
 
     <section class="doc-sec" id="intro">
       <h2>Project Overview</h2>
-      <p class="sub">Getting Started</p>
       <p class="lede">TranquilOS is an object-capability microkernel operating system for AArch64. Capabilities are the single authorization model: process management, memory management, the IPC namespace, device abstraction, filesystems, the network stack, window composition and application lifecycle are decomposed into clearly bounded userspace services, while the EL1 microkernel focuses on scheduling, IPC, exceptions, interrupts, timers, futexes, base drivers and capability object dispatch.</p>
       <p>Inspired by the object-capability model of seL4 and others, the project validates the systematic composition of "microkernel + capability authorization + userspace services" on AArch64: how kernel objects are explicitly authorized, how services discover and communicate with each other, how a graphical desktop runs as ordinary userspace components, and how the build system assembles the pieces into a bootable image.</p>
       <p>Full design documents live in the kernel repository's <code>docs/</code> directory: <code>basic_theory.md</code> (AArch64 architecture, MMU, context switching, drivers, capabilities, IPC, scheduler), <code>microkernel_design.md</code> (microkernel design), <code>idl.md</code> (interface definition and code generation), <code>async_ipc_design.md</code>.</p>
@@ -89,7 +88,6 @@
 
     <section class="doc-sec" id="quickstart">
       <h2>Quick Start</h2>
-      <p class="sub">Build &amp; Run</p>
       <p>Prerequisites: download a cross toolchain from <code>newos.org/toolchains</code> and extract it into the repo's <code>toolchains/</code> directory; on macOS run <code>brew install e2fsprogs</code> (needed to assemble the ext2 system.img). <code>env_setup.sh</code> must be sourced in every new shell — its <code>OS_BASE_DIR</code> is hardcoded to <code>~/kernel</code>, so edit it first if you checked out elsewhere.</p>
       <pre><code># QemuVirt (primary dev platform): build + assemble images + launch QEMU
 source env_setup.sh && ./run_qemu_virt.sh
@@ -106,7 +104,6 @@ ninja -C out Windowmgr</code></pre>
 
     <section class="doc-sec" id="layout">
       <h2>Repository Layout</h2>
-      <p class="sub">Project Layout</p>
       <pre><code>sys/             system foundation (TCB)
   kernel/        microkernel (EL1)
   virt/          Type-1 hypervisor (EL2)
@@ -129,7 +126,6 @@ docs/            design documents</code></pre>
 
     <section class="doc-sec" id="bootchain">
       <h2>Boot Chain &amp; Privilege Model</h2>
-      <p class="sub">Boot Chain · Privilege Levels</p>
       <p>TranquilOS uses ARMv8-A exception levels as architectural boundaries: EL2 runs an optional Type-1 hypervisor, EL1 is the microkernel, and EL0 carries SystemDaemon, framework services and applications. The bootloader picks the boot path based on the CPU's CurrentEL:</p>
       <pre><code>booting from EL2: bootloader → hypervisor → kernel → systemd
 booting from EL1: bootloader → kernel → systemd</code></pre>
@@ -139,7 +135,6 @@ booting from EL1: bootloader → kernel → systemd</code></pre>
 
     <section class="doc-sec" id="capability">
       <h2>Capability System</h2>
-      <p class="sub">Object Capability · CNode</p>
       <p>The capability is the unified management structure for kernel objects and fine-grained rights, and the unified way userspace interacts with the microkernel. Every kernel operation reduces to "invoke a method on a kernel object": <code>OS_{Type}{Method}(ref, args...)</code> — so rights can be fine-grained down to each object and each method.</p>
       <p>Each process owns a <b>CNode</b> storing all of its capabilities. The CNode is built on a directory array: array-speed indexing with dynamic-array growth, expanding without copying and preserving linear indexing. A capability reference (cref) is 64 bits: upper 32 bits cnode ID, lower 32 bits slot index; the root CNode has ID 1. The kernel validates object type and a 32-bit rights mask before dispatching any method.</p>
       <p>Kernel object types include: VSpace (virtual address space), CNode (capability storage), SContext / XContext (schedule / execute state), IPC Endpoint / Pool, Timer, Futex, IRQ, Console.</p>
@@ -147,14 +142,12 @@ booting from EL1: bootloader → kernel → systemd</code></pre>
 
     <section class="doc-sec" id="memory">
       <h2>Memory Management</h2>
-      <p class="sub">Boot Allocator · Buddy · VSpace</p>
       <p>The kernel keeps only a <b>boot allocator</b>, serving its own bring-up and SystemDaemon startup; all memory policy lives in userspace. SystemDaemon's <b>memmgr</b> manages physical pages with a buddy allocator, plus process virtual address spaces and SHM.</p>
       <p>On the kernel side, the AArch64 MMU is fully configured: MAIR/TCR, block/table descriptors, identity mapping, ASIDs and TLB management. A VSpace object represents a process address space and is operated through capability calls.</p>
     </section>
 
     <section class="doc-sec" id="ipc">
       <h2>IPC Model</h2>
-      <p class="sub">Migrating Thread · Endpoint · Upcall</p>
       <p>Traditional inter-process synchronization (sockets, pipes, shared kernel buffers) responds only when the scheduler runs the server thread — latency is nondeterministic. TranquilOS provides <b>immediate control-flow switching</b> with migrating-thread IPC: when a client issues a synchronous call, the kernel installs the server's address space and a constructed <code>execute_context_s</code> onto the CPU — arguments go into x0–x7 per the AAPCS, the handler address into pc; lr holds a <b>trampoline</b> address, and when the handler returns the trampoline issues a REPLY call to switch back to the client. Scheduling metadata stays under the scheduler's control throughout, so IPC never compromises scheduling fairness.</p>
       <ul>
         <li><b>IPC Endpoint</b>: single-threaded — one handler thread per endpoint.</li>
@@ -166,14 +159,12 @@ booting from EL1: bootloader → kernel → systemd</code></pre>
 
     <section class="doc-sec" id="scheduler">
       <h2>Scheduler</h2>
-      <p class="sub">Split Context · SMP · CFS Module</p>
       <p>The traditional TCB is split into an <b>execution entity</b> <code>execute_context_s</code> (register state: x0–x30, sp, pc, pstate) and a <b>scheduling entity</b> <code>schedule_context_s</code> (priority, timeslice, queue node, CPU affinity). Per-CPU schedulers only manipulate scheduling metadata; execution state is constructed/restored on real context switches — which also makes migrating-thread IPC much simpler.</p>
       <p>Under SMP, each CPU runs an independent local scheduler with cross-core load balancing and preemption. The CFS scheduler class is implemented as a <b>loadable kernel module</b> (<code>sys/kernel/module/</code>), proving the module system on a real use case.</p>
     </section>
 
     <section class="doc-sec" id="syscall">
       <h2>Syscall Paths</h2>
-      <p class="sub">Capcall · Fastcall · Upcall</p>
       <p>The syscall number in x8 selects one of three dispatch paths by flag bit:</p>
       <table class="tbl">
         <thead><tr><th>Path</th><th>Flag</th><th>Purpose</th></tr></thead>
@@ -187,7 +178,6 @@ booting from EL1: bootloader → kernel → systemd</code></pre>
 
     <section class="doc-sec" id="initcall">
       <h2>Initcall Initialization</h2>
-      <p class="sub">LV0–LV7</p>
       <p>Init functions are placed into dedicated ELF sections by macros; the linker script defines start/end symbols per level, and <code>initcall_run(level)</code> executes them in LV0 → LV7 order:</p>
       <table class="tbl">
         <thead><tr><th>LV</th><th>Macro</th><th>Purpose</th></tr></thead>
@@ -206,7 +196,6 @@ booting from EL1: bootloader → kernel → systemd</code></pre>
 
     <section class="doc-sec" id="systemd">
       <h2>SystemDaemon</h2>
-      <p class="sub">Privileged EL0 · 17 IPC Methods</p>
       <p>SystemDaemon runs at EL0 as the most privileged userspace process, linked at <code>0x43080000</code>, issuing capcalls directly (<code>libkernel/capcall.h</code>) instead of going through libsyscall. It takes over the high-level resource management that monolithic kernels keep in-kernel, with each component managed as a singleton to constrain interface exposure:</p>
       <ul>
         <li><b>procmgr</b>: process / thread lifecycle, ELF loading (spawn, exit, PID lookup)</li>
@@ -219,7 +208,6 @@ booting from EL1: bootloader → kernel → systemd</code></pre>
 
     <section class="doc-sec" id="service-pattern">
       <h2>Service Skeleton</h2>
-      <p class="sub">Framework Service Pattern</p>
       <p>Every OS service (<code>os/framework/*</code> and <code>sys/uapps/core/*</code>) follows the same structure:</p>
       <pre><code>main.c            init, register the service over IPC, event loop
 service/service.c IPC handler dispatch table indexed by method number
@@ -231,7 +219,6 @@ client/include/   public client API headers</code></pre>
 
     <section class="doc-sec" id="shm">
       <h2>SHM Data Passing</h2>
-      <p class="sub">Zero-Copy Convention</p>
       <p>All data transfer between processes uses shared memory — it is the only data channel; there is no message-copying IPC. The universal flow:</p>
       <ul>
         <li>The client allocates SHM via <code>systemd-&gt;ops.alloc_shm()</code></li>
@@ -245,7 +232,6 @@ client/include/   public client API headers</code></pre>
 
     <section class="doc-sec" id="service-list">
       <h2>Service Directory</h2>
-      <p class="sub">Framework Services</p>
       <table class="tbl">
         <thead><tr><th>Service</th><th>Responsibility</th></tr></thead>
         <tbody>
@@ -267,7 +253,6 @@ client/include/   public client API headers</code></pre>
 
     <section class="doc-sec" id="idl">
       <h2>IDL &amp; Code Generation</h2>
-      <p class="sub">Interface Definition · ABI</p>
       <p>Services describe their synchronous IPC interfaces in <code>.idl</code> files. The generator (<code>tools/idl_gen.py</code>, usually run automatically by a GN build target) emits five files: <code>&lt;service&gt;_types.h</code>, <code>&lt;service&gt;_client.h/.c</code> and <code>&lt;service&gt;_service.h/.c</code>.</p>
       <pre><code>service statemgr_ipc {
     id = 0x9;
@@ -286,7 +271,6 @@ client/include/   public client API headers</code></pre>
 
     <section class="doc-sec" id="gn">
       <h2>GN Build Targets</h2>
-      <p class="sub">GN / Ninja</p>
       <table class="tbl">
         <thead><tr><th>Target type</th><th>Use</th></tr></thead>
         <tbody>
@@ -301,7 +285,6 @@ client/include/   public client API headers</code></pre>
 
     <section class="doc-sec" id="platforms">
       <h2>Platforms &amp; Images</h2>
-      <p class="sub">Platforms · Images</p>
       <table class="tbl">
         <thead><tr><th>Platform</th><th>Role</th><th>Notes</th></tr></thead>
         <tbody>

@@ -55,37 +55,37 @@
       </defs>
 
       <!-- privilege rail -->
-      <rect class="layer" x="28" y="24" width="56" height="88" rx="6"></rect>
+      <rect class="layer" x="28" y="24" width="56" height="88"></rect>
       <text class="el" x="56" y="72" text-anchor="middle">EL2</text>
-      <rect class="layer" x="28" y="128" width="56" height="88" rx="6"></rect>
+      <rect class="layer" x="28" y="128" width="56" height="88"></rect>
       <text class="el" x="56" y="176" text-anchor="middle">EL1</text>
-      <rect class="layer" x="28" y="232" width="56" height="240" rx="6"></rect>
+      <rect class="layer" x="28" y="232" width="56" height="240"></rect>
       <text class="el" x="56" y="356" text-anchor="middle">EL0</text>
 
       <!-- EL2 row -->
-      <rect class="layer" x="100" y="24" width="992" height="88" rx="8"></rect>
+      <rect class="layer" x="100" y="24" width="992" height="88"></rect>
       <text class="name" x="124" y="62">Hypervisor</text>
       <text class="desc" x="124" y="82">Type-1 · optional stage</text>
       <g>
-        <rect class="comp" x="628" y="53" width="68" height="30" rx="4"></rect><text class="comp-t" x="662" y="72" text-anchor="middle">stage-2</text>
-        <rect class="comp" x="706" y="53" width="100" height="30" rx="4"></rect><text class="comp-t" x="756" y="72" text-anchor="middle">VM/VCPU</text>
-        <rect class="comp" x="816" y="53" width="52" height="30" rx="4"></rect><text class="comp-t" x="842" y="72" text-anchor="middle">vGIC</text>
-        <rect class="comp" x="878" y="53" width="62" height="30" rx="4"></rect><text class="comp-t" x="909" y="72" text-anchor="middle">vTimer</text>
-        <rect class="comp" x="950" y="53" width="52" height="30" rx="4"></rect><text class="comp-t" x="976" y="72" text-anchor="middle">vPMU</text>
-        <rect class="comp" x="1012" y="53" width="68" height="30" rx="4"></rect><text class="comp-t" x="1046" y="72" text-anchor="middle">hypcall</text>
+        <rect class="comp" x="628" y="53" width="68" height="30"></rect><text class="comp-t" x="662" y="72" text-anchor="middle">stage-2</text>
+        <rect class="comp" x="706" y="53" width="100" height="30"></rect><text class="comp-t" x="756" y="72" text-anchor="middle">VM/VCPU</text>
+        <rect class="comp" x="816" y="53" width="52" height="30"></rect><text class="comp-t" x="842" y="72" text-anchor="middle">vGIC</text>
+        <rect class="comp" x="878" y="53" width="62" height="30"></rect><text class="comp-t" x="909" y="72" text-anchor="middle">vTimer</text>
+        <rect class="comp" x="950" y="53" width="52" height="30"></rect><text class="comp-t" x="976" y="72" text-anchor="middle">vPMU</text>
+        <rect class="comp" x="1012" y="53" width="68" height="30"></rect><text class="comp-t" x="1046" y="72" text-anchor="middle">hypcall</text>
       </g>
 
       <!-- EL1 row -->
-      <rect class="layer" x="100" y="128" width="992" height="88" rx="8"></rect>
+      <rect class="layer" x="100" y="128" width="992" height="88"></rect>
       <text class="name" x="124" y="166">Microkernel</text>
       <text class="desc" x="124" y="186">capability object dispatch</text>
       <g>
-        <rect class="comp" x="512" y="157" width="88" height="30" rx="4"></rect><text class="comp-t" x="556" y="176" text-anchor="middle">capability</text>
-        <rect class="comp" x="610" y="157" width="104" height="30" rx="4"></rect><text class="comp-t" x="662" y="176" text-anchor="middle">migrating IPC</text>
-        <rect class="comp" x="724" y="157" width="104" height="30" rx="4"></rect><text class="comp-t" x="776" y="176" text-anchor="middle">SMP scheduler</text>
-        <rect class="comp" x="838" y="157" width="52" height="30" rx="4"></rect><text class="comp-t" x="864" y="176" text-anchor="middle">futex</text>
-        <rect class="comp" x="900" y="157" width="92" height="30" rx="4"></rect><text class="comp-t" x="946" y="176" text-anchor="middle">IRQ · timer</text>
-        <rect class="comp" x="1002" y="157" width="66" height="30" rx="4"></rect><text class="comp-t" x="1035" y="176" text-anchor="middle">drivers</text>
+        <rect class="comp" x="512" y="157" width="88" height="30"></rect><text class="comp-t" x="556" y="176" text-anchor="middle">capability</text>
+        <rect class="comp" x="610" y="157" width="104" height="30"></rect><text class="comp-t" x="662" y="176" text-anchor="middle">migrating IPC</text>
+        <rect class="comp" x="724" y="157" width="104" height="30"></rect><text class="comp-t" x="776" y="176" text-anchor="middle">SMP scheduler</text>
+        <rect class="comp" x="838" y="157" width="52" height="30"></rect><text class="comp-t" x="864" y="176" text-anchor="middle">futex</text>
+        <rect class="comp" x="900" y="157" width="92" height="30"></rect><text class="comp-t" x="946" y="176" text-anchor="middle">IRQ · timer</text>
+        <rect class="comp" x="1002" y="157" width="66" height="30"></rect><text class="comp-t" x="1035" y="176" text-anchor="middle">drivers</text>
       </g>
 
       <!-- boot flow arrows -->
@@ -95,7 +95,7 @@
       <text class="desc" x="150" y="227">boot</text>
 
       <!-- EL0 boxes -->
-      <rect class="layer" x="100" y="232" width="300" height="240" rx="8"></rect>
+      <rect class="layer" x="100" y="232" width="300" height="240"></rect>
       <text class="name" x="124" y="262">SystemDaemon</text>
       <text class="desc" x="124" y="280">privileged EL0 · 17 IPC methods</text>
       <text class="desc" x="124" y="312">procmgr — process / thread lifecycle</text>
@@ -104,43 +104,43 @@
       <text class="desc" x="124" y="384">virtmgr — VM lifecycle</text>
       <text class="desc" x="124" y="424">direct capcalls, no libsyscall</text>
 
-      <rect class="layer" x="424" y="232" width="380" height="240" rx="8"></rect>
+      <rect class="layer" x="424" y="232" width="380" height="240"></rect>
       <text class="name" x="448" y="262">Framework Services</text>
       <text class="desc" x="448" y="280">independent EL0 · endpoint pools</text>
       <g>
-        <rect class="comp" x="448" y="292" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="306" text-anchor="middle">windowmgr</text>
-        <rect class="comp" x="560" y="292" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="306" text-anchor="middle">fsmgr</text>
-        <rect class="comp" x="672" y="292" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="306" text-anchor="middle">netmgr</text>
-        <rect class="comp" x="448" y="320" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="334" text-anchor="middle">devmgr</text>
-        <rect class="comp" x="560" y="320" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="334" text-anchor="middle">appmgr</text>
-        <rect class="comp" x="672" y="320" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="334" text-anchor="middle">audiomgr</text>
-        <rect class="comp" x="448" y="348" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="362" text-anchor="middle">fontmgr</text>
-        <rect class="comp" x="560" y="348" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="362" text-anchor="middle">statemgr</text>
-        <rect class="comp" x="672" y="348" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="362" text-anchor="middle">timemgr</text>
-        <rect class="comp" x="448" y="376" width="104" height="22" rx="4"></rect><text class="comp-t" x="500" y="390" text-anchor="middle">agentmgr</text>
-        <rect class="comp" x="560" y="376" width="104" height="22" rx="4"></rect><text class="comp-t" x="612" y="390" text-anchor="middle">mmimgr</text>
-        <rect class="comp" x="672" y="376" width="104" height="22" rx="4"></rect><text class="comp-t" x="724" y="390" text-anchor="middle">imemgr</text>
+        <rect class="comp" x="448" y="292" width="104" height="22"></rect><text class="comp-t" x="500" y="306" text-anchor="middle">windowmgr</text>
+        <rect class="comp" x="560" y="292" width="104" height="22"></rect><text class="comp-t" x="612" y="306" text-anchor="middle">fsmgr</text>
+        <rect class="comp" x="672" y="292" width="104" height="22"></rect><text class="comp-t" x="724" y="306" text-anchor="middle">netmgr</text>
+        <rect class="comp" x="448" y="320" width="104" height="22"></rect><text class="comp-t" x="500" y="334" text-anchor="middle">devmgr</text>
+        <rect class="comp" x="560" y="320" width="104" height="22"></rect><text class="comp-t" x="612" y="334" text-anchor="middle">appmgr</text>
+        <rect class="comp" x="672" y="320" width="104" height="22"></rect><text class="comp-t" x="724" y="334" text-anchor="middle">audiomgr</text>
+        <rect class="comp" x="448" y="348" width="104" height="22"></rect><text class="comp-t" x="500" y="362" text-anchor="middle">fontmgr</text>
+        <rect class="comp" x="560" y="348" width="104" height="22"></rect><text class="comp-t" x="612" y="362" text-anchor="middle">statemgr</text>
+        <rect class="comp" x="672" y="348" width="104" height="22"></rect><text class="comp-t" x="724" y="362" text-anchor="middle">timemgr</text>
+        <rect class="comp" x="448" y="376" width="104" height="22"></rect><text class="comp-t" x="500" y="390" text-anchor="middle">agentmgr</text>
+        <rect class="comp" x="560" y="376" width="104" height="22"></rect><text class="comp-t" x="612" y="390" text-anchor="middle">mmimgr</text>
+        <rect class="comp" x="672" y="376" width="104" height="22"></rect><text class="comp-t" x="724" y="390" text-anchor="middle">imemgr</text>
       </g>
       <text class="desc" x="448" y="428">interfaces in .idl · wrappers/dispatch codegen</text>
 
-      <rect class="layer" x="828" y="232" width="264" height="240" rx="8"></rect>
+      <rect class="layer" x="828" y="232" width="264" height="240"></rect>
       <text class="name" x="852" y="262">Applications</text>
       <text class="desc" x="852" y="280">regular user programs</text>
       <g>
-        <rect class="comp" x="852" y="292" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="305" text-anchor="middle">systemui</text>
-        <rect class="comp" x="968" y="292" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="305" text-anchor="middle">launcher</text>
-        <rect class="comp" x="852" y="317" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="330" text-anchor="middle">settings</text>
-        <rect class="comp" x="968" y="317" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="330" text-anchor="middle">files</text>
-        <rect class="comp" x="852" y="342" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="355" text-anchor="middle">monitor</text>
-        <rect class="comp" x="968" y="342" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="355" text-anchor="middle">memo</text>
-        <rect class="comp" x="852" y="367" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="380" text-anchor="middle">music</text>
-        <rect class="comp" x="968" y="367" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="380" text-anchor="middle">calendar</text>
-        <rect class="comp" x="852" y="392" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="405" text-anchor="middle">clock</text>
-        <rect class="comp" x="968" y="392" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="405" text-anchor="middle">whiteboard</text>
-        <rect class="comp" x="852" y="417" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="430" text-anchor="middle">calculator</text>
-        <rect class="comp" x="968" y="417" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="430" text-anchor="middle">nes</text>
-        <rect class="comp" x="852" y="442" width="108" height="20" rx="4"></rect><text class="comp-t" x="906" y="455" text-anchor="middle">ai</text>
-        <rect class="comp" x="968" y="442" width="108" height="20" rx="4"></rect><text class="comp-t" x="1022" y="455" text-anchor="middle">about</text>
+        <rect class="comp" x="852" y="292" width="108" height="20"></rect><text class="comp-t" x="906" y="305" text-anchor="middle">systemui</text>
+        <rect class="comp" x="968" y="292" width="108" height="20"></rect><text class="comp-t" x="1022" y="305" text-anchor="middle">launcher</text>
+        <rect class="comp" x="852" y="317" width="108" height="20"></rect><text class="comp-t" x="906" y="330" text-anchor="middle">settings</text>
+        <rect class="comp" x="968" y="317" width="108" height="20"></rect><text class="comp-t" x="1022" y="330" text-anchor="middle">files</text>
+        <rect class="comp" x="852" y="342" width="108" height="20"></rect><text class="comp-t" x="906" y="355" text-anchor="middle">monitor</text>
+        <rect class="comp" x="968" y="342" width="108" height="20"></rect><text class="comp-t" x="1022" y="355" text-anchor="middle">memo</text>
+        <rect class="comp" x="852" y="367" width="108" height="20"></rect><text class="comp-t" x="906" y="380" text-anchor="middle">music</text>
+        <rect class="comp" x="968" y="367" width="108" height="20"></rect><text class="comp-t" x="1022" y="380" text-anchor="middle">calendar</text>
+        <rect class="comp" x="852" y="392" width="108" height="20"></rect><text class="comp-t" x="906" y="405" text-anchor="middle">clock</text>
+        <rect class="comp" x="968" y="392" width="108" height="20"></rect><text class="comp-t" x="1022" y="405" text-anchor="middle">whiteboard</text>
+        <rect class="comp" x="852" y="417" width="108" height="20"></rect><text class="comp-t" x="906" y="430" text-anchor="middle">calculator</text>
+        <rect class="comp" x="968" y="417" width="108" height="20"></rect><text class="comp-t" x="1022" y="430" text-anchor="middle">nes</text>
+        <rect class="comp" x="852" y="442" width="108" height="20"></rect><text class="comp-t" x="906" y="455" text-anchor="middle">ai</text>
+        <rect class="comp" x="968" y="442" width="108" height="20"></rect><text class="comp-t" x="1022" y="455" text-anchor="middle">about</text>
       </g>
 
       <!-- IPC arrows between EL0 boxes -->

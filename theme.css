@@ -20,23 +20,15 @@
   --color-bg:            #F1EFE8;
   --color-surface-1:     #EAE7DE;
   --color-surface-2:     #E1DDD3;
-  --color-surface-3:     #D5D0C4;
   --color-border-1:      rgba(25,24,21,.10);
   --color-border-2:      rgba(25,24,21,.18);
-  --color-border-3:      rgba(25,24,21,.30);
   --color-text-1:        #191815;
   --color-text-2:        #656159;
   --color-text-3:        #8B867D;
   --color-accent:        #294EC9;
-  --color-accent-dim:    #5C75D5;
   --color-accent-bright: #173899;
   --color-accent-soft:   rgba(41,78,201,.09);
   --color-ok:            #39765B;
-  --color-warn:          #9B6B18;
-  --color-err:           #A63D36;
-  --color-glow:          rgba(41,78,201,.07);
-  --color-overlay:       rgba(25,24,21,.04);
-  --color-bg-glass:      color-mix(in oklch, var(--color-bg) 92%, transparent);
   color-scheme: light;
 }
 
@@ -45,23 +37,15 @@
   --color-bg:            #11110F;
   --color-surface-1:     #171714;
   --color-surface-2:     #1E1E1A;
-  --color-surface-3:     #292823;
   --color-border-1:      rgba(237,233,223,.10);
   --color-border-2:      rgba(237,233,223,.18);
-  --color-border-3:      rgba(237,233,223,.30);
   --color-text-1:        #EDE9DF;
   --color-text-2:        #AAA69D;
   --color-text-3:        #706D66;
   --color-accent:        #6F89F2;
-  --color-accent-dim:    #91A3EB;
   --color-accent-bright: #A8B7FF;
   --color-accent-soft:   rgba(111,137,242,.11);
   --color-ok:            #76A887;
-  --color-warn:          #C09A50;
-  --color-err:           #C66A62;
-  --color-glow:          rgba(111,137,242,.07);
-  --color-overlay:       rgba(0,0,0,.24);
-  --color-bg-glass:      color-mix(in oklch, var(--color-bg) 92%, transparent);
   color-scheme: dark;
 }
 
@@ -130,34 +114,12 @@
   --duration-fast:    150ms;
   --duration-normal:  250ms;
   --duration-slow:    400ms;
-  --duration-glacial: 700ms;
 
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* --- Elevation --- */
+/* --- Inline code radius --- */
 :root {
-  --shadow-0: none;
-  --shadow-1: 0 1px 2px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,.05);
-  --shadow-2: 0 4px 12px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,.06);
-  --shadow-3: 0 12px 32px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.07);
-  --shadow-4: 0 24px 64px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.08);
-}
-[data-theme="dark"] {
-  --shadow-1: 0 1px 2px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.03);
-  --shadow-2: 0 4px 12px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.04);
-  --shadow-3: 0 12px 32px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04);
-  --shadow-4: 0 24px 64px rgba(0,0,0,.40), inset 0 1px 0 rgba(255,255,255,.05);
-}
-
-/* --- Radius --- */
-:root {
-  --radius-none: 0;
   --radius-sm:   0.25rem;
-  --radius-md:   0.375rem;
-  --radius-lg:   0.625rem;
-  --radius-xl:   1rem;
-  --radius-full: 9999px;
 }
