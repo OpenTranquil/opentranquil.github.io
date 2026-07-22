@@ -20,11 +20,11 @@
   --color-bg:            #F2F3F0;
   --color-surface-1:     #EAECE8;
   --color-surface-2:     #E1E4DF;
-  --color-border-1:      rgba(22,25,23,.10);
-  --color-border-2:      rgba(22,25,23,.18);
+  --color-border-1:      rgba(22,25,23,.08);
+  --color-border-2:      rgba(22,25,23,.16);
   --color-text-1:        #161917;
   --color-text-2:        #5F6561;
-  --color-text-3:        #868C88;
+  --color-text-3:        #68706B;
   --color-accent:        #2949B8;
   --color-accent-bright: #19358F;
   --color-accent-soft:   rgba(41,73,184,.08);
@@ -37,11 +37,11 @@
   --color-bg:            #11110F;
   --color-surface-1:     #171714;
   --color-surface-2:     #1E1E1A;
-  --color-border-1:      rgba(237,233,223,.10);
-  --color-border-2:      rgba(237,233,223,.18);
+  --color-border-1:      rgba(237,233,223,.08);
+  --color-border-2:      rgba(237,233,223,.16);
   --color-text-1:        #EDE9DF;
   --color-text-2:        #AAA69D;
-  --color-text-3:        #706D66;
+  --color-text-3:        #817E76;
   --color-accent:        #6F89F2;
   --color-accent-bright: #A8B7FF;
   --color-accent-soft:   rgba(111,137,242,.11);
@@ -117,9 +117,4 @@
 
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-/* --- Inline code radius --- */
-:root {
-  --radius-sm:   0.25rem;
 }

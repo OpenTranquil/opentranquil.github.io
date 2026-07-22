@@ -1,6 +1,6 @@
 /* TranquilOS documentation — archival index + reading column */
 
-.docs-shell{max-width:var(--wrap-width);margin:0 auto;padding:clamp(var(--space-7),4vw,var(--space-9)) var(--space-6) var(--space-11);display:grid;grid-template-columns:17rem minmax(0,1fr);gap:clamp(var(--space-9),5vw,var(--space-12));align-items:start;counter-reset:doc-section}
+.docs-shell{max-width:var(--wrap-width);margin:0 auto;padding:clamp(var(--space-7),4vw,var(--space-9)) var(--space-5) var(--space-11);display:grid;grid-template-columns:17rem minmax(0,1fr);gap:clamp(var(--space-9),5vw,var(--space-12));align-items:start;counter-reset:doc-section}
 
 /* index */
 .docs-side{position:sticky;top:calc(var(--header-height) + var(--space-7));max-height:calc(100svh - var(--header-height) - var(--space-10));overflow:auto;padding:0 var(--space-6) var(--space-6) 0;border-right:1px solid var(--color-border-1);scrollbar-width:thin;scrollbar-color:var(--color-border-2) transparent}
