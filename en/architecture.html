@@ -52,7 +52,7 @@
     <svg class="arch-svg" viewBox="0 0 1120 500" role="img" aria-label="TranquilOS layered architecture: EL2 hypervisor, EL1 microkernel, EL0 SystemDaemon / Framework Services / Applications">
       <defs>
         <marker id="arrw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="var(--dim)"></path>
+          <path d="M0,0 L10,5 L0,10 z"></path>
         </marker>
       </defs>
 
@@ -158,9 +158,9 @@
     <div class="split">
       <div>
         <p class="eyebrow">Capability System</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">Every kernel object is reached through a capability.</h2>
+        <h2>Every kernel object is reached through a capability.</h2>
         <p class="lede">Each process owns a CNode holding references to the kernel objects it may access. The CNode is built on a directory array — array-speed indexing with dynamic-array growth, expanding without copying existing slots. A capability reference (cref) is a 64-bit value: upper 32 bits cnode ID, lower 32 bits slot index; the root CNode has ID 1. The kernel checks object type and a 32-bit rights mask before every method dispatch.</p>
-        <div class="badges" style="margin-top:24px">
+        <div class="badges">
           <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
           <span class="badge">SContext</span><span class="badge">XContext</span><span class="badge">Timer</span>
           <span class="badge">Futex</span><span class="badge">IRQ</span><span class="badge">Console</span>
@@ -175,7 +175,7 @@
             <tr><td>Compact syscall</td><td>—</td><td>Linux-compatible table; unknown calls are forwarded to userspace libsyscall via upcall</td></tr>
           </tbody>
         </table>
-        <p class="note" style="margin-top:16px"><b>Upcall</b> is the reverse path: the kernel hands syscalls it cannot handle, page faults and similar events to a handler registered by the process — policy stays in userspace.</p>
+        <p class="note"><b>Upcall</b> is the reverse path: the kernel hands syscalls it cannot handle, page faults and similar events to a handler registered by the process — policy stays in userspace.</p>
       </div>
     </div>
   </section>
@@ -186,7 +186,7 @@
       <h2>Migrating-thread IPC: cross-process calls that behave like function calls.</h2>
       <p>Traditional IPC only responds once the server thread gets scheduled onto a CPU — latency is nondeterministic. TranquilOS synchronous IPC migrates the caller's execution context into the callee's address space: IPC does not depend on scheduler behavior, so it is faster and predictable.</p>
     </div>
-    <div class="grid c2" style="margin-bottom:16px">
+    <div class="grid c2">
       <article class="card">
         <span class="tag">MIGRATING THREAD</span>
         <h3>Switch execution context, not scheduling state</h3>
@@ -206,16 +206,16 @@
       <div><span class="n">05</span><b>process</b><p>Operate directly on the shared data — zero copy.</p></div>
       <div><span class="n">06</span><b>reply &amp; free</b><p>Reply; the client frees the SHM.</p></div>
     </div>
-    <p class="note" style="margin-top:16px">SHM is the only data channel between processes — TranquilOS has no message-copying IPC. All bulk data moves through shared memory; IPC argument slots carry handles and scalars only.</p>
+    <p class="note">SHM is the only data channel between processes — TranquilOS has no message-copying IPC. All bulk data moves through shared memory; IPC argument slots carry handles and scalars only.</p>
   </section>
 
   <section class="sec">
     <div class="split">
       <div>
         <p class="eyebrow">Scheduler</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">Scheduling and execution are two data structures.</h2>
+        <h2>Scheduling and execution are two data structures.</h2>
         <p class="lede">The traditional TCB is split into a <code>schedule_context_s</code> (scheduling entity) and an <code>execute_context_s</code> (execution entity). Per-CPU schedulers manipulate only scheduling metadata; register state is constructed on real context switches. Under SMP each CPU runs a local scheduler with cross-core load balancing, and CFS is plugged in as a loadable kernel module.</p>
-        <div class="badges" style="margin-top:24px">
+        <div class="badges">
           <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
           <span class="badge">preemptive</span><span class="badge">CFS module</span>
         </div>
@@ -238,7 +238,7 @@ execute_context_s    // execution state
     <div class="split">
       <div>
         <p class="eyebrow">SystemDaemon &amp; Memory</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">The kernel keeps only a boot allocator — memory policy lives in EL0.</h2>
+        <h2>The kernel keeps only a boot allocator — memory policy lives in EL0.</h2>
         <p class="lede">The microkernel keeps just a boot-time allocator for itself and SystemDaemon startup. SystemDaemon is a privileged EL0 process linked at <code>0x43080000</code> that issues capcalls directly, exposing four managers as singleton components: procmgr (processes/threads, ELF loading), memmgr (buddy physical-page allocation, SHM), ipcmgr (endpoints/pools, name service, capability cloning) and virtmgr (virtual machines).</p>
       </div>
       <div>
@@ -292,7 +292,7 @@ system.img (128MB, ext2)
   etc/  fonts · icons · init config</code></pre>
       </div>
     </div>
-    <div class="pipe" style="margin-top:16px">
+    <div class="pipe">
       <div><span class="n">01</span><b>init</b><p>First userspace process. Finds the ramdisk via the device tree, starts devmgr and fsmgr, then runs <span class="mono">/root/etc/init.rc</span>.</p></div>
       <div><span class="n">02</span><b>zygote</b><p>Reads <span class="mono">init.json</span>, loads service ELFs from ext2 into SHM and starts framework services via <span class="mono">start_process_from_shm()</span>.</p></div>
       <div><span class="n">03</span><b>appmgr</b><p>Manages the app registry from <span class="mono">applist.json</span> and launches app processes on demand.</p></div>
@@ -334,7 +334,7 @@ service statemgr_ipc {
     uint64_t get(persistent in query *request,
                  persistent out result *response) id = 0x1;
 };</code></pre>
-        <p class="note" style="margin-top:16px"><b>persistent</b> parameters let the SHM buffer of a fixed-size control struct be reused across calls: lazily allocated by the client, mapped once by the server — every call still performs a real IPC. Transport structs must declare a <b>version</b>; the generator adds <b>abi_size</b> / <b>abi_version</b> fields validated by the server. Pointer fields are not allowed in transport structs — variable-length data passes an explicit SHM handle and length.</p>
+        <p class="note"><b>persistent</b> parameters let the SHM buffer of a fixed-size control struct be reused across calls: lazily allocated by the client, mapped once by the server — every call still performs a real IPC. Transport structs must declare a <b>version</b>; the generator adds <b>abi_size</b> / <b>abi_version</b> fields validated by the server. Pointer fields are not allowed in transport structs — variable-length data passes an explicit SHM handle and length.</p>
       </div>
     </div>
   </section>

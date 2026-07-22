@@ -57,18 +57,18 @@
         <span class="tag">MACOS ONLY</span>
         <h3>e2fsprogs</h3>
         <p>system.img is an ext2 filesystem image. Assembling it on macOS requires Homebrew's e2fsprogs. Without it, compilation can succeed while image assembly fails.</p>
-        <pre style="margin-top:14px"><code>brew install e2fsprogs</code></pre>
+        <pre class="mt-3"><code>brew install e2fsprogs</code></pre>
       </div>
     </div>
-    <p class="note" style="margin-top:16px"><b>Note:</b> <code>env_setup.sh</code> must be sourced in every new shell — it exports <code>OS_BASE_DIR=~/kernel</code> and puts gn and the compilers on PATH. <code>OS_BASE_DIR</code> is hardcoded to <code>~/kernel</code>; if you checked the repo out elsewhere, edit it first.</p>
+    <p class="note mt-4"><b>Note:</b> <code>env_setup.sh</code> must be sourced in every new shell — it exports <code>OS_BASE_DIR=~/kernel</code> and puts gn and the compilers on PATH. <code>OS_BASE_DIR</code> is hardcoded to <code>~/kernel</code>; if you checked the repo out elsewhere, edit it first.</p>
   </section>
 
   <section class="sec">
     <div class="split">
       <div>
         <p class="eyebrow">Quick Start</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">One command to build and boot.</h2>
-        <p class="lede" style="margin-bottom:24px">QemuVirt is the primary development platform: the script builds, assembles images, and launches a 4-core SMP, 2 GB RAM virtual machine (HVF-accelerated on macOS) with a ramfb display and the full VirtIO set. Validate scheduler, IPC, capability, MMU and other kernel changes here first.</p>
+        <h2 class="split-h2">One command to build and boot.</h2>
+        <p class="lede">QemuVirt is the primary development platform: the script builds, assembles images, and launches a 4-core SMP, 2 GB RAM virtual machine (HVF-accelerated on macOS) with a ramfb display and the full VirtIO set. Validate scheduler, IPC, capability, MMU and other kernel changes here first.</p>
         <a class="btn primary" href="download.html">Skip the build? Get prebuilt images <span class="arr">→</span></a>
       </div>
       <div class="term">
@@ -131,7 +131,7 @@ ninja -C out Windowmgr</code></pre>
             <tr><td><code>hostgcc</code></td><td>Host GCC, for tooling targets</td></tr>
           </tbody>
         </table>
-        <p class="note" style="margin-top:16px">Switch toolchains with <code>gn gen out --args='toolchain="clang"'</code>. GN targets come in only four kinds: <b>executable / source_set / group / config</b>. Every userspace executable provides <code>_start</code> via <code>libcrt/start.S</code> and links a platform-specific linker script.</p>
+        <p class="note mt-4">Switch toolchains with <code>gn gen out --args='toolchain="clang"'</code>. GN targets come in only four kinds: <b>executable / source_set / group / config</b>. Every userspace executable provides <code>_start</code> via <code>libcrt/start.S</code> and links a platform-specific linker script.</p>
       </div>
     </div>
   </section>
@@ -147,7 +147,7 @@ ninja -C out Windowmgr</code></pre>
       <div><span class="n">03</span><b>make_system_img.sh</b><p>Strip ELFs, then build the 128 MB ext2 system.img via <span class="mono">mke2fs</span> + <span class="mono">debugfs</span> with services, apps, fonts and configs.</p></div>
       <div><span class="n">04</span><b>run.sh</b><p>Launch QEMU: 4-core SMP, 2 GB RAM, HVF on macOS, VirtIO devices and a ramfb display.</p></div>
     </div>
-    <div class="split" style="margin-top:16px">
+    <div class="split mt-4">
       <div>
 <pre><code>boot.img (64MB)
   offset 0      Bootloader    8MB

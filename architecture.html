@@ -52,7 +52,7 @@
     <svg class="arch-svg" viewBox="0 0 1120 500" role="img" aria-label="TranquilOS 分层架构图：EL2 hypervisor、EL1 microkernel、EL0 SystemDaemon / Framework Services / Applications">
       <defs>
         <marker id="arrw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="var(--dim)"></path>
+          <path d="M0,0 L10,5 L0,10 z"></path>
         </marker>
       </defs>
 
@@ -158,9 +158,9 @@
     <div class="split">
       <div>
         <p class="eyebrow">Capability System</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">所有内核对象，只经 capability 访问。</h2>
+        <h2>所有内核对象，只经 capability 访问。</h2>
         <p class="lede">每个进程持有一个 CNode，保存它可访问的内核对象引用。CNode 由 directory array 实现——兼具数组索引的速度与动态扩展能力，扩展时不拷贝已有 slot。capability 引用（cref）是 64 位值：高 32 位为 cnode ID，低 32 位为 slot 索引，根 CNode ID 为 1。每次方法分发前，内核检查对象类型与 32 位 rights mask。</p>
-        <div class="badges" style="margin-top:24px">
+        <div class="badges">
           <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
           <span class="badge">SContext</span><span class="badge">XContext</span><span class="badge">Timer</span>
           <span class="badge">Futex</span><span class="badge">IRQ</span><span class="badge">Console</span>
@@ -175,7 +175,7 @@
             <tr><td>Compact syscall</td><td>—</td><td>Linux 兼容表；未知调用经 upcall 转交用户态 libsyscall 分发</td></tr>
           </tbody>
         </table>
-        <p class="note" style="margin-top:16px"><b>upcall</b> 是反向路径：内核把无法处理的系统调用、页错误等事件转交进程注册的用户态处理函数，让策略留在用户态。</p>
+        <p class="note"><b>upcall</b> 是反向路径：内核把无法处理的系统调用、页错误等事件转交进程注册的用户态处理函数，让策略留在用户态。</p>
       </div>
     </div>
   </section>
@@ -186,7 +186,7 @@
       <h2>迁移线程 IPC：让跨进程调用像函数调用。</h2>
       <p>传统 IPC 要等 server 线程被调度上 CPU 才能响应，延迟不确定。TranquilOS 的同步 IPC 把调用方的执行上下文直接迁入被调进程的地址空间——IPC 不依赖调度器行为，因此更快、更可预期。</p>
     </div>
-    <div class="grid c2" style="margin-bottom:16px">
+    <div class="grid c2">
       <article class="card">
         <span class="tag">MIGRATING THREAD</span>
         <h3>只切执行上下文，不动调度状态</h3>
@@ -206,16 +206,16 @@
       <div><span class="n">05</span><b>process</b><p>直接在共享数据上处理，零拷贝。</p></div>
       <div><span class="n">06</span><b>reply &amp; free</b><p>应答后客户端释放 SHM。</p></div>
     </div>
-    <p class="note" style="margin-top:16px">SHM 是进程间唯一的数据通道——TranquilOS 没有消息拷贝式 IPC，所有批量数据都走共享内存，IPC 参数槽只传句柄与标量。</p>
+    <p class="note">SHM 是进程间唯一的数据通道——TranquilOS 没有消息拷贝式 IPC，所有批量数据都走共享内存，IPC 参数槽只传句柄与标量。</p>
   </section>
 
   <section class="sec">
     <div class="split">
       <div>
         <p class="eyebrow">Scheduler</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">调度与执行，是两份数据结构。</h2>
+        <h2>调度与执行，是两份数据结构。</h2>
         <p class="lede">传统 TCB 被拆成 <code>schedule_context_s</code>（调度实体）与 <code>execute_context_s</code>（执行实体）。per-CPU 调度器只操作调度元数据，真正切换上下文时才触碰寄存器状态。SMP 下每个 CPU 有独立本地调度器，配跨核负载均衡；CFS 调度类以可加载内核模块形式挂接。</p>
-        <div class="badges" style="margin-top:24px">
+        <div class="badges">
           <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
           <span class="badge">preemptive</span><span class="badge">CFS module</span>
         </div>
@@ -238,7 +238,7 @@ execute_context_s    // 执行状态
     <div class="split">
       <div>
         <p class="eyebrow">SystemDaemon &amp; Memory</p>
-        <h2 style="margin:0 0 14px;font-size:28px;line-height:1.35;font-weight:650">内核只留 boot allocator，内存策略在 EL0。</h2>
+        <h2>内核只留 boot allocator，内存策略在 EL0。</h2>
         <p class="lede">微内核内部只保留启动期分配器，为自身与 SystemDaemon 启动提供内存。SystemDaemon 是链地址 <code>0x43080000</code> 的特权 EL0 进程，直接发起 capcall，以单例组件形式提供四个管理器：procmgr（进程/线程、ELF 装载）、memmgr（物理页 buddy 分配、SHM）、ipcmgr（endpoint/pool、name service、capability 克隆）、virtmgr（虚拟机管理）。</p>
       </div>
       <div>
@@ -292,7 +292,7 @@ system.img (128MB, ext2)
   etc/  fonts · icons · init config</code></pre>
       </div>
     </div>
-    <div class="pipe" style="margin-top:16px">
+    <div class="pipe">
       <div><span class="n">01</span><b>init</b><p>首个用户态进程。解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <span class="mono">/root/etc/init.rc</span>。</p></div>
       <div><span class="n">02</span><b>zygote</b><p>读取 <span class="mono">init.json</span>，把服务 ELF 从 ext2 载入 SHM，经 <span class="mono">start_process_from_shm()</span> 启动框架服务。</p></div>
       <div><span class="n">03</span><b>appmgr</b><p>按 <span class="mono">applist.json</span> 管理应用注册表，按需启动应用进程。</p></div>
@@ -334,7 +334,7 @@ service statemgr_ipc {
     uint64_t get(persistent in query *request,
                  persistent out result *response) id = 0x1;
 };</code></pre>
-        <p class="note" style="margin-top:16px"><b>persistent</b> 参数让固定控制结构体的 SHM 缓冲区跨调用复用：客户端懒申请、服务端复用映射，每次调用仍执行 IPC。传输结构体必须带 <b>version</b>，生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验；结构体不允许指针字段，变长数据显式传 SHM 句柄与长度。</p>
+        <p class="note"><b>persistent</b> 参数让固定控制结构体的 SHM 缓冲区跨调用复用：客户端懒申请、服务端复用映射，每次调用仍执行 IPC。传输结构体必须带 <b>version</b>，生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验；结构体不允许指针字段，变长数据显式传 SHM 句柄与长度。</p>
       </div>
     </div>
   </section>

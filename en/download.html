@@ -59,8 +59,8 @@
         <a class="btn primary" href="../downloads/tranquil-cm4.img" download>Download image <span class="arr">↓</span></a>
       </article>
     </div>
-    <p class="note" style="margin-top:16px"><b>Integrity:</b> images are large files and downloads or copies can truncate. Verify before flashing:</p>
-    <pre style="margin-top:12px"><code>shasum -a 256 tranquil-virt.img tranquil-cm4.img</code></pre>
+    <p class="note mt-4"><b>Integrity:</b> images are large files and downloads or copies can truncate. Verify before flashing:</p>
+    <pre class="mt-3"><code>shasum -a 256 tranquil-virt.img tranquil-cm4.img</code></pre>
   </section>
 
   <section class="sec">
@@ -86,7 +86,7 @@
         <span class="tag">MACOS</span>
         <h3>diskutil + dd</h3>
         <p>After inserting the SD card or exposing CM4 eMMC in mass-storage mode:</p>
-        <pre style="margin-top:12px"><code>diskutil list
+        <pre class="mt-3"><code>diskutil list
 diskutil unmountDisk /dev/diskN
 sudo dd if=tranquil-cm4.img \
   of=/dev/rdiskN bs=4m \
@@ -97,7 +97,7 @@ sync && diskutil eject /dev/diskN</code></pre>
         <span class="tag">LINUX</span>
         <h3>lsblk + dd</h3>
         <p>Write to the whole-disk device, never a partition node (e.g. <code>sdX1</code>):</p>
-        <pre style="margin-top:12px"><code>lsblk
+        <pre class="mt-3"><code>lsblk
 sudo umount /dev/sdX*
 sudo dd if=tranquil-cm4.img \
   of=/dev/sdX bs=4M \
@@ -108,7 +108,7 @@ sync</code></pre>
         <span class="tag">RPIBOOT</span>
         <h3>Direct eMMC write</h3>
         <p>Set the USB boot jumper on the CM4 IO board, connect the host to the USB slave port:</p>
-        <pre style="margin-top:12px"><code>rpiboot
+        <pre class="mt-3"><code>rpiboot
 # once the eMMC appears as a
 # block device, follow the
 # macOS / Linux steps above,
@@ -122,7 +122,7 @@ sync</code></pre>
     <div class="split">
       <div>
         <p class="eyebrow">Post-Boot Checks</p>
-        <h2 style="margin:0;font-size:28px;line-height:1.35;font-weight:650">What to verify after boot.</h2>
+        <h2 class="split-h2 flat">What to verify after boot.</h2>
       </div>
       <div class="card">
         <ul class="ck">

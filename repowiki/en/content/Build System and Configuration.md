@@ -2,273 +2,148 @@
 
 <cite>
 **Referenced Files in This Document**
-- [BUILD.gn](file://BUILD.gn)
-- [boot/BUILD.gn](file://boot/BUILD.gn)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn)
-- [virt/BUILD.gn](file://virt/BUILD.gn)
-- [scripts/build_cm4.sh](file://scripts/build_cm4.sh)
-- [scripts/build_pi3b.sh](file://scripts/build_pi3b.sh)
-- [scripts/build_pi4b.sh](file://scripts/build_pi4b.sh)
-- [scripts/build_qemu.sh](file://scripts/build_qemu.sh)
-- [env_setup.sh](file://env_setup.sh)
-- [platform/CM4/linker/boot.lds](file://platform/CM4/linker/boot.lds)
-- [platform/CM4/linker/kernel.lds](file://platform/CM4/linker/kernel.lds)
-- [platform/Pi3b/linker/kernel.lds](file://platform/Pi3b/linker/kernel.lds)
-- [platform/Pi4b/linker/kernel.lds](file://platform/Pi4b/linker/kernel.lds)
-- [platform/QemuVirt/linker/virt.lds](file://platform/QemuVirt/linker/virt.lds)
-- [uapps/BUILD.gn](file://uapps/BUILD.gn)
+- [BUILD.gn](file:///Users/neo/kernel/BUILD.gn)
+- [sys/BUILD.gn](file:///Users/neo/kernel/sys/BUILD.gn)
+- [os/BUILD.gn](file:///Users/neo/kernel/os/BUILD.gn)
+- [build/BUILDCONFIG.gn](file:///Users/neo/kernel/build/BUILDCONFIG.gn)
+- [build/common.gni](file:///Users/neo/kernel/build/common.gni)
+- [platform/QemuVirt/scripts/build.sh](file:///Users/neo/kernel/platform/QemuVirt/scripts/build.sh)
+- [platform/QemuVirt/scripts/make_boot_img.sh](file:///Users/neo/kernel/platform/QemuVirt/scripts/make_boot_img.sh)
+- [platform/QemuVirt/scripts/make_system_img.sh](file:///Users/neo/kernel/platform/QemuVirt/scripts/make_system_img.sh)
+- [platform/QemuVirt/scripts/make_user_img.sh](file:///Users/neo/kernel/platform/QemuVirt/scripts/make_user_img.sh)
+- [platform/QemuVirt/scripts/make_all_img.sh](file:///Users/neo/kernel/platform/QemuVirt/scripts/make_all_img.sh)
 </cite>
 
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Project Structure](#project-structure)
-3. [Core Components](#core-components)
-4. [Architecture Overview](#architecture-overview)
-5. [Detailed Component Analysis](#detailed-component-analysis)
-6. [Dependency Analysis](#dependency-analysis)
-7. [Performance Considerations](#performance-considerations)
-8. [Troubleshooting Guide](#troubleshooting-guide)
-9. [Conclusion](#conclusion)
-10. [Appendices](#appendices)
+## Build Graph
 
-## Introduction
-This document explains the build system and configuration for TranquilOS, focusing on the GN/Ninja build pipeline, build configuration options, and platform-specific targets. It covers how the build is orchestrated, how platform selection influences linking and memory layout, and how to customize the build for new platforms or optimization scenarios. It also documents the provided build scripts, environment setup, and practical guidance for cross-compilation and troubleshooting.
+TranquilOS uses GN to generate Ninja build files. The top-level `BUILD.gn` has one primary entry:
 
-## Project Structure
-TranquilOS uses GN (Generate) to produce Ninja build files. The top-level group aggregates the Boot stage, Hypervisor, Kernel, and User Applications. Each component defines its own executable target with shared compile-time flags and platform-aware linker scripts.
-
-```mermaid
-graph TB
-ROOT["Top-level group 'OS'"] --> BOOT["Executable 'Boot'"]
-ROOT --> VIRT["Executable 'Hypervisor'"]
-ROOT --> KERNEL["Executable 'Kernel'"]
-ROOT --> UAPPS["Group 'UAPPS'"]
-UAPPS --> DEV["Target 'Devmgr'"]
-UAPPS --> FSM["Target 'Fsmgr'"]
-UAPPS --> NET["Target 'Netmgr'"]
-UAPPS --> IDLE["Target 'Idle'"]
-UAPPS --> SHELL["Target 'Shell'"]
+```gn
+group("OS") {
+  deps = [
+    "//sys:sys",
+    "//os:os",
+  ]
+}
 ```
 
-**Diagram sources**
-- [BUILD.gn](file://BUILD.gn#L1-L9)
-- [uapps/BUILD.gn](file://uapps/BUILD.gn#L1-L10)
+`//sys:sys` builds the trusted computing base: bootloader, hypervisor, and kernel. `//os:os` builds the OS session layer: early userspace services, zygote, framework services, system UI, and user applications.
 
-**Section sources**
-- [BUILD.gn](file://BUILD.gn#L1-L9)
-- [uapps/BUILD.gn](file://uapps/BUILD.gn#L1-L10)
+## `sys` Targets
 
-## Core Components
-- Top-level group “OS” aggregates the Boot, Hypervisor, Kernel, and User Applications.
-- “Boot” is the initial stage responsible for early hardware initialization and minimal runtime support.
-- “Hypervisor” is the ARMv8 virtualization layer executed at EL2.
-- “Kernel” is the main microkernel executed at EL1.
-- “UAPPS” groups user-space applications (device manager, filesystem manager, network manager, idle, shell).
+`sys/BUILD.gn` defines low-level system configuration and `group("sys")`. The group currently depends on:
 
-Each component:
-- Defines a shared config for compile flags and link flags.
-- Selects platform-specific linker scripts via the platform variable.
-- Includes architecture-specific sources and userland libraries.
+- `//sys/boot:Boot`
+- `//sys/virt:Hypervisor`
+- `//sys/kernel:Kernel`
 
-**Section sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L1-L66)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L1-L72)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L1-L135)
-- [uapps/BUILD.gn](file://uapps/BUILD.gn#L1-L10)
-- [BUILD.gn](file://BUILD.gn#L1-L9)
+SystemDaemon lives under `sys/kernel/systemd`. It is generated as a privileged EL0 artifact as part of the kernel-side build path, then converted to `out/systemd.img` by `make_boot_img.sh` and written into `boot.img`.
 
-## Architecture Overview
-The build architecture ties together GN configuration, platform selection, and per-target linking. Platform selection is passed to GN during generation and influences which linker script is used for each executable.
+`sys/BUILD.gn` defines:
 
-```mermaid
-sequenceDiagram
-participant Dev as "Developer"
-participant Script as "build_* script"
-participant GN as "GN Generator"
-participant Ninja as "Ninja"
-participant Linker as "Linker (.lds)"
-participant Exec as "Artifacts"
-Dev->>Script : Run platform build script
-Script->>GN : gn gen out --args="platform=\"<Name>\""
-GN-->>Ninja : Emit build.ninja
-Ninja->>Linker : Resolve symbols with selected .lds
-Linker-->>Exec : Produce Boot/Hypervisor/Kernel/UAPPS
+- `kernel_compile_flags`: EL1 kernel flags, using `-mcpu=cortex-a72+nofp`, strict alignment, and frame pointers.
+- `virt_compile_flags`: EL2 hypervisor flags.
+- `trustee_compile_flags`: reserved for the trusted execution stub.
+- `systemd_compile_flags`: privileged EL0 SystemDaemon flags.
+- `kernel_version_defines`: currently `1.6.1`.
+
+## `os` Targets
+
+`os/BUILD.gn` defines `group("os")`, which includes the userspace OS session:
+
+- `//sys/uapps:UAPPS`
+- `//os/base/zygote:Zygote`
+- `//os/base/netmgr:Netmgr`
+- `//os/base/btmgr:Btmgr`
+- `//os/framework/windowmgr:Windowmgr`
+- `//os/framework/mmimgr:Mmimgr`
+- `//os/framework/appmgr:Appmgr`
+- `//os/framework/audiomgr:Audiomgr`
+- `//os/framework/fontmgr:Fontmgr`
+- `//os/framework/statemgr:Statemgr`
+- `//os/framework/timemgr:TimeMgr`
+- `//os/framework/agentmgr:Agentmgr`
+- AI, calendar, calculator, clock, files, memo, monitor, music, NES, settings, whiteboard, and system UI components under `//os/apps`.
+
+`os_version_defines` currently declares OS version `1.8.43`. Regular userspace and GUI userspace use `userspace_compile_flags` and `userspace_gui_compile_flags`; GUI builds define `LV_CONF_INCLUDE_SIMPLE`.
+
+## Platform Argument
+
+The platform is passed through GN args. For QEMU virt:
+
+```bash
+gn gen out --args='platform="QemuVirt"'
+ninja -C out
 ```
 
-**Diagram sources**
-- [scripts/build_cm4.sh](file://scripts/build_cm4.sh#L1-L6)
-- [scripts/build_pi3b.sh](file://scripts/build_pi3b.sh#L1-L6)
-- [scripts/build_pi4b.sh](file://scripts/build_pi4b.sh#L1-L6)
-- [scripts/build_qemu.sh](file://scripts/build_qemu.sh#L1-L6)
-- [boot/BUILD.gn](file://boot/BUILD.gn#L37-L40)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L37-L40)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L34-L37)
+The platform argument selects linker scripts, device trees, platform configuration, and run scripts. Current platform directories are:
 
-## Detailed Component Analysis
+- `platform/QemuVirt`
+- `platform/Pi3b`
+- `platform/Pi4b`
+- `platform/CM4`
 
-### Build Configuration Options and Flags
-- Shared compile flags include CPU architecture tuning, debug info, and warning suppression.
-- C-specific flags disable standard libraries and headers, enforcing a minimal build footprint.
-- Link flags disable standard libraries and enable verbose linking output.
-- The platform variable is printed at build time for visibility.
+## Image Pipeline
 
-These options are defined in a shared config block and applied to each executable target.
+The QEMU virt image pipeline is platform-script driven:
 
-**Section sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L7-L24)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L7-L24)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L6-L23)
+```text
+build.sh
+  -> gn gen out --args="platform=\"QemuVirt\""
+  -> ninja -C out
 
-### Platform Selection and Linker Scripts
-- Platform selection is passed to GN via command-line arguments in the build scripts.
-- Each executable links against a platform-specific linker script resolved by the platform variable.
-- Linker scripts define load addresses, section placement, and stack regions for each platform.
+make_boot_img.sh
+  -> objcopy Boot/Hypervisor/Kernel/SystemDaemon
+  -> copy devmgr/fsmgr/idle/init into images/ramdisk
+  -> pack ramdisk.cpio
+  -> write fixed-offset boot.img
 
-```mermaid
-flowchart TD
-Start(["GN Generation"]) --> Args["Parse --args='platform=\"<Name>\"'"]
-Args --> Resolve["Resolve '$PLATFORM_DIR/$platform/linker/<target>.lds'"]
-Resolve --> Link["Link with selected .lds"]
-Link --> Output(["Binaries"])
+make_system_img.sh
+  -> strip zygote, framework services, system UI, and app ELFs
+  -> stage images/system
+  -> create ext2 system.img
+
+make_user_img.sh
+  -> stage images/user
+  -> create ext2 user.img
+
+make_all_img.sh
+  -> create raw disk image
+  -> write MBR
+  -> create FAT32 boot partition
+  -> write ext2 system partition
+  -> write ext2 user partition
 ```
 
-**Diagram sources**
-- [scripts/build_cm4.sh](file://scripts/build_cm4.sh#L4-L4)
-- [scripts/build_pi3b.sh](file://scripts/build_pi3b.sh#L4-L4)
-- [scripts/build_pi4b.sh](file://scripts/build_pi4b.sh#L4-L4)
-- [scripts/build_qemu.sh](file://scripts/build_qemu.sh#L4-L4)
-- [boot/BUILD.gn](file://boot/BUILD.gn#L37-L40)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L37-L40)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L34-L37)
+## `boot.img` Layout
 
-**Section sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L27-L27)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L27-L27)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L26-L26)
-- [platform/CM4/linker/boot.lds](file://platform/CM4/linker/boot.lds#L1-L73)
-- [platform/CM4/linker/kernel.lds](file://platform/CM4/linker/kernel.lds#L1-L73)
-- [platform/Pi3b/linker/kernel.lds](file://platform/Pi3b/linker/kernel.lds#L1-L73)
-- [platform/Pi4b/linker/kernel.lds](file://platform/Pi4b/linker/kernel.lds#L1-L73)
-- [platform/QemuVirt/linker/virt.lds](file://platform/QemuVirt/linker/virt.lds#L1-L70)
+`make_boot_img.sh` creates a 64 MB `out/boot.img` using 4096-byte block offsets:
 
-### Build Targets and Source Sets
-- “Boot”: Early stage sources including architecture boot assembly, console, RTC, GPIO, UART, PSCI, device tree, and boot memory management.
-- “Hypervisor”: EL2 sources including boot assembly, exception handling, GIC, UART, VM management, and hypervisor core.
-- “Kernel”: EL1 microkernel sources including architecture entry/exit, MMU, TLB, interrupts, scheduling, IPC, capabilities, and drivers.
+| seek | content | size |
+| --- | --- | --- |
+| `0` | `loader.img` | 8 MB |
+| `2048` | `virt.dtb` | 8 MB |
+| `4096` | `hypervisor.img` | 16 MB |
+| `8192` | `kernel.img` | 16 MB |
+| `12288` | `systemd.img` | 8 MB |
+| `14336` | `ramdisk.cpio` | 8 MB |
 
-**Section sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L41-L64)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L41-L70)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L38-L130)
+The ramdisk currently contains `devmgr.elf`, `fsmgr.elf`, `idle.elf`, and `init.elf`. These services are needed before `system.img` is available.
 
-### Automated Builds and Build Scripts
-- Platform-specific scripts clean the output directory, generate GN build files with the platform argument, and invoke Ninja.
-- These scripts encapsulate the standard build workflow for Raspberry Pi Compute Module 4, Pi 3b, Pi 4b, and QEMU virtual platforms.
+## `system.img` and `user.img`
 
-**Section sources**
-- [scripts/build_cm4.sh](file://scripts/build_cm4.sh#L1-L6)
-- [scripts/build_pi3b.sh](file://scripts/build_pi3b.sh#L1-L6)
-- [scripts/build_pi4b.sh](file://scripts/build_pi4b.sh#L1-L6)
-- [scripts/build_qemu.sh](file://scripts/build_qemu.sh#L1-L6)
+`system.img` is a 128 MB ext2 filesystem labeled `SYSTEM`. The script stages `images/system`, then copies stripped zygote, framework services, system UI, and application ELFs.
 
-### Environment Setup
-- The environment script sets base directory and prepends GN and cross-toolchain binaries to PATH.
-- This ensures the correct GN and aarch64 cross-compiler are used for building.
+`user.img` is a 64 MB ext2 filesystem labeled `USER`. The script stages `images/user`, which currently contains AI configuration, NES ROMs, music, photos, and other user data templates.
 
-**Section sources**
-- [env_setup.sh](file://env_setup.sh#L1-L5)
+## Raw Disk Image
 
-### Continuous Integration
-- No CI configuration file was found in the repository.
-- The build system relies on local GN/Ninja invocations and platform scripts.
+`make_all_img.sh` assembles `out/tranquil-virt.img` from boot, system, and user images:
 
-[No sources needed since this section does not analyze specific files]
+| Partition | Type | Content |
+| --- | --- | --- |
+| P1 | FAT32 | `boot.img` |
+| P2 | ext2 | `system.img` |
+| P3 | ext2 | `user.img` |
 
-## Dependency Analysis
-The build targets depend on shared configuration and platform-specific linker scripts. The top-level group aggregates all components.
-
-```mermaid
-graph LR
-CFG["Shared 'compile_flags' config"] --> BOOT
-CFG --> VIRT
-CFG --> KERNEL
-PLATFORM["platform variable"] --> LDS_BOOT[".lds for Boot"]
-PLATFORM --> LDS_VIRT[".lds for Hypervisor"]
-PLATFORM --> LDS_KERNEL[".lds for Kernel"]
-BOOT --- LDS_BOOT
-VIRT --- LDS_VIRT
-KERNEL --- LDS_KERNEL
-```
-
-**Diagram sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L28-L29)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L28-L29)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L27-L28)
-- [boot/BUILD.gn](file://boot/BUILD.gn#L37-L40)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L37-L40)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L34-L37)
-
-**Section sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L28-L29)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L28-L29)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L27-L28)
-
-## Performance Considerations
-- Minimal runtime: Disabling standard libraries and headers reduces binary size and startup overhead.
-- Debugging: Debug flags are enabled for all targets, aiding development and diagnostics.
-- CPU tuning: Target CPU flags are set to optimize for the ARM Cortex-A72 architecture variant.
-- Link-time verbosity: Verbose linking helps diagnose unresolved symbols and layout issues.
-
-[No sources needed since this section provides general guidance]
-
-## Troubleshooting Guide
-Common issues and remedies:
-- Incorrect toolchain or missing GN:
-  - Ensure environment variables are set so GN and the cross-compiler are on PATH.
-- Platform mismatch:
-  - Verify the platform argument matches an existing platform directory and its linker scripts.
-- Linker errors:
-  - Confirm the selected .lds exists and matches the target’s expected sections and entry points.
-- Build artifacts not updating:
-  - Scripts clean the output directory before regeneration; re-run the platform script to force rebuild.
-
-**Section sources**
-- [env_setup.sh](file://env_setup.sh#L2-L5)
-- [scripts/build_cm4.sh](file://scripts/build_cm4.sh#L3-L3)
-- [scripts/build_pi3b.sh](file://scripts/build_pi3b.sh#L3-L3)
-- [scripts/build_pi4b.sh](file://scripts/build_pi4b.sh#L3-L3)
-- [scripts/build_qemu.sh](file://scripts/build_qemu.sh#L3-L3)
-
-## Conclusion
-TranquilOS employs a straightforward GN/Ninja build system with platform-driven linker scripts and shared compile flags. The build scripts streamline generation and compilation for supported platforms. Extending the system involves adding a new platform directory with appropriate linker scripts and ensuring the platform variable resolves correctly.
-
-[No sources needed since this section summarizes without analyzing specific files]
-
-## Appendices
-
-### Customizing the Build System
-- Add a new platform:
-  - Create a new directory under platform/<NewPlatform>/linker/ with the required .lds files.
-  - Ensure the platform name is recognized by the build scripts and GN args.
-- Modify optimization or feature toggles:
-  - Adjust shared compile flags in the common config blocks for all targets.
-- Cross-compilation:
-  - Ensure the cross-toolchain is installed and on PATH via the environment script.
-
-**Section sources**
-- [boot/BUILD.gn](file://boot/BUILD.gn#L37-L40)
-- [virt/BUILD.gn](file://virt/BUILD.gn#L37-L40)
-- [kernel/BUILD.gn](file://kernel/BUILD.gn#L34-L37)
-- [env_setup.sh](file://env_setup.sh#L4-L4)
-
-### Example Build Scenarios
-- Build for Raspberry Pi 4b:
-  - Run the Pi 4b build script to generate and compile with the Pi 4b platform.
-- Build for QEMU virtual machine:
-  - Run the QEMU build script to target the virtual platform linker script.
-- Clean rebuild:
-  - Scripts remove the output directory prior to regeneration; subsequent runs will rebuild all targets.
-
-**Section sources**
-- [scripts/build_pi4b.sh](file://scripts/build_pi4b.sh#L1-L6)
-- [scripts/build_qemu.sh](file://scripts/build_qemu.sh#L1-L6)
+The CM4 `make_all_img.sh` uses the same three-partition model, but also copies platform firmware and `bcm2711-rpi-cm4.dtb` into the FAT32 boot partition.
