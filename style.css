@@ -26,7 +26,7 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .hd-in{max-width:var(--wrap-width);height:var(--header-height);margin:auto;padding:0 var(--space-5);display:flex;align-items:center;gap:var(--space-6)}
 .brand{display:flex;align-items:center;gap:var(--space-3);font:var(--weight-semi) var(--text-sm)/1 var(--font-sans);letter-spacing:.06em;flex-shrink:0}
 .brand:hover{color:var(--color-text-1)}
-.brand img{width:21px;height:21px;border-radius:0}
+.brand-mark{display:block;width:21px;height:21px;flex:0 0 21px;background:currentColor;-webkit-mask:url("branding/tranquilos-final-line/mark-mask.svg") center/contain no-repeat;mask:url("branding/tranquilos-final-line/mark-mask.svg") center/contain no-repeat}
 .hd-nav{display:flex;gap:var(--space-1);margin-right:auto}
 .hd-nav a{position:relative;padding:var(--space-2) var(--space-3);color:var(--color-text-2);font-size:var(--text-sm);white-space:nowrap;transition:color var(--duration-fast)}
 .hd-nav a:hover{color:var(--color-text-1)}
@@ -48,7 +48,7 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .w{max-width:var(--wrap-width);margin:auto;padding:0 var(--space-5)}
 .sec{position:relative;padding:var(--space-section) 0;border-bottom:1px solid var(--color-border-1)}
 .sec:last-child{border-bottom:0}
-.sec-head{position:relative;z-index:1;max-width:50rem;margin-bottom:clamp(var(--space-7),3vw,var(--space-9))}
+.sec-head{position:relative;z-index:1;max-width:54rem;margin-bottom:clamp(var(--space-7),3vw,var(--space-9));padding-left:clamp(var(--space-5),4vw,var(--space-10))}
 .sec-head h2{margin:0 0 var(--space-3);font-family:var(--font-display);font-size:clamp(var(--text-3xl),3.2vw,var(--text-5xl));line-height:1.16;font-weight:500;letter-spacing:-.04em;text-wrap:balance}
 .sec-head p{margin:0;color:var(--color-text-2);font-size:var(--text-md)}
 .lede{color:var(--color-text-2);font-size:var(--text-md);line-height:var(--leading-relaxed)}
@@ -221,15 +221,15 @@ a:hover code{color:var(--color-accent)}
 
 /* ---------- arch diagram ---------- */
 .svg-scroll{overflow-x:auto}
-.arch-svg{width:100%;min-width:880px;height:auto;border:1px solid var(--color-border-1);border-radius:0;background:var(--color-surface-1)}
+.arch-svg{width:100%;min-width:880px;height:auto;border:1px solid var(--color-border-1);border-radius:0;background:transparent}
 .arch-svg text{font-family:var(--font-mono)}
 .arch-svg #arrw path{fill:var(--color-text-3)}
-.arch-svg .layer{fill:var(--color-surface-2);stroke:var(--color-border-2)}
+.arch-svg .layer{fill:color-mix(in oklch,var(--color-surface-1) 62%,transparent);stroke:var(--color-border-2)}
 .arch-svg .el{font:var(--weight-semi) var(--text-xs)/1 var(--font-mono);fill:var(--color-accent);letter-spacing:var(--tracking-ultra)}
 .arch-svg .name{font:var(--weight-semi) var(--text-sm)/1 var(--font-mono);fill:var(--color-text-1)}
 .arch-svg .desc{font:400 var(--text-xs)/1.4 var(--font-mono);fill:var(--color-text-2)}
 .arch-svg .flow{stroke:var(--color-text-3);stroke-width:1;fill:none;marker-end:url(#arrw)}
-.arch-svg .comp{fill:var(--color-surface-1);stroke:var(--color-border-1)}
+.arch-svg .comp{fill:transparent;stroke:var(--color-border-1)}
 .arch-svg .comp-t{font:var(--weight-medium) var(--text-xs)/1 var(--font-mono);fill:var(--color-text-2)}
 .arch-svg .layer,
 .arch-svg .comp{stroke-width:1}
@@ -255,7 +255,7 @@ a:hover code{color:var(--color-accent)}
 .ft{border-top:1px solid var(--color-border-2);overflow:hidden}
 .ft-in{max-width:var(--wrap-width);margin:auto;padding:var(--space-5) var(--space-6);display:flex;justify-content:space-between;align-items:center;gap:var(--space-6);flex-wrap:wrap}
 .ft .l{display:flex;align-items:center;gap:var(--space-3);font:var(--weight-semi) var(--text-sm)/1 var(--font-sans);letter-spacing:.04em;color:var(--color-text-2)}
-.ft .l img{width:18px;height:18px}
+.ft .brand-mark{width:18px;height:18px;flex-basis:18px}
 .ft .r{display:flex;gap:var(--space-6);font:var(--weight-medium) var(--text-sm)/1.6 var(--font-sans);color:var(--color-text-3)}
 .ft .r a:hover{color:var(--color-accent)}
 
@@ -306,7 +306,7 @@ html[lang^="zh"] .principles h3{letter-spacing:-.018em}
   .btn{height:44px}
   .w{padding:0 var(--space-4)}
   .sec{padding:var(--space-10) 0}
-  .sec-head{margin-bottom:var(--space-7)}
+  .sec-head{margin-bottom:var(--space-7);padding-left:0}
   .hero{padding-top:var(--space-10)}
   .hero-copy{padding:0}
   .hero h1{font-size:clamp(2.65rem,11.8vw,3.45rem);line-height:1.1;letter-spacing:-.04em}
