@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS architecture — EL2 Type-1 hypervisor, EL1 object-capability microkernel, privileged SystemDaemon, migrating-thread IPC, split schedule/execute contexts, initcall boot chain and the service ABI.">
 <meta name="theme-color" content="#11110F">
+<script src="../theme-init.js"></script>
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>Architecture — TranquilOS</title>
 <link rel="stylesheet" href="../theme.css">
@@ -38,31 +39,40 @@
 
   <section class="phero">
     <h1>Privilege layers. Capability authority. Isolated services.</h1>
-    <p class="lede">EL2 runs the hypervisor, EL1 the microkernel, and EL0 the system services and applications. Layers interact only through capabilities, IPC and shared memory.</p>
+    <p class="lede">EL3 boots the system, EL2 runs the hypervisor, EL1 the microkernel, and EL0 the system services and applications. Layers interact only through capabilities, IPC and shared memory.</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>Three runtime layers. Clear boundaries.</h2>
-      <p>Boot hands off EL2 → EL1 → EL0; runtime communication uses capabilities, IPC and SHM.</p>
+      <h2>Four runtime layers. Clear boundaries.</h2>
+      <p>Boot moves upward through EL3 → EL2 → EL1 → EL0; runtime communication uses capabilities, IPC and SHM.</p>
     </div>
     <div class="svg-scroll">
-    <svg class="arch-svg" viewBox="0 0 1120 500" role="img" aria-label="TranquilOS layered architecture: EL2 hypervisor, EL1 microkernel, EL0 SystemDaemon / Framework Services / Applications">
+    <svg class="arch-svg" viewBox="0 0 1120 604" role="img" aria-label="TranquilOS layered architecture: lower EL3 bootloader, EL2 hypervisor, EL1 microkernel, and upper EL0 SystemDaemon / Framework Services / Applications">
       <defs>
         <marker id="arrw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0,0 L10,5 L0,10 z"></path>
         </marker>
       </defs>
 
-      <!-- privilege rail -->
-      <rect class="layer" x="28" y="24" width="56" height="88"></rect>
-      <text class="el" x="56" y="72" text-anchor="middle">EL2</text>
-      <rect class="layer" x="28" y="128" width="56" height="88"></rect>
-      <text class="el" x="56" y="176" text-anchor="middle">EL1</text>
-      <rect class="layer" x="28" y="232" width="56" height="240"></rect>
-      <text class="el" x="56" y="356" text-anchor="middle">EL0</text>
+      <!-- privilege rail: userspace above, lower runtime below -->
+      <g transform="translate(0 -208)">
+        <rect class="layer" x="28" y="232" width="56" height="240"></rect>
+        <text class="el" x="56" y="356" text-anchor="middle">EL0</text>
+      </g>
+      <g transform="translate(0 152)">
+        <rect class="layer" x="28" y="128" width="56" height="88"></rect>
+        <text class="el" x="56" y="176" text-anchor="middle">EL1</text>
+      </g>
+      <g transform="translate(0 360)">
+        <rect class="layer" x="28" y="24" width="56" height="88"></rect>
+        <text class="el" x="56" y="72" text-anchor="middle">EL2</text>
+      </g>
+      <rect class="layer" x="28" y="488" width="56" height="88"></rect>
+      <text class="el" x="56" y="536" text-anchor="middle">EL3</text>
 
       <!-- EL2 row -->
+      <g transform="translate(0 360)">
       <rect class="layer" x="100" y="24" width="992" height="88"></rect>
       <text class="name" x="124" y="62">Hypervisor</text>
       <text class="desc" x="124" y="82">Type-1 · optional stage</text>
@@ -74,8 +84,10 @@
         <rect class="comp" x="950" y="53" width="52" height="30"></rect><text class="comp-t" x="976" y="72" text-anchor="middle">vPMU</text>
         <rect class="comp" x="1012" y="53" width="68" height="30"></rect><text class="comp-t" x="1046" y="72" text-anchor="middle">hypcall</text>
       </g>
+      </g>
 
       <!-- EL1 row -->
+      <g transform="translate(0 152)">
       <rect class="layer" x="100" y="128" width="992" height="88"></rect>
       <text class="name" x="124" y="166">Microkernel</text>
       <text class="desc" x="124" y="186">capability object dispatch</text>
@@ -87,14 +99,28 @@
         <rect class="comp" x="900" y="157" width="92" height="30"></rect><text class="comp-t" x="946" y="176" text-anchor="middle">IRQ · timer</text>
         <rect class="comp" x="1002" y="157" width="66" height="30"></rect><text class="comp-t" x="1035" y="176" text-anchor="middle">drivers</text>
       </g>
+      </g>
 
-      <!-- boot flow arrows -->
-      <line class="flow" x1="140" y1="112" x2="140" y2="126"></line>
-      <line class="flow" x1="140" y1="216" x2="140" y2="230"></line>
-      <text class="desc" x="150" y="123">boot</text>
-      <text class="desc" x="150" y="227">boot</text>
+      <!-- EL3 row -->
+      <rect class="layer" x="100" y="488" width="992" height="88"></rect>
+      <text class="name" x="124" y="526">Bootloader</text>
+      <text class="desc" x="124" y="546">platform init · image loading · exception-level handoff</text>
+      <g>
+        <rect class="comp" x="792" y="517" width="86" height="30"></rect><text class="comp-t" x="835" y="536" text-anchor="middle">platform</text>
+        <rect class="comp" x="888" y="517" width="86" height="30"></rect><text class="comp-t" x="931" y="536" text-anchor="middle">image load</text>
+        <rect class="comp" x="984" y="517" width="86" height="30"></rect><text class="comp-t" x="1027" y="536" text-anchor="middle">handoff</text>
+      </g>
+
+      <!-- boot flows upward from the lowest layer -->
+      <line class="flow" x1="140" y1="488" x2="140" y2="474"></line>
+      <line class="flow" x1="140" y1="384" x2="140" y2="370"></line>
+      <line class="flow" x1="140" y1="280" x2="140" y2="266"></line>
+      <text class="desc" x="150" y="483">boot</text>
+      <text class="desc" x="150" y="379">handoff</text>
+      <text class="desc" x="150" y="275">handoff</text>
 
       <!-- EL0 boxes -->
+      <g transform="translate(0 -208)">
       <rect class="layer" x="100" y="232" width="300" height="240"></rect>
       <text class="name" x="124" y="262">SystemDaemon</text>
       <text class="desc" x="124" y="280">privileged EL0 · 17 IPC methods</text>
@@ -148,6 +174,7 @@
       <line class="flow" x1="806" y1="356" x2="826" y2="356" marker-start="url(#arrw)"></line>
       <text class="desc" x="412" y="344" text-anchor="middle">IPC</text>
       <text class="desc" x="816" y="344" text-anchor="middle">IPC</text>
+      </g>
     </svg>
     </div>
   </section>

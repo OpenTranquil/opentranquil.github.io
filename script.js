@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ----- theme ----- */
   function setTheme(theme) {
     root.setAttribute("data-theme", theme);
-    if (themeColor) themeColor.setAttribute("content", theme === "dark" ? "#11110F" : "#F1EFE8");
+    if (themeColor) themeColor.setAttribute("content", theme === "dark" ? "#11110F" : "#F2F3F0");
     try { localStorage.setItem("tq-theme", theme); } catch (e) {}
     if (toggle) {
       toggle.textContent = theme === "dark" ? "☾" : "☀";

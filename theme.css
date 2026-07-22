@@ -17,17 +17,17 @@
 
 /* --- Color: Light theme (default) --- */
 :root {
-  --color-bg:            #F1EFE8;
-  --color-surface-1:     #EAE7DE;
-  --color-surface-2:     #E1DDD3;
-  --color-border-1:      rgba(25,24,21,.10);
-  --color-border-2:      rgba(25,24,21,.18);
-  --color-text-1:        #191815;
-  --color-text-2:        #656159;
-  --color-text-3:        #8B867D;
-  --color-accent:        #294EC9;
-  --color-accent-bright: #173899;
-  --color-accent-soft:   rgba(41,78,201,.09);
+  --color-bg:            #F2F3F0;
+  --color-surface-1:     #EAECE8;
+  --color-surface-2:     #E1E4DF;
+  --color-border-1:      rgba(22,25,23,.10);
+  --color-border-2:      rgba(22,25,23,.18);
+  --color-text-1:        #161917;
+  --color-text-2:        #5F6561;
+  --color-text-3:        #868C88;
+  --color-accent:        #2949B8;
+  --color-accent-bright: #19358F;
+  --color-accent-soft:   rgba(41,73,184,.08);
   --color-ok:            #39765B;
   color-scheme: light;
 }
@@ -53,7 +53,7 @@
 :root {
   --text-xs:     0.6875rem;   /* 11px */
   --text-sm:     0.8125rem;   /* 13px */
-  --text-base:   0.875rem;    /* 14px */
+  --text-base:   0.9375rem;   /* 15px */
   --text-md:     1rem;        /* 16px */
   --text-lg:     1.125rem;    /* 18px */
   --text-xl:     1.25rem;     /* 20px */
@@ -98,7 +98,7 @@
   --space-11:  4rem;
   --space-12:  5rem;
   --space-13:  6rem;
-  --space-section: clamp(3.5rem, 5vw, 6rem);
+  --space-section: clamp(3rem, 4vw, 4.5rem);
 }
 
 /* --- Layout --- */
