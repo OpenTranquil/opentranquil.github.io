@@ -72,6 +72,7 @@
             display: flex; align-items: center; justify-content: center;
             flex: none; position: relative;
             perspective: 200px;
+            animation: orb-breathe 2.0s ease-in-out infinite alternate;
         }
         .orb-c .gr {
             position: absolute; border-radius: 50%; pointer-events: none;
@@ -156,7 +157,7 @@
         /* idle: default rotation only */
 
         /* listening: container breathe, rings keep rotating */
-        .orb-c.lst { animation: orb-breathe 1.4s ease-in-out infinite alternate; }
+        .orb-c.lst { animation: orb-breathe 1.0s ease-in-out infinite alternate; }
         .orb-c.lst .t { display: none; }
         .orb-c.lst .cr { display: block; opacity: .85; animation: orb-blink .7s ease-in-out infinite; }
 
