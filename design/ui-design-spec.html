@@ -360,10 +360,14 @@
             border: .5px solid var(--tx);
             transition: border-color .3s, opacity .3s;
         }
-        .orb-c .gr1 { inset: 2%;  opacity: .11; animation: gz 4.2s linear infinite; }
-        .orb-c .gr2 { inset: 14%; opacity: .09; animation: gx 6.0s linear infinite; }
-        .orb-c .gr3 { inset: 26%; opacity: .08; animation: gy 7.5s linear infinite; }
-        .orb-c .gr4 { inset: 36%; opacity: .10; border-color: var(--ac); animation: gz 5.0s linear infinite reverse; }
+        .orb-c .gr1 { inset:  1%; opacity: .12; animation: gz  3.8s linear infinite; }
+        .orb-c .gr2 { inset: 10%; opacity: .10; animation: gx  5.4s linear infinite; }
+        .orb-c .gr3 { inset: 19%; opacity: .09; animation: gy  6.8s linear infinite; }
+        .orb-c .gr4 { inset: 28%; opacity: .11; border-color: var(--ac); animation: gz 4.6s linear infinite reverse; }
+        .orb-c .gr5 { inset: 37%; opacity: .08; animation: gx  8.2s linear infinite reverse; }
+        .orb-c .gr6 { inset: 45%; opacity: .09; animation: gy  9.0s linear infinite; }
+        .orb-c .gr7 { inset: 53%; opacity: .07; animation: gz  5.8s linear infinite; }
+        .orb-c .gr8 { inset: 60%; opacity: .10; border-color: var(--ac); animation: gy 10.5s linear infinite reverse; }
         /* core dot */
         .orb-c .cr {
             position: absolute; width: 5px; height: 5px;
@@ -387,26 +391,27 @@
         }
         /* ---- state: listening ---- */
         .orb-c.lst { border-color: var(--ac); animation: orb-breathe 1.4s ease-in-out infinite alternate; }
-        .orb-c.lst .gr { border-color: var(--ac); opacity: .16; }
-        .orb-c.lst .gr1 { animation-duration: 1.8s; }
-        .orb-c.lst .gr2 { animation-duration: 2.6s; }
-        .orb-c.lst .gr3 { animation-duration: 3.2s; }
-        .orb-c.lst .gr4 { animation-duration: 2.2s; }
+        .orb-c.lst .gr { border-color: var(--ac); opacity: .18; }
+        .orb-c.lst .gr1 { animation-duration: 1.6s; } .orb-c.lst .gr2 { animation-duration: 2.2s; }
+        .orb-c.lst .gr3 { animation-duration: 2.8s; } .orb-c.lst .gr4 { animation-duration: 1.9s; }
+        .orb-c.lst .gr5 { animation-duration: 3.4s; } .orb-c.lst .gr6 { animation-duration: 3.8s; }
+        .orb-c.lst .gr7 { animation-duration: 2.5s; } .orb-c.lst .gr8 { animation-duration: 4.2s; }
         .orb-c.lst .t { display: none; }
-        .orb-c.lst .cr { opacity: .8; animation: orb-blink .7s ease-in-out infinite; }
+        .orb-c.lst .cr { opacity: .85; animation: orb-blink .7s ease-in-out infinite; }
         /* ---- state: thinking ---- */
         .orb-c.thk { border-color: var(--ac); }
-        .orb-c.thk .gr { border-color: var(--ac); opacity: .14; }
-        .orb-c.thk .gr1, .orb-c.thk .gr2, .orb-c.thk .gr3, .orb-c.thk .gr4 {
-            animation-name: gz; animation-duration: 1.4s;
+        .orb-c.thk .gr { border-color: var(--ac); opacity: .16; }
+        .orb-c.thk .gr1, .orb-c.thk .gr2, .orb-c.thk .gr3, .orb-c.thk .gr4,
+        .orb-c.thk .gr5, .orb-c.thk .gr6, .orb-c.thk .gr7, .orb-c.thk .gr8 {
+            animation-name: gz; animation-duration: 1.3s;
         }
         .orb-c.thk .t { display: none; }
-        .orb-c.thk .cr { opacity: .5; animation: orb-blink .6s ease-in-out infinite; }
+        .orb-c.thk .cr { opacity: .55; animation: orb-blink .6s ease-in-out infinite; }
         /* ---- state: speaking ---- */
         .orb-c.spk { border-color: var(--ac); }
-        .orb-c.spk .gr { border-color: var(--ac); opacity: .14; animation-duration: 1.6s; }
+        .orb-c.spk .gr { border-color: var(--ac); opacity: .16; animation-duration: 1.5s; }
         .orb-c.spk .t { display: none; }
-        .orb-c.spk .cr { opacity: .9; animation: orb-blink .4s ease-in-out infinite; }
+        .orb-c.spk .cr { opacity: .95; animation: orb-blink .4s ease-in-out infinite; }
         /* ---- keyframes ---- */
         @keyframes gz { to { transform: rotateZ(360deg); } }
         @keyframes gx { to { transform: rotateX(360deg); } }
@@ -1487,7 +1492,7 @@
                     <!-- orb zone -->
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
                         <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
-                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="cr"></div><span class="t">14:32</span>
+                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
                             <div class="or"></div>
                         </div>
                     </div>
@@ -1531,7 +1536,7 @@
                 <div style="flex:1;display:flex;padding:0 16px;min-height:0">
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
                         <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(46,91,255,.04)">
-                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="cr"></div><span class="t">14:32</span>
+                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
                             <div class="or"></div>
                         </div>
                     </div>
@@ -1572,7 +1577,7 @@
             <div class="lbl">待机 · idle</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="or"></div>
                 </div>
             </div>
@@ -1582,7 +1587,7 @@
             <div class="lbl">聆听 · listening</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c lst" style="border:1.5px solid var(--ac);box-shadow:0 0 40px rgba(77,122,255,.12)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="or"></div>
                 </div>
             </div>
@@ -1592,7 +1597,7 @@
             <div class="lbl">思考 · thinking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c thk" style="border:1.5px solid var(--tx)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="or"></div>
                 </div>
             </div>
@@ -1602,7 +1607,7 @@
             <div class="lbl">说话 · speaking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c spk" style="border:1.5px solid var(--ac);box-shadow:0 0 36px rgba(77,122,255,.10)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="or"></div>
                 </div>
             </div>
