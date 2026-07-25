@@ -344,6 +344,62 @@
         .sc::-webkit-scrollbar-thumb:hover {
             background: var(--dm2)
         }
+
+        /* ===== Voice Orb ===== */
+        .orb-c {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex: none; position: relative;
+            transition: border-color .25s;
+        }
+        .orb-c .t {
+            font-size: 28px; font-weight: 500;
+            color: var(--tx);
+            transition: opacity .25s;
+        }
+        /* waveform bars (listening) */
+        .orb-c .wv {
+            display: none; align-items: flex-end; gap: 4px; height: 24px;
+        }
+        .orb-c .wv i {
+            display: block; width: 3px; border-radius: 2px; background: var(--ac);
+        }
+        .orb-c .wv i:nth-child(1) { height: 14px; animation: w1 .6s ease-in-out infinite alternate; animation-delay: 0s; }
+        .orb-c .wv i:nth-child(2) { height: 14px; animation: w2 .6s ease-in-out infinite alternate; animation-delay: .15s; }
+        .orb-c .wv i:nth-child(3) { height: 14px; animation: w3 .6s ease-in-out infinite alternate; animation-delay: .3s; }
+        /* rotating ring (thinking) */
+        .orb-c .ring {
+            position: absolute; inset: -4px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--ac);
+            display: none;
+        }
+        /* pulse dot (thinking/speaking) */
+        .orb-c .dot {
+            width: 7px; height: 7px;
+            border-radius: 50%; background: var(--ac);
+            display: none;
+        }
+        /* ---- state toggles ---- */
+        .orb-c.lst { border-color: var(--ac); }
+        .orb-c.lst .t { display: none; }
+        .orb-c.lst .wv { display: flex; }
+        .orb-c.lst { animation: orb-breathe 1.6s ease-in-out infinite alternate; }
+        .orb-c.thk .t { display: none; }
+        .orb-c.thk .ring { display: block; animation: orb-spin 2s linear infinite; }
+        .orb-c.thk .dot { display: block; opacity: .35; animation: orb-blink .8s ease-in-out infinite; }
+        .orb-c.spk { border-color: var(--ac); }
+        .orb-c.spk .t { display: none; }
+        .orb-c.spk .dot { display: block; animation: orb-blink .5s ease-in-out infinite; }
+        /* ---- keyframes ---- */
+        @keyframes orb-breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.07); } }
+        @keyframes orb-spin { to{ transform:rotate(360deg); } }
+        @keyframes orb-blink { 0%,100%{ opacity:.2; transform:scale(1); } 50%{ opacity:1; transform:scale(1.35); } }
+        @keyframes w1 { 0%,100%{ height:6px; } 50%{ height:18px; } }
+        @keyframes w2 { 0%,100%{ height:18px; } 50%{ height:6px; } }
+        @keyframes w3 { 0%,100%{ height:10px; } 50%{ height:22px; } }
     </style>
 </head>
 <body>
