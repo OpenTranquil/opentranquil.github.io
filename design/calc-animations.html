@@ -2377,8 +2377,8 @@
   // ---- 55. Hopalong ----
   let hx2=0,hy2=0,hopTrail=[]
   function drawHopalong(){const c=ctx.hopalong;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
-    let a=0.4+Math.sin(t*0.2)*0.3,b=1,c=0.5
-    let nx=hy2-Math.sign(hx2)*Math.sqrt(Math.abs(b*hx2+c))
+    let a=0.4+Math.sin(t*0.2)*0.3,b=1,cc=0.5
+    let nx=hy2-Math.sign(hx2)*Math.sqrt(Math.abs(b*hx2+cc))
     let ny=a-hx2;hx2=nx;hy2=ny
     hopTrail.push({x:cx+hx2*25,y:cy+hy2*25,age:0});if(hopTrail.length>800)hopTrail.shift()
     c.fillStyle='rgba(10,10,10,0.06)';c.fillRect(0,0,W,H)
