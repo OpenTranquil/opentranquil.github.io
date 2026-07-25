@@ -278,6 +278,47 @@
 </div>
 
 
+<!-- Row 7: Final batch 2 -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>18. 环形元胞机 · CA Ring</h3>
+  <canvas id="ca" width="280" height="280"></canvas>
+  <div class="info">
+    Wolfram 规则绕成环 <span>+ 每代向外扩散</span><br>
+    语音切换规则号，图案从秩序跳跃到混沌
+  </div>
+  <div class="controls" id="ca-controls">
+    <button class="on" data-mode="drift">规则游走</button>
+    <button data-mode="voice">语音跳变</button>
+  </div>
+</div>
+<div class="card">
+  <h3>19. 莫尔纹 · Moir&eacute;</h3>
+  <canvas id="moire" width="280" height="280"></canvas>
+  <div class="info">
+    两组放射线差速旋转 <span>+ 第三组游走</span><br>
+    极简规则产生无穷变化的干涉纹路
+  </div>
+  <div class="controls" id="moire-controls">
+    <button class="on" data-mode="drift">差速旋转</button>
+    <button data-mode="voice">语音扰动</button>
+  </div>
+</div>
+<div class="card">
+  <h3>20. 摆线波 · Cycloid Wave</h3>
+  <canvas id="cycloid" width="280" height="280"></canvas>
+  <div class="info">
+    5 层摆线 <span>r&middot;cos(t/n) 不同周期</span><br>
+    多个摆锤周期编织出复杂的复合波形
+  </div>
+  <div class="controls" id="cycloid-controls">
+    <button class="on" data-mode="drift">自由编织</button>
+    <button data-mode="voice">语音扰动</button>
+  </div>
+</div>
+</div>
+
+
 <script>
 // Single animation loop for all 4 canvases
 (function() {
@@ -299,7 +340,10 @@
     swarm: document.getElementById('swarm'),
     fourier: document.getElementById('fourier'),
     metaball: document.getElementById('metaball'),
-    thomas: document.getElementById('thomas')
+    thomas: document.getElementById('thomas'),
+    ca: document.getElementById('ca'),
+    moire: document.getElementById('moire'),
+    cycloid: document.getElementById('cycloid')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -309,7 +353,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift', caMode = 'drift', moireMode = 'drift', cycloidMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -349,6 +393,9 @@
   setupButtons('fourier-controls', m => { fourierMode = m })
   setupButtons('metaball-controls', m => { metaballMode = m })
   setupButtons('thomas-controls', m => { thomasMode = m })
+  setupButtons('ca-controls', m => { caMode = m })
+  setupButtons('moire-controls', m => { moireMode = m })
+  setupButtons('cycloid-controls', m => { cycloidMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -1164,6 +1211,142 @@
     }
   }
 
+
+  // ---- Draw CA Ring ----
+  let caRow = []
+  let caHistory = []
+  const CA_R = 130  // radius in ring cells
+  for (let i = 0; i < CA_R; i++) caRow[i] = Math.random() > 0.5 ? 1 : 0
+  let caRule = 90
+  let caStep = 0
+  function drawCA() {
+    const c = ctx.ca; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (caMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    }
+
+    // Drift rule
+    if (caMode === 'drift') caRule = Math.floor(30 + Math.sin(t * 0.2) * 30 + Math.cos(t * 0.33) * 30)
+    else caRule = Math.floor(30 + amp * 110)
+
+    // Evolve every 3 frames
+    if (caStep % 3 === 0) {
+      let next = []
+      for (let i = 0; i < CA_R; i++) {
+        let a = caRow[(i-1+CA_R)%CA_R], b = caRow[i], c = caRow[(i+1)%CA_R]
+        let idx = (a<<2)|(b<<1)|c
+        next[i] = (caRule>>idx) & 1
+      }
+      caRow = next
+      caHistory.push([...caRow])
+      if (caHistory.length > 80) caHistory.shift()
+    }
+    caStep++
+
+    c.fillStyle = '#0A0A0A'
+    c.fillRect(0, 0, W, H)
+
+    // Draw history as expanding rings
+    for (let gen = 0; gen < caHistory.length; gen++) {
+      let ringR = 20 + gen * 1.3
+      let alpha = 0.15 + gen / caHistory.length * 0.4
+      let row = caHistory[gen]
+      for (let i = 0; i < CA_R; i++) {
+        if (row[i]) {
+          let th = (i / CA_R) * Math.PI * 2
+          let px = cx + ringR * Math.cos(th)
+          let py = cy + ringR * Math.sin(th)
+          c.fillStyle = `rgba(77,122,255,${alpha})`
+          c.fillRect(px-0.8, py-0.8, 1.6, 1.6)
+        }
+      }
+    }
+  }
+
+  // ---- Draw Moire ----
+  function drawMoire() {
+    const c = ctx.moire; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (moireMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    }
+
+    c.fillStyle = '#0A0A0A'
+    c.fillRect(0, 0, W, H)
+
+    // 3 sets of radial lines rotating at different speeds
+    let sets = [
+      { count: 24, rot: t * 0.3, color: [77,122,255, 0.15] },
+      { count: 26, rot: t * -0.25 + amp, color: [77,122,255, 0.12] },
+      { count: 20, rot: t * 0.18 + amp * 0.5, color: [77,122,255, 0.1] },
+    ]
+
+    for (let s of sets) {
+      for (let i = 0; i < s.count; i++) {
+        let th = (i / s.count) * Math.PI * 2 + s.rot
+        let px = cx + 130 * Math.cos(th)
+        let py = cy + 130 * Math.sin(th)
+        c.beginPath()
+        c.moveTo(cx, cy)
+        c.lineTo(px, py)
+        c.strokeStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${s.color[3]})`
+        c.lineWidth = 0.5; c.stroke()
+      }
+    }
+
+    // Circular mask
+    c.save()
+    c.globalCompositeOperation = 'destination-in'
+    c.beginPath(); c.arc(cx, cy, 130, 0, Math.PI*2); c.fill()
+    c.restore()
+  }
+
+  // ---- Draw Cycloid Wave ----
+  function drawCycloid() {
+    const c = ctx.cycloid; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (cycloidMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else { amp = 0.4 }
+
+    c.fillStyle = 'rgba(10,10,10,0.12)'
+    c.fillRect(0, 0, W, H)
+
+    // 5 cycloid layers with different periods
+    let layers = [
+      { R: 105, r: 40, period: 1.0 },
+      { R: 90, r: 28, period: 1.7 },
+      { R: 75, r: 22, period: 2.3 },
+      { R: 60, r: 15, period: 3.1 },
+      { R: 45, r: 10, period: 4.1 },
+    ]
+
+    for (let l of layers) {
+      let steps = 600
+      c.beginPath()
+      let first = true
+      for (let i = 0; i <= steps; i++) {
+        let th = (i / steps) * Math.PI * 2 * 10
+        // Epicycloid: point on a rolling circle
+        let ratio = l.period
+        let ang = th * ratio + t * (1 + amp * 2)
+        let x = (l.R - l.r) * Math.cos(th) + l.r * Math.cos(ang)
+        let y = (l.R - l.r) * Math.sin(th) - l.r * Math.sin(ang)
+        if (first) { c.moveTo(cx + x, cy + y); first = false }
+        else c.lineTo(cx + x, cy + y)
+      }
+      c.strokeStyle = 'rgba(77,122,255,0.2)'
+      c.lineWidth = 1; c.stroke()
+    }
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -1184,6 +1367,9 @@
     drawFourier()
     drawMetaball()
     drawThomas()
+    drawCA()
+    drawMoire()
+    drawCycloid()
     drawCombined()
   }
   loop()
