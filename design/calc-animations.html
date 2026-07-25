@@ -185,11 +185,11 @@ function now() { return performance.now() / 1000 }
   let t = 0
 
   const layers = [
-    { k: 3, rot: 0, speed: 0.3, color: [77,122,255] },
-    { k: 4, rot: Math.PI/4, speed: -0.25, color: [100,140,255] },
-    { k: 2.5, rot: Math.PI/3, speed: 0.2, color: [60,100,230] },
-    { k: 5, rot: Math.PI/6, speed: -0.35, color: [90,130,245] },
-    { k: 3.5, rot: 0, speed: 0.28, color: [70,110,240] },
+    { k: 3, rot: 0, speed: 0.4 },
+    { k: 4, rot: Math.PI/3, speed: -0.3 },
+    { k: 2, rot: Math.PI/2, speed: 0.25 },
+    { k: 5, rot: Math.PI/4, speed: -0.35 },
+    { k: 2.7, rot: Math.PI/5, speed: 0.33 },
   ]
 
   document.getElementById('rose-controls').addEventListener('click', e => {
@@ -208,37 +208,42 @@ function now() { return performance.now() / 1000 }
     requestAnimationFrame(draw)
     t += 0.016
 
-    ctx.fillStyle = 'rgba(10,10,10,0.2)'
+    // Full clear each frame — avoids ghosting
+    ctx.fillStyle = '#0A0A0A'
     ctx.fillRect(0, 0, W, H)
 
-    for (let l of layers) {
-      l.rot += l.speed * 0.01
+    let voiceAmp = 0
+    if (mode === 'voice') {
+      voiceAmp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    }
 
-      if (mode === 'voice') {
-        let amp = 0.5 + 0.5 * Math.abs(Math.sin(t * 4.5 + l.k)) * Math.abs(Math.sin(t * 2.1))
-        l.k += (l.k * (0.7 + 0.6 * amp) - l.k) * 0.05
-      }
+    for (let i = 0; i < layers.length; i++) {
+      let l = layers[i]
+      l.rot += l.speed * 0.015
 
-      // Draw rose curve as points
-      let pts = []
-      for (let th = 0; th < Math.PI * 2; th += 0.03) {
-        let r = R * Math.abs(Math.cos(l.k * th))
-        pts.push(polarToXY(r, th, l.rot))
-      }
+      let k = l.k + voiceAmp * 1.5
 
       ctx.beginPath()
-      ctx.moveTo(pts[0][0], pts[0][1])
-      for (let i = 1; i < pts.length; i++) {
-        ctx.lineTo(pts[i][0], pts[i][1])
+      let first = true
+      let steps = 400
+      for (let j = 0; j <= steps; j++) {
+        let th = (j / steps) * Math.PI * 2
+        let r = R * Math.abs(Math.cos(k * th))
+        let [px, py] = polarToXY(r, th, l.rot)
+        if (first) { ctx.moveTo(px, py); first = false }
+        else ctx.lineTo(px, py)
       }
       ctx.closePath()
-      ctx.strokeStyle = `rgba(${l.color[0]},${l.color[1]},${l.color[2]},0.25)`
-      ctx.lineWidth = 1
+
+      // Opacity gradient: outer layers more visible
+      let alpha = 0.3 + (layers.length - 1 - i) * 0.08
+      ctx.strokeStyle = `rgba(77,122,255,${alpha})`
+      ctx.lineWidth = 1.2
       ctx.stroke()
 
-      // Subtle glow
-      ctx.strokeStyle = `rgba(${l.color[0]},${l.color[1]},${l.color[2]},0.06)`
-      ctx.lineWidth = 4
+      // Glow pass
+      ctx.strokeStyle = `rgba(77,122,255,${alpha * 0.3})`
+      ctx.lineWidth = 5
       ctx.stroke()
     }
   }
@@ -280,28 +285,34 @@ function now() { return performance.now() / 1000 }
       n2 = 4 + amp * 3
     }
 
+    // Use fillRect sampling at lower resolution for performance
     let img = ctx.createImageData(W, H)
     for (let py = 0; py < H; py++) {
       for (let px = 0; px < W; px++) {
         let dx = px - cx, dy = py - cy
-        if (dx*dx + dy*dy > R*R) continue  // circular mask
+        if (dx*dx + dy*dy > R*R) continue
 
         let x = (dx / R) * Math.PI * 2
         let y = (dy / R) * Math.PI * 2
         let z1 = Math.sin(m1 * x) * Math.sin(n1 * y)
         let z2 = Math.cos(m2 * x) * Math.cos(n2 * y)
         let z = Math.abs(z1 + z2)
-        let threshold = 0.5 + 0.3 * Math.sin(t * 0.5)
 
+        // Lower threshold so more is visible
+        let threshold = 0.4
         let idx = (py * W + px) * 4
         if (z > threshold) {
-          let brightness = Math.min(1, (z - threshold) / (1 - threshold))
-          img.data[idx] = Math.floor(40 + brightness * 80)       // R
-          img.data[idx+1] = Math.floor(60 + brightness * 120)    // G
-          img.data[idx+2] = Math.floor(180 + brightness * 75)    // B
-          img.data[idx+3] = Math.floor(40 + brightness * 200)    // A
+          let b = Math.min(1, (z - threshold) / 0.6)
+          img.data[idx] = Math.floor(30 + b * 100)
+          img.data[idx+1] = Math.floor(50 + b * 140)
+          img.data[idx+2] = Math.floor(170 + b * 85)
+          img.data[idx+3] = Math.floor(30 + b * 220)
         } else {
-          img.data[idx+3] = 0
+          // Dark background pixel
+          img.data[idx] = 10
+          img.data[idx+1] = 10
+          img.data[idx+2] = 10
+          img.data[idx+3] = 255
         }
       }
     }
@@ -326,56 +337,59 @@ function now() { return performance.now() / 1000 }
     t += 0.016
     let amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 3.8 + Math.sin(t * 1.5))) * Math.abs(Math.sin(t * 2.0))
 
-    // Fade
-    ctx.fillStyle = 'rgba(10,10,10,0.12)'
+    // Full clear
+    ctx.fillStyle = '#0A0A0A'
     ctx.fillRect(0, 0, W, H)
 
     // Circular clip
     ctx.save()
     ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.clip()
 
-    // Chladni background
+    // Chladni background — sparse sample for performance
     let m1 = 3 + amp * 4, n1 = 2 + amp * 3, m2 = 4 + amp * 3, n2 = 3 + amp * 4
-    for (let i = 0; i < 800; i++) {
+    for (let i = 0; i < 1200; i++) {
       let rx = (Math.random() - 0.5) * 2 * R
       let ry = (Math.random() - 0.5) * 2 * R
       if (rx*rx + ry*ry > R*R) continue
       let x = (rx / R) * Math.PI * 2
       let y = (ry / R) * Math.PI * 2
       let z = Math.abs(Math.sin(m1*x)*Math.sin(n1*y) + Math.cos(m2*x)*Math.cos(n2*y))
-      if (z > 0.55) {
-        ctx.fillStyle = `rgba(77,122,255,${0.02 + z * 0.12})`
-        ctx.fillRect(cx + rx, cy + ry, 2, 2)
+      if (z > 0.5) {
+        ctx.fillStyle = `rgba(77,122,255,${0.03 + z * 0.18})`
+        ctx.fillRect(cx + rx - 1, cy + ry - 1, 3, 3)
       }
     }
 
     // Rose ring layers
-    for (let l = 0; l < 4; l++) {
-      let k = 2 + l * 1.2 + amp * 0.6
-      let rot = t * (0.15 + l * 0.08)
+    for (let l = 0; l < 5; l++) {
+      let k = 2.2 + l * 0.9 + amp * 0.5
+      let rot = t * (0.18 + l * 0.07)
+      let r = R * (0.3 + l * 0.16)
       ctx.beginPath()
-      for (let th = 0; th < Math.PI*2; th += 0.04) {
-        let r = R * (0.35 + l * 0.18) * Math.abs(Math.cos(k * th))
-        let [px, py] = polar(r, th + rot)
-        if (th === 0) ctx.moveTo(px, py)
+      let first = true
+      for (let j = 0; j <= 300; j++) {
+        let th = (j / 300) * Math.PI * 2
+        let rr = r * Math.abs(Math.cos(k * th))
+        let [px, py] = polar(rr, th + rot)
+        if (first) { ctx.moveTo(px, py); first = false }
         else ctx.lineTo(px, py)
       }
       ctx.closePath()
-      ctx.strokeStyle = `rgba(77,122,255,${0.08 + l * 0.04})`
-      ctx.lineWidth = 0.5; ctx.stroke()
+      ctx.strokeStyle = `rgba(77,122,255,${0.15 + l * 0.05})`
+      ctx.lineWidth = 0.8; ctx.stroke()
     }
 
     // Lissajous trail
     let a = 3 + amp * 4, b = 2 + amp * 3
-    let lx = cx + R * 0.75 * Math.sin(a * t * 1.8)
-    let ly = cy + R * 0.75 * Math.sin(b * t * 1.8)
+    let lx = cx + R * 0.72 * Math.sin(a * t * 1.8)
+    let ly = cy + R * 0.72 * Math.sin(b * t * 1.8)
     trail.push({ x: lx, y: ly, age: 0 })
-    if (trail.length > 120) trail.shift()
+    if (trail.length > 100) trail.shift()
     for (let p of trail) {
       p.age += 0.016
-      let alpha = Math.max(0, 1 - p.age / 1.8)
-      ctx.beginPath(); ctx.arc(p.x, p.y, 1.5 + alpha, 0, Math.PI*2)
-      ctx.fillStyle = `rgba(130,180,255,${alpha * 0.6})`; ctx.fill()
+      let alpha = Math.max(0, 1 - p.age / 2.0)
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.5 + alpha * 2, 0, Math.PI*2)
+      ctx.fillStyle = `rgba(140,190,255,${alpha * 0.7})`; ctx.fill()
     }
 
     ctx.restore()
