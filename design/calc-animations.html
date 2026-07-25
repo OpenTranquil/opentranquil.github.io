@@ -152,6 +152,50 @@
   </div>
 </div>
 
+<!-- Row 4: Voice-orb-ready animations -->
+<h2 style="margin-top:32px">语音球方向</h2>
+<p>这些动画天然适配圆形 mask + 语音驱动，适合作为语音球的视觉核心。</p>
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:100%;margin:0 auto">
+<div class="card">
+  <h3>9. 圆形波形 · Circular Waveform</h3>
+  <canvas id="circwave" width="280" height="280"></canvas>
+  <div class="info">
+    声波包在圆周上 <span>r(&theta;)+=amplitude&middot;sin</span><br>
+    振幅推拉半径，最直观的声音映射
+  </div>
+  <div class="controls" id="circwave-controls">
+    <button class="on" data-mode="drift">自由呼吸</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>10. 漩涡粒子 · Vortex Particles</h3>
+  <canvas id="vortex" width="280" height="280"></canvas>
+  <div class="info">
+    粒子沿螺线吸入/吐出 <span>r&prop;amplitude</span><br>
+    语音振幅控制涡流松紧，黑洞呼吸感
+  </div>
+  <div class="controls" id="vortex-controls">
+    <button class="on" data-mode="drift">自由呼吸</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>11. Perlin 流场 · Noise Flow</h3>
+  <canvas id="perlin" width="280" height="280"></canvas>
+  <div class="info">
+    粒子沿 3D 噪声场漂移 <span>seed+=voice</span><br>
+    语音扰动噪声种子，流场缓缓重组
+  </div>
+  <div class="controls" id="perlin-controls">
+    <button class="on" data-mode="drift">自由漂移</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
+
 <script>
 // Single animation loop for all 4 canvases
 (function() {
@@ -164,7 +208,10 @@
     spiro: document.getElementById('spiro'),
     wave: document.getElementById('wave'),
     lorenz: document.getElementById('lorenz'),
-    clifford: document.getElementById('clifford')
+    clifford: document.getElementById('clifford'),
+    circwave: document.getElementById('circwave'),
+    vortex: document.getElementById('vortex'),
+    perlin: document.getElementById('perlin')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -174,7 +221,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -205,6 +252,9 @@
   setupButtons('wave-controls', m => { waveMode = m })
   setupButtons('lorenz-controls', m => { lorenzMode = m })
   setupButtons('clifford-controls', m => { cliffordMode = m })
+  setupButtons('circwave-controls', m => { circwaveMode = m })
+  setupButtons('vortex-controls', m => { vortexMode = m })
+  setupButtons('perlin-controls', m => { perlinMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -558,6 +608,148 @@
     }
   }
 
+
+  // ---- Draw Circular Waveform ----
+  function drawCircwave() {
+    const c = ctx.circwave; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 100
+
+    let amp = 0
+    if (circwaveMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else {
+      amp = 0.4 + 0.3 * Math.sin(t * 0.7) * Math.cos(t * 0.5)
+    }
+
+    c.fillStyle = 'rgba(10,10,10,0.15)'
+    c.fillRect(0, 0, W, H)
+
+    // Draw waveform ring
+    let freqs = [3, 5, 8, 13]
+    c.beginPath()
+    for (let th = 0; th < Math.PI * 2; th += 0.02) {
+      let r = R
+      for (let k = 0; k < freqs.length; k++) {
+        r += Math.sin(freqs[k] * th + t * (1.5 + k * 0.7)) * amp * (12 - k * 2.5)
+      }
+      let px = cx + r * Math.cos(th)
+      let py = cy + r * Math.sin(th)
+      if (th === 0) c.moveTo(px, py)
+      else c.lineTo(px, py)
+    }
+    c.closePath()
+    c.strokeStyle = 'rgba(77,122,255,0.6)'
+    c.lineWidth = 1.5; c.stroke()
+    c.strokeStyle = 'rgba(77,122,255,0.12)'
+    c.lineWidth = 8; c.stroke()
+
+    // Center dot
+    c.beginPath(); c.arc(cx, cy, 3 + amp * 2, 0, Math.PI*2)
+    c.fillStyle = 'rgba(130,170,255,0.8)'; c.fill()
+  }
+
+  // ---- Draw Vortex Particles ----
+  let vortexParticles = []
+  for (let i = 0; i < 80; i++) {
+    vortexParticles.push({
+      angle: Math.random() * Math.PI * 2,
+      radius: 20 + Math.random() * 100,
+      speed: 0.3 + Math.random() * 0.8,
+      size: 0.5 + Math.random() * 1.5,
+      phase: Math.random() * Math.PI * 2,
+    })
+  }
+  function drawVortex() {
+    const c = ctx.vortex; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (vortexMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else {
+      amp = 0.4 + 0.4 * Math.sin(t * 0.45) * Math.cos(t * 0.6)
+    }
+
+    c.fillStyle = 'rgba(10,10,10,0.18)'
+    c.fillRect(0, 0, W, H)
+
+    for (let p of vortexParticles) {
+      // Inhale/exhale
+      let targetR = 25 + amp * 110
+      p.radius += (targetR - p.radius) * 0.02
+      p.angle += p.speed * (0.3 + amp * 1.5)
+
+      let px = cx + p.radius * Math.cos(p.angle + p.phase)
+      let py = cy + p.radius * Math.sin(p.angle + p.phase)
+
+      let alpha = 0.4 + (1 - p.radius / 130) * 0.5
+      c.beginPath(); c.arc(px, py, p.size, 0, Math.PI*2)
+      c.fillStyle = `rgba(100,150,255,${alpha})`; c.fill()
+    }
+
+    // Circular mask
+    c.save()
+    c.globalCompositeOperation = 'destination-in'
+    c.beginPath(); c.arc(cx, cy, 125, 0, Math.PI*2); c.fill()
+    c.restore()
+  }
+
+  // ---- Draw Perlin Flow Field ----
+  let perlinParticles = []
+  for (let i = 0; i < 100; i++) {
+    perlinParticles.push({
+      x: 140 + (Math.random() - 0.5) * 200,
+      y: 140 + (Math.random() - 0.5) * 200,
+      size: 0.5 + Math.random() * 1.2,
+    })
+  }
+  // Simple 3D noise
+  function noise3D(x, y, z) {
+    let n = Math.sin(x * 12.9898 + y * 78.233 + z * 45.164) * 43758.5453
+    return n - Math.floor(n)
+  }
+  function drawPerlin() {
+    const c = ctx.perlin; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (perlinMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else {
+      amp = 0.5
+    }
+
+    c.fillStyle = 'rgba(10,10,10,0.08)'
+    c.fillRect(0, 0, W, H)
+
+    let z = t * 0.3 * (1 + amp * 3)
+    for (let p of perlinParticles) {
+      let angle = noise3D(p.x * 0.02, p.y * 0.02, z) * Math.PI * 4
+      let speed = 0.3 + noise3D(p.x * 0.05, p.y * 0.05, z + 100) * 1.5
+      p.x += Math.cos(angle) * speed
+      p.y += Math.sin(angle) * speed
+
+      // Wrap around
+      let dx = p.x - cx, dy = p.y - cy
+      let dist = Math.sqrt(dx*dx + dy*dy)
+      if (dist > 120) {
+        let ang = Math.atan2(dy, dx)
+        p.x = cx + 110 * Math.cos(ang + Math.PI)
+        p.y = cy + 110 * Math.sin(ang + Math.PI)
+      }
+
+      let alpha = 0.3 + (1 - dist / 130) * 0.5
+      c.beginPath(); c.arc(p.x, p.y, p.size, 0, Math.PI*2)
+      c.fillStyle = `rgba(77,122,255,${alpha * 0.8})`; c.fill()
+    }
+
+    // Mask
+    c.save()
+    c.globalCompositeOperation = 'destination-in'
+    c.beginPath(); c.arc(cx, cy, 125, 0, Math.PI*2); c.fill()
+    c.restore()
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -569,6 +761,9 @@
     drawWave()
     drawLorenz()
     drawClifford()
+    drawCircwave()
+    drawVortex()
+    drawPerlin()
     drawCombined()
   }
   loop()
