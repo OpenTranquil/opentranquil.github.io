@@ -404,55 +404,38 @@
   }
 
   // ---- Draw Wave Interference ----
-  let waveSources = [
-    { x: 140, y: 140, phase: 0 },
-  ]
   function drawWave() {
     const c = ctx.wave; if (!c) return
-    const W = 280, H = 280
+    const W = 280, H = 280, cx = W/2, cy = H/2
 
     let amp = 0
     if (waveMode === 'voice') {
       amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
     }
 
-    // Move sources in slow orbits
-    waveSources = [
-      { x: 140 + Math.cos(t * 0.4) * 50 + Math.sin(t * 0.7) * 20, phase: t * 0.8 },
-      { x: 140 + Math.cos(t * 0.6 + 2) * 60, phase: t * 1.0 },
-      { x: 140 + Math.sin(t * 0.5 + 1) * 45 + Math.cos(t * 0.9) * 25, phase: t * 0.7 },
+    // 3 drifting wave sources
+    const sources = [
+      { x: cx + Math.cos(t * 0.4) * 60 + Math.sin(t * 0.7) * 20, phase: t * 0.8 },
+      { x: cx + Math.cos(t * 0.6 + 2) * 70, phase: t * 1.0 },
+      { x: cx + Math.sin(t * 0.5 + 1) * 55 + Math.cos(t * 0.9) * 25, phase: t * 0.7 },
     ]
 
-    let img = c.createImageData(W, H)
-    for (let py = 0; py < H; py++) {
-      for (let px = 0; px < W; px++) {
-        let z = 0
-        for (let s of waveSources) {
-          let dx = px - s.x, dy = py - s.y
-          let dist = Math.sqrt(dx*dx + dy*dy)
-          let freq = 15 + amp * 10
-          z += Math.sin(dist * 0.12 * freq - s.phase * 3) * 0.5 + 0.5
-        }
-        z = z / waveSources.length
-        let idx = (py * W + px) * 4
-        if (z > 0.52) {
-          let b = (z - 0.52) / 0.48
-          img.data[idx] = Math.floor(20 + b * 80)
-          img.data[idx+1] = Math.floor(30 + b * 120)
-          img.data[idx+2] = Math.floor(150 + b * 105)
-          img.data[idx+3] = Math.floor(b * 200)
-        } else if (z < 0.48) {
-          let b = (0.48 - z) / 0.48
-          img.data[idx] = Math.floor(b * 30)
-          img.data[idx+1] = Math.floor(b * 20)
-          img.data[idx+2] = Math.floor(b * 40)
-          img.data[idx+3] = Math.floor(30 + b * 60)
-        } else {
-          img.data[idx] = 10; img.data[idx+1] = 10; img.data[idx+2] = 10; img.data[idx+3] = 255
-        }
+    c.fillStyle = '#0A0A0A'
+    c.fillRect(0, 0, W, H)
+
+    // Draw concentric rings from each source — alpha compositing creates moire
+    for (let s of sources) {
+      let period = 14 + amp * 8
+      for (let r = 0; r < 200; r += period) {
+        let val = Math.sin(r * 0.28 - s.phase * 4)
+        let alpha = Math.abs(val) * 0.15
+        c.beginPath()
+        c.arc(s.x, s.y, r, 0, Math.PI * 2)
+        c.strokeStyle = `rgba(77,122,255,${alpha})`
+        c.lineWidth = val > 0 ? 1.5 : 0.5
+        c.stroke()
       }
     }
-    c.putImageData(img, 0, 0)
   }
 
   // ---- Main loop ----
