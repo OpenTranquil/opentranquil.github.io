@@ -354,20 +354,28 @@
             transition: border-color .25s;
             perspective: 200px;
         }
-        /* gimbal rings — nested, each rotates on a different axis */
+        /* gimbal rings — 16 nested, 7 axis combos */
         .orb-c .gr {
             position: absolute; border-radius: 50%; pointer-events: none;
             border: .5px solid var(--tx);
             transition: border-color .3s, opacity .3s;
         }
-        .orb-c .gr1 { inset:  1%; opacity: .12; animation: gz  3.8s linear infinite; }
-        .orb-c .gr2 { inset: 10%; opacity: .10; animation: gx  5.4s linear infinite; }
-        .orb-c .gr3 { inset: 19%; opacity: .09; animation: gy  6.8s linear infinite; }
-        .orb-c .gr4 { inset: 28%; opacity: .11; border-color: var(--ac); animation: gz 4.6s linear infinite reverse; }
-        .orb-c .gr5 { inset: 37%; opacity: .08; animation: gx  8.2s linear infinite reverse; }
-        .orb-c .gr6 { inset: 45%; opacity: .09; animation: gy  9.0s linear infinite; }
-        .orb-c .gr7 { inset: 53%; opacity: .07; animation: gz  5.8s linear infinite; }
-        .orb-c .gr8 { inset: 60%; opacity: .10; border-color: var(--ac); animation: gy 10.5s linear infinite reverse; }
+        .orb-c .gr1  { inset:  0.5%; opacity: .13; animation: gz   3.2s linear infinite; }
+        .orb-c .gr2  { inset:  4.5%; opacity: .11; animation: gxy  5.8s linear infinite; }
+        .orb-c .gr3  { inset:  8.5%; opacity: .10; animation: gyz  7.4s linear infinite reverse; }
+        .orb-c .gr4  { inset: 12.5%; opacity: .12; border-color: var(--ac); animation: gx 4.6s linear infinite; }
+        .orb-c .gr5  { inset: 16.5%; opacity: .09; animation: gxz  9.2s linear infinite reverse; }
+        .orb-c .gr6  { inset: 20.5%; opacity: .10; animation: gxyz 11.0s linear infinite; }
+        .orb-c .gr7  { inset: 24.5%; opacity: .08; animation: gy   5.2s linear infinite reverse; }
+        .orb-c .gr8  { inset: 28.5%; opacity: .11; animation: gz   8.4s linear infinite; }
+        .orb-c .gr9  { inset: 32.5%; opacity: .09; border-color: var(--ac); animation: gxy 6.8s linear infinite reverse; }
+        .orb-c .gr10 { inset: 36.5%; opacity: .10; animation: gyz  10.6s linear infinite; }
+        .orb-c .gr11 { inset: 40.5%; opacity: .08; animation: gxz  4.0s linear infinite reverse; }
+        .orb-c .gr12 { inset: 44.5%; opacity: .11; animation: gx   7.8s linear infinite; }
+        .orb-c .gr13 { inset: 48.5%; opacity: .09; animation: gxyz 12.4s linear infinite reverse; }
+        .orb-c .gr14 { inset: 52.5%; opacity: .08; animation: gy   5.6s linear infinite; }
+        .orb-c .gr15 { inset: 56.5%; opacity: .10; border-color: var(--ac); animation: gz 9.8s linear infinite reverse; }
+        .orb-c .gr16 { inset: 60.5%; opacity: .09; animation: gxy  8.0s linear infinite; }
         /* core dot — hidden in idle, pulses in active states */
         .orb-c .cr {
             position: absolute; width: 5px; height: 5px;
@@ -382,31 +390,41 @@
         }
         /* ---- state: listening ---- */
         .orb-c.lst { border-color: var(--ac); animation: orb-breathe 1.4s ease-in-out infinite alternate; }
-        .orb-c.lst .gr { border-color: var(--ac); opacity: .18; }
-        .orb-c.lst .gr1 { animation-duration: 1.6s; } .orb-c.lst .gr2 { animation-duration: 2.2s; }
-        .orb-c.lst .gr3 { animation-duration: 2.8s; } .orb-c.lst .gr4 { animation-duration: 1.9s; }
-        .orb-c.lst .gr5 { animation-duration: 3.4s; } .orb-c.lst .gr6 { animation-duration: 3.8s; }
-        .orb-c.lst .gr7 { animation-duration: 2.5s; } .orb-c.lst .gr8 { animation-duration: 4.2s; }
+        .orb-c.lst .gr { border-color: var(--ac); opacity: .20; }
+        .orb-c.lst .gr1 { animation-duration: 1.4s; } .orb-c.lst .gr2 { animation-duration: 2.0s; }
+        .orb-c.lst .gr3 { animation-duration: 2.6s; } .orb-c.lst .gr4 { animation-duration: 1.7s; }
+        .orb-c.lst .gr5 { animation-duration: 3.2s; } .orb-c.lst .gr6 { animation-duration: 3.6s; }
+        .orb-c.lst .gr7 { animation-duration: 2.3s; } .orb-c.lst .gr8 { animation-duration: 2.9s; }
+        .orb-c.lst .gr9 { animation-duration: 1.8s; } .orb-c.lst .gr10 { animation-duration: 3.4s; }
+        .orb-c.lst .gr11 { animation-duration: 1.5s; } .orb-c.lst .gr12 { animation-duration: 2.7s; }
+        .orb-c.lst .gr13 { animation-duration: 4.0s; } .orb-c.lst .gr14 { animation-duration: 2.1s; }
+        .orb-c.lst .gr15 { animation-duration: 3.8s; } .orb-c.lst .gr16 { animation-duration: 2.4s; }
         .orb-c.lst .t { display: none; }
         .orb-c.lst .cr { display: block; opacity: .85; animation: orb-blink .7s ease-in-out infinite; }
         /* ---- state: thinking ---- */
         .orb-c.thk { border-color: var(--ac); }
-        .orb-c.thk .gr { border-color: var(--ac); opacity: .16; }
+        .orb-c.thk .gr { border-color: var(--ac); opacity: .18; }
         .orb-c.thk .gr1, .orb-c.thk .gr2, .orb-c.thk .gr3, .orb-c.thk .gr4,
-        .orb-c.thk .gr5, .orb-c.thk .gr6, .orb-c.thk .gr7, .orb-c.thk .gr8 {
-            animation-name: gz; animation-duration: 1.3s;
+        .orb-c.thk .gr5, .orb-c.thk .gr6, .orb-c.thk .gr7, .orb-c.thk .gr8,
+        .orb-c.thk .gr9, .orb-c.thk .gr10, .orb-c.thk .gr11, .orb-c.thk .gr12,
+        .orb-c.thk .gr13, .orb-c.thk .gr14, .orb-c.thk .gr15, .orb-c.thk .gr16 {
+            animation-name: gz; animation-duration: 1.2s;
         }
         .orb-c.thk .t { display: none; }
         .orb-c.thk .cr { display: block; opacity: .55; animation: orb-blink .6s ease-in-out infinite; }
         /* ---- state: speaking ---- */
         .orb-c.spk { border-color: var(--ac); }
-        .orb-c.spk .gr { border-color: var(--ac); opacity: .16; animation-duration: 1.5s; }
+        .orb-c.spk .gr { border-color: var(--ac); opacity: .18; animation-duration: 1.4s; }
         .orb-c.spk .t { display: none; }
         .orb-c.spk .cr { display: block; opacity: .95; animation: orb-blink .4s ease-in-out infinite; }
         /* ---- keyframes ---- */
-        @keyframes gz { to { transform: rotateZ(360deg); } }
-        @keyframes gx { to { transform: rotateX(360deg); } }
-        @keyframes gy { to { transform: rotateY(360deg); } }
+        @keyframes gz   { to{ transform:rotateZ(360deg); } }
+        @keyframes gx   { to{ transform:rotateX(360deg); } }
+        @keyframes gy   { to{ transform:rotateY(360deg); } }
+        @keyframes gxy  { to{ transform:rotateX(360deg) rotateY(360deg); } }
+        @keyframes gyz  { to{ transform:rotateY(360deg) rotateZ(360deg); } }
+        @keyframes gxz  { to{ transform:rotateX(360deg) rotateZ(360deg); } }
+        @keyframes gxyz { to{ transform:rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
         @keyframes orb-breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
         @keyframes orb-blink { 0%,100%{ opacity:.25; transform:scale(1); } 50%{ opacity:1; transform:scale(1.4); } }
     </style>
@@ -1482,7 +1500,7 @@
                     <!-- orb zone -->
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
                         <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
-                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
+                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="cr"></div><span class="t">14:32</span>
                                                     </div>
                     </div>
                     <!-- history -->
@@ -1525,7 +1543,7 @@
                 <div style="flex:1;display:flex;padding:0 16px;min-height:0">
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
                         <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(46,91,255,.04)">
-                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
+                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="cr"></div><span class="t">14:32</span>
                                                     </div>
                     </div>
                     <div style="width:42%;display:flex;flex-direction:column;padding-left:8px">
@@ -1565,7 +1583,7 @@
             <div class="lbl">待机 · idle</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="cr"></div><span class="t">14:32</span>
                                     </div>
             </div>
         </div>
@@ -1574,7 +1592,7 @@
             <div class="lbl">聆听 · listening</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c lst" style="border:1.5px solid var(--ac);box-shadow:0 0 40px rgba(77,122,255,.12)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="cr"></div><span class="t">14:32</span>
                                     </div>
             </div>
         </div>
@@ -1583,7 +1601,7 @@
             <div class="lbl">思考 · thinking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c thk" style="border:1.5px solid var(--tx)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="cr"></div><span class="t">14:32</span>
                                     </div>
             </div>
         </div>
@@ -1592,7 +1610,7 @@
             <div class="lbl">说话 · speaking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c spk" style="border:1.5px solid var(--ac);box-shadow:0 0 36px rgba(77,122,255,.10)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="cr"></div><span class="t">14:32</span>
+                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="cr"></div><span class="t">14:32</span>
                                     </div>
             </div>
         </div>
