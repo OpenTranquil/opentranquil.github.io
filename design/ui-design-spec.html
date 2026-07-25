@@ -1456,136 +1456,157 @@
     </div>
     <p class="note">全屏覆盖。顶部 title "最近使用" + 计数 "8 个应用" + × 关闭。横向滚动宽卡片（180×220px，16px 间距）：上区 72px 大图标（accent 15%/12% 浅底）居中 + 右上圆形 × 关闭按钮（20px line2 底），下区 1px 发丝线分隔 + 应用名（weight 500）+ 相对时间（dim）。底部居中 ghost 按钮 "关闭全部"。暗版 overlay-bg，亮版 #F0F0F0 底。</p>
 
-    <h3>AI Agent Panel（系统智能体 · 全屏覆盖 800×480）</h3>
+    <h3>Voice Orb · 语音球（系统智能体 · 全屏覆盖 800×480）</h3>
     <div class="pair">
         <div>
-            <div class="lbl">DARK</div>
+            <div class="lbl">DARK · 待机</div>
             <div class="d s k" style="flex-direction:column">
-                <div style="padding:20px 20px 0;display:flex;justify-content:space-between;align-items:flex-start">
+                <!-- header -->
+                <div style="padding:18px 20px 0;display:flex;justify-content:space-between;align-items:flex-start">
                     <div>
-                        <div style="display:flex;align-items:center;gap:8px">
-                            <span style="font-size:18px;font-weight:600">系统智能体</span>
-                            <span style="font-size:9px;background:var(--ac);color:#fff;padding:2px 8px;border-radius:99px;opacity:.85">就绪</span>
-                        </div>
-                        <div style="font-size:12px;color:var(--dm);margin-top:2px">下午好 · 周五 · 晴 24°</div>
+                        <div style="font-size:13px;font-weight:500;color:var(--tx)">下午好 · 周五 · 晴 24°</div>
                     </div>
-                    <span style="color:var(--dm);font-size:18px">×</span>
+                    <span style="color:var(--dm);font-size:18px;cursor:default">×</span>
                 </div>
-                <div style="padding:10px 20px">
-                    <div style="display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--ln);border-radius:4px;padding:7px 12px">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--ac)" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                        <span style="font-size:11px;color:var(--dm);flex:1">问点什么…</span>
-                        <div style="background:var(--ac);color:#fff;border-radius:3px;padding:2px 8px;font-size:9px">发送</div>
-                    </div>
-                </div>
-                <div style="padding:2px 20px 6px;display:flex;gap:6px">
-                    <div style="font-size:10px;color:var(--ac);padding:3px 10px;border:1px solid var(--ac);border-radius:99px">今天有什么安排？</div>
-                    <div style="font-size:10px;color:var(--dm);padding:3px 10px;border:1px solid var(--ln);border-radius:99px">系统状态</div>
-                    <div style="font-size:10px;color:var(--dm);padding:3px 10px;border:1px solid var(--ln);border-radius:99px">清理存储</div>
-                    <div style="font-size:10px;color:var(--dm);padding:3px 10px;border:1px solid var(--ln);border-radius:99px">设置闹钟</div>
-                </div>
-                <div class="sc" style="flex:1;padding:3px 20px;display:flex;flex-direction:column;gap:6px;overflow-y:auto">
-                    <div class="key" style="padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center">
-                            <span style="font-size:11px;font-weight:600">系统上下文</span>
-                            <span style="font-size:7px;background:var(--ac);color:#fff;padding:1px 6px;border-radius:99px;opacity:.7">感知</span>
+                <!-- main: orb left + history right -->
+                <div style="flex:1;display:flex;padding:0 16px;min-height:0">
+                    <!-- orb zone -->
+                    <div style="flex:1;display:flex;align-items:center;justify-content:center">
+                        <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
+                            <span class="t">14:32</span>
+                            <div class="wv"><i></i><i></i><i></i></div>
+                            <div class="ring"></div>
+                            <div class="dot"></div>
                         </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.5">14:32，2026年06月27日。18 个应用可用，12 个正在运行。当前浅色主题，桌面沙色。</div>
                     </div>
-                    <div class="key" style="padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center">
-                            <span style="font-size:11px;font-weight:600">当前状态</span>
-                            <span style="font-size:7px;background:var(--ac);color:#fff;padding:1px 6px;border-radius:99px;opacity:.7">运行中</span>
-                        </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.5">网络已开启，分组与 HTTP 桥接跟随状态服务。Assistant 进程已在运行。</div>
-                    </div>
-                    <div class="key" style="padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center">
-                            <span style="font-size:11px;font-weight:600">可执行动作</span>
-                            <span style="font-size:7px;background:var(--ac);color:#fff;padding:1px 6px;border-radius:99px;opacity:.7">动作</span>
-                        </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.5">打开完整助手进行更多操作</div>
-                    </div>
-                    <div class="key" style="padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center;margin-bottom:2px">
-                            <span style="font-size:11px;font-weight:600">最近对话</span>
-                        </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.6;width:100%">
-                            <div style="padding:3px 0;border-bottom:1px solid var(--ln)">"帮我看一下系统内存使用情况"</div>
-                            <div style="padding:3px 0">"设置一个明天早上 7 点的闹钟"</div>
+                    <!-- history -->
+                    <div style="width:42%;display:flex;flex-direction:column;padding-left:8px">
+                        <div style="font-size:9px;font-weight:600;color:var(--dm2);letter-spacing:.06em;padding:16px 0 8px">最近对话</div>
+                        <div class="sc" style="flex:1;display:flex;flex-direction:column;gap:2px;overflow-y:auto;padding-bottom:8px">
+                            <div class="key" style="padding:8px 10px;font-size:11px;text-align:left;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:2px">
+                                <span style="color:var(--tx)">帮我看一下系统内存使用情况</span>
+                                <span style="font-size:9px;color:var(--dm2)">2 分钟前</span>
+                            </div>
+                            <div class="key" style="padding:8px 10px;font-size:11px;text-align:left;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:2px">
+                                <span style="color:var(--tx)">设置一个明天早上 7 点的闹钟</span>
+                                <span style="font-size:9px;color:var(--dm2)">12 分钟前</span>
+                            </div>
+                            <div class="key" style="padding:8px 10px;font-size:11px;text-align:left;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:2px">
+                                <span style="color:var(--tx)">今天天气怎么样</span>
+                                <span style="font-size:9px;color:var(--dm2)">1 小时前</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div style="padding:8px 20px 16px;display:flex;justify-content:center">
-                    <div style="padding:8px 28px;font-size:11px;border-radius:22px;background:var(--ac);color:#fff">打开完整助手</div>
+                <!-- suggestion chips -->
+                <div style="padding:4px 20px 18px;display:flex;gap:6px;justify-content:center">
+                    <span style="font-size:10px;color:var(--ac);padding:4px 12px;border:1px solid var(--ac);border-radius:99px">今天有什么安排？</span>
+                    <span style="font-size:10px;color:var(--dm);padding:4px 12px;border:1px solid var(--ln);border-radius:99px">系统状态</span>
+                    <span style="font-size:10px;color:var(--dm);padding:4px 12px;border:1px solid var(--ln);border-radius:99px">清理存储</span>
+                    <span style="font-size:10px;color:var(--dm);padding:4px 12px;border:1px solid var(--ln);border-radius:99px">设置闹钟</span>
                 </div>
             </div>
         </div>
         <div>
-            <div class="lbl">LIGHT</div>
+            <div class="lbl">LIGHT · 待机</div>
             <div class="d s l" style="background:#F0F0F0;flex-direction:column">
-                <div style="padding:20px 20px 0;display:flex;justify-content:space-between;align-items:flex-start">
+                <div style="padding:18px 20px 0;display:flex;justify-content:space-between;align-items:flex-start">
                     <div>
-                        <div style="display:flex;align-items:center;gap:8px">
-                            <span style="font-size:18px;font-weight:600">系统智能体</span>
-                            <span style="font-size:9px;background:var(--ac);color:#fff;padding:2px 8px;border-radius:99px;opacity:.85">就绪</span>
-                        </div>
-                        <div style="font-size:12px;color:var(--dm);margin-top:2px">下午好 · 周五 · 晴 24°</div>
+                        <div style="font-size:13px;font-weight:500;color:var(--tx)">下午好 · 周五 · 晴 24°</div>
                     </div>
-                    <span style="color:var(--dm);font-size:18px">×</span>
+                    <span style="color:var(--dm);font-size:18px;cursor:default">×</span>
                 </div>
-                <div style="padding:10px 20px">
-                    <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--ln);border-radius:4px;padding:7px 12px">
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--ac)" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                        <span style="font-size:11px;color:var(--dm);flex:1">问点什么…</span>
-                        <div style="background:var(--ac);color:#fff;border-radius:3px;padding:2px 8px;font-size:9px">发送</div>
-                    </div>
-                </div>
-                <div style="padding:2px 20px 6px;display:flex;gap:6px">
-                    <div style="font-size:10px;color:var(--ac);padding:3px 10px;border:1px solid var(--ac);border-radius:99px">今天有什么安排？</div>
-                    <div style="font-size:10px;color:var(--dm);padding:3px 10px;border:1px solid var(--ln);border-radius:99px">系统状态</div>
-                    <div style="font-size:10px;color:var(--dm);padding:3px 10px;border:1px solid var(--ln);border-radius:99px">清理存储</div>
-                    <div style="font-size:10px;color:var(--dm);padding:3px 10px;border:1px solid var(--ln);border-radius:99px">设置闹钟</div>
-                </div>
-                <div class="sc" style="flex:1;padding:3px 20px;display:flex;flex-direction:column;gap:6px;overflow-y:auto">
-                    <div class="key" style="background:#fff;padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center">
-                            <span style="font-size:11px;font-weight:600">系统上下文</span>
-                            <span style="font-size:7px;background:var(--ac);color:#fff;padding:1px 6px;border-radius:99px;opacity:.7">感知</span>
+                <div style="flex:1;display:flex;padding:0 16px;min-height:0">
+                    <div style="flex:1;display:flex;align-items:center;justify-content:center">
+                        <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(46,91,255,.04)">
+                            <span class="t">14:32</span>
+                            <div class="wv"><i></i><i></i><i></i></div>
+                            <div class="ring"></div>
+                            <div class="dot"></div>
                         </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.5">14:32，2026年06月27日。18 个应用可用，12 个正在运行。当前浅色主题，桌面沙色。</div>
                     </div>
-                    <div class="key" style="background:#fff;padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center">
-                            <span style="font-size:11px;font-weight:600">当前状态</span>
-                            <span style="font-size:7px;background:var(--ac);color:#fff;padding:1px 6px;border-radius:99px;opacity:.7">运行中</span>
-                        </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.5">网络已开启，分组与 HTTP 桥接跟随状态服务。Assistant 进程已在运行。</div>
-                    </div>
-                    <div class="key" style="background:#fff;padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center">
-                            <span style="font-size:11px;font-weight:600">可执行动作</span>
-                            <span style="font-size:7px;background:var(--ac);color:#fff;padding:1px 6px;border-radius:99px;opacity:.7">动作</span>
-                        </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.5">打开完整助手进行更多操作</div>
-                    </div>
-                    <div class="key" style="background:#fff;padding:8px 12px;align-items:flex-start;flex-direction:column;gap:3px">
-                        <div style="display:flex;width:100%;justify-content:space-between;align-items:center;margin-bottom:2px">
-                            <span style="font-size:11px;font-weight:600">最近对话</span>
-                        </div>
-                        <div style="font-size:9px;color:var(--dm);line-height:1.6;width:100%">
-                            <div style="padding:3px 0;border-bottom:1px solid var(--ln)">"帮我看一下系统内存使用情况"</div>
-                            <div style="padding:3px 0">"设置一个明天早上 7 点的闹钟"</div>
+                    <div style="width:42%;display:flex;flex-direction:column;padding-left:8px">
+                        <div style="font-size:9px;font-weight:600;color:var(--dm2);letter-spacing:.06em;padding:16px 0 8px">最近对话</div>
+                        <div class="sc" style="flex:1;display:flex;flex-direction:column;gap:2px;overflow-y:auto;padding-bottom:8px">
+                            <div class="key" style="background:#fff;padding:8px 10px;font-size:11px;text-align:left;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:2px">
+                                <span style="color:var(--tx)">帮我看一下系统内存使用情况</span>
+                                <span style="font-size:9px;color:var(--dm2)">2 分钟前</span>
+                            </div>
+                            <div class="key" style="background:#fff;padding:8px 10px;font-size:11px;text-align:left;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:2px">
+                                <span style="color:var(--tx)">设置一个明天早上 7 点的闹钟</span>
+                                <span style="font-size:9px;color:var(--dm2)">12 分钟前</span>
+                            </div>
+                            <div class="key" style="background:#fff;padding:8px 10px;font-size:11px;text-align:left;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:2px">
+                                <span style="color:var(--tx)">今天天气怎么样</span>
+                                <span style="font-size:9px;color:var(--dm2)">1 小时前</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div style="padding:8px 20px 16px;display:flex;justify-content:center">
-                    <div style="padding:8px 28px;font-size:11px;border-radius:22px;background:var(--ac);color:#fff">打开完整助手</div>
+                <div style="padding:4px 20px 18px;display:flex;gap:6px;justify-content:center">
+                    <span style="font-size:10px;color:var(--ac);padding:4px 12px;border:1px solid var(--ac);border-radius:99px">今天有什么安排？</span>
+                    <span style="font-size:10px;color:var(--dm);padding:4px 12px;border:1px solid var(--ln);border-radius:99px">系统状态</span>
+                    <span style="font-size:10px;color:var(--dm);padding:4px 12px;border:1px solid var(--ln);border-radius:99px">清理存储</span>
+                    <span style="font-size:10px;color:var(--dm);padding:4px 12px;border:1px solid var(--ln);border-radius:99px">设置闹钟</span>
                 </div>
             </div>
         </div>
     </div>
-    <p class="note">全屏覆盖。顶部 title "系统智能体" + 状态 chip（accent pill） + 问候语（下午好·周五·晴 24°） + × 关闭。搜索提问 bar（surface + 1px line + 4px，accent 时钟图标 + placeholder + accent 发送按钮）。提问 chip 行（pill，选中=accent 边框）。中部 4 张 info card 纵向滚动：系统上下文/当前状态/可执行动作/最近对话（mono_surface + 发丝线分隔）。底部居中 accent 填充按钮 "打开完整助手"（pill）。暗版 overlay-bg，亮版 #F0F0F0 底。</p>
+    <p class="note">全屏覆盖。顶栏轻量问候 + × 关闭。左区极简几何球体（180px 直径，1.5px 细线描边，圆心时间 display），右区 "最近对话" 列表（key 卡片，对话文本 + 相对时间）。底部居中 suggestion chips（pill，选中 accent 边框）。暗版 overlay-bg，亮版 #F0F0F0 底。</p>
+
+    <!-- 4 states showcase: idle / listening / thinking / speaking -->
+    <h3>Voice Orb · 四态展示（仅球体 / dark only）</h3>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:12px 0 24px;max-width:1320px">
+        <!-- idle -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="lbl">待机 · idle</div>
+            <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
+                <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
+                    <span class="t">14:32</span>
+                    <div class="wv"><i></i><i></i><i></i></div>
+                    <div class="ring"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+        <!-- listening -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="lbl">聆听 · listening</div>
+            <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
+                <div class="orb-c lst" style="border:1.5px solid var(--ac);box-shadow:0 0 40px rgba(77,122,255,.12)">
+                    <span class="t">14:32</span>
+                    <div class="wv"><i></i><i></i><i></i></div>
+                    <div class="ring"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+        <!-- thinking -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="lbl">思考 · thinking</div>
+            <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
+                <div class="orb-c thk" style="border:1.5px solid var(--tx)">
+                    <span class="t">14:32</span>
+                    <div class="wv"><i></i><i></i><i></i></div>
+                    <div class="ring"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+        <!-- speaking -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+            <div class="lbl">说话 · speaking</div>
+            <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
+                <div class="orb-c spk" style="border:1.5px solid var(--ac);box-shadow:0 0 36px rgba(77,122,255,.10)">
+                    <span class="t">14:32</span>
+                    <div class="wv"><i></i><i></i><i></i></div>
+                    <div class="ring"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="note">四个状态通过 CSS class 切换：<code>.orb-c</code>（默认 idle）→ <code>.lst</code> 聆听 → <code>.thk</code> 思考 → <code>.spk</code> 说话。静待显示时间，聆听显示波形 bars + 呼吸缩放，思考显示旋转环 + 脉冲点，说话显示 pulse dot + 边框 accent。</p>
 
     <h2>⑤ 应用 Mockup（左暗 / 右亮 · 仅内容区 800×352）</h2>
 
