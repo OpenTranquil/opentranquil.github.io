@@ -81,11 +81,38 @@
     <button class="on" data-mode="drift">漂移模式</button>
     <button data-mode="voice">语音模拟</button>
   </div>
+
+<!-- Row 2: Spirograph + Wave Interference -->
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:880px;margin:0 auto">
+<div class="card">
+  <h3>5. 万花尺 · Spirograph</h3>
+  <canvas id="spiro" width="280" height="280"></canvas>
+  <div class="info">
+    内切圆滚动轨迹 <span>R/r 比例决定瓣数</span><br>
+    多层半径叠加产生复杂花纹
+  </div>
+  <div class="controls" id="spiro-controls">
+    <button class="on" data-mode="drift">漂移模式</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>6. 波纹干涉 · Wave Interference</h3>
+  <canvas id="wave" width="280" height="280"></canvas>
+  <div class="info">
+    3 个点源圆形波叠加 <span>Σ sin(dist/r)</span><br>
+    波源缓慢游走，产生莫尔条纹
+  </div>
+  <div class="controls" id="wave-controls">
+    <button class="on" data-mode="drift">漂移模式</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
 </div>
 
 </div>
 
-<!-- ===== 4. COMBINED: ALL THREE IN ONE ORB ===== -->
+<!-- ===== COMBINED: ALL THREE IN ONE ORB ===== -->
 <h2>合成效果：三合一语音球</h2>
 <p>利萨如轨迹 + 玫瑰线环层 + 克拉尼背景干涉，合成到同一个圆形区域内。所有参数由语音振幅驱动。</p>
 <div class="card" style="max-width:320px; margin: 0 auto">
@@ -104,7 +131,9 @@
     lissajous: document.getElementById('lissajous'),
     rose: document.getElementById('rose'),
     chladni: document.getElementById('chladni'),
-    combined: document.getElementById('combined')
+    combined: document.getElementById('combined'),
+    spiro: document.getElementById('spiro'),
+    wave: document.getElementById('wave')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -114,7 +143,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -141,6 +170,8 @@
   setupButtons('lis-controls', m => { lisMode = m })
   setupButtons('rose-controls', m => { roseMode = m })
   setupButtons('chladni-controls', m => { chladniMode = m })
+  setupButtons('spiro-controls', m => { spiroMode = m })
+  setupButtons('wave-controls', m => { waveMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -327,6 +358,102 @@
     c.restore()
   }
 
+  // ---- Draw Spirograph ----
+  let spiroPhase = 0
+  function drawSpiro() {
+    const c = ctx.spiro; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (spiroMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    }
+
+    c.fillStyle = 'rgba(10,10,10,0.1)'
+    c.fillRect(0, 0, W, H)
+
+    spiroPhase += 0.004
+
+    // 3 spirograph layers with different R/r ratios
+    const layers = [
+      { R: 105, r: 65 + amp * 20, d: 55 + amp * 15, rot: spiroPhase },
+      { R: 80, r: 48 + amp * 15, d: 42 + amp * 12, rot: spiroPhase * 1.3 },
+      { R: 55, r: 32 + amp * 10, d: 28 + amp * 8, rot: spiroPhase * 0.7 },
+    ]
+
+    for (let l of layers) {
+      let steps = 600
+      c.beginPath()
+      let first = true
+      for (let i = 0; i <= steps; i++) {
+        let th = (i / steps) * Math.PI * 2 * Math.max(1, Math.floor(l.r))
+        // Spirograph formula: epicycloid
+        let ratio = l.R / l.r
+        let sx = (l.R - l.r) * Math.cos(th + l.rot) + l.d * Math.cos((l.R - l.r) / l.r * th + l.rot)
+        let sy = (l.R - l.r) * Math.sin(th + l.rot) - l.d * Math.sin((l.R - l.r) / l.r * th + l.rot)
+        if (first) { c.moveTo(cx + sx, cy + sy); first = false }
+        else c.lineTo(cx + sx, cy + sy)
+      }
+      let alpha = 0.2
+      c.strokeStyle = `rgba(77,122,255,${alpha})`
+      c.lineWidth = 0.7; c.stroke()
+      c.strokeStyle = `rgba(77,122,255,${alpha * 0.25})`
+      c.lineWidth = 3; c.stroke()
+    }
+  }
+
+  // ---- Draw Wave Interference ----
+  let waveSources = [
+    { x: 140, y: 140, phase: 0 },
+  ]
+  function drawWave() {
+    const c = ctx.wave; if (!c) return
+    const W = 280, H = 280
+
+    let amp = 0
+    if (waveMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    }
+
+    // Move sources in slow orbits
+    waveSources = [
+      { x: 140 + Math.cos(t * 0.4) * 50 + Math.sin(t * 0.7) * 20, phase: t * 0.8 },
+      { x: 140 + Math.cos(t * 0.6 + 2) * 60, phase: t * 1.0 },
+      { x: 140 + Math.sin(t * 0.5 + 1) * 45 + Math.cos(t * 0.9) * 25, phase: t * 0.7 },
+    ]
+
+    let img = c.createImageData(W, H)
+    for (let py = 0; py < H; py++) {
+      for (let px = 0; px < W; px++) {
+        let z = 0
+        for (let s of waveSources) {
+          let dx = px - s.x, dy = py - s.y
+          let dist = Math.sqrt(dx*dx + dy*dy)
+          let freq = 15 + amp * 10
+          z += Math.sin(dist * 0.12 * freq - s.phase * 3) * 0.5 + 0.5
+        }
+        z = z / waveSources.length
+        let idx = (py * W + px) * 4
+        if (z > 0.52) {
+          let b = (z - 0.52) / 0.48
+          img.data[idx] = Math.floor(20 + b * 80)
+          img.data[idx+1] = Math.floor(30 + b * 120)
+          img.data[idx+2] = Math.floor(150 + b * 105)
+          img.data[idx+3] = Math.floor(b * 200)
+        } else if (z < 0.48) {
+          let b = (0.48 - z) / 0.48
+          img.data[idx] = Math.floor(b * 30)
+          img.data[idx+1] = Math.floor(b * 20)
+          img.data[idx+2] = Math.floor(b * 40)
+          img.data[idx+3] = Math.floor(30 + b * 60)
+        } else {
+          img.data[idx] = 10; img.data[idx+1] = 10; img.data[idx+2] = 10; img.data[idx+3] = 255
+        }
+      }
+    }
+    c.putImageData(img, 0, 0)
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -334,6 +461,8 @@
     drawLissajous()
     drawRose()
     drawChladni()
+    drawSpiro()
+    drawWave()
     drawCombined()
   }
   loop()
