@@ -319,6 +319,206 @@
 </div>
 
 
+<!-- Row 6: spots, bessel, julia, aizawa -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>21. 反应扩散 · Gray-Scott</h3>
+  <canvas id="spots" width="280" height="280"></canvas>
+  <div class="info">斑点/条纹有机生长 <span>F/k 参数游走</span><br>图灵斑图，像豹纹/珊瑚般涌现</div>
+  <div class="controls" id="spots-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>22. 贝塞尔鼓面 · Bessel Drum</h3>
+  <canvas id="bessel" width="280" height="280"></canvas>
+  <div class="info">圆膜振动模式 <span>J<sub>n</sub>(r)&middot;cos(n&theta;)</span><br>鼓面驻波，不同模式的干涉</div>
+  <div class="controls" id="bessel-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>23. Julia 集 · Fractal Zoom</h3>
+  <canvas id="julia" width="280" height="280"></canvas>
+  <div class="info">z=z&sup2;+c 迭代 <span>c 缓慢漂移</span><br>无穷分形边界，缩放永无尽头</div>
+  <div class="controls" id="julia-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>24. Aizawa 吸引子</h3>
+  <canvas id="aizawa" width="280" height="280"></canvas>
+  <div class="info">球状混沌 <span>5 方程系统</span><br>比 Lorenz 更紧凑的浑圆轨道</div>
+  <div class="controls" id="aizawa-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
+<!-- Row 7: ant, voronoi, pendulum, life -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>25. 兰顿蚂蚁 · Langton Ant</h3>
+  <canvas id="ant" width="280" height="280"></canvas>
+  <div class="info">LR 规则 <span>+ 多只蚂蚁</span><br>简单规则涌现复杂高速公路</div>
+  <div class="controls" id="ant-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>26. Voronoi 变形</h3>
+  <canvas id="voronoi" width="280" height="280"></canvas>
+  <div class="info">随机种子点 <span>+ 距离场划分</span><br>细胞分裂般的几何重组</div>
+  <div class="controls" id="voronoi-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>27. 摆锤波 · Pendulum Wave</h3>
+  <canvas id="pendulum" width="280" height="280"></canvas>
+  <div class="info">不同长度摆锤 <span>周期递增</span><br>摆锤阵列编织出惊人的行波</div>
+  <div class="controls" id="pendulum-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>28. 生命游戏 · Game of Life</h3>
+  <canvas id="life" width="280" height="280"></canvas>
+  <div class="info">Conway 规则 <span>圆形约束</span><br>随机种子涌现滑翔机和振荡子</div>
+  <div class="controls" id="life-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
+<!-- Row 8: heat, plasma, kaleido, firefly -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>29. 热扩散 · Heat Equation</h3>
+  <canvas id="heat" width="280" height="280"></canvas>
+  <div class="info">圆形域扩散 <span>+ 随机热源</span><br>热力斑点扩散融化，声波隐喻</div>
+  <div class="controls" id="heat-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>30. 等离子体 · Plasma</h3>
+  <canvas id="plasma" width="280" height="280"></canvas>
+  <div class="info">sin 叠加场 <span>+ 调色板映射</span><br>经典 demo 效果，熔岩流动感</div>
+  <div class="controls" id="plasma-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>31. 万花筒 · Kaleidoscope</h3>
+  <canvas id="kaleido" width="280" height="280"></canvas>
+  <div class="info">扇形镜像 <span>3 个光点游走</span><br>实时对称反射，永远在变</div>
+  <div class="controls" id="kaleido-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>32. 萤火虫同步 · Firefly Sync</h3>
+  <canvas id="firefly" width="280" height="280"></canvas>
+  <div class="info">耦合振子 <span>相位渐近同步</span><br>大量闪烁点自发同步的涌现美</div>
+  <div class="controls" id="firefly-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
+<!-- Row 9: gravity, truchet, spinodal, tesseract -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>33. N 体引力 · Gravity</h3>
+  <canvas id="gravity" width="280" height="280"></canvas>
+  <div class="info">50 体引力 <span>+ 圆形约束</span><br>微型星系，偶尔碰撞合并</div>
+  <div class="controls" id="gravity-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>34. Truchet 瓷砖 · Truchet</h3>
+  <canvas id="truchet" width="280" height="280"></canvas>
+  <div class="info">旋转方块 <span>+ 圆角弧线</span><br>瓷砖旋转产生连通的线网</div>
+  <div class="controls" id="truchet-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>35. 旋节分解 · Spinodal</h3>
+  <canvas id="spinodal" width="280" height="280"></canvas>
+  <div class="info">Cahn-Hilliard 简化 <span>旋节分解</span><br>金属冷却般的迷宫纹路</div>
+  <div class="controls" id="spinodal-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>36. 超立方旋转 · Tesseract</h3>
+  <canvas id="tesseract" width="280" height="280"></canvas>
+  <div class="info">4D 超立方 <span>投影到 2D</span><br>高维几何体在低维的投影旋转</div>
+  <div class="controls" id="tesseract-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
+<!-- Row 10: polarnoise, magpend, streamline, wavefold -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>37. 极坐标噪声 · Polar Noise</h3>
+  <canvas id="polarnoise" width="280" height="280"></canvas>
+  <div class="info">Perlin 噪声 <span>极坐标映射</span><br>环形噪声环，像树木年轮</div>
+  <div class="controls" id="polarnoise-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>38. 磁摆 · Magnetic Pendulum</h3>
+  <canvas id="magpend" width="280" height="280"></canvas>
+  <div class="info">3 磁铁吸引 <span>+ 衰减</span><br>混沌摆荡，在不同磁极间跳跃</div>
+  <div class="controls" id="magpend-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>39. 滑流线 · Streamlines</h3>
+  <canvas id="streamline" width="280" height="280"></canvas>
+  <div class="info">流场追踪 <span>+ 随机种子</span><br>细线沿漩涡飘荡聚散</div>
+  <div class="controls" id="streamline-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>40. 波形折叠 · Wavefold</h3>
+  <canvas id="wavefold" width="280" height="280"></canvas>
+  <div class="info">sin 波折叠 <span>超过阈值折回</span><br>音频波形折叠的视觉化</div>
+  <div class="controls" id="wavefold-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
 <script>
 // Single animation loop for all 4 canvases
 (function() {
@@ -343,7 +543,27 @@
     thomas: document.getElementById('thomas'),
     ca: document.getElementById('ca'),
     moire: document.getElementById('moire'),
-    cycloid: document.getElementById('cycloid')
+    cycloid: document.getElementById('cycloid'),
+    spots: document.getElementById('spots'),
+    bessel: document.getElementById('bessel'),
+    julia: document.getElementById('julia'),
+    aizawa: document.getElementById('aizawa'),
+    ant: document.getElementById('ant'),
+    voronoi: document.getElementById('voronoi'),
+    pendulum: document.getElementById('pendulum'),
+    life: document.getElementById('life'),
+    heat: document.getElementById('heat'),
+    plasma: document.getElementById('plasma'),
+    kaleido: document.getElementById('kaleido'),
+    firefly: document.getElementById('firefly'),
+    gravity: document.getElementById('gravity'),
+    truchet: document.getElementById('truchet'),
+    spinodal: document.getElementById('spinodal'),
+    tesseract: document.getElementById('tesseract'),
+    polarnoise: document.getElementById('polarnoise'),
+    magpend: document.getElementById('magpend'),
+    streamline: document.getElementById('streamline'),
+    wavefold: document.getElementById('wavefold')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -353,7 +573,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift', caMode = 'drift', moireMode = 'drift', cycloidMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift', caMode = 'drift', moireMode = 'drift', cycloidMode = 'drift', spotsMode = 'drift', besselMode = 'drift', juliaMode = 'drift', aizawaMode = 'drift', antMode = 'drift', voronoiMode = 'drift', pendulumMode = 'drift', lifeMode = 'drift', heatMode = 'drift', plasmaMode = 'drift', kaleidoMode = 'drift', fireflyMode = 'drift', gravityMode = 'drift', truchetMode = 'drift', spinodalMode = 'drift', tesseractMode = 'drift', polarnoiseMode = 'drift', magpendMode = 'drift', streamlineMode = 'drift', wavefoldMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -396,6 +616,26 @@
   setupButtons('ca-controls', m => { caMode = m })
   setupButtons('moire-controls', m => { moireMode = m })
   setupButtons('cycloid-controls', m => { cycloidMode = m })
+  setupButtons('spots-controls', m => { spotsMode = m })
+  setupButtons('bessel-controls', m => { besselMode = m })
+  setupButtons('julia-controls', m => { juliaMode = m })
+  setupButtons('aizawa-controls', m => { aizawaMode = m })
+  setupButtons('ant-controls', m => { antMode = m })
+  setupButtons('voronoi-controls', m => { voronoiMode = m })
+  setupButtons('pendulum-controls', m => { pendulumMode = m })
+  setupButtons('life-controls', m => { lifeMode = m })
+  setupButtons('heat-controls', m => { heatMode = m })
+  setupButtons('plasma-controls', m => { plasmaMode = m })
+  setupButtons('kaleido-controls', m => { kaleidoMode = m })
+  setupButtons('firefly-controls', m => { fireflyMode = m })
+  setupButtons('gravity-controls', m => { gravityMode = m })
+  setupButtons('truchet-controls', m => { truchetMode = m })
+  setupButtons('spinodal-controls', m => { spinodalMode = m })
+  setupButtons('tesseract-controls', m => { tesseractMode = m })
+  setupButtons('polarnoise-controls', m => { polarnoiseMode = m })
+  setupButtons('magpend-controls', m => { magpendMode = m })
+  setupButtons('streamline-controls', m => { streamlineMode = m })
+  setupButtons('wavefold-controls', m => { wavefoldMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -1347,6 +1587,324 @@
     }
   }
 
+
+  // ---- 21. Reaction-Diffusion ----
+  let rdGridA = [], rdGridB = []
+  const RD_S = 70
+  for (let i=0;i<RD_S*RD_S;i++){rdGridA[i]=1;rdGridB[i]=0}
+  // Seed some B
+  for (let i=0;i<50;i++){let ix=Math.floor(RD_S/2-5+Math.random()*10);let iy=Math.floor(RD_S/2-5+Math.random()*10);rdGridB[ix+iy*RD_S]=1}
+  function drawSpots(){const c=ctx.spots;if(!c)return;const W=280,H=280;C=W/RD_S
+    let amp=0;if(spotsMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let feed=0.036+amp*0.015,kill=0.062+amp*0.01,Da=1,Db=0.5,dt=0.5
+    for(let s=0;s<2;s++){let nA=[...rdGridA],nB=[...rdGridB]
+      for(let y=1;y<RD_S-1;y++)for(let x=1;x<RD_S-1;x++){let i=x+y*RD_S
+        let la=rdGridA[i-1]+rdGridA[i+1]+rdGridA[i-RD_S]+rdGridA[i+RD_S]-4*rdGridA[i]
+        let lb=rdGridB[i-1]+rdGridB[i+1]+rdGridB[i-RD_S]+rdGridB[i+RD_S]-4*rdGridB[i]
+        let abb=rdGridA[i]*rdGridB[i]*rdGridB[i]
+        nA[i]=rdGridA[i]+(Da*la-abb+feed*(1-rdGridA[i]))*dt
+        nB[i]=rdGridB[i]+(Db*lb+abb-(kill+feed)*rdGridB[i])*dt
+      }
+      rdGridA=nA;rdGridB=nB
+    }
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let y=0;y<RD_S;y++)for(let x=0;x<RD_S;x++){
+      let v=rdGridB[x+y*RD_S];if(v>0.05){
+        let alpha=Math.min(1,v*3)
+        c.fillStyle=`rgba(77,122,255,${alpha*0.7})`;c.fillRect(x*C,y*C,C,C)
+      }
+    }
+  }
+
+  // ---- 22. Bessel Drum ----
+  function drawBessel(){const c=ctx.bessel;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2,R=125
+    let amp=0;if(besselMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    let modes=[[2,0],[3,1],[1,2],[4,2]];let step=3
+    for(let py=0;py<H;py+=step)for(let px=0;px<W;px+=step){
+      let dx=px-cx,dy=py-cy,dist=Math.sqrt(dx*dx+dy*dy),ang=Math.atan2(dy,dx)
+      if(dist>R)continue;let rn=dist/R*8,z=0
+      for(let[m,n]of modes){let jn=Math.sin(rn*(m+0.5))*Math.cos(n*ang+Math.sin(t*1.3+n)*2)
+        z+=jn*(0.5+amp*0.5)}z=Math.abs(z)
+      let alpha=Math.min(1,z*0.8);c.fillStyle=`rgba(77,122,255,${alpha*0.5})`;c.fillRect(px,py,step,step)
+    }
+  }
+
+  // ---- 23. Julia Set ----
+  let juliaCR=-0.7,juliaCI=0.27
+  function drawJulia(){const c=ctx.julia;if(!c)return;const W=280,H=280
+    let amp=0;if(juliaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    juliaCR=-0.7+Math.sin(t*0.2)*0.3;juliaCI=0.27+Math.cos(t*0.25)*0.2+amp*0.2
+    let img=c.createImageData(W,H),maxIter=40+Math.floor(amp*20)
+    for(let py=0;py<H;py++)for(let px=0;px<W;px++){
+      let zr=(px-W/2)/80,zi=(py-H/2)/80,iter=0
+      while(zr*zr+zi*zi<4&&iter<maxIter){let nzr=zr*zr-zi*zi+juliaCR,nzi=2*zr*zi+juliaCI;zr=nzr;zi=nzi;iter++}
+      let idx=(py*W+px)*4,v=iter/maxIter
+      img.data[idx]=Math.floor(20+v*120);img.data[idx+1]=Math.floor(30+v*140);img.data[idx+2]=Math.floor(150+v*105);img.data[idx+3]=255
+    }
+    c.putImageData(img,0,0)
+  }
+
+  // ---- 24. Aizawa ----
+  let ax=0.1,ay=0,az=0,aizTrail=[]
+  function drawAizawa(){const c=ctx.aizawa;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(aizawaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let a=0.95,b=0.7,c2=0.6,d=3.5,e=0.25,f=0.1,dt=0.01
+    let dx=(az-b)*ax-d*ay,dy=d*ax+(az-b)*ay,dz=c2+f*z-az*az*az/3-(ax*ax+ay*ay)*(1+e*az)+0.1*az*ax*ax*ax
+    ax+=dx*dt*5;ay+=dy*dt*5;az+=dz*dt*5
+    let px=cx+ax*18,py=cy+ay*18
+    aizTrail.push({x:px,y:py,age:0});if(aizTrail.length>400)aizTrail.shift()
+    c.fillStyle='rgba(10,10,10,0.08)';c.fillRect(0,0,W,H)
+    for(let p of aizTrail){p.age+=0.016;let alpha=Math.max(0,1-p.age/5);c.beginPath();c.arc(p.x,p.y,0.6+alpha,0,Math.PI*2);c.fillStyle=`rgba(77,122,255,${alpha*0.8})`;c.fill()}
+  }
+
+  // ---- 25. Langton Ant ----
+  let antGrid={},antX=35,antY=35,antDir=0,ants=[]
+  for(let i=0;i<3;i++)ants.push({x:30+Math.floor(Math.random()*10),y:30+Math.floor(Math.random()*10),dir:Math.floor(Math.random()*4)})
+  function drawAnt(){const c=ctx.ant;if(!c)return;const W=280,H=280,S=70,C=W/S
+    for(let a of ants){let key=a.x+','+a.y;antGrid[key]=!antGrid[key]
+      if(antGrid[key])a.dir=(a.dir+1)%4;else a.dir=(a.dir+3)%4
+      let dd=[[0,-1],[1,0],[0,1],[-1,0]];a.x+=dd[a.dir][0];a.y+=dd[a.dir][1]
+      if(a.x<0)a.x=S-1;if(a.x>=S)a.x=0;if(a.y<0)a.y=S-1;if(a.y>=S)a.y=0
+    }
+    c.fillStyle='rgba(10,10,10,0.3)';c.fillRect(0,0,W,H)
+    for(let[key,v]of Object.entries(antGrid)){if(!v)continue;let[xx,yy]=key.split(',').map(Number)
+      c.fillStyle='rgba(77,122,255,0.4)';c.fillRect(xx*C,yy*C,C-1,C-1)}
+  }
+
+  // ---- 26. Voronoi ----
+  function drawVoronoi(){const c=ctx.voronoi;if(!c)return;const W=280,H=280
+    let amp=0;if(voronoiMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let seeds=[];for(let i=0;i<12;i++)seeds.push({x:40+Math.cos(t*0.3+i*0.5+amp)*90+140,y:40+Math.sin(t*0.4+i*0.6+amp)*90+140})
+    let img=c.createImageData(W,H),step=2
+    for(let py=0;py<H;py+=step)for(let px=0;px<W;px+=step){
+      let minDist=9999,minIdx=0
+      for(let i=0;i<seeds.length;i++){let dx=px-seeds[i].x,dy=py-seeds[i].y,d=dx*dx+dy*dy;if(d<minDist){minDist=d;minIdx=i}}
+      let alpha=0.08+(minIdx/seeds.length)*0.15
+      for(let sy=0;sy<step;sy++)for(let sx=0;sx<step;sx++){
+        let idx=((py+sy)*W+(px+sx))*4;img.data[idx]=Math.floor(20+alpha*200);img.data[idx+1]=Math.floor(30+alpha*200);img.data[idx+2]=Math.floor(120+alpha*200);img.data[idx+3]=255
+      }
+    }
+    c.putImageData(img,0,0)
+  }
+
+  // ---- 27. Pendulum Wave ----
+  function drawPendulum(){const c=ctx.pendulum;if(!c)return;const W=280,H=280,cx=W/2,cy=20
+    let amp=0;if(pendulumMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    for(let i=0;i<20;i++){let period=1.5+i*0.15,theta=Math.sin(t*Math.PI*2/period)*0.35
+      let l=80+i*5,x=cx+(i-10)*14,y=cy,px=x+Math.sin(theta)*l,py=y+Math.cos(theta)*l
+      c.beginPath();c.moveTo(x,y);c.lineTo(px,py);c.strokeStyle='rgba(77,122,255,0.15)';c.lineWidth=0.5;c.stroke()
+      c.beginPath();c.arc(px,py,2.5,0,Math.PI*2);c.fillStyle='rgba(100,150,255,0.6)';c.fill()
+    }
+  }
+
+  // ---- 28. Game of Life ----
+  let lifeGrid={},lifeInit=false
+  if(!lifeInit){for(let i=0;i<300;i++){let k=Math.floor(Math.random()*60)+','+Math.floor(Math.random()*60);lifeGrid[k]=1};lifeInit=true}
+  let lifeStep=0
+  function drawLife(){const c=ctx.life;if(!c)return;const W=280,H=280,S=56,C=W/S
+    if(lifeStep%5===0){let next={},counts={}
+      for(let[k]of Object.entries(lifeGrid)){let[xx,yy]=k.split(',').map(Number)
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(dx===0&&dy===0)continue;let nx=xx+dx,ny=yy+dy;let nk=nx+','+ny;counts[nk]=(counts[nk]||0)+1}
+      }
+      for(let[k,cnt]of Object.entries(counts)){if(cnt===3||(cnt===2&&lifeGrid[k]))next[k]=1}
+      lifeGrid=next
+    }
+    lifeStep++;c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let[k]of Object.entries(lifeGrid)){let[xx,yy]=k.split(',').map(Number)
+      let dx=xx*C-W/2,dy=yy*C-H/2;if(dx*dx+dy*dy<120*120){c.fillStyle='rgba(77,122,255,0.5)';c.fillRect(xx*C,yy*C,C-1,C-1)}}
+  }
+
+  // ---- 29. Heat Equation ----
+  let heatGrid=[];const HS=60
+  for(let i=0;i<HS*HS;i++)heatGrid[i]=0
+  function drawHeat(){const c=ctx.heat;if(!c)return;const W=280,H=280,C=W/HS
+    let amp=0;if(heatMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    // Random heat sources
+    if(Math.random()<0.3){let hx=Math.floor(HS/2-15+Math.random()*30),hy=Math.floor(HS/2-15+Math.random()*30);heatGrid[hx+hy*HS]=Math.min(1,heatGrid[hx+hy*HS]+0.5+amp)}
+    let nxt=[...heatGrid]
+    for(let y=1;y<HS-1;y++)for(let x=1;x<HS-1;x++){let i=x+y*HS;nxt[i]=heatGrid[i]+0.1*(heatGrid[i-1]+heatGrid[i+1]+heatGrid[i-HS]+heatGrid[i+HS]-4*heatGrid[i]);nxt[i]*=0.995}
+    heatGrid=nxt;c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let y=0;y<HS;y++)for(let x=0;x<HS;x++){let v=heatGrid[x+y*HS];if(v>0.01){c.fillStyle=`rgba(200,120,50,${Math.min(1,v*2)})`;c.fillRect(x*C,y*C,C,C)}}
+  }
+
+  // ---- 30. Plasma ----
+  function drawPlasma(){const c=ctx.plasma;if(!c)return;const W=280,H=280
+    let amp=0;if(plasmaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let img=c.createImageData(W,H),step=2
+    for(let py=0;py<H;py+=step)for(let px=0;px<W;px+=step){
+      let v=Math.sin(px*0.06)+Math.sin(py*0.05)+Math.sin((px+py)*0.04+t*2)+Math.sin(Math.sqrt(px*px+py*py)*0.08+t)
+      v=v/4*0.5+0.5
+      let r=Math.floor(20+v*150),g=Math.floor(30+v*120),b=Math.floor(120+v*135)
+      for(let sy=0;sy<step;sy++)for(let sx=0;sx<step;sx++){let idx=((py+sy)*W+(px+sx))*4;img.data[idx]=r;img.data[idx+1]=g;img.data[idx+2]=b;img.data[idx+3]=255}
+    }
+    c.putImageData(img,0,0)
+  }
+
+  // ---- 31. Kaleidoscope ----
+  function drawKaleido(){const c=ctx.kaleido;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(kaleidoMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.08)';c.fillRect(0,0,W,H)
+    let points=[]
+    for(let i=0;i<3;i++)points.push({x:cx+Math.cos(t*(0.7+i*1.1)+i)*60+Math.sin(t*(0.5+i))*20,y:cy+Math.sin(t*(0.6+i*0.9)+i)*60+Math.cos(t*(0.4+i))*20})
+    let arms=6
+    for(let p of points){for(let a=0;a<arms;a++){
+      let ang=(a/arms)*Math.PI*2+t*0.1,px=cx+Math.cos(ang)*(p.x-cx),py=cy+Math.sin(ang)*(p.y-cy)
+      c.beginPath();c.arc(px,py,2+amp*2,0,Math.PI*2);c.fillStyle=`rgba(77,122,255,0.5)`;c.fill()
+      c.beginPath();c.arc(px,py,6+amp*4,0,Math.PI*2);c.fillStyle=`rgba(77,122,255,0.08)`;c.fill()
+    }}
+  }
+
+  // ---- 32. Firefly Sync ----
+  let fireflies=[],FF_N=80
+  for(let i=0;i<FF_N;i++)fireflies.push({phase:Math.random()*Math.PI*2,freq:0.8+Math.random()*0.4,x:140+(Math.random()-0.5)*200,y:140+(Math.random()-0.5)*200})
+  function drawFirefly(){const c=ctx.firefly;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(fireflyMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let coupling=0.02+amp*0.08
+    // Kuramoto model
+    for(let f of fireflies){let sumSin=0,sumCos=0
+      for(let o of fireflies){if(o===f)continue;sumSin+=Math.sin(o.phase-f.phase);sumCos+=Math.cos(o.phase-f.phase)}
+      f.freq+=coupling*Math.atan2(sumSin,sumCos);f.phase+=f.freq*0.05
+    }
+    c.fillStyle='rgba(10,10,10,0.2)';c.fillRect(0,0,W,H)
+    // Sort by brightness for layering
+    let order=fireflies.map((f,i)=>({i,b:Math.sin(f.phase)*0.5+0.5})).sort((a,b)=>a.b-b.b)
+    for(let o of order){let f=fireflies[o.i];let b=o.b
+      if(b>0.3){let alpha=b*0.7;c.beginPath();c.arc(f.x,f.y,1+b*3,0,Math.PI*2);c.fillStyle=`rgba(140,200,255,${alpha})`;c.fill()}
+    }
+  }
+
+  // ---- 33. N-body Gravity ----
+  let bodies=[],NB=50
+  for(let i=0;i<NB;i++){let ang=Math.random()*Math.PI*2,r=20+Math.random()*80;bodies.push({x:140+Math.cos(ang)*r,y:140+Math.sin(ang)*r,vx:(Math.random()-0.5)*1.5,vy:(Math.random()-0.5)*1.5,m:0.5+Math.random()*2})}
+  function drawGravity(){const c=ctx.gravity;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(gravityMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let G=0.5+amp*0.5
+    for(let b of bodies){let fx=0,fy=0
+      for(let o of bodies){if(o===b)continue;let dx=o.x-b.x,dy=o.y-b.y,dist=Math.sqrt(dx*dx+dy*dy)+5;fx+=G*o.m*dx/(dist*dist*dist);fy+=G*o.m*dy/(dist*dist*dist)}
+      b.vx+=fx;b.vy+=fy;b.vx*=0.998;b.vy*=0.998
+      let spd=Math.sqrt(b.vx*b.vx+b.vy*b.vy);if(spd>2){b.vx*=2/spd;b.vy*=2/spd}
+      b.x+=b.vx;b.y+=b.vy
+      let dx=b.x-cx,dy=b.y-cy;if(dx*dx+dy*dy>135*135){let ang=Math.atan2(dy,dx);b.vx-=Math.cos(ang)*0.5;b.vy-=Math.sin(ang)*0.5}
+    }
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    for(let b of bodies){c.beginPath();c.arc(b.x,b.y,b.m*1.2,0,Math.PI*2);c.fillStyle=`rgba(100,150,255,0.6)`;c.fill()}
+  }
+
+  // ---- 34. Truchet ----
+  function drawTruchet(){const c=ctx.truchet;if(!c)return;const W=280,H=280,C=18,COLS=Math.floor(W/C),ROWS=Math.floor(H/C)
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let r=0;r<ROWS;r++)for(let col=0;col<COLS;col++){
+      let seed=r*137+col*251,angle=Math.floor(((Math.sin(seed*0.1+t)*0.5+0.5))*4)*Math.PI/2
+      let cx2=col*C+C/2,cy2=r*C+C/2
+      c.beginPath();c.arc(cx2,cy2,C/3,angle,angle+Math.PI/2);c.strokeStyle='rgba(77,122,255,0.2)';c.lineWidth=1.5;c.stroke()
+      c.beginPath();c.arc(cx2,cy2,C/3,angle+Math.PI,angle+Math.PI*1.5);c.strokeStyle='rgba(77,122,255,0.2)';c.stroke()
+    }
+  }
+
+  // ---- 35. Spinodal ----
+  let spinGrid=[];const SS=70
+  for(let i=0;i<SS*SS;i++)spinGrid[i]=(Math.random()-0.5)*0.2
+  function drawSpinodal(){const c=ctx.spinodal;if(!c)return;const W=280,H=280,C=W/SS
+    let nxt=[...spinGrid]
+    for(let y=1;y<SS-1;y++)for(let x=1;x<SS-1;x++){let i=x+y*SS,la=spinGrid[i-1]+spinGrid[i+1]+spinGrid[i-SS]+spinGrid[i+SS]-4*spinGrid[i];nxt[i]=spinGrid[i]+0.05*la-0.01*spinGrid[i]*spinGrid[i]*spinGrid[i]+0.005*spinGrid[i]}
+    spinGrid=nxt;c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let y=0;y<SS;y++)for(let x=0;x<SS;x++){let v=spinGrid[x+y*SS],alpha=Math.abs(v)*1.5;if(alpha>0.03){c.fillStyle=v>0?`rgba(77,122,255,${alpha})`:`rgba(40,40,60,${alpha})`;c.fillRect(x*C,y*C,C,C)}}
+  }
+
+  // ---- 36. Tesseract ----
+  function drawTesseract(){const c=ctx.tesseract;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(tesseractMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.2)';c.fillRect(0,0,W,H)
+    // 4D hypercube vertices projected to 2D via 4D→3D→2D
+    let verts=[];for(let i=0;i<16;i++)verts.push([(i&1)?1:-1,(i&2)?1:-1,(i&4)?1:-1,(i&8)?1:-1])
+    // Rotate in 4D
+    let a1=t*0.3,a2=t*0.5,proj=[]
+    for(let v of verts){
+      let[x,y,z,w]=v
+      // Rotate xw plane
+      let nx=x*Math.cos(a1)-w*Math.sin(a1),nw=x*Math.sin(a1)+w*Math.cos(a1);x=nx;w=nw
+      // Rotate yz plane
+      let ny=y*Math.cos(a2)-z*Math.sin(a2),nz=y*Math.sin(a2)+z*Math.cos(a2);y=ny;z=nz
+      // Perspective project 4D→3D
+      let p3d=2/(2+w);let sx=x*p3d*50,sy=y*p3d*50,sz=z*p3d*50
+      // 3D→2D
+      let b1=t*0.4;let sy2=sy*Math.cos(b1)-sz*Math.sin(b1),sz2=sy*Math.sin(b1)+sz*Math.cos(b1)
+      proj.push([cx+sx,cy+sy2])
+    }
+    // Draw edges (connect if differ in exactly 1 bit)
+    for(let i=0;i<16;i++)for(let j=i+1;j<16;j++){
+      let diff=0;for(let k=0;k<4;k++)if((i>>k&1)!==(j>>k&1))diff++
+      if(diff===1){c.beginPath();c.moveTo(proj[i][0],proj[i][1]);c.lineTo(proj[j][0],proj[j][1]);c.strokeStyle='rgba(77,122,255,0.12)';c.lineWidth=0.5;c.stroke()}
+    }
+    for(let p of proj){c.beginPath();c.arc(p[0],p[1],2,0,Math.PI*2);c.fillStyle='rgba(140,180,255,0.6)';c.fill()}
+  }
+
+  // ---- 37. Polar Noise ----
+  function drawPolarNoise(){const c=ctx.polarnoise;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2,R=130
+    let amp=0;if(polarnoiseMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H);let step=2
+    for(let py=0;py<H;py+=step)for(let px=0;px<W;px+=step){
+      let dx=px-cx,dy=py-cy,dist=Math.sqrt(dx*dx+dy*dy),ang=Math.atan2(dy,dx)
+      if(dist>R)continue
+      let z=Math.sin(dist*0.1+t*0.5)*0.5+0.5+Math.sin(ang*6+dist*0.05+t)*0.3+Math.cos(ang*3-dist*0.08+t*0.7)*0.3
+      let alpha=Math.abs(z-0.5)*2*0.5
+      c.fillStyle=`rgba(77,122,255,${alpha})`;c.fillRect(px,py,step,step)
+    }
+  }
+
+  // ---- 38. Magnetic Pendulum ----
+  let mpx=0,mpy=0,mpvx=0,mpvy=0
+  function drawMagPend(){const c=ctx.magpend;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let magnets=[[cx-60,cy-40],[cx+55,cy-35],[cx,cy+55]]
+    let fx=0,fy=0
+    for(let[mx,my]of magnets){let dx=mpx-mx,dy=mpy-my,d2=dx*dx+dy*dy+20;fx-=dx/d2*80;fy-=dy/d2*80}
+    fx+=-mpx*0.05;fy+=-mpy*0.05;mpvx+=fx*0.1;mpvy+=fy*0.1;mpvx*=0.96;mpvy*=0.96;mpx+=mpvx;mpy+=mpvy
+    if(Math.abs(mpx)>140||Math.abs(mpy)>140){mpx=(Math.random()-0.5)*40;mpy=(Math.random()-0.5)*40;mpvx=0;mpvy=0}
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    for(let[mx,my]of magnets){c.beginPath();c.arc(mx,my,4,0,Math.PI*2);c.fillStyle='rgba(200,100,50,0.7)';c.fill()}
+    c.beginPath();c.arc(cx+mpx,cy+mpy,3,0,Math.PI*2);c.fillStyle='rgba(100,160,255,0.9)';c.fill()
+  }
+
+  // ---- 39. Streamlines ----
+  let slines=[];for(let i=0;i<15;i++)slines.push({seeds:[]})
+  function drawStreamline(){const c=ctx.streamline;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    c.fillStyle='rgba(10,10,10,0.12)';c.fillRect(0,0,W,H)
+    for(let s of slines){if(s.seeds.length<80){let ang=Math.random()*Math.PI*2,r=Math.random()*120;s.seeds.push({x:cx+Math.cos(ang)*r,y:cy+Math.sin(ang)*r})}
+      while(s.seeds.length>60)s.seeds.shift()
+      c.beginPath();let first=true
+      for(let p of s.seeds){
+        let dx=p.x-cx,dy=p.y-cy,ang=Math.atan2(dy,dx),dist=Math.sqrt(dx*dx+dy*dy)
+        let flowAng=Math.sin(ang*3+t)*1.5+Math.cos(dist*0.1+t*0.5)*0.8
+        p.x+=Math.cos(flowAng)*0.8;p.y+=Math.sin(flowAng)*0.8
+        if(first){c.moveTo(p.x,p.y);first=false}else c.lineTo(p.x,p.y)
+      }
+      c.strokeStyle='rgba(77,122,255,0.15)';c.lineWidth=0.6;c.stroke()
+    }
+    c.save();c.globalCompositeOperation='destination-in';c.beginPath();c.arc(cx,cy,130,0,Math.PI*2);c.fill();c.restore()
+  }
+
+  // ---- 40. Wavefold ----
+  function drawWavefold(){const c=ctx.wavefold;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2,R=120
+    let amp=0;if(wavefoldMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    for(let l=0;l<5;l++){c.beginPath();let first=true
+      for(let i=0;i<=400;i++){
+        let th=(i/400)*Math.PI*2
+        // Wave folding: sin then clip above threshold
+        let r=R*(0.3+l*0.15)
+        let wave=Math.sin(th*8+t*2+l)*amp*1.2
+        // Fold: reflect when exceeding bounds
+        while(Math.abs(wave)>0.4)wave=Math.sign(wave)*0.8-wave
+        r+=wave*R*0.25
+        let px=cx+r*Math.cos(th),py=cy+r*Math.sin(th)
+        if(first){c.moveTo(px,py);first=false}else c.lineTo(px,py)
+      }
+      c.closePath();c.strokeStyle=`rgba(77,122,255,${0.15+l*0.04})`;c.lineWidth=1;c.stroke()
+    }
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -1370,6 +1928,26 @@
     drawCA()
     drawMoire()
     drawCycloid()
+    drawSpots()
+    drawBessel()
+    drawJulia()
+    drawAizawa()
+    drawAnt()
+    drawVoronoi()
+    drawPendulum()
+    drawLife()
+    drawHeat()
+    drawPlasma()
+    drawKaleido()
+    drawFirefly()
+    drawGravity()
+    drawTruchet()
+    drawSpinodal()
+    drawTesseract()
+    drawPolarNoise()
+    drawMagPend()
+    drawStreamline()
+    drawWavefold()
     drawCombined()
   }
   loop()
