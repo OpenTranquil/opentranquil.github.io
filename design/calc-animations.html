@@ -196,6 +196,47 @@
 </div>
 
 
+<!-- Row 5: More voice-orb styles -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>12. 弹性波纹环 · Ripple Ring</h3>
+  <canvas id="ripple" width="280" height="280"></canvas>
+  <div class="info">
+    圆周弹簧质点 <span>+ 随机叩击</span><br>
+    波纹沿环传播衰减，声波最自然的环形表达
+  </div>
+  <div class="controls" id="ripple-controls">
+    <button class="on" data-mode="drift">自由呼吸</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>13. 黄金角花盘 · Phyllotaxis</h3>
+  <canvas id="phyllo" width="280" height="280"></canvas>
+  <div class="info">
+    r=&radic;n, &theta;=n&times;137.5&deg; <span>+ voice</span><br>
+    语音扰动黄金角，螺旋图案呼吸变形
+  </div>
+  <div class="controls" id="phyllo-controls">
+    <button class="on" data-mode="drift">自由呼吸</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+<div class="card">
+  <h3>14. 群体智能 · Swarm</h3>
+  <canvas id="swarm" width="280" height="280"></canvas>
+  <div class="info">
+    分离+对齐+凝聚 <span>+ 语音吸引点</span><br>
+    简单规则涌现复杂群体行为
+  </div>
+  <div class="controls" id="swarm-controls">
+    <button class="on" data-mode="drift">自由游荡</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+</div>
+
+
 <script>
 // Single animation loop for all 4 canvases
 (function() {
@@ -211,7 +252,10 @@
     clifford: document.getElementById('clifford'),
     circwave: document.getElementById('circwave'),
     vortex: document.getElementById('vortex'),
-    perlin: document.getElementById('perlin')
+    perlin: document.getElementById('perlin'),
+    ripple: document.getElementById('ripple'),
+    phyllo: document.getElementById('phyllo'),
+    swarm: document.getElementById('swarm')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -221,7 +265,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -255,6 +299,9 @@
   setupButtons('circwave-controls', m => { circwaveMode = m })
   setupButtons('vortex-controls', m => { vortexMode = m })
   setupButtons('perlin-controls', m => { perlinMode = m })
+  setupButtons('ripple-controls', m => { rippleMode = m })
+  setupButtons('phyllo-controls', m => { phylloMode = m })
+  setupButtons('swarm-controls', m => { swarmMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -750,6 +797,185 @@
     c.restore()
   }
 
+
+  // ---- Draw Ripple Ring ----
+  let ripplePoints = []
+  const N_RIPPLE = 120
+  for (let i = 0; i < N_RIPPLE; i++) {
+    ripplePoints.push({ r: 0, vr: 0 })
+  }
+  function drawRipple() {
+    const c = ctx.ripple; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 100
+
+    let amp = 0
+    if (rippleMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else {
+      amp = 0.3 + 0.4 * Math.sin(t * 0.8)
+    }
+
+    // Random taps
+    if (Math.random() < 0.15 + amp * 0.3) {
+      let idx = Math.floor(Math.random() * N_RIPPLE)
+      ripplePoints[idx].vr += (1 + amp * 4) * (Math.random() > 0.5 ? 1 : -1)
+    }
+
+    c.fillStyle = 'rgba(10,10,10,0.2)'
+    c.fillRect(0, 0, W, H)
+
+    // Spring physics
+    for (let i = 0; i < N_RIPPLE; i++) {
+      let p = ripplePoints[i]
+      let prev = ripplePoints[(i - 1 + N_RIPPLE) % N_RIPPLE]
+      let next = ripplePoints[(i + 1) % N_RIPPLE]
+      let avg = (prev.r + next.r) / 2
+      p.vr += (avg - p.r) * 0.3  // spring toward neighbors
+      p.vr *= 0.92  // damping
+      p.r += p.vr
+      p.r *= 0.98  // additional damping
+    }
+
+    // Draw
+    c.beginPath()
+    for (let i = 0; i < N_RIPPLE; i++) {
+      let th = (i / N_RIPPLE) * Math.PI * 2
+      let r = R + ripplePoints[i].r * 25
+      let px = cx + r * Math.cos(th)
+      let py = cy + r * Math.sin(th)
+      if (i === 0) c.moveTo(px, py)
+      else c.lineTo(px, py)
+    }
+    c.closePath()
+    c.strokeStyle = 'rgba(77,122,255,0.5)'
+    c.lineWidth = 1.2; c.stroke()
+    c.strokeStyle = 'rgba(77,122,255,0.1)'
+    c.lineWidth = 6; c.stroke()
+  }
+
+  // ---- Draw Phyllotaxis ----
+  function drawPhyllo() {
+    const c = ctx.phyllo; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 125
+
+    let amp = 0
+    if (phylloMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else {
+      amp = 0.3 + 0.3 * Math.sin(t * 0.35) * Math.cos(t * 0.5)
+    }
+
+    let angle = 137.5 + amp * 8  // golden angle modulated
+    let n = 400
+
+    c.fillStyle = '#0A0A0A'
+    c.fillRect(0, 0, W, H)
+
+    for (let i = 0; i < n; i++) {
+      let th = i * angle * Math.PI / 180
+      let r = Math.sqrt(i) * (R / Math.sqrt(n))
+      let px = cx + r * Math.cos(th + t * 0.2)
+      let py = cy + r * Math.sin(th + t * 0.2)
+
+      let alpha = 0.3 + (1 - r / R) * 0.6
+      let size = 1.5 + (1 - r / R) * 2.5
+      c.beginPath(); c.arc(px, py, size, 0, Math.PI*2)
+      c.fillStyle = `rgba(77,122,255,${alpha})`; c.fill()
+    }
+
+    c.save()
+    c.globalCompositeOperation = 'destination-in'
+    c.beginPath(); c.arc(cx, cy, R, 0, Math.PI*2); c.fill()
+    c.restore()
+  }
+
+  // ---- Draw Swarm ----
+  let swarmBoids = []
+  for (let i = 0; i < 50; i++) {
+    swarmBoids.push({
+      x: 140 + (Math.random() - 0.5) * 160,
+      y: 140 + (Math.random() - 0.5) * 160,
+      vx: (Math.random() - 0.5) * 2,
+      vy: (Math.random() - 0.5) * 2,
+    })
+  }
+  function drawSwarm() {
+    const c = ctx.swarm; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 125
+
+    let amp = 0
+    if (swarmMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else {
+      amp = 0.5
+    }
+
+    // Attractor point orbits
+    let ax = cx + Math.cos(t * 0.6) * 60 * amp
+    let ay = cy + Math.sin(t * 0.8) * 60 * amp
+
+    c.fillStyle = 'rgba(10,10,10,0.12)'
+    c.fillRect(0, 0, W, H)
+
+    for (let b of swarmBoids) {
+      // Flocking forces
+      let cxB = 0, cyB = 0, sepX = 0, sepY = 0, count = 0
+      for (let o of swarmBoids) {
+        if (o === b) continue
+        let dx = b.x - o.x, dy = b.y - o.y
+        let dist = Math.sqrt(dx*dx + dy*dy)
+        if (dist < 30) {
+          sepX += dx / (dist + 0.1)
+          sepY += dy / (dist + 0.1)
+        }
+        if (dist < 60) {
+          cxB += o.x; cyB += o.y; count++
+        }
+      }
+      if (count > 0) { cxB /= count; cyB /= count }
+
+      // Attract to center of mass
+      b.vx += (cxB - b.x) * 0.002
+      b.vy += (cyB - b.y) * 0.002
+      // Separation
+      b.vx += sepX * 0.01
+      b.vy += sepY * 0.01
+      // Attract to moving point
+      b.vx += (ax - b.x) * 0.003 * amp
+      b.vy += (ay - b.y) * 0.003 * amp
+      // Damping
+      b.vx *= 0.96; b.vy *= 0.96
+      // Speed limit
+      let spd = Math.sqrt(b.vx*b.vx + b.vy*b.vy)
+      if (spd > 3) { b.vx *= 3/spd; b.vy *= 3/spd }
+
+      b.x += b.vx; b.y += b.vy
+
+      // Contain
+      let dx = b.x - cx, dy = b.y - cy
+      let dist = Math.sqrt(dx*dx + dy*dy)
+      if (dist > R - 5) {
+        b.vx -= dx / dist * 0.5
+        b.vy -= dy / dist * 0.5
+      }
+
+      let alpha = 0.5 + (1 - dist / R) * 0.4
+      c.beginPath(); c.arc(b.x, b.y, 1.5, 0, Math.PI*2)
+      c.fillStyle = `rgba(100,150,255,${alpha})`; c.fill()
+    }
+
+    // Attractor point
+    c.beginPath(); c.arc(ax, ay, 4 + amp * 3, 0, Math.PI*2)
+    c.fillStyle = 'rgba(140,180,255,0.8)'; c.fill()
+    c.beginPath(); c.arc(ax, ay, 12 + amp * 6, 0, Math.PI*2)
+    c.fillStyle = 'rgba(77,122,255,0.12)'; c.fill()
+
+    c.save()
+    c.globalCompositeOperation = 'destination-in'
+    c.beginPath(); c.arc(cx, cy, R, 0, Math.PI*2); c.fill()
+    c.restore()
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -764,6 +990,9 @@
     drawCircwave()
     drawVortex()
     drawPerlin()
+    drawRipple()
+    drawPhyllo()
+    drawSwarm()
     drawCombined()
   }
   loop()
