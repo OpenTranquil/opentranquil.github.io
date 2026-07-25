@@ -237,6 +237,47 @@
 </div>
 
 
+<!-- Row 6: Final batch -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:100%;margin:20px auto">
+<div class="card">
+  <h3>15. 傅里叶旋转圆 · Fourier Epicycles</h3>
+  <canvas id="fourier" width="280" height="280"></canvas>
+  <div class="info">
+    叠套圆链 <span>r<sub>n</sub>&middot;e<sup>i&omega;t</sup></span> 合成轨迹<br>
+    最多的圈在外面，层层嵌套旋转
+  </div>
+  <div class="controls" id="fourier-controls">
+    <button class="on" data-mode="drift">缓慢漂移</button>
+    <button data-mode="voice">语音加速</button>
+  </div>
+</div>
+<div class="card">
+  <h3>16. Metaball 有机体 · Blobs</h3>
+  <canvas id="metaball" width="280" height="280"></canvas>
+  <div class="info">
+    距离场 <span>&Sigma; r&sup2;/dist&sup2;</span> 超阈值点亮<br>
+    几个光团游走融合，熔岩灯般的有机感
+  </div>
+  <div class="controls" id="metaball-controls">
+    <button class="on" data-mode="drift">缓慢游走</button>
+    <button data-mode="voice">语音扰动</button>
+  </div>
+</div>
+<div class="card">
+  <h3>17. Thomas 吸引子 · Circular Chaos</h3>
+  <canvas id="thomas" width="280" height="280"></canvas>
+  <div class="info">
+    dx=sin(y)-b&middot;x, dy=sin(z)-b&middot;y, dz=sin(x)-b&middot;z<br>
+    比 Lorenz 更圆润对称的混沌轨道
+  </div>
+  <div class="controls" id="thomas-controls">
+    <button class="on" data-mode="drift">标准参数</button>
+    <button data-mode="voice">参数游走</button>
+  </div>
+</div>
+</div>
+
+
 <script>
 // Single animation loop for all 4 canvases
 (function() {
@@ -255,7 +296,10 @@
     perlin: document.getElementById('perlin'),
     ripple: document.getElementById('ripple'),
     phyllo: document.getElementById('phyllo'),
-    swarm: document.getElementById('swarm')
+    swarm: document.getElementById('swarm'),
+    fourier: document.getElementById('fourier'),
+    metaball: document.getElementById('metaball'),
+    thomas: document.getElementById('thomas')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -265,7 +309,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -302,6 +346,9 @@
   setupButtons('ripple-controls', m => { rippleMode = m })
   setupButtons('phyllo-controls', m => { phylloMode = m })
   setupButtons('swarm-controls', m => { swarmMode = m })
+  setupButtons('fourier-controls', m => { fourierMode = m })
+  setupButtons('metaball-controls', m => { metaballMode = m })
+  setupButtons('thomas-controls', m => { thomasMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -976,6 +1023,147 @@
     c.restore()
   }
 
+
+  // ---- Draw Fourier Epicycles ----
+  function drawFourier() {
+    const c = ctx.fourier; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (fourierMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else { amp = 0.3 }
+
+    // 6 nested circles with harmonic frequencies
+    let circles = [
+      { r: 55, freq: 1.0 },
+      { r: 30, freq: -2.3 },
+      { r: 18, freq: 3.7 },
+      { r: 10, freq: -5.1 },
+      { r: 6, freq: 7.3 },
+      { r: 3, freq: -9.5 },
+    ]
+
+    c.fillStyle = 'rgba(10,10,10,0.15)'
+    c.fillRect(0, 0, W, H)
+
+    let x = cx, y = cy
+    let prevX = x, prevY = y
+
+    for (let ci of circles) {
+      let th = t * ci.freq * (1 + amp * 2)
+      x += ci.r * Math.cos(th)
+      y += ci.r * Math.sin(th)
+
+      // Draw circle
+      c.beginPath(); c.arc(prevX, prevY, ci.r, 0, Math.PI*2)
+      c.strokeStyle = 'rgba(77,122,255,0.08)'; c.lineWidth = 0.5; c.stroke()
+
+      // Draw radius line
+      c.beginPath(); c.moveTo(prevX, prevY); c.lineTo(x, y)
+      c.strokeStyle = 'rgba(77,122,255,0.12)'; c.stroke()
+
+      prevX = x; prevY = y
+    }
+
+    // Bright dot at tip
+    c.beginPath(); c.arc(x, y, 2.5, 0, Math.PI*2)
+    c.fillStyle = 'rgba(140,190,255,0.9)'; c.fill()
+  }
+
+  // ---- Draw Metaballs ----
+  let metaballs = []
+  for (let i = 0; i < 5; i++) {
+    metaballs.push({
+      x: 140 + (Math.random()-0.5)*120,
+      y: 140 + (Math.random()-0.5)*120,
+      vx: (Math.random()-0.5)*0.6,
+      vy: (Math.random()-0.5)*0.6,
+      r: 25 + Math.random() * 35,
+    })
+  }
+  function drawMetaball() {
+    const c = ctx.metaball; if (!c) return
+    const W = 280, H = 280
+    const step = 2  // sample every 2px for perf
+
+    let amp = 0
+    if (metaballMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    } else { amp = 0.3 }
+
+    // Move blobs
+    for (let b of metaballs) {
+      b.x += b.vx; b.y += b.vy
+      if (b.x < 20 || b.x > 260) b.vx *= -1
+      if (b.y < 20 || b.y > 260) b.vy *= -1
+      b.r = 25 + amp * 30 + Math.sin(t * 1.5 + b.x) * 8
+    }
+
+    let img = c.createImageData(W, H)
+    for (let py = 0; py < H; py += step) {
+      for (let px = 0; px < W; px += step) {
+        let field = 0
+        for (let b of metaballs) {
+          let dx = px - b.x, dy = py - b.y
+          field += (b.r * b.r) / (dx*dx + dy*dy + 1)
+        }
+
+        let alpha = 0
+        if (field > 1.2) alpha = Math.min(1, (field - 1.2) / 3)
+
+        // Fill the step-sized block
+        for (let sy = 0; sy < step && py+sy < H; sy++) {
+          for (let sx = 0; sx < step && px+sx < W; sx++) {
+            let idx = ((py+sy) * W + (px+sx)) * 4
+            img.data[idx] = Math.floor(30 + alpha * 100)
+            img.data[idx+1] = Math.floor(50 + alpha * 140)
+            img.data[idx+2] = Math.floor(170 + alpha * 85)
+            img.data[idx+3] = Math.floor(alpha * 220)
+          }
+        }
+      }
+    }
+    c.putImageData(img, 0, 0)
+  }
+
+  // ---- Draw Thomas Attractor ----
+  let tx = 0.1, ty = 0, tz = 0
+  let thomasTrail = []
+  function drawThomas() {
+    const c = ctx.thomas; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (thomasMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+    }
+
+    let b = 0.18 + amp * 0.06
+    let dt = 0.15
+
+    let nx = Math.sin(ty) - b * tx
+    let ny = Math.sin(tz) - b * ty
+    let nz = Math.sin(tx) - b * tz
+    tx += nx * dt; ty += ny * dt; tz += nz * dt
+
+    let px = cx + tx * 35
+    let py = cy + tz * 35
+
+    thomasTrail.push({ x: px, y: py, age: 0 })
+    if (thomasTrail.length > 500) thomasTrail.shift()
+
+    c.fillStyle = 'rgba(10,10,10,0.07)'
+    c.fillRect(0, 0, W, H)
+
+    for (let p of thomasTrail) {
+      p.age += 0.016
+      let alpha = Math.max(0, 1 - p.age / 6)
+      c.beginPath(); c.arc(p.x, p.y, 0.7 + alpha, 0, Math.PI*2)
+      c.fillStyle = `rgba(77,122,255,${alpha * 0.75})`; c.fill()
+    }
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -993,6 +1181,9 @@
     drawRipple()
     drawPhyllo()
     drawSwarm()
+    drawFourier()
+    drawMetaball()
+    drawThomas()
     drawCombined()
   }
   loop()
