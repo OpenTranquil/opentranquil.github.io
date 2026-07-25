@@ -368,12 +368,12 @@
         .orb-c .gr6 { inset: 45%; opacity: .09; animation: gy  9.0s linear infinite; }
         .orb-c .gr7 { inset: 53%; opacity: .07; animation: gz  5.8s linear infinite; }
         .orb-c .gr8 { inset: 60%; opacity: .10; border-color: var(--ac); animation: gy 10.5s linear infinite reverse; }
-        /* core dot */
+        /* core dot — hidden in idle, pulses in active states */
         .orb-c .cr {
             position: absolute; width: 5px; height: 5px;
             border-radius: 50%; background: var(--ac);
             box-shadow: 0 0 8px var(--ac), 0 0 20px var(--ac);
-            opacity: .50; z-index: 2;
+            display: none; z-index: 2;
         }
         .orb-c .t {
             font-size: 28px; font-weight: 500;
@@ -388,7 +388,7 @@
         .orb-c.lst .gr5 { animation-duration: 3.4s; } .orb-c.lst .gr6 { animation-duration: 3.8s; }
         .orb-c.lst .gr7 { animation-duration: 2.5s; } .orb-c.lst .gr8 { animation-duration: 4.2s; }
         .orb-c.lst .t { display: none; }
-        .orb-c.lst .cr { opacity: .85; animation: orb-blink .7s ease-in-out infinite; }
+        .orb-c.lst .cr { display: block; opacity: .85; animation: orb-blink .7s ease-in-out infinite; }
         /* ---- state: thinking ---- */
         .orb-c.thk { border-color: var(--ac); }
         .orb-c.thk .gr { border-color: var(--ac); opacity: .16; }
@@ -397,12 +397,12 @@
             animation-name: gz; animation-duration: 1.3s;
         }
         .orb-c.thk .t { display: none; }
-        .orb-c.thk .cr { opacity: .55; animation: orb-blink .6s ease-in-out infinite; }
+        .orb-c.thk .cr { display: block; opacity: .55; animation: orb-blink .6s ease-in-out infinite; }
         /* ---- state: speaking ---- */
         .orb-c.spk { border-color: var(--ac); }
         .orb-c.spk .gr { border-color: var(--ac); opacity: .16; animation-duration: 1.5s; }
         .orb-c.spk .t { display: none; }
-        .orb-c.spk .cr { opacity: .95; animation: orb-blink .4s ease-in-out infinite; }
+        .orb-c.spk .cr { display: block; opacity: .95; animation: orb-blink .4s ease-in-out infinite; }
         /* ---- keyframes ---- */
         @keyframes gz { to { transform: rotateZ(360deg); } }
         @keyframes gx { to { transform: rotateX(360deg); } }
