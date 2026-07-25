@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>计算动画 · LVGL 可行性原型</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0 }
+  body {
+    background: #0A0A0A; color: #d8d8d8;
+    font-family: -apple-system, "PingFang SC", system-ui, sans-serif;
+    padding: 24px;
+  }
+  h1 { color: #fff; font-size: 24px; margin-bottom: 6px }
+  h2 { color: #4D7AFF; font-size: 16px; margin: 28px 0 12px }
+  p { font-size: 13px; color: #888; margin-bottom: 12px; max-width: 600px }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr } }
+  .card {
+    background: #111; border: 1px solid #1C1C1C; border-radius: 8px;
+    padding: 16px; display: flex; flex-direction: column; align-items: center;
+  }
+  .card h3 { font-size: 14px; color: #cfcfcf; margin-bottom: 12px }
+  .card canvas { display: block; border: 1px solid #1C1C1C; border-radius: 4px }
+  .card .info { font-size: 11px; color: #666; margin-top: 10px; text-align: center; line-height: 1.6 }
+  .card .info span { color: #4D7AFF }
+  .card .controls { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; justify-content: center }
+  .card .controls button {
+    background: #1C1C1C; border: 1px solid #2A2A2A; color: #cfcfcf;
+    padding: 5px 14px; border-radius: 4px; font-size: 11px; cursor: pointer;
+    transition: border-color .2s, color .2s;
+  }
+  .card .controls button:hover { border-color: #4D7AFF; color: #4D7AFF }
+  .card .controls button.on { border-color: #4D7AFF; color: #4D7AFF; background: rgba(77,122,255,.1) }
+  hr { border: 0; border-top: 1px solid #1C1C1C; margin: 28px 0 }
+</style>
+</head>
+<body>
+<h1>计算动画原型</h1>
+<p>以下全部用纯数学 + Canvas 2D 实现，不依赖 3D transform。LVGL 可复刻（sin/cos 查表 + 逐像素写入 canvas）。</p>
+
+<div class="grid">
+
+<!-- ===== 1. LISSAJOUS ===== -->
+<div class="card">
+  <h3>1. 利萨如曲线 · Lissajous</h3>
+  <canvas id="lissajous" width="280" height="280"></canvas>
+  <div class="info">
+    轨迹点沿 <span>x=sin(a·t), y=sin(b·t)</span> 运动<br>
+    尾迹衰减形成流动曲线，a/b 比例缓慢漂移
+  </div>
+  <div class="controls" id="lis-controls">
+    <button class="on" data-mode="drift">漂移模式</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 2. ROSE CURVES ===== -->
+<div class="card">
+  <h3>2. 玫瑰线 · Rose Curves</h3>
+  <canvas id="rose" width="280" height="280"></canvas>
+  <div class="info">
+    <span>r = cos(k·θ)</span> · 5 层不同 k 值叠加<br>
+    每层缓慢旋转，k 值随节奏微调
+  </div>
+  <div class="controls" id="rose-controls">
+    <button class="on" data-mode="drift">漂移模式</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 3. CHLADNI ===== -->
+<div class="card">
+  <h3>3. 克拉尼图形 · Chladni</h3>
+  <canvas id="chladni" width="280" height="280"></canvas>
+  <div class="info">
+    二维驻波干涉 <span>z = Σ sin(mx)·sin(ny)</span><br>
+    |z| 超过阈值的像素点亮，参数随语音变化
+  </div>
+  <div class="controls" id="chladni-controls">
+    <button class="on" data-mode="drift">漂移模式</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+</div>
+
+<!-- ===== 4. COMBINED: ALL THREE IN ONE ORB ===== -->
+<h2>合成效果：三合一语音球</h2>
+<p>利萨如轨迹 + 玫瑰线环层 + 克拉尼背景干涉，合成到同一个圆形区域内。所有参数由语音振幅驱动。</p>
+<div class="card" style="max-width:320px; margin: 0 auto">
+  <h3>合成语音球</h3>
+  <canvas id="combined" width="280" height="280"></canvas>
+  <div class="info">
+    三层动画复合 · 圆形 mask · 同步"语音"驱动
+  </div>
+</div>
+
+<script>
+// ============ UTILS ============
+function now() { return performance.now() / 1000 }
+
+// ============ 1. LISSAJOUS ============
+(function() {
+  const c = document.getElementById('lissajous')
+  const ctx = c.getContext('2d')
+  const W = c.width, H = c.height
+  const cx = W/2, cy = H/2, R = 110
+
+  let trail = []  // [{x, y, age}]
+  const MAX_TRAIL = 200
+  let mode = 'drift'
+  let a = 3, b = 2, t = 0
+  let aTarget = 3, bTarget = 2
+  let voiceAmp = 0
+
+  document.getElementById('lis-controls').addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      document.querySelectorAll('#lis-controls button').forEach(b => b.classList.remove('on'))
+      e.target.classList.add('on')
+      mode = e.target.dataset.mode
+    }
+  })
+
+  function draw() {
+    requestAnimationFrame(draw)
+    t += 0.016
+
+    // Mode: drift or voice-simulated
+    if (mode === 'drift') {
+      aTarget = 3 + Math.sin(t * 0.3) * 1.5
+      bTarget = 2 + Math.cos(t * 0.37) * 1.2
+    } else {
+      voiceAmp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+      aTarget = 2 + voiceAmp * 4
+      bTarget = 2 + voiceAmp * 3
+    }
+    a += (aTarget - a) * 0.05
+    b += (bTarget - b) * 0.05
+
+    let x = cx + R * Math.sin(a * t * 1.5)
+    let y = cy + R * Math.sin(b * t * 1.5)
+    trail.push({ x, y, age: 0 })
+    while (trail.length > MAX_TRAIL) trail.shift()
+
+    // Draw
+    ctx.fillStyle = 'rgba(10,10,10,0.15)'
+    ctx.fillRect(0, 0, W, H)
+
+    for (let i = 0; i < trail.length; i++) {
+      let p = trail[i]
+      p.age += 0.016
+      let alpha = Math.max(0, 1 - p.age / 2.5)
+      let r = 2 + alpha * 2
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(77,122,255,${alpha * 0.7})`
+      ctx.fill()
+      // glow
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, r * 2.5, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(77,122,255,${alpha * 0.15})`
+      ctx.fill()
+    }
+
+    // Current point brighter
+    if (trail.length > 0) {
+      let p = trail[trail.length - 1]
+      ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(130,170,255,0.9)'; ctx.fill()
+      ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(77,122,255,0.2)'; ctx.fill()
+    }
+  }
+  draw()
+})()
+
+// ============ 2. ROSE CURVES ============
+(function() {
+  const c = document.getElementById('rose')
+  const ctx = c.getContext('2d')
+  const W = c.width, H = c.height
+  const cx = W/2, cy = H/2, R = 108
+  let mode = 'drift'
+  let t = 0
+
+  const layers = [
+    { k: 3, rot: 0, speed: 0.3, color: [77,122,255] },
+    { k: 4, rot: Math.PI/4, speed: -0.25, color: [100,140,255] },
+    { k: 2.5, rot: Math.PI/3, speed: 0.2, color: [60,100,230] },
+    { k: 5, rot: Math.PI/6, speed: -0.35, color: [90,130,245] },
+    { k: 3.5, rot: 0, speed: 0.28, color: [70,110,240] },
+  ]
+
+  document.getElementById('rose-controls').addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      document.querySelectorAll('#rose-controls button').forEach(b => b.classList.remove('on'))
+      e.target.classList.add('on')
+      mode = e.target.dataset.mode
+    }
+  })
+
+  function polarToXY(r, theta, rot) {
+    return [cx + r * Math.cos(theta + rot), cy + r * Math.sin(theta + rot)]
+  }
+
+  function draw() {
+    requestAnimationFrame(draw)
+    t += 0.016
+
+    ctx.fillStyle = 'rgba(10,10,10,0.2)'
+    ctx.fillRect(0, 0, W, H)
+
+    for (let l of layers) {
+      l.rot += l.speed * 0.01
+
+      if (mode === 'voice') {
+        let amp = 0.5 + 0.5 * Math.abs(Math.sin(t * 4.5 + l.k)) * Math.abs(Math.sin(t * 2.1))
+        l.k += (l.k * (0.7 + 0.6 * amp) - l.k) * 0.05
+      }
+
+      // Draw rose curve as points
+      let pts = []
+      for (let th = 0; th < Math.PI * 2; th += 0.03) {
+        let r = R * Math.abs(Math.cos(l.k * th))
+        pts.push(polarToXY(r, th, l.rot))
+      }
+
+      ctx.beginPath()
+      ctx.moveTo(pts[0][0], pts[0][1])
+      for (let i = 1; i < pts.length; i++) {
+        ctx.lineTo(pts[i][0], pts[i][1])
+      }
+      ctx.closePath()
+      ctx.strokeStyle = `rgba(${l.color[0]},${l.color[1]},${l.color[2]},0.25)`
+      ctx.lineWidth = 1
+      ctx.stroke()
+
+      // Subtle glow
+      ctx.strokeStyle = `rgba(${l.color[0]},${l.color[1]},${l.color[2]},0.06)`
+      ctx.lineWidth = 4
+      ctx.stroke()
+    }
+  }
+  draw()
+})()
+
+// ============ 3. CHLADNI ============
+(function() {
+  const c = document.getElementById('chladni')
+  const ctx = c.getContext('2d')
+  const W = c.width, H = c.height
+  const cx = W/2, cy = H/2, R = 120
+  let mode = 'drift'
+  let t = 0
+
+  document.getElementById('chladni-controls').addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      document.querySelectorAll('#chladni-controls button').forEach(b => b.classList.remove('on'))
+      e.target.classList.add('on')
+      mode = e.target.dataset.mode
+    }
+  })
+
+  function draw() {
+    requestAnimationFrame(draw)
+    t += 0.016
+
+    let m1, n1, m2, n2
+    if (mode === 'drift') {
+      m1 = 3 + Math.sin(t * 0.2) * 2
+      n1 = 4 + Math.cos(t * 0.27) * 2
+      m2 = 5 + Math.sin(t * 0.33) * 1.5
+      n2 = 2 + Math.cos(t * 0.23) * 2
+    } else {
+      let amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7)))
+      m1 = 2 + amp * 6
+      n1 = 1 + amp * 5
+      m2 = 3 + amp * 4
+      n2 = 4 + amp * 3
+    }
+
+    let img = ctx.createImageData(W, H)
+    for (let py = 0; py < H; py++) {
+      for (let px = 0; px < W; px++) {
+        let dx = px - cx, dy = py - cy
+        if (dx*dx + dy*dy > R*R) continue  // circular mask
+
+        let x = (dx / R) * Math.PI * 2
+        let y = (dy / R) * Math.PI * 2
+        let z1 = Math.sin(m1 * x) * Math.sin(n1 * y)
+        let z2 = Math.cos(m2 * x) * Math.cos(n2 * y)
+        let z = Math.abs(z1 + z2)
+        let threshold = 0.5 + 0.3 * Math.sin(t * 0.5)
+
+        let idx = (py * W + px) * 4
+        if (z > threshold) {
+          let brightness = Math.min(1, (z - threshold) / (1 - threshold))
+          img.data[idx] = Math.floor(40 + brightness * 80)       // R
+          img.data[idx+1] = Math.floor(60 + brightness * 120)    // G
+          img.data[idx+2] = Math.floor(180 + brightness * 75)    // B
+          img.data[idx+3] = Math.floor(40 + brightness * 200)    // A
+        } else {
+          img.data[idx+3] = 0
+        }
+      }
+    }
+    ctx.putImageData(img, 0, 0)
+  }
+  draw()
+})()
+
+// ============ 4. COMBINED ============
+(function() {
+  const c = document.getElementById('combined')
+  const ctx = c.getContext('2d')
+  const W = c.width, H = c.height
+  const cx = W/2, cy = H/2, R = 120
+  let t = 0
+  let trail = []
+
+  function polar(r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
+
+  function draw() {
+    requestAnimationFrame(draw)
+    t += 0.016
+    let amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 3.8 + Math.sin(t * 1.5))) * Math.abs(Math.sin(t * 2.0))
+
+    // Fade
+    ctx.fillStyle = 'rgba(10,10,10,0.12)'
+    ctx.fillRect(0, 0, W, H)
+
+    // Circular clip
+    ctx.save()
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.clip()
+
+    // Chladni background
+    let m1 = 3 + amp * 4, n1 = 2 + amp * 3, m2 = 4 + amp * 3, n2 = 3 + amp * 4
+    for (let i = 0; i < 800; i++) {
+      let rx = (Math.random() - 0.5) * 2 * R
+      let ry = (Math.random() - 0.5) * 2 * R
+      if (rx*rx + ry*ry > R*R) continue
+      let x = (rx / R) * Math.PI * 2
+      let y = (ry / R) * Math.PI * 2
+      let z = Math.abs(Math.sin(m1*x)*Math.sin(n1*y) + Math.cos(m2*x)*Math.cos(n2*y))
+      if (z > 0.55) {
+        ctx.fillStyle = `rgba(77,122,255,${0.02 + z * 0.12})`
+        ctx.fillRect(cx + rx, cy + ry, 2, 2)
+      }
+    }
+
+    // Rose ring layers
+    for (let l = 0; l < 4; l++) {
+      let k = 2 + l * 1.2 + amp * 0.6
+      let rot = t * (0.15 + l * 0.08)
+      ctx.beginPath()
+      for (let th = 0; th < Math.PI*2; th += 0.04) {
+        let r = R * (0.35 + l * 0.18) * Math.abs(Math.cos(k * th))
+        let [px, py] = polar(r, th + rot)
+        if (th === 0) ctx.moveTo(px, py)
+        else ctx.lineTo(px, py)
+      }
+      ctx.closePath()
+      ctx.strokeStyle = `rgba(77,122,255,${0.08 + l * 0.04})`
+      ctx.lineWidth = 0.5; ctx.stroke()
+    }
+
+    // Lissajous trail
+    let a = 3 + amp * 4, b = 2 + amp * 3
+    let lx = cx + R * 0.75 * Math.sin(a * t * 1.8)
+    let ly = cy + R * 0.75 * Math.sin(b * t * 1.8)
+    trail.push({ x: lx, y: ly, age: 0 })
+    if (trail.length > 120) trail.shift()
+    for (let p of trail) {
+      p.age += 0.016
+      let alpha = Math.max(0, 1 - p.age / 1.8)
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.5 + alpha, 0, Math.PI*2)
+      ctx.fillStyle = `rgba(130,180,255,${alpha * 0.6})`; ctx.fill()
+    }
+
+    ctx.restore()
+  }
+  draw()
+})()
+</script>
+</body>
+</html>
