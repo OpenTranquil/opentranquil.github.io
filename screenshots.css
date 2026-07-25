@@ -1,0 +1,149 @@
+/* TranquilOS — screenshots gallery
+   Mockups follow site theme; no side-by-side. */
+
+/* ---------- mockup tokens — tied to site theme ---------- */
+.shots .d {
+  --bg: #0A0A0A;
+  --sf: #141414;
+  --ln: #1C1C1C;
+  --ln2: #2A2A2A;
+  --tx: #F5F5F5;
+  --dm: #8A8A8A;
+  --dm2: #555;
+  --ac: #4D7AFF;
+  background: var(--bg);
+  color: var(--tx);
+}
+
+[data-theme="light"] .shots .d {
+  --bg: #FFFFFF;
+  --sf: #F5F5F5;
+  --ln: #ECECEC;
+  --ln2: #DADADA;
+  --tx: #0A0A0A;
+  --dm: #7A7A7A;
+  --dm2: #B5B5B5;
+  --ac: #2E5BFF;
+  background: var(--bg);
+  color: var(--tx);
+}
+
+/* wallpaper: lock screen full-frame, launcher content area only */
+.shots .d.wp,
+.shots .d .sc.wp {
+  background: var(--bg) url('images/dark.png') center/cover;
+}
+[data-theme="light"] .shots .d.wp,
+[data-theme="light"] .shots .d .sc.wp {
+  background: var(--bg) url('images/light.png') center/cover;
+}
+
+/* ---------- theme toggle: show one at a time ---------- */
+.shot-frame { position: relative; max-width: 760px; margin: 0 auto; }
+.shot-frame .d.l { display: none; }
+[data-theme="light"] .shot-frame .d.k { display: none; }
+[data-theme="light"] .shot-frame .d.l { display: flex; }
+
+/* ---------- device frame ---------- */
+.shots .d {
+  width: 100%; min-width: 0;
+  aspect-ratio: 800/352;
+  border: 1px solid var(--color-border-2);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+.shots .d > * { min-width: 0; }
+.shots .d.s { aspect-ratio: 800/480; }
+
+/* ---------- device components ---------- */
+.shots .d .sb {
+  height: 46px; flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--ln);
+}
+.shots .d .sb .ic { display: flex; gap: 8px; color: var(--dm); }
+
+.shots .d .nav {
+  height: 60px; flex: none;
+  display: flex; align-items: center; justify-content: space-around;
+  border-top: 1px solid var(--ln);
+}
+.shots .d .nav svg { width: 18px; height: 18px; color: var(--dm2); }
+.shots .d .nav .c { color: var(--ac); }
+
+.shots .d .row { flex: 1; display: flex; min-height: 0; }
+.shots .d .lc { border-right: 1px solid var(--ln); }
+
+.shots .d .lbl-t {
+  font-size: 11px; color: var(--dm2);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+.shots .d .btn {
+  background: var(--ac); color: #fff;
+  border-radius: 4px; padding: 8px 14px;
+  font-size: 12px; text-align: center;
+}
+.shots .d .btn.g {
+  background: var(--sf); color: var(--tx);
+  border: 1px solid var(--ln);
+}
+
+.shots .d .key {
+  background: var(--sf); border: 1px solid var(--ln);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.shots .d .drow {
+  display: flex; align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--ln);
+  font-size: 12px;
+}
+.shots .d .drow:last-child { border-bottom: none; }
+
+.shots .d .tg {
+  width: 32px; height: 18px; border-radius: 99px;
+  background: var(--ln2); position: relative; flex: none;
+}
+.shots .d .tg.on { background: var(--ac); }
+.shots .d .tg i {
+  position: absolute; top: 2px; left: 2px;
+  width: 14px; height: 14px; background: #fff; border-radius: 50%;
+}
+.shots .d .tg.on i { left: auto; right: 2px; }
+
+.shots .d svg { display: block; }
+
+.shots .d .sc {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ln2) transparent;
+}
+.shots .d .sc::-webkit-scrollbar { width: 5px; height: 5px; }
+.shots .d .sc::-webkit-scrollbar-track { background: transparent; }
+.shots .d .sc::-webkit-scrollbar-thumb { background: var(--ln2); border-radius: 99px; }
+.shots .d .sc::-webkit-scrollbar-thumb:hover { background: var(--dm2); }
+
+/* ---------- gallery grid ---------- */
+.shots-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8) var(--space-6);
+}
+@media (max-width: 760px) {
+  .shots-grid { grid-template-columns: 1fr; }
+  .shot-frame { max-width: 100%; }
+}
+
+.shots .shot-group h3 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  font-weight: var(--weight-medium);
+  text-align: center;
+}
