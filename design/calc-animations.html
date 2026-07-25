@@ -1650,7 +1650,7 @@
   function drawAizawa(){const c=ctx.aizawa;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
     let amp=0;if(aizawaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
     let a=0.95,b=0.7,c2=0.6,d=3.5,e=0.25,f=0.1,dt=0.01
-    let dx=(az-b)*ax-d*ay,dy=d*ax+(az-b)*ay,dz=c2+f*z-az*az*az/3-(ax*ax+ay*ay)*(1+e*az)+0.1*az*ax*ax*ax
+    let dx=(az-b)*ax-d*ay,dy=d*ax+(az-b)*ay,dz=c2+f*az-az*az*az/3-(ax*ax+ay*ay)*(1+e*az)+0.1*az*ax*ax*ax
     ax+=dx*dt*5;ay+=dy*dt*5;az+=dz*dt*5
     let px=cx+ax*18,py=cy+ay*18
     aizTrail.push({x:px,y:py,age:0});if(aizTrail.length>400)aizTrail.shift()
