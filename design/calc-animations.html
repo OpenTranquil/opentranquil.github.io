@@ -97,94 +97,30 @@
 </div>
 
 <script>
-// ============ UTILS ============
-function now() { return performance.now() / 1000 }
-
-// ============ 1. LISSAJOUS ============
+// Single animation loop for all 4 canvases
 (function() {
-  const c = document.getElementById('lissajous')
-  const ctx = c.getContext('2d')
-  const W = c.width, H = c.height
-  const cx = W/2, cy = H/2, R = 110
-
-  let trail = []  // [{x, y, age}]
-  const MAX_TRAIL = 200
-  let mode = 'drift'
-  let a = 3, b = 2, t = 0
-  let aTarget = 3, bTarget = 2
-  let voiceAmp = 0
-
-  document.getElementById('lis-controls').addEventListener('click', e => {
-    if (e.target.tagName === 'BUTTON') {
-      document.querySelectorAll('#lis-controls button').forEach(b => b.classList.remove('on'))
-      e.target.classList.add('on')
-      mode = e.target.dataset.mode
-    }
-  })
-
-  function draw() {
-    requestAnimationFrame(draw)
-    t += 0.016
-
-    // Mode: drift or voice-simulated
-    if (mode === 'drift') {
-      aTarget = 3 + Math.sin(t * 0.3) * 1.5
-      bTarget = 2 + Math.cos(t * 0.37) * 1.2
-    } else {
-      voiceAmp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
-      aTarget = 2 + voiceAmp * 4
-      bTarget = 2 + voiceAmp * 3
-    }
-    a += (aTarget - a) * 0.05
-    b += (bTarget - b) * 0.05
-
-    let x = cx + R * Math.sin(a * t * 1.5)
-    let y = cy + R * Math.sin(b * t * 1.5)
-    trail.push({ x, y, age: 0 })
-    while (trail.length > MAX_TRAIL) trail.shift()
-
-    // Draw
-    ctx.fillStyle = 'rgba(10,10,10,0.15)'
-    ctx.fillRect(0, 0, W, H)
-
-    for (let i = 0; i < trail.length; i++) {
-      let p = trail[i]
-      p.age += 0.016
-      let alpha = Math.max(0, 1 - p.age / 2.5)
-      let r = 2 + alpha * 2
-      ctx.beginPath()
-      ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(77,122,255,${alpha * 0.7})`
-      ctx.fill()
-      // glow
-      ctx.beginPath()
-      ctx.arc(p.x, p.y, r * 2.5, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(77,122,255,${alpha * 0.15})`
-      ctx.fill()
-    }
-
-    // Current point brighter
-    if (trail.length > 0) {
-      let p = trail[trail.length - 1]
-      ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(130,170,255,0.9)'; ctx.fill()
-      ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(77,122,255,0.2)'; ctx.fill()
-    }
+  // ---- Canvas references ----
+  const canvases = {
+    lissajous: document.getElementById('lissajous'),
+    rose: document.getElementById('rose'),
+    chladni: document.getElementById('chladni'),
+    combined: document.getElementById('combined')
   }
-  draw()
-})()
+  const ctx = {}
+  for (let [k, c] of Object.entries(canvases)) {
+    if (!c) { console.error('Canvas not found:', k); continue }
+    ctx[k] = c.getContext('2d')
+  }
 
-// ============ 2. ROSE CURVES ============
-(function() {
-  const c = document.getElementById('rose')
-  const ctx = c.getContext('2d')
-  const W = c.width, H = c.height
-  const cx = W/2, cy = H/2, R = 108
-  let mode = 'drift'
+  // ---- State ----
   let t = 0
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift'
+  let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
+  let trail_lis = [], trail_comb = []
+  const MAX_TRAIL = 200
 
-  const layers = [
+  // Rose layers
+  const roseLayers = [
     { k: 3, rot: 0, speed: 0.4 },
     { k: 4, rot: Math.PI/3, speed: -0.3 },
     { k: 2, rot: Math.PI/2, speed: 0.25 },
@@ -192,87 +128,107 @@ function now() { return performance.now() / 1000 }
     { k: 2.7, rot: Math.PI/5, speed: 0.33 },
   ]
 
-  document.getElementById('rose-controls').addEventListener('click', e => {
-    if (e.target.tagName === 'BUTTON') {
-      document.querySelectorAll('#rose-controls button').forEach(b => b.classList.remove('on'))
-      e.target.classList.add('on')
-      mode = e.target.dataset.mode
-    }
-  })
-
-  function polarToXY(r, theta, rot) {
-    return [cx + r * Math.cos(theta + rot), cy + r * Math.sin(theta + rot)]
-  }
-
-  function draw() {
-    requestAnimationFrame(draw)
-    t += 0.016
-
-    // Full clear each frame — avoids ghosting
-    ctx.fillStyle = '#0A0A0A'
-    ctx.fillRect(0, 0, W, H)
-
-    let voiceAmp = 0
-    if (mode === 'voice') {
-      voiceAmp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
-    }
-
-    for (let i = 0; i < layers.length; i++) {
-      let l = layers[i]
-      l.rot += l.speed * 0.015
-
-      let k = l.k + voiceAmp * 1.5
-
-      ctx.beginPath()
-      let first = true
-      let steps = 400
-      for (let j = 0; j <= steps; j++) {
-        let th = (j / steps) * Math.PI * 2
-        let r = R * Math.abs(Math.cos(k * th))
-        let [px, py] = polarToXY(r, th, l.rot)
-        if (first) { ctx.moveTo(px, py); first = false }
-        else ctx.lineTo(px, py)
+  // ---- Button handlers ----
+  function setupButtons(id, setter) {
+    document.getElementById(id).addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        document.querySelectorAll('#' + id + ' button').forEach(b => b.classList.remove('on'))
+        e.target.classList.add('on')
+        setter(e.target.dataset.mode)
       }
-      ctx.closePath()
+    })
+  }
+  setupButtons('lis-controls', m => { lisMode = m })
+  setupButtons('rose-controls', m => { roseMode = m })
+  setupButtons('chladni-controls', m => { chladniMode = m })
 
-      // Opacity gradient: outer layers more visible
-      let alpha = 0.3 + (layers.length - 1 - i) * 0.08
-      ctx.strokeStyle = `rgba(77,122,255,${alpha})`
-      ctx.lineWidth = 1.2
-      ctx.stroke()
+  // ---- Helpers ----
+  function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
 
-      // Glow pass
-      ctx.strokeStyle = `rgba(77,122,255,${alpha * 0.3})`
-      ctx.lineWidth = 5
-      ctx.stroke()
+  // ---- Draw Lissajous ----
+  function drawLissajous() {
+    const c = ctx.lissajous; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 110
+
+    if (lisMode === 'drift') {
+      lis_aTarget = 3 + Math.sin(t * 0.3) * 1.5
+      lis_bTarget = 2 + Math.cos(t * 0.37) * 1.2
+    } else {
+      let amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
+      lis_aTarget = 2 + amp * 4
+      lis_bTarget = 2 + amp * 3
+    }
+    lis_a += (lis_aTarget - lis_a) * 0.05
+    lis_b += (lis_bTarget - lis_b) * 0.05
+
+    let x = cx + R * Math.sin(lis_a * t * 1.5)
+    let y = cy + R * Math.sin(lis_b * t * 1.5)
+    trail_lis.push({ x, y, age: 0 })
+    while (trail_lis.length > MAX_TRAIL) trail_lis.shift()
+
+    c.fillStyle = 'rgba(10,10,10,0.15)'
+    c.fillRect(0, 0, W, H)
+
+    for (let p of trail_lis) {
+      p.age += 0.016
+      let alpha = Math.max(0, 1 - p.age / 2.5)
+      let r = 2 + alpha * 2
+      c.beginPath(); c.arc(p.x, p.y, r, 0, Math.PI * 2)
+      c.fillStyle = `rgba(77,122,255,${alpha * 0.7})`; c.fill()
+      c.beginPath(); c.arc(p.x, p.y, r * 2.5, 0, Math.PI * 2)
+      c.fillStyle = `rgba(77,122,255,${alpha * 0.15})`; c.fill()
+    }
+    if (trail_lis.length > 0) {
+      let p = trail_lis[trail_lis.length - 1]
+      c.beginPath(); c.arc(p.x, p.y, 4, 0, Math.PI*2)
+      c.fillStyle = 'rgba(130,170,255,0.9)'; c.fill()
+      c.beginPath(); c.arc(p.x, p.y, 10, 0, Math.PI*2)
+      c.fillStyle = 'rgba(77,122,255,0.2)'; c.fill()
     }
   }
-  draw()
-})()
 
-// ============ 3. CHLADNI ============
-(function() {
-  const c = document.getElementById('chladni')
-  const ctx = c.getContext('2d')
-  const W = c.width, H = c.height
-  const cx = W/2, cy = H/2, R = 120
-  let mode = 'drift'
-  let t = 0
+  // ---- Draw Rose ----
+  function drawRose() {
+    const c = ctx.rose; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 108
 
-  document.getElementById('chladni-controls').addEventListener('click', e => {
-    if (e.target.tagName === 'BUTTON') {
-      document.querySelectorAll('#chladni-controls button').forEach(b => b.classList.remove('on'))
-      e.target.classList.add('on')
-      mode = e.target.dataset.mode
+    c.fillStyle = '#0A0A0A'
+    c.fillRect(0, 0, W, H)
+
+    let amp = 0
+    if (roseMode === 'voice') {
+      amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3))
     }
-  })
 
-  function draw() {
-    requestAnimationFrame(draw)
-    t += 0.016
+    for (let i = 0; i < roseLayers.length; i++) {
+      let l = roseLayers[i]
+      l.rot += l.speed * 0.015
+      let k = l.k + amp * 1.5
+      c.beginPath()
+      let first = true
+      for (let j = 0; j <= 400; j++) {
+        let th = (j / 400) * Math.PI * 2
+        let r = R * Math.abs(Math.cos(k * th))
+        let [px, py] = polar(cx, cy, r, th + l.rot)
+        if (first) { c.moveTo(px, py); first = false }
+        else c.lineTo(px, py)
+      }
+      c.closePath()
+      let alpha = 0.3 + (roseLayers.length - 1 - i) * 0.08
+      c.strokeStyle = `rgba(77,122,255,${alpha})`
+      c.lineWidth = 1.2; c.stroke()
+      c.strokeStyle = `rgba(77,122,255,${alpha * 0.3})`
+      c.lineWidth = 5; c.stroke()
+    }
+  }
+
+  // ---- Draw Chladni ----
+  function drawChladni() {
+    const c = ctx.chladni; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 120
 
     let m1, n1, m2, n2
-    if (mode === 'drift') {
+    if (chladniMode === 'drift') {
       m1 = 3 + Math.sin(t * 0.2) * 2
       n1 = 4 + Math.cos(t * 0.27) * 2
       m2 = 5 + Math.sin(t * 0.33) * 1.5
@@ -285,20 +241,18 @@ function now() { return performance.now() / 1000 }
       n2 = 4 + amp * 3
     }
 
-    // Use fillRect sampling at lower resolution for performance
-    let img = ctx.createImageData(W, H)
+    let img = c.createImageData(W, H)
     for (let py = 0; py < H; py++) {
       for (let px = 0; px < W; px++) {
         let dx = px - cx, dy = py - cy
-        if (dx*dx + dy*dy > R*R) continue
-
+        if (dx*dx + dy*dy > R*R) {
+          let idx = (py * W + px) * 4
+          img.data[idx] = 10; img.data[idx+1] = 10; img.data[idx+2] = 10; img.data[idx+3] = 255
+          continue
+        }
         let x = (dx / R) * Math.PI * 2
         let y = (dy / R) * Math.PI * 2
-        let z1 = Math.sin(m1 * x) * Math.sin(n1 * y)
-        let z2 = Math.cos(m2 * x) * Math.cos(n2 * y)
-        let z = Math.abs(z1 + z2)
-
-        // Lower threshold so more is visible
+        let z = Math.abs(Math.sin(m1*x)*Math.sin(n1*y) + Math.cos(m2*x)*Math.cos(n2*y))
         let threshold = 0.4
         let idx = (py * W + px) * 4
         if (z > threshold) {
@@ -308,93 +262,81 @@ function now() { return performance.now() / 1000 }
           img.data[idx+2] = Math.floor(170 + b * 85)
           img.data[idx+3] = Math.floor(30 + b * 220)
         } else {
-          // Dark background pixel
-          img.data[idx] = 10
-          img.data[idx+1] = 10
-          img.data[idx+2] = 10
-          img.data[idx+3] = 255
+          img.data[idx] = 10; img.data[idx+1] = 10; img.data[idx+2] = 10; img.data[idx+3] = 255
         }
       }
     }
-    ctx.putImageData(img, 0, 0)
+    c.putImageData(img, 0, 0)
   }
-  draw()
-})()
 
-// ============ 4. COMBINED ============
-(function() {
-  const c = document.getElementById('combined')
-  const ctx = c.getContext('2d')
-  const W = c.width, H = c.height
-  const cx = W/2, cy = H/2, R = 120
-  let t = 0
-  let trail = []
-
-  function polar(r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
-
-  function draw() {
-    requestAnimationFrame(draw)
-    t += 0.016
+  // ---- Draw Combined ----
+  function drawCombined() {
+    const c = ctx.combined; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2, R = 120
     let amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 3.8 + Math.sin(t * 1.5))) * Math.abs(Math.sin(t * 2.0))
 
-    // Full clear
-    ctx.fillStyle = '#0A0A0A'
-    ctx.fillRect(0, 0, W, H)
+    c.fillStyle = '#0A0A0A'
+    c.fillRect(0, 0, W, H)
+    c.save()
+    c.beginPath(); c.arc(cx, cy, R, 0, Math.PI*2); c.clip()
 
-    // Circular clip
-    ctx.save()
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.clip()
-
-    // Chladni background — sparse sample for performance
+    // Chladni
     let m1 = 3 + amp * 4, n1 = 2 + amp * 3, m2 = 4 + amp * 3, n2 = 3 + amp * 4
     for (let i = 0; i < 1200; i++) {
       let rx = (Math.random() - 0.5) * 2 * R
       let ry = (Math.random() - 0.5) * 2 * R
       if (rx*rx + ry*ry > R*R) continue
-      let x = (rx / R) * Math.PI * 2
-      let y = (ry / R) * Math.PI * 2
-      let z = Math.abs(Math.sin(m1*x)*Math.sin(n1*y) + Math.cos(m2*x)*Math.cos(n2*y))
+      let z = Math.abs(Math.sin(m1*rx/R*Math.PI*2)*Math.sin(n1*ry/R*Math.PI*2) + Math.cos(m2*rx/R*Math.PI*2)*Math.cos(n2*ry/R*Math.PI*2))
       if (z > 0.5) {
-        ctx.fillStyle = `rgba(77,122,255,${0.03 + z * 0.18})`
-        ctx.fillRect(cx + rx - 1, cy + ry - 1, 3, 3)
+        c.fillStyle = `rgba(77,122,255,${0.03 + z * 0.18})`
+        c.fillRect(cx + rx - 1, cy + ry - 1, 3, 3)
       }
     }
 
-    // Rose ring layers
+    // Rose
     for (let l = 0; l < 5; l++) {
       let k = 2.2 + l * 0.9 + amp * 0.5
       let rot = t * (0.18 + l * 0.07)
       let r = R * (0.3 + l * 0.16)
-      ctx.beginPath()
+      c.beginPath()
       let first = true
       for (let j = 0; j <= 300; j++) {
         let th = (j / 300) * Math.PI * 2
         let rr = r * Math.abs(Math.cos(k * th))
-        let [px, py] = polar(rr, th + rot)
-        if (first) { ctx.moveTo(px, py); first = false }
-        else ctx.lineTo(px, py)
+        let [px, py] = polar(cx, cy, rr, th + rot)
+        if (first) { c.moveTo(px, py); first = false }
+        else c.lineTo(px, py)
       }
-      ctx.closePath()
-      ctx.strokeStyle = `rgba(77,122,255,${0.15 + l * 0.05})`
-      ctx.lineWidth = 0.8; ctx.stroke()
+      c.closePath()
+      c.strokeStyle = `rgba(77,122,255,${0.15 + l * 0.05})`
+      c.lineWidth = 0.8; c.stroke()
     }
 
     // Lissajous trail
     let a = 3 + amp * 4, b = 2 + amp * 3
     let lx = cx + R * 0.72 * Math.sin(a * t * 1.8)
     let ly = cy + R * 0.72 * Math.sin(b * t * 1.8)
-    trail.push({ x: lx, y: ly, age: 0 })
-    if (trail.length > 100) trail.shift()
-    for (let p of trail) {
+    trail_comb.push({ x: lx, y: ly, age: 0 })
+    if (trail_comb.length > 100) trail_comb.shift()
+    for (let p of trail_comb) {
       p.age += 0.016
       let alpha = Math.max(0, 1 - p.age / 2.0)
-      ctx.beginPath(); ctx.arc(p.x, p.y, 1.5 + alpha * 2, 0, Math.PI*2)
-      ctx.fillStyle = `rgba(140,190,255,${alpha * 0.7})`; ctx.fill()
+      c.beginPath(); c.arc(p.x, p.y, 1.5 + alpha * 2, 0, Math.PI*2)
+      c.fillStyle = `rgba(140,190,255,${alpha * 0.7})`; c.fill()
     }
-
-    ctx.restore()
+    c.restore()
   }
-  draw()
+
+  // ---- Main loop ----
+  function loop() {
+    requestAnimationFrame(loop)
+    t += 0.016
+    drawLissajous()
+    drawRose()
+    drawChladni()
+    drawCombined()
+  }
+  loop()
 })()
 </script>
 </body>
