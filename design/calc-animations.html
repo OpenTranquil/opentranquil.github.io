@@ -113,6 +113,34 @@
 </div>
 
 
+    <!-- Row 3: Lorenz + Clifford -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:880px;margin:20px auto">
+    <div class="card">
+      <h3>7. Lorenz 吸引子 · Butterfly Chaos</h3>
+      <canvas id="lorenz" width="280" height="280"></canvas>
+      <div class="info">
+        <span>dx=&sigma;(y-x), dy=x(&rho;-z)-y, dz=xy-&beta;z</span><br>
+        永不完全重复的蝴蝶形混沌轨道
+      </div>
+      <div class="controls" id="lorenz-controls">
+        <button class="on" data-mode="drift">标准参数</button>
+        <button data-mode="voice">参数游走</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>8. Clifford 吸引子 · Fractal Swirl</h3>
+      <canvas id="clifford" width="280" height="280"></canvas>
+      <div class="info">
+        <span>x=sin(ay)+c&middot;cos(ax), y=sin(bx)+d&middot;cos(by)</span><br>
+        简单迭代产生无穷分形结构
+      </div>
+      <div class="controls" id="clifford-controls">
+        <button class="on" data-mode="drift">标准参数</button>
+        <button data-mode="voice">参数游走</button>
+      </div>
+    </div>
+    </div>
+
 <!-- ===== COMBINED: ALL THREE IN ONE ORB ===== -->
 <h2>合成效果：三合一语音球</h2>
 <p>利萨如轨迹 + 玫瑰线环层 + 克拉尼背景干涉，合成到同一个圆形区域内。所有参数由语音振幅驱动。</p>
@@ -134,7 +162,9 @@
     chladni: document.getElementById('chladni'),
     combined: document.getElementById('combined'),
     spiro: document.getElementById('spiro'),
-    wave: document.getElementById('wave')
+    wave: document.getElementById('wave'),
+    lorenz: document.getElementById('lorenz'),
+    clifford: document.getElementById('clifford')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -144,7 +174,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -173,6 +203,8 @@
   setupButtons('chladni-controls', m => { chladniMode = m })
   setupButtons('spiro-controls', m => { spiroMode = m })
   setupButtons('wave-controls', m => { waveMode = m })
+  setupButtons('lorenz-controls', m => { lorenzMode = m })
+  setupButtons('clifford-controls', m => { cliffordMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -438,6 +470,94 @@
     }
   }
 
+
+  // ---- Draw Lorenz Attractor ----
+  let lx = 0.1, ly = 0, lz = 0
+  let lorenzTrail = []
+  function drawLorenz() {
+    const c = ctx.lorenz; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (lorenzMode === 'voice') { amp = 0.5 + 0.5 * Math.abs(Math.sin(t * 4)) }
+
+    let sigma = 10, rho = 28 + amp * 4, beta = 8/3
+    let dt = 0.005
+
+    // Lorenz equations
+    let dx = sigma * (ly - lx)
+    let dy = lx * (rho - lz) - ly
+    let dz = lx * ly - beta * lz
+    lx += dx * dt * 3
+    ly += dy * dt * 3
+    lz += dz * dt * 3
+
+    // Project to 2D
+    let px = cx + lx * 4.5
+    let py = cy - lz * 4.5
+
+    lorenzTrail.push({ x: px, y: py, age: 0 })
+    if (lorenzTrail.length > 400) lorenzTrail.shift()
+
+    c.fillStyle = 'rgba(10,10,10,0.08)'
+    c.fillRect(0, 0, W, H)
+
+    for (let p of lorenzTrail) {
+      p.age += 0.016
+      let alpha = Math.max(0, 1 - p.age / 5)
+      let r = 0.8 + alpha * 1.5
+      c.beginPath(); c.arc(p.x, p.y, r, 0, Math.PI*2)
+      c.fillStyle = `rgba(77,122,255,${alpha * 0.8})`; c.fill()
+    }
+
+    // Reset if trajectory escapes
+    if (Math.abs(lx) > 30 || Math.abs(lz) > 40) {
+      lx = (Math.random() - 0.5) * 2
+      ly = (Math.random() - 0.5) * 2
+      lz = (Math.random() - 0.5) * 2
+      lorenzTrail = []
+    }
+  }
+
+  // ---- Draw Clifford Attractor ----
+  let cliffX = 0.1, cliffY = 0.1
+  let cliffTrail = []
+  function drawClifford() {
+    const c = ctx.clifford; if (!c) return
+    const W = 280, H = 280, cx = W/2, cy = H/2
+
+    let amp = 0
+    if (cliffordMode === 'voice') { amp = 0.5 + 0.5 * Math.abs(Math.sin(t * 4)) }
+
+    // Clifford parameters — small changes = wild pattern shifts
+    let a = -1.4 - amp * 0.3
+    let b = 1.6 + amp * 0.4
+    let cc = 1.0 + amp * 0.3
+    let d = 0.7 + amp * 0.3
+
+    // Iterate
+    let nx = Math.sin(a * cliffY) + cc * Math.cos(a * cliffX)
+    let ny = Math.sin(b * cliffX) + d * Math.cos(b * cliffY)
+    cliffX = nx
+    cliffY = ny
+
+    let px = cx + cliffX * 100
+    let py = cy + cliffY * 100
+
+    cliffTrail.push({ x: px, y: py, age: 0 })
+    if (cliffTrail.length > 600) cliffTrail.shift()
+
+    c.fillStyle = 'rgba(10,10,10,0.06)'
+    c.fillRect(0, 0, W, H)
+
+    for (let p of cliffTrail) {
+      p.age += 0.016
+      let alpha = Math.max(0, 1 - p.age / 8)
+      c.beginPath(); c.arc(p.x, p.y, 0.6 + alpha, 0, Math.PI*2)
+      c.fillStyle = `rgba(77,122,255,${alpha * 0.7})`; c.fill()
+    }
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -447,6 +567,8 @@
     drawChladni()
     drawSpiro()
     drawWave()
+    drawLorenz()
+    drawClifford()
     drawCombined()
   }
   loop()
