@@ -393,10 +393,21 @@
         .orb-c.spk { border-color: var(--ac); }
         .orb-c.spk .t { display: none; }
         .orb-c.spk .dot { display: block; animation: orb-blink .5s ease-in-out infinite; }
+        /* orbital ring */
+        .orb-c .or {
+            position: absolute; inset: -10px;
+            border-radius: 50%;
+            border: 1px solid var(--tx);
+            opacity: .07;
+            transform: rotateX(75deg);
+            pointer-events: none;
+            animation: orb-ring-drift 14s linear infinite;
+        }
         /* ---- keyframes ---- */
         @keyframes orb-breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.07); } }
         @keyframes orb-spin { to{ transform:rotate(360deg); } }
         @keyframes orb-blink { 0%,100%{ opacity:.2; transform:scale(1); } 50%{ opacity:1; transform:scale(1.35); } }
+        @keyframes orb-ring-drift { to{ transform:rotateX(75deg) rotateZ(360deg); } }
         @keyframes w1 { 0%,100%{ height:6px; } 50%{ height:18px; } }
         @keyframes w2 { 0%,100%{ height:18px; } 50%{ height:6px; } }
         @keyframes w3 { 0%,100%{ height:10px; } 50%{ height:22px; } }
@@ -1476,7 +1487,7 @@
                             <span class="t">14:32</span>
                             <div class="wv"><i></i><i></i><i></i></div>
                             <div class="ring"></div>
-                            <div class="dot"></div>
+                            <div class="dot"></div><div class="or"></div>
                         </div>
                     </div>
                     <!-- history -->
@@ -1522,7 +1533,7 @@
                             <span class="t">14:32</span>
                             <div class="wv"><i></i><i></i><i></i></div>
                             <div class="ring"></div>
-                            <div class="dot"></div>
+                            <div class="dot"></div><div class="or"></div>
                         </div>
                     </div>
                     <div style="width:42%;display:flex;flex-direction:column;padding-left:8px">
@@ -1565,7 +1576,7 @@
                     <span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
-                    <div class="dot"></div>
+                    <div class="dot"></div><div class="or"></div>
                 </div>
             </div>
         </div>
@@ -1577,7 +1588,7 @@
                     <span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
-                    <div class="dot"></div>
+                    <div class="dot"></div><div class="or"></div>
                 </div>
             </div>
         </div>
@@ -1589,7 +1600,7 @@
                     <span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
-                    <div class="dot"></div>
+                    <div class="dot"></div><div class="or"></div>
                 </div>
             </div>
         </div>
@@ -1601,7 +1612,7 @@
                     <span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
-                    <div class="dot"></div>
+                    <div class="dot"></div><div class="or"></div>
                 </div>
             </div>
         </div>
