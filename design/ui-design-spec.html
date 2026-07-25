@@ -353,14 +353,32 @@
             flex: none; position: relative;
             transition: border-color .25s;
         }
+        /* inner glow fill */
+        .orb-c .gl {
+            position: absolute; inset: 0; border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, var(--ac) 0%, transparent 65%);
+            opacity: .07; pointer-events: none;
+        }
+        /* core center dot — always visible */
+        .orb-c .cr {
+            position: absolute; width: 5px; height: 5px;
+            border-radius: 50%; background: var(--ac);
+            box-shadow: 0 0 10px var(--ac), 0 0 24px var(--ac);
+            opacity: .55; z-index: 1;
+        }
+        /* inner hairline ring — lens reflection */
+        .orb-c .ir {
+            position: absolute; inset: 22%; border-radius: 50%;
+            border: .5px solid var(--tx); opacity: .06; pointer-events: none;
+        }
         .orb-c .t {
             font-size: 28px; font-weight: 500;
-            color: var(--tx);
+            color: var(--tx); z-index: 1;
             transition: opacity .25s;
         }
         /* waveform bars (listening) */
         .orb-c .wv {
-            display: none; align-items: flex-end; gap: 4px; height: 24px;
+            display: none; align-items: flex-end; gap: 4px; height: 24px; z-index: 1;
         }
         .orb-c .wv i {
             display: block; width: 3px; border-radius: 2px; background: var(--ac);
@@ -374,30 +392,33 @@
             border-radius: 50%;
             border: 2px solid transparent;
             border-top-color: var(--ac);
-            display: none;
+            display: none; z-index: 1;
         }
-        /* pulse dot (thinking/speaking) */
+        /* pulse dot (thinking/speaking) — reuses .cr as pulse */
         .orb-c .dot {
             width: 7px; height: 7px;
             border-radius: 50%; background: var(--ac);
-            display: none;
+            display: none; z-index: 1;
         }
         /* ---- state toggles ---- */
         .orb-c.lst { border-color: var(--ac); }
         .orb-c.lst .t { display: none; }
+        .orb-c.lst .cr { display: none; }
         .orb-c.lst .wv { display: flex; }
         .orb-c.lst { animation: orb-breathe 1.6s ease-in-out infinite alternate; }
         .orb-c.thk .t { display: none; }
+        .orb-c.thk .cr { display: none; }
         .orb-c.thk .ring { display: block; animation: orb-spin 2s linear infinite; }
         .orb-c.thk .dot { display: block; opacity: .35; animation: orb-blink .8s ease-in-out infinite; }
         .orb-c.spk { border-color: var(--ac); }
         .orb-c.spk .t { display: none; }
+        .orb-c.spk .cr { display: none; }
         .orb-c.spk .dot { display: block; animation: orb-blink .5s ease-in-out infinite; }
         /* orbital ring */
         .orb-c .or {
             position: absolute; inset: -10px;
             border-radius: 50%;
-            border: 1px solid var(--tx);
+            border: 1px solid var(--tx); z-index: 0;
             opacity: .07;
             transform: rotateX(75deg);
             pointer-events: none;
@@ -1484,7 +1505,7 @@
                     <!-- orb zone -->
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
                         <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
-                            <span class="t">14:32</span>
+                            <div class="gl"></div><div class="ir"></div><div class="cr"></div><span class="t">14:32</span>
                             <div class="wv"><i></i><i></i><i></i></div>
                             <div class="ring"></div>
                             <div class="dot"></div><div class="or"></div>
@@ -1530,7 +1551,7 @@
                 <div style="flex:1;display:flex;padding:0 16px;min-height:0">
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
                         <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(46,91,255,.04)">
-                            <span class="t">14:32</span>
+                            <div class="gl"></div><div class="ir"></div><div class="cr"></div><span class="t">14:32</span>
                             <div class="wv"><i></i><i></i><i></i></div>
                             <div class="ring"></div>
                             <div class="dot"></div><div class="or"></div>
@@ -1573,7 +1594,7 @@
             <div class="lbl">待机 · idle</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c" style="border:1.5px solid var(--tx);box-shadow:0 0 32px rgba(77,122,255,.05)">
-                    <span class="t">14:32</span>
+                    <div class="gl"></div><div class="ir"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
                     <div class="dot"></div><div class="or"></div>
@@ -1585,7 +1606,7 @@
             <div class="lbl">聆听 · listening</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c lst" style="border:1.5px solid var(--ac);box-shadow:0 0 40px rgba(77,122,255,.12)">
-                    <span class="t">14:32</span>
+                    <div class="gl"></div><div class="ir"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
                     <div class="dot"></div><div class="or"></div>
@@ -1597,7 +1618,7 @@
             <div class="lbl">思考 · thinking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c thk" style="border:1.5px solid var(--tx)">
-                    <span class="t">14:32</span>
+                    <div class="gl"></div><div class="ir"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
                     <div class="dot"></div><div class="or"></div>
@@ -1609,7 +1630,7 @@
             <div class="lbl">说话 · speaking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
                 <div class="orb-c spk" style="border:1.5px solid var(--ac);box-shadow:0 0 36px rgba(77,122,255,.10)">
-                    <span class="t">14:32</span>
+                    <div class="gl"></div><div class="ir"></div><div class="cr"></div><span class="t">14:32</span>
                     <div class="wv"><i></i><i></i><i></i></div>
                     <div class="ring"></div>
                     <div class="dot"></div><div class="or"></div>
