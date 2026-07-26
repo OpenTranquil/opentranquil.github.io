@@ -719,6 +719,378 @@
 </div>
 </div>
 
+<h2>计算图形扩展 (61–68)</h2>
+<div class="grid">
+
+<!-- ===== 61. IKEDA MAP ===== -->
+<div class="card">
+  <h3>61. 池田映射 · Ikeda Map</h3>
+  <canvas id="ikeda" width="280" height="280"></canvas>
+  <div class="info">光学双稳态迭代 <span>xₙ₊₁=1+u(xₙcos τ−yₙsin τ)</span><br>螺旋吸引子，u 参数随语音漂移</div>
+  <div class="controls" id="ikeda-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 62. MAURER ROSE ===== -->
+<div class="card">
+  <h3>62. 莫勒玫瑰 · Maurer Rose</h3>
+  <canvas id="maurer" width="280" height="280"></canvas>
+  <div class="info">连线玫瑰 <span>r=cos(kθ) 以步长 d° 连线</span><br>直线包络出曲线，k/d 随语音变化</div>
+  <div class="controls" id="maurer-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 63. APOLLONIAN ===== -->
+<div class="card">
+  <h3>63. 阿波罗圆填 · Apollonian</h3>
+  <canvas id="apollonian" width="280" height="280"></canvas>
+  <div class="info">递归圆填充 <span>每层 3 个子圆内切于父圆</span><br>分形泡沫，深度随声音呼吸</div>
+  <div class="controls" id="apollonian-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 64. DOUBLE PENDULUM ===== -->
+<div class="card">
+  <h3>64. 双摆 · Double Pendulum</h3>
+  <canvas id="dpend" width="280" height="280"></canvas>
+  <div class="info">混沌双摆 <span>RK4 积分 + 尾迹轨迹</span><br>初始条件微调展现混沌之美</div>
+  <div class="controls" id="dpend-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 65. CYCLIC CA ===== -->
+<div class="card">
+  <h3>65. 循环元胞 · Cyclic CA</h3>
+  <canvas id="cyclicca" width="280" height="280"></canvas>
+  <div class="info">RPS 元胞自动机 <span>石头/剪刀/布 三态竞争</span><br>自然涌现螺旋斑图</div>
+  <div class="controls" id="cyclicca-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 66. COUPLED OSCILLATORS ===== -->
+<div class="card">
+  <h3>66. 耦合振子环 · Kuramoto</h3>
+  <canvas id="coupled" width="280" height="280"></canvas>
+  <div class="info">蔵本模型 <span>环形耦合相位振子</span><br>K 增大时同步相变，相位凝聚</div>
+  <div class="controls" id="coupled-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 67. CONFORMAL MAP ===== -->
+<div class="card">
+  <h3>67. 保角映射 · Conformal Map</h3>
+  <canvas id="confmap" width="280" height="280"></canvas>
+  <div class="info">复变函数 <span>f(z)=sin(z) 映射矩形网格</span><br>横线→椭圆族，竖线→双曲线族</div>
+  <div class="controls" id="confmap-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 68. CAUSTIC ===== -->
+<div class="card">
+  <h3>68. 焦散曲线 · Caustic</h3>
+  <canvas id="caustic" width="280" height="280"></canvas>
+  <div class="info">圆形镜面反射 <span>光源在圆周上移动</span><br>反射光线包络出心形/肾形焦散</div>
+  <div class="controls" id="caustic-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+</div>
+
+<h2>计算图形扩展 (69–76)</h2>
+<div class="grid">
+
+<!-- ===== 69. RÖSSLER ATTRACTOR ===== -->
+<div class="card">
+  <h3>69. Rössler 吸引子</h3>
+  <canvas id="rossler" width="280" height="280"></canvas>
+  <div class="info">三阶混沌 ODE <span>dx/dt=−y−z, dy/dt=x+ay, dz/dt=b+z(x−c)</span><br>螺旋混沌，c 参数随语音升高而展开</div>
+  <div class="controls" id="rossler-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 70. BOIDS ===== -->
+<div class="card">
+  <h3>70. 集群飞行 · Boids</h3>
+  <canvas id="boids" width="280" height="280"></canvas>
+  <div class="info">35 只智能体 <span>分离 + 对齐 + 凝聚 三规则</span><br>群体涌现的有机流动感</div>
+  <div class="controls" id="boids-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 71. GRAY-SCOTT ===== -->
+<div class="card">
+  <h3>71. 格雷–斯科特 · Gray-Scott</h3>
+  <canvas id="grayscott" width="280" height="280"></canvas>
+  <div class="info">反应扩散 <span>F/k 参数控制斑点↔条纹↔迷宫</span><br>语音在三种模式间切换</div>
+  <div class="controls" id="grayscott-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 72. SPIROLATERALS ===== -->
+<div class="card">
+  <h3>72. 螺旋多边形 · Spirolateral</h3>
+  <canvas id="spirolat" width="280" height="280"></canvas>
+  <div class="info">重复 [前进 n, 转 θ°] <span>n 和 θ 随语音变化</span><br>涌现出惊人的几何图案</div>
+  <div class="controls" id="spirolat-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 73. DOMAIN WARPING ===== -->
+<div class="card">
+  <h3>73. 域扭曲 · Domain Warping</h3>
+  <canvas id="dwarp" width="280" height="280"></canvas>
+  <div class="info">噪声采样坐标被噪声扭曲 <span>f(x+noise(x,y), y+noise(x,y))</span><br>Demoscene 经典有机流动</div>
+  <div class="controls" id="dwarp-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 74. PARTICLE LIFE ===== -->
+<div class="card">
+  <h3>74. 粒子生命 · Particle Life</h3>
+  <canvas id="plife" width="280" height="280"></canvas>
+  <div class="info">4 种粒子类型 <span>类型间引斥力矩阵驱动</span><br>涌现出细胞/集群/游动群落</div>
+  <div class="controls" id="plife-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 75. TORUS KNOT ===== -->
+<div class="card">
+  <h3>75. 环面纽结 · Torus Knot</h3>
+  <canvas id="torknot" width="280" height="280"></canvas>
+  <div class="info">(p,q) 环面纽结 <span>3D 旋转后 2D 投影</span><br>p/q 随语音变化切换拓扑</div>
+  <div class="controls" id="torknot-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 76. LICHTENBERG ===== -->
+<div class="card">
+  <h3>76. 闪电分形 · Lichtenberg</h3>
+  <canvas id="lichten" width="280" height="280"></canvas>
+  <div class="info">介电击穿模型 <span>概率 ∝ 电位^η 的扩散生长</span><br>η 控制枝杈密度，定时重置</div>
+  <div class="controls" id="lichten-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+</div>
+
+<h2>AI 语音球专属 (77–84)</h2>
+<div class="grid">
+
+<!-- ===== 77. PHYSARUM ===== -->
+<div class="card">
+  <h3>77. 黏菌网络 · Physarum</h3>
+  <canvas id="physarum" width="280" height="280"></canvas>
+  <div class="info">60 只探针 <span>感知信息素梯度 → 转向 → 沉积</span><br>涌现运输网络，"活的 AI"感</div>
+  <div class="controls" id="physarum-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 78. BREATHING MANDALA ===== -->
+<div class="card">
+  <h3>78. 呼吸曼陀罗 · Mandala</h3>
+  <canvas id="mandala" width="280" height="280"></canvas>
+  <div class="info">7 层花瓣 <span>谐波转速比，花瓣数逐层递增</span><br>缩放呼吸 + 正反向旋转</div>
+  <div class="controls" id="mandala-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 79. ECHO RIPPLES ===== -->
+<div class="card">
+  <h3>79. 回声涟漪 · Echo Ripples</h3>
+  <canvas id="echorip" width="280" height="280"></canvas>
+  <div class="info">三频段波纹 <span>低频/中频/高频不同速率</span><br>模拟语音在空气中传播的视觉</div>
+  <div class="controls" id="echorip-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 80. NEURAL NETWORK ===== -->
+<div class="card">
+  <h3>80. 神经环网 · Neural Ring</h3>
+  <canvas id="neural" width="280" height="280"></canvas>
+  <div class="info">4 层环形网络 <span>8→12→8→1 全连接</span><br>输入层随语音激活，信号前向传播</div>
+  <div class="controls" id="neural-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 81. FLOW ORNAMENT ===== -->
+<div class="card">
+  <h3>81. 流场纹饰 · Flow Ornament</h3>
+  <canvas id="floworn" width="280" height="280"></canvas>
+  <div class="info">24 条流线 <span>旋转涡旋 + 波扰动</span><br>如大气环流般的优美曲线族</div>
+  <div class="controls" id="floworn-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 82. HYPOTROCHOID GARDEN ===== -->
+<div class="card">
+  <h3>82. 内旋轮花园 · Hypotrochoid</h3>
+  <canvas id="hypotro" width="280" height="280"></canvas>
+  <div class="info">5 组内旋轮线 <span>不同 R/r/d 参数同时绘制</span><br>万花尺的升级版，层层嵌套</div>
+  <div class="controls" id="hypotro-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 83. MAGNETIC FIELD ===== -->
+<div class="card">
+  <h3>83. 磁力线 · Magnetic Field</h3>
+  <canvas id="magfield" width="280" height="280"></canvas>
+  <div class="info">中心磁偶极子 <span>B = (3(m·r̂)r̂−m)/r³</span><br>语音调制偶极矩方向和强度</div>
+  <div class="controls" id="magfield-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 84. QUANTUM MODES ===== -->
+<div class="card">
+  <h3>84. 量子模 · Quantum Modes</h3>
+  <canvas id="quantum" width="280" height="280"></canvas>
+  <div class="info">圆域波函数 <span>Σ cos(kr) 叠加干涉</span><br>驻波模式随语音跳变重组</div>
+  <div class="controls" id="quantum-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+</div>
+
+<h2>AI 语音球专属 (85–92)</h2>
+<div class="grid">
+
+<!-- ===== 85. CYMATICS ===== -->
+<div class="card">
+  <h3>85. 音流学 · Cymatics</h3>
+  <canvas id="cymatics" width="280" height="280"></canvas>
+  <div class="info">四频段响应 <span>各频段激活不同圆盘驻波模式</span><br>贝塞尔径向 × 角向调制，声波可视化</div>
+  <div class="controls" id="cymatics-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 86. PLASMA BALL ===== -->
+<div class="card">
+  <h3>86. 等离子球 · Plasma Ball</h3>
+  <canvas id="plasmaball" width="280" height="280"></canvas>
+  <div class="info">20 条电弧 <span>从中心向外蜿蜒生长 + 分叉</span><br>类似特斯拉线圈的能量触须</div>
+  <div class="controls" id="plasmaball-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 87. ORBITING ELECTRONS ===== -->
+<div class="card">
+  <h3>87. 电子云 · Electrons</h3>
+  <canvas id="electrons" width="280" height="280"></canvas>
+  <div class="info">5 层轨道 <span>不同电子数 × 不同转速方向</span><br>量子跃迁径向微扰，中心核呼吸</div>
+  <div class="controls" id="electrons-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 88. FLOWER OF LIFE ===== -->
+<div class="card">
+  <h3>88. 生命之花 · Flower of Life</h3>
+  <canvas id="flowerlife" width="280" height="280"></canvas>
+  <div class="info">六角晶格圆 <span>等半径圆覆盖六方密堆积格点</span><br>重叠形成经典神圣几何图案</div>
+  <div class="controls" id="flowerlife-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 89. AURORA ===== -->
+<div class="card">
+  <h3>89. 极光帷幕 · Aurora</h3>
+  <canvas id="aurora" width="280" height="280"></canvas>
+  <div class="info">4 层光幕 <span>正弦波叠加 × 垂直渐变透明</span><br>如北极光般流淌的色彩帷幕</div>
+  <div class="controls" id="aurora-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 90. HEARTBEAT ===== -->
+<div class="card">
+  <h3>90. 心跳脉冲 · Heartbeat</h3>
+  <canvas id="heartbeat" width="280" height="280"></canvas>
+  <div class="info">BPM 随语音变化 <span>60→160 次/分，收缩环扩散</span><br>生命体征式的暖色脉冲波纹</div>
+  <div class="controls" id="heartbeat-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 91. GALAXY SPIRAL ===== -->
+<div class="card">
+  <h3>91. 螺旋星系 · Galaxy</h3>
+  <canvas id="galaxy" width="280" height="280"></canvas>
+  <div class="info">3 条旋臂 + 300 粒子 <span>较差自转 + 密度波旋臂</span><br>星系级的旋转催眠感</div>
+  <div class="controls" id="galaxy-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+<!-- ===== 92. WATER DROPLET ===== -->
+<div class="card">
+  <h3>92. 雨滴涟漪 · Water Drop</h3>
+  <canvas id="waterdrop" width="280" height="280"></canvas>
+  <div class="info">弹簧-质点波动 <span>语音瞬态触发随机雨滴</span><br>干涉波纹在水面上扩散消散</div>
+  <div class="controls" id="waterdrop-controls">
+    <button class="on" data-mode="drift">自由演化</button>
+    <button data-mode="voice">语音模拟</button>
+  </div>
+</div>
+
+</div>
+
 <script>
 // Single animation loop for all 4 canvases
 (function() {
@@ -783,7 +1155,39 @@
     sierp: document.getElementById('sierp'),
     lorenz2: document.getElementById('lorenz2'),
     drunk: document.getElementById('drunk'),
-    polark: document.getElementById('polark')
+    polark: document.getElementById('polark'),
+    ikeda: document.getElementById('ikeda'),
+    maurer: document.getElementById('maurer'),
+    apollonian: document.getElementById('apollonian'),
+    dpend: document.getElementById('dpend'),
+    cyclicca: document.getElementById('cyclicca'),
+    coupled: document.getElementById('coupled'),
+    confmap: document.getElementById('confmap'),
+    caustic: document.getElementById('caustic'),
+    rossler: document.getElementById('rossler'),
+    boids: document.getElementById('boids'),
+    grayscott: document.getElementById('grayscott'),
+    spirolat: document.getElementById('spirolat'),
+    dwarp: document.getElementById('dwarp'),
+    plife: document.getElementById('plife'),
+    torknot: document.getElementById('torknot'),
+    lichten: document.getElementById('lichten'),
+    physarum: document.getElementById('physarum'),
+    mandala: document.getElementById('mandala'),
+    echorip: document.getElementById('echorip'),
+    neural: document.getElementById('neural'),
+    floworn: document.getElementById('floworn'),
+    hypotro: document.getElementById('hypotro'),
+    magfield: document.getElementById('magfield'),
+    quantum: document.getElementById('quantum'),
+    cymatics: document.getElementById('cymatics'),
+    plasmaball: document.getElementById('plasmaball'),
+    electrons: document.getElementById('electrons'),
+    flowerlife: document.getElementById('flowerlife'),
+    aurora: document.getElementById('aurora'),
+    heartbeat: document.getElementById('heartbeat'),
+    galaxy: document.getElementById('galaxy'),
+    waterdrop: document.getElementById('waterdrop')
   }
   const ctx = {}
   for (let [k, c] of Object.entries(canvases)) {
@@ -793,7 +1197,7 @@
 
   // ---- State ----
   let t = 0
-  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift', caMode = 'drift', moireMode = 'drift', cycloidMode = 'drift', spotsMode = 'drift', besselMode = 'drift', juliaMode = 'drift', aizawaMode = 'drift', antMode = 'drift', voronoiMode = 'drift', pendulumMode = 'drift', lifeMode = 'drift', heatMode = 'drift', plasmaMode = 'drift', kaleidoMode = 'drift', fireflyMode = 'drift', gravityMode = 'drift', truchetMode = 'drift', spinodalMode = 'drift', tesseractMode = 'drift', polarnoiseMode = 'drift', magpendMode = 'drift', streamlineMode = 'drift', wavefoldMode = 'drift', mandelMode = 'drift', ftreeMode = 'drift', harmonoMode = 'drift', spiralsMode = 'drift', bifurMode = 'drift', packingMode = 'drift', dadrasMode = 'drift', fernMode = 'drift', dragonMode = 'drift', dlaMode = 'drift', bezierMode = 'drift', rwheelMode = 'drift', halftoneMode = 'drift', hopfMode = 'drift', hopalongMode = 'drift', tentMode = 'drift', sierpMode = 'drift', lorenz2Mode = 'drift', drunkMode = 'drift', polarkMode = 'drift'
+  let lisMode = 'drift', roseMode = 'drift', chladniMode = 'drift', spiroMode = 'drift', waveMode = 'drift', lorenzMode = 'drift', cliffordMode = 'drift', circwaveMode = 'drift', vortexMode = 'drift', perlinMode = 'drift', rippleMode = 'drift', phylloMode = 'drift', swarmMode = 'drift', fourierMode = 'drift', metaballMode = 'drift', thomasMode = 'drift', caMode = 'drift', moireMode = 'drift', cycloidMode = 'drift', spotsMode = 'drift', besselMode = 'drift', juliaMode = 'drift', aizawaMode = 'drift', antMode = 'drift', voronoiMode = 'drift', pendulumMode = 'drift', lifeMode = 'drift', heatMode = 'drift', plasmaMode = 'drift', kaleidoMode = 'drift', fireflyMode = 'drift', gravityMode = 'drift', truchetMode = 'drift', spinodalMode = 'drift', tesseractMode = 'drift', polarnoiseMode = 'drift', magpendMode = 'drift', streamlineMode = 'drift', wavefoldMode = 'drift', mandelMode = 'drift', ftreeMode = 'drift', harmonoMode = 'drift', spiralsMode = 'drift', bifurMode = 'drift', packingMode = 'drift', dadrasMode = 'drift', fernMode = 'drift', dragonMode = 'drift', dlaMode = 'drift', bezierMode = 'drift', rwheelMode = 'drift', halftoneMode = 'drift', hopfMode = 'drift', hopalongMode = 'drift', tentMode = 'drift', sierpMode = 'drift', lorenz2Mode = 'drift', drunkMode = 'drift', polarkMode = 'drift', ikedaMode = 'drift', maurerMode = 'drift', apollonianMode = 'drift', dpendMode = 'drift', cycliccaMode = 'drift', coupledMode = 'drift', confmapMode = 'drift', causticMode = 'drift', rosslerMode = 'drift', boidsMode = 'drift', grayscottMode = 'drift', spirolatMode = 'drift', dwarpMode = 'drift', plifeMode = 'drift', torknotMode = 'drift', lichtenMode = 'drift', physarumMode = 'drift', mandalaMode = 'drift', echoripMode = 'drift', neuralMode = 'drift', flowornMode = 'drift', hypotroMode = 'drift', magfieldMode = 'drift', quantumMode = 'drift', cymaticsMode = 'drift', plasmaballMode = 'drift', electronsMode = 'drift', flowerlifeMode = 'drift', auroraMode = 'drift', heartbeatMode = 'drift', galaxyMode = 'drift', waterdropMode = 'drift'
   let lis_a = 3, lis_b = 2, lis_aTarget = 3, lis_bTarget = 2
   let trail_lis = [], trail_comb = []
   const MAX_TRAIL = 200
@@ -876,6 +1280,38 @@
   setupButtons('lorenz2-controls', m => { lorenz2Mode = m })
   setupButtons('drunk-controls', m => { drunkMode = m })
   setupButtons('polark-controls', m => { polarkMode = m })
+  setupButtons('ikeda-controls', m => { ikedaMode = m })
+  setupButtons('maurer-controls', m => { maurerMode = m })
+  setupButtons('apollonian-controls', m => { apollonianMode = m })
+  setupButtons('dpend-controls', m => { dpendMode = m })
+  setupButtons('cyclicca-controls', m => { cycliccaMode = m })
+  setupButtons('coupled-controls', m => { coupledMode = m })
+  setupButtons('confmap-controls', m => { confmapMode = m })
+  setupButtons('caustic-controls', m => { causticMode = m })
+  setupButtons('rossler-controls', m => { rosslerMode = m })
+  setupButtons('boids-controls', m => { boidsMode = m })
+  setupButtons('grayscott-controls', m => { grayscottMode = m })
+  setupButtons('spirolat-controls', m => { spirolatMode = m })
+  setupButtons('dwarp-controls', m => { dwarpMode = m })
+  setupButtons('plife-controls', m => { plifeMode = m })
+  setupButtons('torknot-controls', m => { torknotMode = m })
+  setupButtons('lichten-controls', m => { lichtenMode = m })
+  setupButtons('physarum-controls', m => { physarumMode = m })
+  setupButtons('mandala-controls', m => { mandalaMode = m })
+  setupButtons('echorip-controls', m => { echoripMode = m })
+  setupButtons('neural-controls', m => { neuralMode = m })
+  setupButtons('floworn-controls', m => { flowornMode = m })
+  setupButtons('hypotro-controls', m => { hypotroMode = m })
+  setupButtons('magfield-controls', m => { magfieldMode = m })
+  setupButtons('quantum-controls', m => { quantumMode = m })
+  setupButtons('cymatics-controls', m => { cymaticsMode = m })
+  setupButtons('plasmaball-controls', m => { plasmaballMode = m })
+  setupButtons('electrons-controls', m => { electronsMode = m })
+  setupButtons('flowerlife-controls', m => { flowerlifeMode = m })
+  setupButtons('aurora-controls', m => { auroraMode = m })
+  setupButtons('heartbeat-controls', m => { heartbeatMode = m })
+  setupButtons('galaxy-controls', m => { galaxyMode = m })
+  setupButtons('waterdrop-controls', m => { waterdropMode = m })
 
   // ---- Helpers ----
   function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)] }
@@ -2319,7 +2755,7 @@
   let rwAngles=[0,0,0],rwSpeeds=[0.3,-0.5,0.4]
   function drawRwheel(){const c=ctx.rwheel;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
     let amp=0;if(rwheelMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
-    for(let i=0;i<3;i++)rwSpeeds[i]+=Math.sin(t*(1+i)+i)*0.02*amp;rwAngles[i]+=rwSpeeds[i]*0.03
+    for(let i=0;i<3;i++){rwSpeeds[i]+=Math.sin(t*(1+i)+i)*0.02*amp;rwAngles[i]+=rwSpeeds[i]*0.03}
     c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
     for(let i=0;i<3;i++){
       c.beginPath();c.arc(cx,cy,70+i*15,0,Math.PI*2)
@@ -2338,7 +2774,7 @@
       // "Image" = sum of sine waves
       let val=Math.sin(x*0.04+t)*0.5+0.5+Math.sin(y*0.05+t*0.7)*0.3+Math.cos((x+y)*0.03+t*1.2)*0.3
       val=val/1.6
-      let r=val*spacing*0.7+amp*2
+      let r=Math.max(0,val*spacing*0.7+amp*2)
       c.beginPath();c.arc(x+spacing/2,y+spacing/2,r,0,Math.PI*2)
       c.fillStyle='rgba(77,122,255,0.6)';c.fill()
     }
@@ -2460,6 +2896,736 @@
     }
   }
 
+  // ---- 61. Ikeda Map ----
+  let ikedaX=0.1,ikedaY=0.1,ikedaU=0.9
+  function drawIkeda(){const c=ctx.ikeda;if(!c)return;const W=280,H=280
+    let amp=0;if(ikedaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.06)';c.fillRect(0,0,W,H)
+    let u=0.85+amp*0.14;ikedaU+=(u-ikedaU)*0.02
+    let x=ikedaX,y=ikedaY
+    for(let i=0;i<600;i++){
+      let tau=0.4-6/(1+x*x+y*y)
+      let nx=1+ikedaU*(x*Math.cos(tau)-y*Math.sin(tau))
+      let ny=ikedaU*(x*Math.sin(tau)+y*Math.cos(tau))
+      x=nx;y=ny
+      let px=W/2+x*70,py=H/2+y*70
+      c.fillStyle='rgba(77,122,255,0.22)';c.fillRect(px,py,1,1)
+    }
+    ikedaX=x;ikedaY=y
+  }
+
+  // ---- 62. Maurer Rose ----
+  function drawMaurer(){const c=ctx.maurer;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2,R=120
+    let amp=0;if(maurerMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    let n=2+Math.floor(amp*5.5)
+    let dDeg=29+amp*85
+    c.beginPath();let first=true
+    for(let i=0;i<=360;i++){
+      let th=(i*dDeg)*Math.PI/180
+      let r=R*Math.sin(n*th)
+      let px=cx+r*Math.cos(th),py=cy+r*Math.sin(th)
+      if(first){c.moveTo(px,py);first=false}else c.lineTo(px,py)
+    }
+    c.strokeStyle='rgba(77,122,255,0.55)';c.lineWidth=0.8;c.stroke()
+  }
+
+  // ---- 63. Apollonian Gasket ----
+  let apCircles=null
+  function apInit(){
+    apCircles=[]
+    function add(x,y,r,depth){
+      if(depth>6||r<0.6)return
+      apCircles.push({x,y,r})
+      let nr=r*0.464,d=r-nr
+      for(let a=0;a<3;a++){
+        let ang=a*Math.PI*2/3+t*0.1
+        add(x+d*Math.cos(ang),y+d*Math.sin(ang),nr,depth+1)
+      }
+    }
+    add(140,140,130,0)
+  }
+  function drawApollonian(){const c=ctx.apollonian;if(!c)return;const W=280,H=280
+    let amp=0;if(apollonianMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!apCircles)apInit()
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    let pulse=1+amp*0.04*Math.sin(t*2.3)
+    for(let cir of apCircles){
+      let r=cir.r*pulse;if(r<0.4)continue
+      c.beginPath();c.arc(cir.x,cir.y,r,0,Math.PI*2)
+      c.fillStyle=`rgba(77,122,255,${0.015+0.012*r/130})`;c.fill()
+      c.strokeStyle='rgba(77,122,255,0.2)';c.lineWidth=0.4;c.stroke()
+    }
+  }
+
+  // ---- 64. Double Pendulum ----
+  let dpTh1=Math.PI/2,dpTh2=Math.PI/2,dpOm1=0,dpOm2=0,dpTrail=[]
+  function drawDpend(){const c=ctx.dpend;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(dpendMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let l1=55,l2=50,m1=10,m2=8,g=9.81+amp*4
+    for(let s=0;s<4;s++){
+      let d=2*m1+m2-m2*Math.cos(2*dpTh1-2*dpTh2)
+      let a1=(-g*(2*m1+m2)*Math.sin(dpTh1)-m2*g*Math.sin(dpTh1-2*dpTh2)-2*Math.sin(dpTh1-dpTh2)*m2*(dpOm2*dpOm2*l2+dpOm1*dpOm1*l1*Math.cos(dpTh1-dpTh2)))/(l1*d)
+      let a2=(2*Math.sin(dpTh1-dpTh2)*(dpOm1*dpOm1*l1*(m1+m2)+g*(m1+m2)*Math.cos(dpTh1)+dpOm2*dpOm2*l2*m2*Math.cos(dpTh1-dpTh2)))/(l2*d)
+      dpOm1+=a1*0.005;dpOm2+=a2*0.005;dpTh1+=dpOm1*0.005;dpTh2+=dpOm2*0.005
+    }
+    let x2=cx+l1*Math.sin(dpTh1)+l2*Math.sin(dpTh2),y2=cy+l1*Math.cos(dpTh1)+l2*Math.cos(dpTh2)
+    dpTrail.push({x:x2,y:y2});while(dpTrail.length>400)dpTrail.shift()
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    for(let i=1;i<dpTrail.length;i++){
+      let p0=dpTrail[i-1],p1=dpTrail[i],alpha=0.2+0.5*i/dpTrail.length
+      c.beginPath();c.moveTo(p0.x,p0.y);c.lineTo(p1.x,p1.y)
+      c.strokeStyle=`rgba(77,122,255,${alpha})`;c.lineWidth=1.2;c.stroke()
+    }
+    let x1=cx+l1*Math.sin(dpTh1),y1=cy+l1*Math.cos(dpTh1)
+    c.beginPath();c.moveTo(cx,cy);c.lineTo(x1,y1);c.strokeStyle='rgba(140,180,255,0.5)';c.lineWidth=2;c.stroke()
+    c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.strokeStyle='rgba(140,180,255,0.5)';c.lineWidth=2;c.stroke()
+    c.beginPath();c.arc(x2,y2,4,0,Math.PI*2);c.fillStyle='rgba(200,220,255,0.8)';c.fill()
+  }
+
+  // ---- 65. Cyclic CA ----
+  let cyclicGrid=null,cyclicFrame=0
+  function drawCyclicca(){const c=ctx.cyclicca;if(!c)return;const W=280,H=280
+    let amp=0;if(cycliccaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let SZ=70
+    if(!cyclicGrid){cyclicGrid=new Uint8Array(SZ*SZ);for(let i=0;i<SZ*SZ;i++)cyclicGrid[i]=Math.floor(Math.random()*3)}
+    cyclicFrame++;let upd=Math.max(1,Math.floor(6-amp*4))
+    if(cyclicFrame%upd===0){
+      let ng=new Uint8Array(SZ*SZ)
+      for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+        let me=cyclicGrid[y*SZ+x],beat=(me+1)%3,changed=false
+        for(let dy=-1;dy<=1&&!changed;dy++)for(let dx=-1;dx<=1&&!changed;dx++){
+          if(dx===0&&dy===0)continue
+          let nx=(x+dx+SZ)%SZ,ny=(y+dy+SZ)%SZ
+          if(cyclicGrid[ny*SZ+nx]===beat)changed=true
+        }
+        ng[y*SZ+x]=changed?beat:me
+      }
+      cyclicGrid=ng
+    }
+    let cs=W/SZ
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+      let v=cyclicGrid[y*SZ+x]
+      c.fillStyle=v===0?'rgba(60,100,220,0.7)':v===1?'rgba(220,80,80,0.7)':'rgba(80,210,120,0.7)'
+      c.fillRect(x*cs,y*cs,Math.ceil(cs),Math.ceil(cs))
+    }
+  }
+
+  // ---- 66. Coupled Oscillators (Kuramoto) ----
+  let coupPhases=null,coupOmegas=null
+  function drawCoupled(){const c=ctx.coupled;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(coupledMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let N=24
+    if(!coupPhases){coupPhases=[];coupOmegas=[];for(let i=0;i<N;i++){coupPhases[i]=Math.random()*Math.PI*2;coupOmegas[i]=0.3+Math.random()*1.2}}
+    let K=0.2+amp*4
+    for(let i=0;i<N;i++){
+      let sum=0;for(let j=0;j<N;j++)sum+=Math.sin(coupPhases[j]-coupPhases[i])
+      coupPhases[i]+=(coupOmegas[i]+K/N*sum)*0.03
+    }
+    let sr=0,si=0;for(let i=0;i<N;i++){sr+=Math.cos(coupPhases[i]);si+=Math.sin(coupPhases[i])}
+    let Rc=Math.sqrt(sr*sr+si*si)/N
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    let R=100;c.beginPath();c.arc(cx,cy,R,0,Math.PI*2);c.strokeStyle='rgba(77,122,255,0.12)';c.lineWidth=1;c.stroke()
+    // Connections
+    for(let i=0;i<N;i++){
+      let j=(i+1)%N,a1=coupPhases[i],a2=coupPhases[j]
+      let diff=Math.abs(Math.sin((a2-a1)/2))
+      let x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1),x2=cx+R*Math.cos(a2),y2=cy+R*Math.sin(a2)
+      c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2)
+      c.strokeStyle=`rgba(77,122,255,${0.04+diff*0.3})`;c.lineWidth=0.5;c.stroke()
+    }
+    for(let i=0;i<N;i++){
+      let ang=coupPhases[i],px=cx+R*Math.cos(ang),py=cy+R*Math.sin(ang)
+      c.beginPath();c.arc(px,py,3+2*Rc,0,Math.PI*2)
+      let rr=Math.floor(77+Rc*100),gg=Math.floor(122+Rc*60),bb=255
+      c.fillStyle=`rgba(${rr},${gg},${bb},${0.4+Rc*0.5})`;c.fill()
+    }
+  }
+
+  // ---- 67. Conformal Map ----
+  function drawConfmap(){const c=ctx.confmap;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(confmapMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    let sc=60+amp*20
+    // Horizontal grid lines (y=const → ellipses)
+    for(let y=-2.5;y<=2.5;y+=0.25){
+      c.beginPath();let first=true
+      for(let x=-Math.PI;x<=Math.PI;x+=0.05){
+        let px=cx+Math.sin(x)*Math.cosh(y)*sc
+        let py=cy+Math.cos(x)*Math.sinh(y)*sc
+        if(first){c.moveTo(px,py);first=false}else c.lineTo(px,py)
+      }
+      c.strokeStyle='rgba(77,122,255,0.18)';c.lineWidth=0.5;c.stroke()
+    }
+    // Vertical grid lines (x=const → hyperbolas)
+    for(let x=-Math.PI;x<=Math.PI;x+=Math.PI/8){
+      c.beginPath();let first=true
+      for(let y=-2.5;y<=2.5;y+=0.05){
+        let px=cx+Math.sin(x)*Math.cosh(y)*sc
+        let py=cy+Math.cos(x)*Math.sinh(y)*sc
+        if(first){c.moveTo(px,py);first=false}else c.lineTo(px,py)
+      }
+      c.strokeStyle='rgba(140,180,255,0.22)';c.lineWidth=0.5;c.stroke()
+    }
+  }
+
+  // ---- 68. Caustic ----
+  function drawCaustic(){const c=ctx.caustic;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2,R=100
+    let amp=0;if(causticMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.12)';c.fillRect(0,0,W,H)
+    let srcAng=t*0.3+amp*Math.sin(t*2)*0.6
+    let sx=cx+R*Math.cos(srcAng),sy=cy+R*Math.sin(srcAng)
+    c.beginPath();c.arc(cx,cy,R,0,Math.PI*2);c.strokeStyle='rgba(77,122,255,0.3)';c.lineWidth=1;c.stroke()
+    c.beginPath();c.arc(sx,sy,3,0,Math.PI*2);c.fillStyle='rgba(255,255,200,0.8)';c.fill()
+    for(let i=0;i<80;i++){
+      let ang=(i/80)*Math.PI*2,mx=cx+R*Math.cos(ang),my=cy+R*Math.sin(ang)
+      let dx=mx-sx,dy=my-sy,d=Math.sqrt(dx*dx+dy*dy);if(d<0.01)continue
+      let nx=-(mx-cx)/R,ny=-(my-cy)/R,dot=dx*nx+dy*ny
+      let rx=dx-2*dot*nx,ry=dy-2*dot*ny,rLen=Math.sqrt(rx*rx+ry*ry)
+      rx/=rLen;ry/=rLen
+      c.beginPath();c.moveTo(mx,my);c.lineTo(mx+rx*60,my+ry*60)
+      c.strokeStyle='rgba(140,180,255,0.08)';c.lineWidth=0.4;c.stroke()
+    }
+  }
+
+  // ---- 69. Rössler Attractor ----
+  let rosslerX=0.1,rosslerY=0.1,rosslerZ=0.1,rosslerC=5.7
+  function drawRossler(){const c=ctx.rossler;if(!c)return;const W=280,H=280
+    let amp=0;if(rosslerMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.06)';c.fillRect(0,0,W,H)
+    let cc=5.7+amp*12;rosslerC+=(cc-rosslerC)*0.02
+    let x=rosslerX,y=rosslerY,z=rosslerZ,dt=0.012,a=0.2,b=0.2
+    for(let i=0;i<25;i++){
+      let dx=(-y-z),dy=(x+a*y),dz=(b+z*(x-rosslerC))
+      x+=dx*dt;y+=dy*dt;z+=dz*dt
+    }
+    let px=W/2+x*10,py=H/2+y*10
+    c.fillStyle='rgba(77,122,255,0.32)';c.fillRect(px,py,1.5,1.5)
+    rosslerX=x;rosslerY=y;rosslerZ=z
+  }
+
+  // ---- 70. Boids ----
+  let boidsArr=null
+  function initBoids(){boidsArr=[];for(let i=0;i<35;i++)boidsArr.push({x:Math.random()*280,y:Math.random()*280,vx:Math.random()*2-1,vy:Math.random()*2-1})}
+  function drawBoids(){const c=ctx.boids;if(!c)return;const W=280,H=280
+    let amp=0;if(boidsMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!boidsArr)initBoids()
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    let sepW=1.2+amp*2.5,aliW=0.8+amp*2,cohW=0.6+amp*2,speed=2+amp*2.5
+    for(let b of boidsArr){
+      let sx=0,sy=0,ax=0,ay=0,cx=0,cy=0,nc=0
+      for(let o of boidsArr){
+        if(o===b)continue
+        let dx=b.x-o.x,dy=b.y-o.y,d=Math.sqrt(dx*dx+dy*dy)
+        if(d<18&&d>0.001){sx+=dx/(d*d);sy+=dy/(d*d)}
+        if(d<45&&d>0.001){ax+=o.vx;ay+=o.vy;cx+=o.x;cy+=o.y;nc++}
+      }
+      b.vx+=sx*sepW*0.15+ax*aliW*0.005;b.vy+=sy*sepW*0.15+ay*aliW*0.005
+      if(nc>0){b.vx+=(cx/nc-b.x)*cohW*0.001;b.vy+=(cy/nc-b.y)*cohW*0.001}
+      let ss=Math.sqrt(b.vx*b.vx+b.vy*b.vy);if(ss>speed){b.vx=b.vx/ss*speed;b.vy=b.vy/ss*speed}
+      let m=35;if(b.x<m)b.vx+=0.6;if(b.x>W-m)b.vx-=0.6;if(b.y<m)b.vy+=0.6;if(b.y>H-m)b.vy-=0.6
+      b.x+=b.vx;b.y+=b.vy
+      let ang=Math.atan2(b.vy,b.vx)
+      c.save();c.translate(b.x,b.y);c.rotate(ang)
+      c.beginPath();c.moveTo(5,0);c.lineTo(-3,-2);c.lineTo(-3,2);c.closePath()
+      c.fillStyle='rgba(77,122,255,0.55)';c.fill();c.restore()
+    }
+  }
+
+  // ---- 71. Gray-Scott ----
+  let gsU=null,gsV=null,gsFrame=0
+  function drawGrayscott(){const c=ctx.grayscott;if(!c)return;const W=280,H=280
+    let amp=0;if(grayscottMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    let SZ=56,cs=W/SZ
+    if(!gsU){gsU=new Float32Array(SZ*SZ);gsV=new Float32Array(SZ*SZ)
+      for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){gsU[y*SZ+x]=1;gsV[y*SZ+x]=0}
+      let cx=Math.floor(SZ/2);for(let y=cx-4;y<cx+4;y++)for(let x=cx-4;x<cx+4;x++)gsV[y*SZ+x]=0.5}
+    gsFrame++;let upd=Math.max(1,Math.floor(4-amp*2))
+    if(gsFrame%upd===0){
+      let F=0.025+amp*0.03,k=0.055+amp*0.015,Du=0.14,Dv=0.07
+      let nu=new Float32Array(SZ*SZ),nv=new Float32Array(SZ*SZ)
+      for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+        let u=gsU[y*SZ+x],v=gsV[y*SZ+x]
+        let ym1=(y-1+SZ)%SZ,yp1=(y+1)%SZ,xm1=(x-1+SZ)%SZ,xp1=(x+1)%SZ
+        let lu=gsU[ym1*SZ+x]+gsU[yp1*SZ+x]+gsU[y*SZ+xm1]+gsU[y*SZ+xp1]-4*u
+        let lv=gsV[ym1*SZ+x]+gsV[yp1*SZ+x]+gsV[y*SZ+xm1]+gsV[y*SZ+xp1]-4*v
+        let uvv=u*v*v
+        nu[y*SZ+x]=u+Du*lu-uvv+F*(1-u)
+        nv[y*SZ+x]=v+Dv*lv+uvv-(F+k)*v
+      }
+      gsU=nu;gsV=nv
+      c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+      for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+        let v=gsV[y*SZ+x],alpha=Math.min(1,v*2.5)
+        if(alpha>0.02)c.fillStyle=`rgba(77,122,255,${alpha*0.65})`,c.fillRect(x*cs,y*cs,Math.ceil(cs),Math.ceil(cs))
+      }
+      return
+    }
+    // Redraw from existing grid
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+      let v=gsV[y*SZ+x],alpha=Math.min(1,v*2.5)
+      if(alpha>0.02)c.fillStyle=`rgba(77,122,255,${alpha*0.65})`,c.fillRect(x*cs,y*cs,Math.ceil(cs),Math.ceil(cs))
+    }
+  }
+
+  // ---- 72. Spirolaterals ----
+  function drawSpirolat(){const c=ctx.spirolat;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(spirolatMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.12)';c.fillRect(0,0,W,H)
+    let n=2+Math.floor(amp*12),angle=60+amp*100
+    let a=0,x=cx,y=cy;c.beginPath();c.moveTo(x,y)
+    for(let k=0;k<200;k++){
+      let step=((k%n)+1)*6
+      a+=(angle*Math.PI/180);x+=step*Math.cos(a);y+=step*Math.sin(a)
+      c.lineTo(x,y)
+    }
+    c.strokeStyle='rgba(77,122,255,0.5)';c.lineWidth=1;c.stroke()
+  }
+
+  // ---- 73. Domain Warping ----
+  function drawDwarp(){const c=ctx.dwarp;if(!c)return;const W=280,H=280
+    let amp=0;if(dwarpMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    function hash(x,y){let n=Math.sin(x*12.9898+y*78.233)*43758.5453;return n-Math.floor(n)}
+    function noise(x,y){let ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy
+      let sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy)
+      let n00=hash(ix,iy),n10=hash(ix+1,iy),n01=hash(ix,iy+1),n11=hash(ix+1,iy+1)
+      let nx0=n00+(n10-n00)*sx,nx1=n01+(n11-n01)*sx;return nx0+(nx1-nx0)*sy}
+    let warp=2+amp*5,scale=0.007
+    for(let y=0;y<H;y+=3)for(let x=0;x<W;x+=3){
+      let nx=x*scale,ny=y*scale
+      let ox=noise(nx+t*0.3,ny)*warp,oy=noise(nx+5.2,ny+t*0.25)*warp
+      let v=noise(nx+ox,ny+oy)
+      if(v>0.42){let alpha=Math.min(0.75,(v-0.42)*2.5);c.fillStyle=`rgba(77,122,255,${alpha})`;c.fillRect(x,y,3,3)}
+    }
+  }
+
+  // ---- 74. Particle Life ----
+  let plParticles=null
+  function initPlife(){plParticles=[]
+    for(let i=0;i<80;i++)plParticles.push({x:Math.random()*280,y:Math.random()*280,vx:0,vy:0,type:Math.floor(Math.random()*4)})}
+  function drawPlife(){const c=ctx.plife;if(!c)return;const W=280,H=280
+    let amp=0;if(plifeMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!plParticles)initPlife()
+    c.fillStyle='rgba(10,10,10,0.18)';c.fillRect(0,0,W,H)
+    let R=25+amp*25
+    let FM00=0.4+amp*0.3,FM01=-0.25-amp*0.3,FM02=0.15+amp*0.3,FM03=-0.35-amp*0.3
+    let FM10=-0.15-amp*0.2,FM11=0.25+amp*0.3,FM12=-0.1+amp*0.2,FM13=0.35+amp*0.3
+    let FM20=0.3+amp*0.2,FM21=-0.35-amp*0.2,FM22=0.45+amp*0.3,FM23=-0.15+amp*0.2
+    let FM30=-0.1+amp*0.2,FM31=0.2+amp*0.2,FM32=-0.3-amp*0.2,FM33=0.4+amp*0.2
+    let F=[[FM00,FM01,FM02,FM03],[FM10,FM11,FM12,FM13],[FM20,FM21,FM22,FM23],[FM30,FM31,FM32,FM33]]
+    for(let i=0;i<plParticles.length;i++){
+      let p=plParticles[i],fx=0,fy=0
+      for(let j=0;j<plParticles.length;j++){
+        if(i===j)continue
+        let q=plParticles[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy)
+        if(d<0.5)d=0.5;if(d>R)continue
+        let f=F[p.type][q.type]*(1-d/R)
+        fx+=f*dx/d;fy+=f*dy/d
+      }
+      p.vx=(p.vx+fx*0.018)*0.9;p.vy=(p.vy+fy*0.018)*0.9
+      p.x+=p.vx;p.y+=p.vy
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0
+    }
+    let colors=['rgba(77,122,255,0.65)','rgba(255,100,120,0.65)','rgba(100,255,160,0.65)','rgba(255,200,80,0.65)']
+    for(let p of plParticles){c.beginPath();c.arc(p.x,p.y,2,0,Math.PI*2);c.fillStyle=colors[p.type];c.fill()}
+  }
+
+  // ---- 75. Torus Knot ----
+  function drawTorknot(){const c=ctx.torknot;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(torknotMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.1)';c.fillRect(0,0,W,H)
+    let p=2+Math.floor(amp*4),q=3+Math.floor(amp*6),R=80,rr=35
+    let rotX=t*0.3,rotY=t*0.5
+    c.beginPath();let first=true
+    for(let th=0;th<Math.PI*2;th+=0.015){
+      let rad=R+rr*Math.cos(q*th)
+      let x3=rad*Math.cos(p*th),y3=rad*Math.sin(p*th),z3=rr*Math.sin(q*th)
+      let x2=x3*Math.cos(rotY)+z3*Math.sin(rotY),z2=-x3*Math.sin(rotY)+z3*Math.cos(rotY)
+      let y2=y3*Math.cos(rotX)-z2*Math.sin(rotX)
+      let px=cx+x2,py=cy+y2
+      if(first){c.moveTo(px,py);first=false}else c.lineTo(px,py)
+    }
+    c.strokeStyle='rgba(77,122,255,0.55)';c.lineWidth=1.2;c.stroke()
+  }
+
+  // ---- 76. Lichtenberg ----
+  let lichtenGrid=null,lichtenPts=null,lichtenFill=0
+  function initLichten(){
+    let SZ=80;lichtenGrid=new Float32Array(SZ*SZ);lichtenPts=[];lichtenFill=0
+    let cx=Math.floor(SZ/2),cy=Math.floor(SZ/2)
+    lichtenGrid[cy*SZ+cx]=1;lichtenPts.push({x:cx,y:cy})
+  }
+  function drawLichten(){const c=ctx.lichten;if(!c)return;const W=280,H=280
+    let amp=0;if(lichtenMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!lichtenGrid)initLichten()
+    let SZ=80,cs=W/SZ,eta=1.5+amp*4
+    // Grow
+    let growPerFrame=Math.floor(3+amp*8)
+    for(let s=0;s<growPerFrame;s++){
+      let candidates=[]
+      for(let p of lichtenPts){
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+          if(dx===0&&dy===0)continue
+          let nx=p.x+dx,ny=p.y+dy
+          if(nx<0||nx>=SZ||ny<0||ny>=SZ)continue
+          if(lichtenGrid[ny*SZ+nx]===0)candidates.push({x:nx,y:ny})
+        }
+      }
+      if(candidates.length===0)break
+      let weights=[],totalW=0
+      for(let cnd of candidates){
+        let pot=0
+        for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
+          let nx=cnd.x+dx,ny=cnd.y+dy
+          if(nx<0||nx>=SZ||ny<0||ny>=SZ)continue
+          pot+=lichtenGrid[ny*SZ+nx]
+        }
+        pot=Math.pow(pot+0.1,eta);weights.push(pot);totalW+=pot
+      }
+      if(totalW===0)break
+      let r=Math.random()*totalW
+      for(let i=0;i<candidates.length;i++){r-=weights[i];if(r<=0){let pt=candidates[i];lichtenGrid[pt.y*SZ+pt.x]=1;lichtenPts.push(pt);lichtenFill++;break}}
+    }
+    // Draw
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+      if(lichtenGrid[y*SZ+x]>0)c.fillStyle='rgba(77,122,255,0.55)',c.fillRect(x*cs,y*cs,Math.ceil(cs),Math.ceil(cs))
+    }
+    // Reset
+    if(lichtenFill>2500){initLichten()}
+  }
+
+  // ---- 77. Physarum ----
+  let physGrid=null,physAgents=null
+  function initPhys(){let SZ=70;physGrid=new Float32Array(SZ*SZ);physAgents=[]
+    for(let i=0;i<60;i++)physAgents.push({x:Math.random()*SZ,y:Math.random()*SZ,ang:Math.random()*Math.PI*2})}
+  function drawPhysarum(){const c=ctx.physarum;if(!c)return;const W=280,H=280
+    let amp=0;if(physarumMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!physGrid)initPhys()
+    let SZ=70,cs=W/SZ
+    // Diffuse + decay trail map
+    let ng=new Float32Array(SZ*SZ)
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+      let ym1=(y-1+SZ)%SZ,yp1=(y+1)%SZ,xm1=(x-1+SZ)%SZ,xp1=(x+1)%SZ
+      ng[y*SZ+x]=(physGrid[y*SZ+x]*0.7+(physGrid[ym1*SZ+x]+physGrid[yp1*SZ+x]+physGrid[y*SZ+xm1]+physGrid[y*SZ+xp1])*0.07)*0.99
+    }
+    physGrid=ng
+    // Agent movement
+    let sd=5+amp*7,sa=0.4+amp*0.5,sp=0.5+amp*0.6
+    for(let a of physAgents){
+      function sense(off){let sx=a.x+Math.cos(a.ang+off)*sd,sy=a.y+Math.sin(a.ang+off)*sd
+        sx=((sx%SZ)+SZ)%SZ;sy=((sy%SZ)+SZ)%SZ;return physGrid[Math.floor(sy)*SZ+Math.floor(sx)]}
+      let fl=sense(-sa),fc=sense(0),fr=sense(sa)
+      if(fl>fc&&fl>fr)a.ang-=0.12+amp*0.2;else if(fr>fc&&fr>fl)a.ang+=0.12+amp*0.2;else a.ang+=(Math.random()-0.5)*0.25
+      a.x+=Math.cos(a.ang)*sp;a.y+=Math.sin(a.ang)*sp
+      a.x=((a.x%SZ)+SZ)%SZ;a.y=((a.y%SZ)+SZ)%SZ
+      let ix=Math.floor(a.x),iy=Math.floor(a.y);physGrid[iy*SZ+ix]=Math.min(1,physGrid[iy*SZ+ix]+0.08+amp*0.05)
+    }
+    // Draw
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){let v=physGrid[y*SZ+x]
+      if(v>0.008){let a=Math.min(1,v*1.8);c.fillStyle=`rgba(77,122,255,${a*0.45})`;c.fillRect(x*cs,y*cs,Math.ceil(cs),Math.ceil(cs))}}
+    for(let a of physAgents){c.fillStyle='rgba(200,230,255,0.55)';c.fillRect(Math.floor(a.x*cs),Math.floor(a.y*cs),1.5,1.5)}
+  }
+
+  // ---- 78. Breathing Mandala ----
+  function drawMandala(){const c=ctx.mandala;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(mandalaMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.1)';c.fillRect(0,0,W,H)
+    let breath=1+amp*0.12*Math.sin(t*2.3)
+    for(let layer=0;layer<7;layer++){
+      let r=14+layer*17*breath,petals=3+layer,rot=t*(0.25+layer*0.1)*(layer%2?1:-1)
+      c.beginPath()
+      for(let i=0;i<=360;i++){
+        let ang=i*Math.PI/180+rot,rr=r+Math.sin(petals*ang)*5.5*breath
+        let px=cx+Math.cos(ang)*rr,py=cy+Math.sin(ang)*rr
+        i===0?c.moveTo(px,py):c.lineTo(px,py)
+      }
+      c.strokeStyle=`rgba(77,122,255,${0.07+layer*0.04})`;c.lineWidth=0.7;c.stroke()
+      for(let d=0;d<petals;d++){
+        let ang=rot+d*Math.PI*2/petals,px=cx+Math.cos(ang)*r,py=cy+Math.sin(ang)*r
+        c.beginPath();c.arc(px,py,1.8,0,Math.PI*2);c.fillStyle='rgba(140,180,255,0.45)';c.fill()
+      }
+    }
+  }
+
+  // ---- 79. Echo Ripples ----
+  let echoRings=[]
+  function drawEchorip(){const c=ctx.echorip;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(echoripMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.12)';c.fillRect(0,0,W,H)
+    let bands=[{rate:0.5,r0:15,ampM:0.4},{rate:0.8,r0:8,ampM:0.6},{rate:1.2,r0:4,ampM:0.9}]
+    for(let b of bands){if(Math.random()<b.rate*0.025*(amp+0.4))echoRings.push({r:b.r0,life:2.8,alpha:0.25+amp*b.ampM})}
+    for(let i=echoRings.length-1;i>=0;i--){
+      let rng=echoRings[i];rng.r+=1.8;rng.life-=0.016;rng.alpha*=0.994
+      if(rng.life<=0||rng.r>145){echoRings.splice(i,1);continue}
+      let a=rng.alpha*(rng.life/2.8)
+      c.beginPath();c.arc(cx,cy,rng.r,0,Math.PI*2);c.strokeStyle=`rgba(77,122,255,${a})`;c.lineWidth=1.2;c.stroke()
+    }
+    // Cleanup
+    if(echoRings.length>200)echoRings.splice(0,echoRings.length-150)
+  }
+
+  // ---- 80. Neural Ring ----
+  let nnData=null
+  function initNN(){let layers=[8,12,8,1];nnData={layers:[],weights:[],radii:[30,65,100,130]}
+    for(let l=0;l<layers.length;l++){nnData.layers[l]=[];let n=layers[l]
+      for(let i=0;i<n;i++)nnData.layers[l].push({ang:(i/n)*Math.PI*2,act:0,tgt:0})}
+    for(let l=0;l<layers.length-1;l++){nnData.weights[l]=[]
+      for(let j=0;j<layers[l+1];j++){nnData.weights[l][j]=[];for(let i=0;i<layers[l];i++)nnData.weights[l][j][i]=(Math.random()-0.5)*1.5}}}
+  function drawNeural(){const c=ctx.neural;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(neuralMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!nnData)initNN()
+    c.fillStyle='rgba(10,10,10,0.18)';c.fillRect(0,0,W,H)
+    // Input activation
+    let L=nnData.layers,R=nnData.radii,Wg=nnData.weights
+    for(let i=0;i<L[0].length;i++)L[0][i].tgt=Math.sin(t*3.5+i*0.7+amp*5)*0.5+0.5
+    // Forward propagation
+    for(let l=0;l<L.length-1;l++)for(let j=0;j<L[l+1].length;j++){
+      let s=0;for(let i=0;i<L[l].length;i++)s+=L[l][i].act*Wg[l][j][i]
+      L[l+1][j].tgt=Math.tanh(s)
+    }
+    // Smooth
+    for(let l=0;l<L.length;l++)for(let n of L[l])n.act+=(n.tgt-n.act)*0.25
+    // Draw connections
+    for(let l=0;l<L.length-1;l++)for(let j=0;j<L[l+1].length;j++)for(let i=0;i<L[l].length;i++){
+      let a=L[l][i].act*0.35;if(a<0.03)continue
+      let x1=cx+Math.cos(L[l][i].ang)*R[l],y1=cy+Math.sin(L[l][i].ang)*R[l]
+      let x2=cx+Math.cos(L[l+1][j].ang)*R[l+1],y2=cy+Math.sin(L[l+1][j].ang)*R[l+1]
+      c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2)
+      c.strokeStyle=`rgba(77,122,255,${a})`;c.lineWidth=a*1.8;c.stroke()
+    }
+    // Draw nodes
+    for(let l=0;l<L.length;l++)for(let n of L[l]){
+      let x=cx+Math.cos(n.ang)*R[l],y=cy+Math.sin(n.ang)*R[l]
+      c.beginPath();c.arc(x,y,2+n.act*3.5,0,Math.PI*2)
+      c.fillStyle=`rgba(${Math.floor(77+n.act*150)},${Math.floor(122+n.act*80)},255,${0.45+n.act*0.5})`;c.fill()
+    }
+  }
+
+  // ---- 81. Flow Ornament ----
+  function drawFloworn(){const c=ctx.floworn;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(flowornMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.08)';c.fillRect(0,0,W,H)
+    for(let seed=0;seed<28;seed++){
+      let ang0=seed*Math.PI*2/28+t*0.08,x=cx+Math.cos(ang0)*115,y=cy+Math.sin(ang0)*115
+      c.beginPath();c.moveTo(x,y)
+      for(let s=0;s<90;s++){
+        let dx=x-cx,dy=y-cy,dist=Math.sqrt(dx*dx+dy*dy)
+        let vx=-dy*0.04+Math.sin(y*0.025+t)*1.8*amp
+        let vy=dx*0.04+Math.cos(x*0.025+t*0.7)*1.8*amp
+        x+=vx;y+=vy;if(dist>138||dist<3)break
+        c.lineTo(x,y)
+      }
+      c.strokeStyle=`rgba(77,122,255,${0.06+amp*0.04})`;c.lineWidth=0.5;c.stroke()
+    }
+  }
+
+  // ---- 82. Hypotrochoid Garden ----
+  function drawHypotro(){const c=ctx.hypotro;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(hypotroMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.1)';c.fillRect(0,0,W,H)
+    let cfgs=[[125,48,32],[105,63,42],[135,37,28],[110,52,48],[95,72,38]]
+    for(let cfg of cfgs){
+      let R=cfg[0],rr=cfg[1],d=cfg[2],rot=t*(0.15+cfg[1]*0.001)*(cfg[0]%3?1:-1),ratio=(R-rr)/rr
+      c.beginPath()
+      for(let th=0;th<Math.PI*35;th+=0.04){
+        let px=cx+(R-rr)*Math.cos(th+rot)+d*Math.cos(ratio*th+rot)
+        let py=cy+(R-rr)*Math.sin(th+rot)-d*Math.sin(ratio*th+rot)
+        th===0?c.moveTo(px,py):c.lineTo(px,py)
+      }
+      c.strokeStyle=`rgba(77,122,255,${0.1+cfg[2]*0.004})`;c.lineWidth=0.6;c.stroke()
+    }
+  }
+
+  // ---- 83. Magnetic Field ----
+  function drawMagfield(){const c=ctx.magfield;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(magfieldMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.1)';c.fillRect(0,0,W,H)
+    let mx=Math.cos(t*0.35)*0.5,my=Math.sin(t*0.35)*0.5,str=1+amp*2.5 // dipole moment
+    for(let sa=0;sa<Math.PI*2;sa+=Math.PI/16){
+      let sx=cx+Math.cos(sa)*18,sy=cy+Math.sin(sa)*18,x=sx,y=sy
+      c.beginPath();c.moveTo(x,y)
+      for(let s=0;s<100;s++){
+        let dx=x-cx,dy=y-cy,r=Math.sqrt(dx*dx+dy*dy)
+        if(r<3||r>135)break;let rx=dx/r,ry=dy/r
+        let mdotr=mx*rx+my*ry,invR3=1/(r*r*r+0.01)*str*600
+        let bx=(3*mdotr*rx-mx)*invR3,by=(3*mdotr*ry-my)*invR3
+        let bl=Math.sqrt(bx*bx+by*by);if(bl>12){bx=bx/bl*12;by=by/bl*12}
+        x+=bx;y+=by;c.lineTo(x,y)
+      }
+      c.strokeStyle='rgba(77,122,255,0.22)';c.lineWidth=0.5;c.stroke()
+    }
+  }
+
+  // ---- 84. Quantum Modes ----
+  function drawQuantum(){const c=ctx.quantum;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(quantumMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let y=0;y<H;y+=3)for(let x=0;x<W;x+=3){
+      let dx=(x-cx)/120,dy=(y-cy)/120,r=Math.sqrt(dx*dx+dy*dy)
+      if(r>1)continue
+      let val=0
+      for(let m=0;m<5;m++){
+        let k=3+m*2.5+amp*4,phase=t*(1.2+m*0.4),a=Math.sin(t*0.8+m+amp*3)*0.5+0.5
+        val+=Math.cos(r*k+phase)*a
+      }
+      val=Math.abs(val)/5
+      if(val>0.18){let alpha=Math.min(0.7,(val-0.18)*3);c.fillStyle=`rgba(77,122,255,${alpha})`;c.fillRect(x,y,3,3)}
+    }
+  }
+
+  // ---- 85. Cymatics ----
+  function drawCymatics(){const c=ctx.cymatics;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(cymaticsMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.25)';c.fillRect(0,0,W,H)
+    let bands=[{f:1.2,a:0.4+amp*0.5,n:2},{f:2.5,a:0.3+amp*0.6,n:3},{f:4.0,a:0.2+amp*0.5,n:4},{f:5.8,a:0.35+amp*0.5,n:5}]
+    for(let y=0;y<H;y+=4)for(let x=0;x<W;x+=4){
+      let dx=(x-cx)/110,dy=(y-cy)/110,r=Math.sqrt(dx*dx+dy*dy),th=Math.atan2(dy,dx)
+      if(r>1)continue;let z=0
+      for(let b of bands)z+=Math.cos(b.f*r*Math.PI)*Math.cos(th*b.n+b.f)*b.a
+      z=Math.abs(z)/bands.length
+      if(z>0.28){let a=Math.min(0.65,(z-0.28)*2.2);c.fillStyle=`rgba(77,122,255,${a})`;c.fillRect(x,y,4,4)}
+    }
+  }
+
+  // ---- 86. Plasma Ball ----
+  let plasmaRays=null
+  function initPlasma(){plasmaRays=[];for(let i=0;i<18;i++)plasmaRays.push({ang:Math.random()*Math.PI*2,len:20+Math.random()*40,tgt:50+Math.random()*70,wig:0})}
+  function drawPlasmaball(){const c=ctx.plasmaball;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(plasmaballMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!plasmaRays)initPlasma()
+    c.fillStyle='rgba(10,10,10,0.15)';c.fillRect(0,0,W,H)
+    // Core glow
+    let grd=c.createRadialGradient(cx,cy,0,cx,cy,28+amp*18);grd.addColorStop(0,'rgba(140,180,255,0.55)');grd.addColorStop(1,'rgba(77,122,255,0)')
+    c.fillStyle=grd;c.beginPath();c.arc(cx,cy,28+amp*18,0,Math.PI*2);c.fill()
+    for(let ray of plasmaRays){
+      ray.tgt=25+amp*95+Math.sin(t*4+ray.ang*8)*18;ray.len+=(ray.tgt-ray.len)*0.06
+      ray.wig+=Math.sin(t*7+ray.ang)*0.25*amp;ray.ang+=Math.sin(t*2.5+ray.ang*4)*0.008*amp
+      c.beginPath();c.moveTo(cx,cy)
+      let segs=16
+      for(let s=1;s<=segs;s++){let f=s/segs,w=Math.sin(s*1.3+ray.wig)*f*14*amp,r=ray.len*f,ang=ray.ang+w*0.025;c.lineTo(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r)}
+      c.strokeStyle='rgba(140,180,255,0.28)';c.lineWidth=1+amp*0.4;c.stroke()
+      // Branch tips
+      if(ray.len>35){let tr=ray.len,ta=ray.ang,bx=cx+Math.cos(ta)*tr,by=cy+Math.sin(ta)*tr
+        for(let b=0;b<3;b++){let ba=ta+(b-1)*0.28*amp;c.beginPath();c.moveTo(bx,by);c.lineTo(bx+Math.cos(ba)*tr*0.18,by+Math.sin(ba)*tr*0.18);c.strokeStyle='rgba(180,200,255,0.18)';c.lineWidth=0.4;c.stroke()}}
+    }
+    if(Math.random()<0.015&&plasmaRays.length<24)plasmaRays.push({ang:Math.random()*Math.PI*2,len:8,tgt:50,wig:0})
+    if(plasmaRays.length>24)plasmaRays.splice(0,plasmaRays.length-24)
+  }
+
+  // ---- 87. Orbiting Electrons ----
+  function drawElectrons(){const c=ctx.electrons;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(electronsMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.1)';c.fillRect(0,0,W,H)
+    c.beginPath();c.arc(cx,cy,7+amp*4,0,Math.PI*2);c.fillStyle='rgba(140,180,255,0.55)';c.fill()
+    let shells=[{r:26,n:3},{r:48,n:5},{r:72,n:7},{r:98,n:5},{r:118,n:6}]
+    for(let sh of shells){
+      c.beginPath();c.arc(cx,cy,sh.r,0,Math.PI*2);c.strokeStyle='rgba(77,122,255,0.1)';c.lineWidth=0.5;c.stroke()
+      for(let i=0;i<sh.n;i++){
+        let ang=(i/sh.n)*Math.PI*2+t*(0.7+sh.r*0.003)*(i%2?1:-1)
+        let r=sh.r+Math.sin(t*1.8+i)*3*amp,px=cx+Math.cos(ang)*r,py=cy+Math.sin(ang)*r
+        c.beginPath();c.arc(px,py,2.2,0,Math.PI*2);c.fillStyle='rgba(200,220,255,0.65)';c.fill()
+        c.beginPath();c.arc(px,py,5.5,0,Math.PI*2);c.fillStyle='rgba(140,180,255,0.12)';c.fill()
+      }
+    }
+  }
+
+  // ---- 88. Flower of Life ----
+  function drawFlowerlife(){const c=ctx.flowerlife;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(flowerlifeMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.06)';c.fillRect(0,0,W,H)
+    let R=20+amp*4.5,ux=R,uy=0,vx=R*0.5,vy=R*Math.sqrt(3)/2,maxD=145,maxS=Math.ceil(maxD/R)+1
+    let pts=[],pulse=1+amp*0.07*Math.sin(t*2.5)
+    for(let a=-maxS;a<=maxS;a++)for(let b=-maxS;b<=maxS;b++){
+      let px=a*ux+b*vx,py=a*uy+b*vy
+      if(px*px+py*py<maxD*maxD)pts.push({x:cx+px*pulse,y:cy+py*pulse})
+    }
+    for(let p of pts){c.beginPath();c.arc(p.x,p.y,R*0.48,0,Math.PI*2);c.strokeStyle='rgba(77,122,255,0.22)';c.lineWidth=0.7;c.stroke()}
+  }
+
+  // ---- 89. Aurora ----
+  function drawAurora(){const c=ctx.aurora;if(!c)return;const W=280,H=280
+    let amp=0;if(auroraMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.1)';c.fillRect(0,0,W,H)
+    for(let layer=0;layer<4;layer++){
+      let baseY=55+layer*48,alpha=0.1+layer*0.03+amp*0.04
+      c.beginPath();c.moveTo(0,baseY)
+      for(let x=0;x<W;x+=2){c.lineTo(x,baseY+Math.sin(x*0.018+t*1.2+layer)*22*amp+Math.sin(x*0.045+t*2+layer*2)*10*amp+Math.cos(x*0.028+t*0.65+layer)*16*amp)}
+      c.lineTo(W,H);c.lineTo(0,H);c.closePath()
+      let grd=c.createLinearGradient(0,baseY-25,0,baseY+45)
+      grd.addColorStop(0,`rgba(80,200,160,${alpha})`);grd.addColorStop(0.5,`rgba(60,140,210,${alpha*1.4})`);grd.addColorStop(1,'rgba(20,40,90,0)')
+      c.fillStyle=grd;c.fill()
+    }
+  }
+
+  // ---- 90. Heartbeat ----
+  let hbPhase=0
+  function drawHeartbeat(){const c=ctx.heartbeat;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(heartbeatMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    c.fillStyle='rgba(10,10,10,0.18)';c.fillRect(0,0,W,H)
+    let bpm=55+amp*110,interval=60/bpm;hbPhase+=0.016;if(hbPhase>=interval)hbPhase-=interval
+    let beatAge=hbPhase/interval,pulse=beatAge<0.18?1-beatAge/0.18:0
+    // Pulse rings
+    for(let i=0;i<5;i++){
+      let r=15+hbPhase*180+i*8;if(r>140)continue
+      let alpha=0.35*(1-r/140)*(1-Math.abs(beatAge-0.5)*1.5)
+      if(alpha>0){c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.strokeStyle=`rgba(200,100,130,${alpha})`;c.lineWidth=2.5;c.stroke()}
+    }
+    // Core
+    let cs=12+pulse*70*amp;let grd=c.createRadialGradient(cx,cy,0,cx,cy,cs)
+    grd.addColorStop(0,'rgba(200,140,170,0.5)');grd.addColorStop(1,'rgba(180,90,110,0)')
+    c.fillStyle=grd;c.beginPath();c.arc(cx,cy,cs,0,Math.PI*2);c.fill()
+  }
+
+  // ---- 91. Galaxy Spiral ----
+  let galaxyStars=null
+  function initGalaxy(){galaxyStars=[]
+    for(let i=0;i<300;i++){let arm=Math.floor(Math.random()*3),dist=Math.pow(Math.random(),0.5)*130
+      galaxyStars.push({dist,ang:arm*Math.PI*2/3+dist*0.055+Math.random()*0.25,size:Math.random()*1.4+0.4,br:Math.random()*0.4+0.3})}}
+  function drawGalaxy(){const c=ctx.galaxy;if(!c)return;const W=280,H=280,cx=W/2,cy=H/2
+    let amp=0;if(galaxyMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!galaxyStars)initGalaxy()
+    c.fillStyle='rgba(10,10,10,0.18)';c.fillRect(0,0,W,H)
+    let grd=c.createRadialGradient(cx,cy,0,cx,cy,22);grd.addColorStop(0,'rgba(200,200,255,0.35)');grd.addColorStop(1,'rgba(77,122,255,0)')
+    c.fillStyle=grd;c.beginPath();c.arc(cx,cy,22,0,Math.PI*2);c.fill()
+    let rot=t*0.1+amp*0.12
+    for(let s of galaxyStars){
+      let ang=s.ang+rot*(1-s.dist/130)*0.45,r=s.dist+Math.sin(ang*4+t)*1.5*amp,px=cx+Math.cos(ang)*r,py=cy+Math.sin(ang)*r
+      c.beginPath();c.arc(px,py,s.size,0,Math.PI*2);c.fillStyle=`rgba(170,200,255,${s.br*(0.5+amp*0.5)})`;c.fill()
+    }
+    // Arm overlay
+    for(let arm=0;arm<3;arm++){let ba=arm*Math.PI*2/3+rot;c.beginPath()
+      for(let rr=4;rr<135;rr+=2){let ang=ba+rr*0.06,px=cx+Math.cos(ang)*rr,py=cy+Math.sin(ang)*rr;rr===4?c.moveTo(px,py):c.lineTo(px,py)}
+      c.strokeStyle='rgba(140,180,255,0.08)';c.lineWidth=3.5;c.stroke()}
+  }
+
+  // ---- 92. Water Droplet ----
+  let waterH=null,waterV=null,waterDropTimer=0
+  function initWater(){let SZ=70;waterH=new Float32Array(SZ*SZ);waterV=new Float32Array(SZ*SZ)}
+  function drawWaterdrop(){const c=ctx.waterdrop;if(!c)return;const W=280,H=280
+    let amp=0;if(waterdropMode==='voice')amp=0.3+0.7*Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(!waterH)initWater()
+    let SZ=70,cs=W/SZ
+    // Trigger droplets
+    waterDropTimer+=0.016
+    let voiceEnv=Math.abs(Math.sin(t*4.5+Math.sin(t*1.7)))*Math.abs(Math.sin(t*2.3))
+    if(voiceEnv>0.65&&Math.random()<0.2*amp&&waterDropTimer>0.15){waterDropTimer=0
+      let dx=Math.floor(SZ/2+(Math.random()-0.5)*20),dy=Math.floor(SZ/2+(Math.random()-0.5)*20)
+      waterH[Math.max(0,Math.min(SZ-1,dy))*SZ+Math.max(0,Math.min(SZ-1,dx))]=0.8+amp*0.5}
+    // Spring-mass wave propagation
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+      let ym1=(y-1+SZ)%SZ,yp1=(y+1)%SZ,xm1=(x-1+SZ)%SZ,xp1=(x+1)%SZ
+      let avg=(waterH[ym1*SZ+x]+waterH[yp1*SZ+x]+waterH[y*SZ+xm1]+waterH[y*SZ+xp1])/4
+      waterV[y*SZ+x]+=(avg-waterH[y*SZ+x])*0.28;waterV[y*SZ+x]*=0.965;waterH[y*SZ+x]+=waterV[y*SZ+x]
+    }
+    // Draw
+    c.fillStyle='#0A0A0A';c.fillRect(0,0,W,H)
+    for(let y=0;y<SZ;y++)for(let x=0;x<SZ;x++){
+      let v=waterH[y*SZ+x],a=Math.abs(v)*0.7
+      if(a>0.015)c.fillStyle=v>0?`rgba(130,200,240,${a})`:`rgba(60,100,180,${a})`,c.fillRect(x*cs,y*cs,Math.ceil(cs),Math.ceil(cs))
+    }
+  }
+
   // ---- Main loop ----
   function loop() {
     requestAnimationFrame(loop)
@@ -2523,6 +3689,38 @@
     drawLorenz2();
     drawDrunk();
     drawPolark();
+    drawIkeda();
+    drawMaurer();
+    drawApollonian();
+    drawDpend();
+    drawCyclicca();
+    drawCoupled();
+    drawConfmap();
+    drawCaustic();
+    drawRossler();
+    drawBoids();
+    drawGrayscott();
+    drawSpirolat();
+    drawDwarp();
+    drawPlife();
+    drawTorknot();
+    drawLichten();
+    drawPhysarum();
+    drawMandala();
+    drawEchorip();
+    drawNeural();
+    drawFloworn();
+    drawHypotro();
+    drawMagfield();
+    drawQuantum();
+    drawCymatics();
+    drawPlasmaball();
+    drawElectrons();
+    drawFlowerlife();
+    drawAurora();
+    drawHeartbeat();
+    drawGalaxy();
+    drawWaterdrop();
     drawCombined();
   }
   loop()
