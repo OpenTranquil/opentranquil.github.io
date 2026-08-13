@@ -48,30 +48,30 @@
       </div>
     </div>
 
-    <div class="system-plate" role="img" aria-label="TranquilOS system section: lower EL3 boot, EL2 virtualization, EL1 microkernel, and upper EL0 services and applications">
-      <svg viewBox="0 0 560 580" aria-hidden="true">
+    <div class="system-plate" role="img" aria-label="TranquilOS system section: lower EL3 boot, EL2 virtualization, EL1 microkernel, and upper EL0 services (including driver daemons) and applications">
+      <svg viewBox="0 0 560 602" aria-hidden="true">
         <defs>
           <marker id="plate-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
             <path d="M0 0L8 4L0 8Z"></path>
           </marker>
         </defs>
         <g class="plate-grid">
-          <line x1="16" y1="28" x2="544" y2="28"/><line x1="62" y1="20" x2="62" y2="560"/>
-          <line x1="16" y1="118" x2="544" y2="118"/><line x1="16" y1="230" x2="544" y2="230"/>
-          <line x1="16" y1="342" x2="544" y2="342"/><line x1="16" y1="452" x2="544" y2="452"/>
-          <line x1="16" y1="558" x2="544" y2="558"/>
+          <line x1="16" y1="28" x2="544" y2="28"/><line x1="62" y1="20" x2="62" y2="582"/>
+          <line x1="16" y1="118" x2="544" y2="118"/><line x1="16" y1="252" x2="544" y2="252"/>
+          <line x1="16" y1="364" x2="544" y2="364"/><line x1="16" y1="474" x2="544" y2="474"/>
+          <line x1="16" y1="580" x2="544" y2="580"/>
         </g>
         <text class="plate-el" x="17" y="78">APP</text>
         <text class="plate-el" x="17" y="174">EL0</text>
-        <text class="plate-el" x="17" y="286">EL1</text>
-        <text class="plate-el" x="17" y="397">EL2</text>
-        <text class="plate-el" x="17" y="508">EL3</text>
+        <text class="plate-el" x="17" y="308">EL1</text>
+        <text class="plate-el" x="17" y="419">EL2</text>
+        <text class="plate-el" x="17" y="530">EL3</text>
 
         <rect class="plate-band" x="88" y="48" width="430" height="52"/>
         <text class="plate-name" x="108" y="79">APPLICATIONS</text>
         <text class="plate-meta plate-count" x="500" y="79" text-anchor="end">14+ GRAPHICAL APPS</text>
 
-        <rect class="plate-band" x="88" y="138" width="430" height="74"/>
+        <rect class="plate-band" x="88" y="138" width="430" height="96"/>
         <text class="plate-name" x="108" y="168">USERSPACE SERVICES</text>
         <g class="plate-services">
           <rect x="108" y="180" width="70" height="20"/><rect x="186" y="180" width="54" height="20"/>
@@ -80,24 +80,31 @@
           <text x="143" y="193" text-anchor="middle">SYSTEMD</text><text x="213" y="193" text-anchor="middle">FSD</text>
           <text x="275" y="193" text-anchor="middle">NETD</text><text x="351" y="193" text-anchor="middle">DEVMGR</text>
           <text x="446" y="193" text-anchor="middle">WINDOW</text>
+          <rect x="108" y="206" width="44" height="16"/><rect x="158" y="206" width="44" height="16"/>
+          <rect x="208" y="206" width="44" height="16"/><rect x="258" y="206" width="44" height="16"/>
+          <rect x="308" y="206" width="44" height="16"/><rect x="358" y="206" width="44" height="16"/>
+          <text x="130" y="217" text-anchor="middle">DSP</text><text x="180" y="217" text-anchor="middle">BLK</text>
+          <text x="230" y="217" text-anchor="middle">NET</text><text x="280" y="217" text-anchor="middle">SND</text>
+          <text x="330" y="217" text-anchor="middle">INP</text><text x="380" y="217" text-anchor="middle">BT</text>
+          <text class="plate-meta" x="409" y="217">DRV ×6</text>
         </g>
 
-        <rect class="plate-band plate-kernel" x="88" y="250" width="430" height="74"/>
-        <text class="plate-name" x="108" y="280">MICROKERNEL</text>
-        <text class="plate-meta" x="108" y="305">CAPABILITY</text><text class="plate-meta" x="220" y="305">IPC</text>
-        <text class="plate-meta" x="278" y="305">SCHEDULER</text><text class="plate-meta" x="414" y="305">IRQ / TIME</text>
+        <rect class="plate-band plate-kernel" x="88" y="272" width="430" height="74"/>
+        <text class="plate-name" x="108" y="302">MICROKERNEL</text>
+        <text class="plate-meta" x="108" y="327">CAPABILITY</text><text class="plate-meta" x="220" y="327">IPC</text>
+        <text class="plate-meta" x="278" y="327">SCHEDULER</text><text class="plate-meta" x="414" y="327">IRQ / TIME</text>
 
-        <rect class="plate-band" x="88" y="362" width="430" height="72"/>
-        <text class="plate-name" x="108" y="396">HYPERVISOR</text>
-        <text class="plate-meta" x="500" y="396" text-anchor="end">STAGE–2 · vGIC · vTIMER</text>
+        <rect class="plate-band" x="88" y="384" width="430" height="72"/>
+        <text class="plate-name" x="108" y="418">HYPERVISOR</text>
+        <text class="plate-meta" x="500" y="418" text-anchor="end">STAGE–2 · vGIC · vTIMER</text>
 
-        <rect class="plate-band" x="88" y="474" width="430" height="62"/>
-        <text class="plate-name" x="108" y="506">BOOTLOADER</text>
-        <text class="plate-meta" x="500" y="506" text-anchor="end">PLATFORM INIT · IMAGE LOAD</text>
+        <rect class="plate-band" x="88" y="496" width="430" height="62"/>
+        <text class="plate-name" x="108" y="528">BOOTLOADER</text>
+        <text class="plate-meta" x="500" y="528" text-anchor="end">PLATFORM INIT · IMAGE LOAD</text>
 
-        <path class="plate-flow" marker-end="url(#plate-arrow)" d="M102 505H74V398H102V287H74V175H102V74H102"/>
-        <circle class="plate-node" cx="102" cy="505" r="4"/><circle class="plate-node" cx="102" cy="398" r="4"/>
-        <circle class="plate-node" cx="102" cy="287" r="4"/><circle class="plate-node" cx="102" cy="175" r="4"/>
+        <path class="plate-flow" marker-end="url(#plate-arrow)" d="M102 527H74V420H102V309H74V197H102V74H102"/>
+        <circle class="plate-node" cx="102" cy="527" r="4"/><circle class="plate-node" cx="102" cy="420" r="4"/>
+        <circle class="plate-node" cx="102" cy="309" r="4"/><circle class="plate-node" cx="102" cy="197" r="4"/>
         <circle class="plate-node" cx="102" cy="74" r="4"/>
       </svg>
     </div>
