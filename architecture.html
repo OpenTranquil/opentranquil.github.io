@@ -329,49 +329,6 @@ system.img (128MB, ext2)
       <h2>硬件驱动，独立进程运行。</h2>
       <p>驱动以 EL0 daemon 进程运行，devmgr 维护注册表并按类转发 IPC；只有启动关键驱动留在内核。</p>
     </div>
-    <div class="svg-scroll">
-    <svg class="arch-svg" viewBox="0 0 800 320" role="img" aria-label="独立进程驱动架构：六个驱动 daemon 进程经 driver_mgr 协议注册到 devmgr 注册表，devmgr 按类转发 IPC；block.drv 由 init.rc exec 拉起，其余由 zygote drivers.json 拉起">
-      <defs>
-        <marker id="arrw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z"></path>
-        </marker>
-      </defs>
-
-      <!-- devmgr registry -->
-      <rect class="layer" x="40" y="40" width="210" height="160"></rect>
-      <text class="name" x="64" y="72">devmgr</text>
-      <text class="desc" x="64" y="98">driver_daemon_mgr</text>
-      <text class="desc" x="64" y="114">spinlock 注册表 · 32 项</text>
-      <text class="desc" x="64" y="134">按类转发 · 懒解析 pool cref</text>
-      <text class="desc" x="64" y="154">进程内外设管理器 fallback</text>
-
-      <!-- driver daemons -->
-      <rect class="comp" x="470" y="40" width="150" height="32"></rect><text class="comp-t" x="545" y="60" text-anchor="middle">display.drv · 0x41</text>
-      <rect class="comp" x="640" y="40" width="150" height="32"></rect><text class="comp-t" x="715" y="60" text-anchor="middle">block.drv · 0x42</text>
-      <rect class="comp" x="470" y="88" width="150" height="32"></rect><text class="comp-t" x="545" y="108" text-anchor="middle">net.drv · 0x43</text>
-      <rect class="comp" x="640" y="88" width="150" height="32"></rect><text class="comp-t" x="715" y="108" text-anchor="middle">snd.drv · 0x44</text>
-      <rect class="comp" x="470" y="136" width="150" height="32"></rect><text class="comp-t" x="545" y="156" text-anchor="middle">input.drv · 0x45</text>
-      <rect class="comp" x="640" y="136" width="150" height="32"></rect><text class="comp-t" x="715" y="156" text-anchor="middle">bt.drv · 0x46</text>
-
-      <!-- register / forward arrows -->
-      <line class="flow" x1="470" y1="56" x2="252" y2="56" marker-start="url(#arrw)"></line>
-      <text class="desc" x="360" y="48" text-anchor="middle">register (driver_mgr 0x30)</text>
-      <line class="flow" x1="250" y1="140" x2="468" y2="140"></line>
-      <text class="desc" x="360" y="160" text-anchor="middle">forward per-class IPC</text>
-
-      <!-- spawn paths -->
-      <rect class="layer" x="40" y="230" width="330" height="64"></rect>
-      <text class="name" x="64" y="258">init.rc exec</text>
-      <text class="desc" x="64" y="278">ramdisk · 显式 linear-map 三元组 → block.drv</text>
-      <rect class="layer" x="430" y="230" width="330" height="64"></rect>
-      <text class="name" x="454" y="258">zygote · drivers.json</text>
-      <text class="desc" x="454" y="278">vendor 分区 · maps + affinity → 其余 daemons</text>
-      <line class="flow" x1="200" y1="230" x2="715" y2="170"></line>
-      <text class="desc" x="380" y="210" text-anchor="end">block.drv</text>
-      <line class="flow" x1="580" y1="230" x2="545" y2="170"></line>
-      <text class="desc" x="640" y="208">其余 daemons</text>
-    </svg>
-    </div>
     <div class="grid c3">
       <article class="card">
         <span class="tag">REGISTER &amp; FORWARD</span>

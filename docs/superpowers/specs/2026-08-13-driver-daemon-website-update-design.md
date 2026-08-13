@@ -45,16 +45,12 @@
 **新增章节「独立进程驱动」**，位于「启动」章节之后：
 
 - 章节头：`硬件驱动，独立进程运行。` + lede：驱动以 EL0 daemon 进程运行，devmgr 维护注册表并按类转发 IPC；只有启动关键驱动留在内核。
-- 新增小 SVG 图（沿用现有 `arch-svg` / `comp` / `flow` / `layer` / `name` / `desc` 样式类）：
-  - 左侧 devmgr 框：注册表 `driver_daemon_mgr`、spinlock 标注
-  - 右侧 2×3 共 6 个 daemon 框：display.drv 0x41 / block.drv 0x42 / net.drv 0x43 / snd.drv 0x44 / input.drv 0x45 / bt.drv 0x46
-  - 箭头：daemon → devmgr 为 register（driver_mgr 0x30）；devmgr → daemon 为 per-class IPC forward
-  - 图下方两条拉起路径标注：① init.rc exec（ramdisk，linear-map 三元组）→ block.drv；② zygote drivers.json（vendor）→ 其余 daemons
 - 三张卡片（沿用 `.card` / `.tag` 样式）：
   1. **注册与转发** — `driver_mgr` IDL `register_driver` 四字段；spinlock 注册表（最多 32 项）；首次转发懒解析 endpoint pool cref（重试 128×50ms）；进程内外设管理器 fallback
   2. **两条拉起路径** — init.rc `exec` 三元组 vs zygote `drivers.json`（maps + affinity，自动前置 DTB map）
   3. **内存隔离** — 每个 daemon 只映射自己的 MMIO/DMA 区域（device / uncached / normal）；libdriver 生命周期五个步骤
 - 代码示例块：CM4 `init.rc` exec 行 + QemuVirt `drivers.json` 片段（截取 1–2 个 daemon）
+- 注：不配流程图（评审时移除）
 
 **「启动」章节更新**：
 
