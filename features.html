@@ -104,7 +104,7 @@
       <h2>独立框架服务。</h2>
     </div>
     <div class="grid c3 feature-ledger">
-      <div class="card"><span class="tag">devmgr</span><h3>设备管理</h3><p>设备驱动框架与外设管理。</p></div>
+      <div class="card"><span class="tag">devmgr</span><h3>设备管理</h3><p>驱动 daemon 注册表、按类 IPC 转发与外设管理。</p></div>
       <div class="card"><span class="tag">fsmgr</span><h3>文件系统</h3><p>VFS 抽象：rootfs、ext2、FAT32、procfs、sysfs。</p></div>
       <div class="card"><span class="tag">netmgr</span><h3>网络协议栈</h3><p>lwIP TCP/IP；mbedTLS 支持 HTTPS 场景。</p></div>
       <div class="card"><span class="tag">windowmgr</span><h3>窗口合成</h3><p>窗口合成器与 surface 管理，800×480 系统画布。</p></div>
@@ -121,29 +121,40 @@
 
   <section class="sec">
     <div class="sec-head">
-      <h2>内核驱动与图形栈。</h2>
+      <h2>内核基础驱动 · 独立进程驱动 · 图形栈。</h2>
     </div>
     <div class="split">
       <div class="card">
-        <h3 class="mb-3">内核内置驱动</h3>
+        <h3 class="mb-3">内核基础驱动</h3>
         <div class="badges">
           <span class="badge">UART PL011</span><span class="badge">GICv2 / v3</span><span class="badge">ARM Timer</span>
           <span class="badge">RTC PL031</span><span class="badge">PMU</span><span class="badge">Cache CCS</span>
           <span class="badge">DMA PL330</span><span class="badge">Mali GPU</span><span class="badge">Watchdog</span>
-          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">VirtIO block</span>
-          <span class="badge">VirtIO net</span><span class="badge">VirtIO input</span><span class="badge">spin-table</span>
+          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">spin-table</span>
         </div>
       </div>
       <div class="card">
-        <h3 class="mb-3">图形与三方库</h3>
+        <h3 class="mb-3">独立进程驱动 daemons</h3>
+        <div class="badges">
+          <span class="badge">display.drv 0x41</span><span class="badge">block.drv 0x42</span><span class="badge">net.drv 0x43</span>
+          <span class="badge">snd.drv 0x44</span><span class="badge">input.drv 0x45</span><span class="badge">bt.drv 0x46</span>
+        </div>
         <ul class="ck">
-          <li><b>LVGL</b> UI 组件库</li>
-          <li><b>FreeType</b> 字体渲染</li>
-          <li><b>PortableGL</b> 软件 GL</li>
-          <li><b>lwIP · mbedTLS · musl · cJSON · minimp3 · toybox</b></li>
-          <li>三方源码不直接修改，平台适配层集中在 <code>os/libs/</code> 与 <code>sys/ulibs/</code></li>
+          <li>驱动以独立 EL0 进程运行，devmgr 注册表按类转发 IPC</li>
+          <li>QemuVirt：fw_cfg、virtio-gpu / blk / net / snd / input</li>
+          <li>CM4：emmc2、rpi、rpi-fb、rpi-touch、rpi-wlan、rpi-bt</li>
         </ul>
       </div>
+    </div>
+    <div class="card">
+      <h3 class="mb-3">图形与三方库</h3>
+      <ul class="ck">
+        <li><b>LVGL</b> UI 组件库</li>
+        <li><b>FreeType</b> 字体渲染</li>
+        <li><b>PortableGL</b> 软件 GL</li>
+        <li><b>lwIP · mbedTLS · musl · cJSON · minimp3 · toybox</b></li>
+        <li>三方源码不直接修改，平台适配层集中在 <code>os/libs/</code> 与 <code>sys/ulibs/</code></li>
+      </ul>
     </div>
   </section>
 
