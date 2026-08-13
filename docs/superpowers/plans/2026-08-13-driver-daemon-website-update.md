@@ -24,8 +24,9 @@ import sys
 for f in sys.argv[1:]:
     s = open(f, encoding='utf-8').read()
     bad = []
-    for tag in ('div','section','span','p','table','pre','svg','g','article','ul','li','tr','td','th','line'):
+    for tag in ('div','section','span','p','table','pre','svg','g','article','ul','li','tr','td','th'):
         # match exact tag boundaries: <tag> or <tag attr — avoids <pre> matching p, <line matching li, <thead> matching th
+        # note: self-closing SVG elements (line/rect/text/circle/path) are excluded — they have no closing tag
         o = 0
         i = s.find('<'+tag)
         while i != -1:
@@ -1121,7 +1122,7 @@ new_string:
 grep -c "DRV ×6" index.html                       # → 1
 grep -c ">DSP<" index.html                        # → 1
 grep -c 'viewBox="0 0 560 602"' index.html        # → 1
-grep -c "y=\"252\"" index.html                    # → 1  (grid line shifted)
+grep -c 'y1="252"' index.html                     # → 1  (grid line shifted)
 grep -c "M102 527H74V420H102V309H74V197" index.html  # → 1  (flow path shifted)
 ```
 Run the tag-balance check for `index.html`. Expected: greps as listed, balance `OK`.
@@ -1284,7 +1285,14 @@ new_string:
 
 - [ ] **Step 7: Verify**
 
-Same greps as Task 8 Step 7, against `en/index.html` (all `1`), plus tag-balance check.
+```bash
+grep -c "DRV ×6" en/index.html                       # → 1
+grep -c ">DSP<" en/index.html                        # → 1
+grep -c 'viewBox="0 0 560 602"' en/index.html        # → 1
+grep -c 'y1="252"' en/index.html                     # → 1
+grep -c "M102 527H74V420H102V309H74V197" en/index.html  # → 1
+```
+Run the tag-balance check for `en/index.html`. Expected: all greps `1`, balance `OK`.
 
 - [ ] **Step 8: Commit**
 
