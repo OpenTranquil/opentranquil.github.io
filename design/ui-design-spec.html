@@ -65,115 +65,28 @@
         .sc::-webkit-scrollbar-thumb { background: var(--ln2); border-radius: 99px }
         .sc::-webkit-scrollbar-thumb:hover { background: var(--dm2) }
 
-        /* ===== Voice Orb ===== */
+        /* ===== Voice Orb - N-body Gravity ===== */
         .orb-c {
             width: 180px; height: 180px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             flex: none; position: relative;
-            perspective: 200px;
-            animation: orb-breathe 2.0s ease-in-out infinite alternate;
+            overflow: hidden;
+            background: #0A0A0A;
         }
-        .orb-c .gr {
-            position: absolute; border-radius: 50%; pointer-events: none;
-            border: .5px solid var(--tx);
-        }
-        .orb-c .gr1{inset:0.4%;opacity:0.02;animation:gxy 17.8s linear infinite reverse;}
-        .orb-c .gr2{inset:0.5%;opacity:0.02;animation:gxyz 17.5s linear infinite;}
-        .orb-c .gr3{inset:0.8%;opacity:0.03;animation:gy 17.3s linear infinite reverse;}
-        .orb-c .gr4{inset:1.0%;opacity:0.03;animation:gxz 17.1s linear infinite;}
-        .orb-c .gr5{inset:1.3%;opacity:0.03;animation:gx 16.8s linear infinite reverse;}
-        .orb-c .gr6{inset:1.7%;opacity:0.04;animation:gyz 16.6s linear infinite;}
-        .orb-c .gr7{inset:2.1%;opacity:0.04;animation:gz 16.4s linear infinite reverse;}
-        .orb-c .gr8{inset:2.5%;opacity:0.04;animation:gxy 16.1s linear infinite;}
-        .orb-c .gr9{inset:3.0%;opacity:0.05;animation:gxyz 15.9s linear infinite reverse;}
-        .orb-c .gr10{inset:3.5%;opacity:0.05;animation:gy 15.7s linear infinite;}
-        .orb-c .gr11{inset:4.0%;opacity:0.06;animation:gxz 15.4s linear infinite reverse;}
-        .orb-c .gr12{inset:4.6%;opacity:0.06;animation:gx 15.2s linear infinite;}
-        .orb-c .gr13{inset:5.1%;opacity:0.07;animation:gyz 15.0s linear infinite reverse;}
-        .orb-c .gr14{inset:5.7%;opacity:0.07;animation:gz 14.7s linear infinite;}
-        .orb-c .gr15{inset:6.4%;opacity:0.08;animation:gxy 14.5s linear infinite reverse;}
-        .orb-c .gr16{inset:7.0%;opacity:0.08;animation:gxyz 14.2s linear infinite;}
-        .orb-c .gr17{inset:7.7%;opacity:0.09;animation:gy 14.0s linear infinite reverse;}
-        .orb-c .gr18{inset:8.4%;opacity:0.09;animation:gxz 13.8s linear infinite;}
-        .orb-c .gr19{inset:9.2%;opacity:0.10;animation:gx 13.5s linear infinite reverse;}
-        .orb-c .gr20{inset:9.9%;opacity:0.11;animation:gyz 13.3s linear infinite;}
-        .orb-c .gr21{inset:10.7%;opacity:0.12;animation:gz 13.1s linear infinite reverse;}
-        .orb-c .gr22{inset:11.5%;opacity:0.12;animation:gxy 12.8s linear infinite;}
-        .orb-c .gr23{inset:12.4%;opacity:0.13;animation:gxyz 12.6s linear infinite reverse;}
-        .orb-c .gr24{inset:13.2%;opacity:0.14;animation:gy 12.4s linear infinite;}
-        .orb-c .gr25{inset:14.1%;opacity:0.14;animation:gxz 12.1s linear infinite reverse;}
-        .orb-c .gr26{inset:15.0%;opacity:0.15;animation:gx 11.9s linear infinite;}
-        .orb-c .gr27{inset:15.9%;opacity:0.16;animation:gyz 11.7s linear infinite reverse;}
-        .orb-c .gr28{inset:16.8%;opacity:0.17;animation:gz 11.4s linear infinite;}
-        .orb-c .gr29{inset:17.8%;opacity:0.18;animation:gxy 11.2s linear infinite reverse;}
-        .orb-c .gr30{inset:18.7%;opacity:0.19;animation:gxyz 11.0s linear infinite;}
-        .orb-c .gr31{inset:19.7%;opacity:0.20;animation:gy 10.7s linear infinite reverse;}
-        .orb-c .gr32{inset:20.8%;opacity:0.20;animation:gxz 10.5s linear infinite;}
-        .orb-c .gr33{inset:21.8%;opacity:0.21;animation:gx 10.3s linear infinite reverse;}
-        .orb-c .gr34{inset:22.8%;opacity:0.22;animation:gyz 10.0s linear infinite;}
-        .orb-c .gr35{inset:23.9%;opacity:0.23;animation:gz 9.8s linear infinite reverse;}
-        .orb-c .gr36{inset:25.0%;opacity:0.24;animation:gxy 9.6s linear infinite;}
-        .orb-c .gr37{inset:26.1%;opacity:0.25;animation:gxyz 9.3s linear infinite reverse;}
-        .orb-c .gr38{inset:27.2%;opacity:0.26;animation:gy 9.1s linear infinite;}
-        .orb-c .gr39{inset:28.4%;opacity:0.27;animation:gxz 8.9s linear infinite reverse;}
-        .orb-c .gr40{inset:29.5%;opacity:0.28;animation:gx 8.6s linear infinite;}
-        .orb-c .gr41{inset:30.7%;opacity:0.29;animation:gyz 8.4s linear infinite reverse;}
-        .orb-c .gr42{inset:31.9%;opacity:0.30;animation:gz 8.2s linear infinite;}
-        .orb-c .gr43{inset:33.1%;opacity:0.31;animation:gxy 7.9s linear infinite reverse;}
-        .orb-c .gr44{inset:34.3%;opacity:0.32;animation:gxyz 7.7s linear infinite;}
-        .orb-c .gr45{inset:35.6%;opacity:0.34;animation:gy 7.5s linear infinite reverse;}
-        .orb-c .gr46{inset:36.9%;opacity:0.35;animation:gxz 7.2s linear infinite;}
-        .orb-c .gr47{inset:38.1%;opacity:0.36;animation:gx 7.0s linear infinite reverse;}
-        .orb-c .gr48{inset:39.4%;opacity:0.37;animation:gyz 6.8s linear infinite;}
-        .orb-c .gr49{inset:40.7%;opacity:0.38;animation:gz 6.5s linear infinite reverse;}
-        .orb-c .gr50{inset:42.1%;opacity:0.39;animation:gxy 6.3s linear infinite;}
-        .orb-c .gr51{inset:43.4%;opacity:0.41;animation:gxyz 6.0s linear infinite reverse;}
-        .orb-c .gr52{inset:44.8%;opacity:0.42;animation:gy 5.8s linear infinite;}
-        .orb-c .gr53{inset:46.2%;opacity:0.43;animation:gxz 5.6s linear infinite reverse;}
-        .orb-c .gr54{inset:47.5%;opacity:0.44;animation:gx 5.3s linear infinite;}
-        .orb-c .gr55{inset:49.0%;opacity:0.45;animation:gyz 5.1s linear infinite reverse;}
-        .orb-c .gr56{inset:50.4%;opacity:0.47;animation:gz 4.9s linear infinite;}
-        .orb-c .gr57{inset:51.8%;opacity:0.48;animation:gxy 4.6s linear infinite reverse;}
-        .orb-c .gr58{inset:53.3%;opacity:0.49;animation:gxyz 4.4s linear infinite;}
-        .orb-c .gr59{inset:54.7%;opacity:0.51;animation:gy 4.2s linear infinite reverse;}
-        .orb-c .gr60{inset:56.2%;opacity:0.52;animation:gxz 3.9s linear infinite;}
-        .orb-c .gr61{inset:57.7%;opacity:0.53;animation:gx 3.7s linear infinite reverse;}
-        .orb-c .gr62{inset:59.2%;opacity:0.55;animation:gyz 3.5s linear infinite;}
-        .orb-c .gr63{inset:60.8%;opacity:0.56;animation:gz 3.2s linear infinite reverse;}
-        .orb-c .gr64{inset:62.3%;opacity:0.57;animation:gxy 3.0s linear infinite;}
-
-        .orb-c .cr {
-            position: absolute; width: 5px; height: 5px;
-            border-radius: 50%; background: var(--ac);
-            box-shadow: 0 0 8px var(--ac), 0 0 20px var(--ac);
-            display: none; z-index: 2;
+        .orb-c[data-theme="light"] { background: #F5F5F5; }
+        .orb-c canvas {
+            display: block;
+            width: 100%; height: 100%;
         }
         .orb-c .t {
-            font-size: 28px; font-weight: 500;
-            color: var(--tx); z-index: 2;
+            position: absolute; font-size: 28px; font-weight: 500;
+            color: var(--tx); z-index: 2; pointer-events: none;
         }
-        /* ---- states: same rotation axes+speed, different visual layer ---- */
-        /* idle: default rotation only */
+        /* idle: default rose curves simulation */
+        /* thinking: particles shift to accent color, more active */
 
 
-        /* thinking: rotation same as idle, accent color, no core dot */
-        .orb-c.thk .gr { border-color: var(--ac); }
-        .orb-c.thk .t { display: none; }
-
-
-        /* ---- keyframes ---- */
-        @keyframes gz   { to{ transform:rotateZ(360deg); } }
-        @keyframes gx   { to{ transform:rotateX(360deg); } }
-        @keyframes gy   { to{ transform:rotateY(360deg); } }
-        @keyframes gxy  { to{ transform:rotateX(360deg) rotateY(360deg); } }
-        @keyframes gyz  { to{ transform:rotateY(360deg) rotateZ(360deg); } }
-        @keyframes gxz  { to{ transform:rotateX(360deg) rotateZ(360deg); } }
-        @keyframes gxyz { to{ transform:rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
-        @keyframes orb-breathe { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.12); } }
-        @keyframes orb-blink { 0%,100%{ opacity:.25; transform:scale(1); } 50%{ opacity:1; transform:scale(1.4); } }
-
-    
 
     </style>
 </head>
@@ -1247,9 +1160,9 @@
                 <div style="flex:1;display:flex;padding:0 16px;min-height:0">
                     <!-- orb zone -->
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
-                        <div class="orb-c" style="box-shadow:0 0 32px rgba(77,122,255,.05)">
-                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="gr gr17"></div><div class="gr gr18"></div><div class="gr gr19"></div><div class="gr gr20"></div><div class="gr gr21"></div><div class="gr gr22"></div><div class="gr gr23"></div><div class="gr gr24"></div><div class="gr gr25"></div><div class="gr gr26"></div><div class="gr gr27"></div><div class="gr gr28"></div><div class="gr gr29"></div><div class="gr gr30"></div><div class="gr gr31"></div><div class="gr gr32"></div><div class="gr gr33"></div><div class="gr gr34"></div><div class="gr gr35"></div><div class="gr gr36"></div><div class="gr gr37"></div><div class="gr gr38"></div><div class="gr gr39"></div><div class="gr gr40"></div><div class="gr gr41"></div><div class="gr gr42"></div><div class="gr gr43"></div><div class="gr gr44"></div><div class="gr gr45"></div><div class="gr gr46"></div><div class="gr gr47"></div><div class="gr gr48"></div><div class="gr gr49"></div><div class="gr gr50"></div><div class="gr gr51"></div><div class="gr gr52"></div><div class="gr gr53"></div><div class="gr gr54"></div><div class="gr gr55"></div><div class="gr gr56"></div><div class="gr gr57"></div><div class="gr gr58"></div><div class="gr gr59"></div><div class="gr gr60"></div><div class="gr gr61"></div><div class="gr gr62"></div><div class="gr gr63"></div><div class="gr gr64"></div><div class="cr"></div><span class="t">14:32</span>
-                                                    </div>
+                        <div class="orb-c" data-theme="dark" data-state="idle">
+                            <canvas></canvas><span class="t">14:32</span>
+                        </div>
                     </div>
                     <!-- history -->
                     <div style="width:42%;display:flex;flex-direction:column;padding-left:8px">
@@ -1290,9 +1203,9 @@
                 </div>
                 <div style="flex:1;display:flex;padding:0 16px;min-height:0">
                     <div style="flex:1;display:flex;align-items:center;justify-content:center">
-                        <div class="orb-c" style="box-shadow:0 0 32px rgba(46,91,255,.04)">
-                            <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="gr gr17"></div><div class="gr gr18"></div><div class="gr gr19"></div><div class="gr gr20"></div><div class="gr gr21"></div><div class="gr gr22"></div><div class="gr gr23"></div><div class="gr gr24"></div><div class="gr gr25"></div><div class="gr gr26"></div><div class="gr gr27"></div><div class="gr gr28"></div><div class="gr gr29"></div><div class="gr gr30"></div><div class="gr gr31"></div><div class="gr gr32"></div><div class="gr gr33"></div><div class="gr gr34"></div><div class="gr gr35"></div><div class="gr gr36"></div><div class="gr gr37"></div><div class="gr gr38"></div><div class="gr gr39"></div><div class="gr gr40"></div><div class="gr gr41"></div><div class="gr gr42"></div><div class="gr gr43"></div><div class="gr gr44"></div><div class="gr gr45"></div><div class="gr gr46"></div><div class="gr gr47"></div><div class="gr gr48"></div><div class="gr gr49"></div><div class="gr gr50"></div><div class="gr gr51"></div><div class="gr gr52"></div><div class="gr gr53"></div><div class="gr gr54"></div><div class="gr gr55"></div><div class="gr gr56"></div><div class="gr gr57"></div><div class="gr gr58"></div><div class="gr gr59"></div><div class="gr gr60"></div><div class="gr gr61"></div><div class="gr gr62"></div><div class="gr gr63"></div><div class="gr gr64"></div><div class="cr"></div><span class="t">14:32</span>
-                                                    </div>
+                        <div class="orb-c" data-theme="light" data-state="idle">
+                            <canvas></canvas><span class="t">14:32</span>
+                        </div>
                     </div>
                     <div style="width:42%;display:flex;flex-direction:column;padding-left:8px">
                         <div style="font-size:9px;font-weight:600;color:var(--dm2);letter-spacing:.06em;padding:16px 0 8px">最近对话</div>
@@ -1321,7 +1234,7 @@
             </div>
         </div>
     </div>
-    <p class="note">全屏覆盖。顶栏轻量问候 + × 关闭。左区极简几何球体（180px 直径，1.5px 细线描边，圆心时间 display），右区 "最近对话" 列表（key 卡片，对话文本 + 相对时间）。底部居中 suggestion chips（pill，选中 accent 边框）。暗版 overlay-bg，亮版 #F0F0F0 底。</p>
+    <p class="note">全屏覆盖。顶栏轻量问候 + × 关闭。左区玫瑰线球体（180px 直径，5 层玫瑰曲线叠加旋转，圆心时间 display），右区 "最近对话" 列表（key 卡片，对话文本 + 相对时间）。底部居中 suggestion chips（pill，选中 accent 边框）。暗版 overlay-bg，亮版 #F0F0F0 底。</p>
 
     <!-- 2 states showcase: idle / thinking -->
     <h3>Voice Orb · 状态展示（仅球体 / dark only）</h3>
@@ -1330,8 +1243,8 @@
         <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
             <div class="lbl">待机 · idle</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
-                <div class="orb-c" style="box-shadow:0 0 32px rgba(77,122,255,.05)">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="gr gr17"></div><div class="gr gr18"></div><div class="gr gr19"></div><div class="gr gr20"></div><div class="gr gr21"></div><div class="gr gr22"></div><div class="gr gr23"></div><div class="gr gr24"></div><div class="gr gr25"></div><div class="gr gr26"></div><div class="gr gr27"></div><div class="gr gr28"></div><div class="gr gr29"></div><div class="gr gr30"></div><div class="gr gr31"></div><div class="gr gr32"></div><div class="gr gr33"></div><div class="gr gr34"></div><div class="gr gr35"></div><div class="gr gr36"></div><div class="gr gr37"></div><div class="gr gr38"></div><div class="gr gr39"></div><div class="gr gr40"></div><div class="gr gr41"></div><div class="gr gr42"></div><div class="gr gr43"></div><div class="gr gr44"></div><div class="gr gr45"></div><div class="gr gr46"></div><div class="gr gr47"></div><div class="gr gr48"></div><div class="gr gr49"></div><div class="gr gr50"></div><div class="gr gr51"></div><div class="gr gr52"></div><div class="gr gr53"></div><div class="gr gr54"></div><div class="gr gr55"></div><div class="gr gr56"></div><div class="gr gr57"></div><div class="gr gr58"></div><div class="gr gr59"></div><div class="gr gr60"></div><div class="gr gr61"></div><div class="gr gr62"></div><div class="gr gr63"></div><div class="gr gr64"></div><div class="cr"></div><span class="t">14:32</span>
+                <div class="orb-c" data-theme="dark" data-state="idle">
+                    <canvas></canvas><span class="t">14:32</span>
                 </div>
             </div>
         </div>
@@ -1339,13 +1252,13 @@
         <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
             <div class="lbl">思考 · thinking</div>
             <div class="d k" style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center">
-                <div class="orb-c thk">
-                    <div class="gr gr1"></div><div class="gr gr2"></div><div class="gr gr3"></div><div class="gr gr4"></div><div class="gr gr5"></div><div class="gr gr6"></div><div class="gr gr7"></div><div class="gr gr8"></div><div class="gr gr9"></div><div class="gr gr10"></div><div class="gr gr11"></div><div class="gr gr12"></div><div class="gr gr13"></div><div class="gr gr14"></div><div class="gr gr15"></div><div class="gr gr16"></div><div class="gr gr17"></div><div class="gr gr18"></div><div class="gr gr19"></div><div class="gr gr20"></div><div class="gr gr21"></div><div class="gr gr22"></div><div class="gr gr23"></div><div class="gr gr24"></div><div class="gr gr25"></div><div class="gr gr26"></div><div class="gr gr27"></div><div class="gr gr28"></div><div class="gr gr29"></div><div class="gr gr30"></div><div class="gr gr31"></div><div class="gr gr32"></div><div class="gr gr33"></div><div class="gr gr34"></div><div class="gr gr35"></div><div class="gr gr36"></div><div class="gr gr37"></div><div class="gr gr38"></div><div class="gr gr39"></div><div class="gr gr40"></div><div class="gr gr41"></div><div class="gr gr42"></div><div class="gr gr43"></div><div class="gr gr44"></div><div class="gr gr45"></div><div class="gr gr46"></div><div class="gr gr47"></div><div class="gr gr48"></div><div class="gr gr49"></div><div class="gr gr50"></div><div class="gr gr51"></div><div class="gr gr52"></div><div class="gr gr53"></div><div class="gr gr54"></div><div class="gr gr55"></div><div class="gr gr56"></div><div class="gr gr57"></div><div class="gr gr58"></div><div class="gr gr59"></div><div class="gr gr60"></div><div class="gr gr61"></div><div class="gr gr62"></div><div class="gr gr63"></div><div class="gr gr64"></div><div class="cr"></div><span class="t">14:32</span>
+                <div class="orb-c" data-theme="dark" data-state="thinking">
+                    <canvas></canvas><span class="t">14:32</span>
                 </div>
             </div>
         </div>
     </div>
-    <p class="note">两个状态：<code>.orb-c</code>（默认 idle）→ <code>.thk</code> 思考。待机：时间 + 环系各自旋转 + 呼吸脉冲；思考：环系旋转不变、全部 accent 色（外浅内深渐变）、呼吸脉冲、无中心点。</p>
+    <p class="note">两个状态：<code>data-state="idle"</code> 待机 → <code>data-state="thinking"</code> 思考。待机：5 层玫瑰曲线缓慢旋转 + 中心时间；思考：k 值漂移呼吸、全 accent 色描边增强、无中心时间。</p>
 
     <h2>⑤ 应用 Mockup（左暗 / 右亮 · 仅内容区 800×352）</h2>
 
@@ -2317,5 +2230,112 @@
         </p>
 
     </div>
+
+    <script>
+    // Rose Curves simulation for Voice Orb canvases
+    (function() {
+        const orbs = document.querySelectorAll('.orb-c');
+        if (!orbs.length) return;
+
+        function polar(cx, cy, r, th) { return [cx + r * Math.cos(th), cy + r * Math.sin(th)]; }
+
+        const sims = [];
+
+        orbs.forEach(container => {
+            const canvas = container.querySelector('canvas');
+            const span = container.querySelector('.t');
+            if (!canvas) return;
+
+            const theme = container.dataset.theme || 'dark';
+            const state = container.dataset.state || 'idle';
+
+            const layers = [
+                { k: 3, rot: 0, speed: 0.4 },
+                { k: 4, rot: Math.PI/3, speed: -0.3 },
+                { k: 2, rot: Math.PI/2, speed: 0.25 },
+                { k: 5, rot: Math.PI/4, speed: -0.35 },
+                { k: 2.7, rot: Math.PI/5, speed: 0.33 },
+            ];
+
+            sims.push({ canvas, span, layers, theme, state, t: Math.random() * 100 });
+        });
+
+        function frame() {
+            requestAnimationFrame(frame);
+
+            for (const sim of sims) {
+                const { canvas, span, layers, theme, state } = sim;
+                const rect = canvas.parentElement.getBoundingClientRect();
+                const W = canvas.width = rect.width;
+                const H = canvas.height = rect.height;
+                if (W < 4 || H < 4) continue;
+                const cx = W / 2, cy = H / 2;
+                const R = W / 2 - 8;
+
+                sim.t += 0.016;
+                const t = sim.t;
+
+                let amp = 0;
+                if (state === 'thinking') {
+                    amp = 0.3 + 0.7 * Math.abs(Math.sin(t * 4.5 + Math.sin(t * 1.7))) * Math.abs(Math.sin(t * 2.3));
+                }
+
+                const ctx = canvas.getContext('2d');
+
+                // Opaque background — no trail, clean frame each time (matches original drawRose)
+                ctx.fillStyle = theme === 'dark' ? '#0A0A0A' : '#F5F5F5';
+                ctx.fillRect(0, 0, W, H);
+
+                // Circular clip
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, R + 8, 0, Math.PI * 2);
+                ctx.clip();
+
+                // Draw 5 rose curve layers — each layer has its own radius & intensity
+                for (let i = 0; i < layers.length; i++) {
+                    const l = layers[i];
+                    l.rot += l.speed * 0.015;
+                    const k = l.k + amp * 1.5;
+
+                    // Radius: outer layers larger, inner layers smaller
+                    const rScale = 0.98 - i * 0.09;
+                    const r = R * rScale;
+
+                    ctx.beginPath();
+                    let first = true;
+                    const steps = 400;
+                    for (let j = 0; j <= steps; j++) {
+                        const th = (j / steps) * Math.PI * 2;
+                        const rr = r * Math.abs(Math.cos(k * th));
+                        const [px, py] = polar(cx, cy, rr, th + l.rot);
+                        if (first) { ctx.moveTo(px, py); first = false; }
+                        else ctx.lineTo(px, py);
+                    }
+                    ctx.closePath();
+
+                    // Color: smaller radius → deeper, larger → lighter
+                    const v = theme === 'dark'
+                        ? 120 + i * 34    // 120 → 256 (dark gray → white)
+                        : 200 - i * 48;   // 200 → 8 (light gray → near-black)
+                    // Fixed alpha — only value carries depth
+                    const alpha = 0.6;
+                    ctx.strokeStyle = `rgba(${v},${v},${v},${alpha})`;
+                    ctx.lineWidth = 0.7;
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+
+                // Hide time display in thinking state
+                if (span) {
+                    span.style.display = state === 'thinking' ? 'none' : '';
+                }
+            }
+        }
+
+        frame();
+    })();
+    </script>
 </body>
 </html>
