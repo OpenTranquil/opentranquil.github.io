@@ -83,7 +83,7 @@
 
     <section class="doc-sec" id="intro">
       <h2>Project Overview</h2>
-      <p class="lede">TranquilOS is an object-capability microkernel operating system for AArch64. Capabilities are the single authorization model: process management, memory management, the IPC namespace, device abstraction, filesystems, the network stack, window composition and application lifecycle are decomposed into clearly bounded userspace services, while the EL1 microkernel focuses on scheduling, IPC, exceptions, interrupts, timers, futexes, base drivers and capability object dispatch.</p>
+      <p class="lede">TranquilOS is an object-capability microkernel operating system for AArch64. Capabilities are the single authorization model: process management, memory management, the IPC namespace, device abstraction, filesystems, the network stack, window composition and application lifecycle are decomposed into clearly bounded userspace services — hardware drivers run as independent processes (driver daemons) too, forwarded per class through devmgr's registry; the EL1 microkernel focuses on scheduling, IPC, exceptions, interrupts, timers, futexes, base drivers and capability object dispatch.</p>
       <p>Inspired by the object-capability model of seL4 and others, the project validates the systematic composition of "microkernel + capability authorization + userspace services" on AArch64: how kernel objects are explicitly authorized, how services discover and communicate with each other, how a graphical desktop runs as ordinary userspace components, and how the build system assembles the pieces into a bootable image.</p>
       <p>Full design documents live in the kernel repository's <code>docs/</code> directory: <code>basic_theory.md</code> (AArch64 architecture, MMU, context switching, drivers, capabilities, IPC, scheduler), <code>microkernel_design.md</code> (microkernel design), <code>idl.md</code> (interface definition and code generation), <code>async_ipc_design.md</code>.</p>
     </section>
@@ -111,7 +111,7 @@ ninja -C out Windowmgr</code></pre>
   virt/          Type-1 hypervisor (EL2)
   boot/          bootloader
   trustee/       trusted execution environment (stub)
-  uapps/         bootstrap & core services: base/ init, idle; core/ devmgr, fsmgr
+  uapps/         bootstrap & core services: base/ init, idle; core/ devmgr, fsmgr, drivers/ (driver_mgr IDL)
   ulibs/         libc, libcrt, libsyscall, libsystem, libsync, libfdt, libalgorithm
 os/              OS userspace
   base/          zygote, netmgr
@@ -119,9 +119,9 @@ os/              OS userspace
   apps/          user applications
   libs/          libwindow, libgraphics, libgl, liblvgl, liblwip, ...
   thrid_party/   lvgl, freetype, mbedtls, lwip, musl, ... (upstream sources)
-platform/        platform configs: QemuVirt / Pi3b / Pi4b / CM4 (DTBs, linker scripts, build/run scripts)
+platform/        platform configs: QemuVirt / Pi3b / Pi4b / CM4 (DTBs, linker scripts, scripts; vendor/ driver daemons & drivers.json)
 build/           GN build system & toolchain definitions
-images/          ramdisk (cpio) and system image templates
+images/          ramdisk (cpio), vendor and system image templates
 docs/            design documents</code></pre>
       <p><b>Third-party convention:</b> never modify upstream sources directly. Platform adaptation and compatibility wrappers live in <code>os/libs/</code> and <code>sys/ulibs/</code>; when upgrading a third-party library, replace the whole directory and re-validate the adaptation layer.</p>
     </section>
@@ -132,7 +132,7 @@ docs/            design documents</code></pre>
       <pre><code>booting from EL2: bootloader → hypervisor → kernel → systemd
 booting from EL1: bootloader → kernel → systemd</code></pre>
       <p>The hypervisor provides stage-2 translation, VM/VCPU/PCPU lifecycle management, vGIC, vTimer, vPMU and the hypcall interface; VMs and the kernel are packed into boot.img together.</p>
-      <p>Userspace bring-up order: <b>init</b> (the first userspace process) finds the ramdisk via the device tree, starts devmgr and fsmgr, then runs <code>/root/etc/init.rc</code>; <b>zygote</b> reads <code>init.json</code>, loads service ELFs from ext2 into SHM and calls <code>start_process_from_shm()</code> to start framework services; <b>appmgr</b> manages the app registry from <code>applist.json</code> and launches apps on demand.</p>
+      <p>Userspace bring-up order: <b>init</b> (the first userspace process) finds the ramdisk via the device tree, starts devmgr and fsmgr, then runs <code>/root/etc/init.rc</code> — whose <code>exec</code> lines spawn the boot-critical block driver daemon with explicit linear-map triplets; <b>zygote</b> reads <code>init.json</code>, loads service ELFs from ext2 into SHM and calls <code>start_process_from_shm()</code> to start framework services, and reads the vendor partition's <code>drivers.json</code> to spawn the remaining driver daemons; <b>appmgr</b> manages the app registry from <code>applist.json</code> and launches apps on demand.</p>
     </section>
 
     <section class="doc-sec" id="capability">
@@ -240,7 +240,7 @@ client/include/   public client API headers</code></pre>
           <tr><td>appmgr</td><td>Application lifecycle: registry, on-demand launch</td></tr>
           <tr><td>windowmgr</td><td>Window compositor &amp; surface management, input dispatch</td></tr>
           <tr><td>statemgr</td><td>System-wide key-value state store</td></tr>
-          <tr><td>devmgr</td><td>Device driver framework &amp; peripheral management</td></tr>
+          <tr><td>devmgr</td><td>Driver-daemon registry &amp; per-class IPC forwarding; peripheral management</td></tr>
           <tr><td>fsmgr</td><td>Filesystem abstraction: rootfs, ext2, FAT32, procfs, sysfs</td></tr>
           <tr><td>netmgr</td><td>lwIP TCP/IP network stack</td></tr>
           <tr><td>mmimgr</td><td>Multi-modal input management</td></tr>
@@ -297,12 +297,21 @@ client/include/   public client API headers</code></pre>
         </tbody>
       </table>
       <pre><code>boot.img (64MB)
-  offset 0      Bootloader    8MB     system.img (128MB, ext2)
-  offset 2048   DTB           8MB       bin/   framework services
-  offset 4096   Hypervisor   16MB       apps/  user applications
-  offset 8192   Kernel       16MB       etc/   fonts · icons · init config
+  offset 0      Bootloader    8MB
+  offset 2048   DTB           8MB
+  offset 4096   Hypervisor   16MB
+  offset 8192   Kernel       16MB
   offset 12288  SystemDaemon  8MB
-  offset 14336  Ramdisk cpio  8MB</code></pre>
+  offset 14336  Ramdisk cpio  8MB
+
+vendor.img (32MB, ext2, P2)
+  bin/  driver daemons (.drv)
+  etc/  drivers.json
+
+system.img (128MB, ext2)
+  bin/  framework services
+  apps/ user applications
+  etc/  fonts · icons · init config</code></pre>
     </section>
 
   </main>
