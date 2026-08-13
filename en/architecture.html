@@ -98,7 +98,7 @@
         <rect class="comp" x="724" y="157" width="104" height="30"></rect><text class="comp-t" x="776" y="176" text-anchor="middle">SMP scheduler</text>
         <rect class="comp" x="838" y="157" width="52" height="30"></rect><text class="comp-t" x="864" y="176" text-anchor="middle">futex</text>
         <rect class="comp" x="900" y="157" width="92" height="30"></rect><text class="comp-t" x="946" y="176" text-anchor="middle">IRQ · timer</text>
-        <rect class="comp" x="1002" y="157" width="66" height="30"></rect><text class="comp-t" x="1035" y="176" text-anchor="middle">drivers</text>
+        <rect class="comp" x="984" y="157" width="84" height="30"></rect><text class="comp-t" x="1026" y="176" text-anchor="middle">base drivers</text>
       </g>
       </g>
 
@@ -307,6 +307,10 @@ execute_context_s    // execution state
   offset 12288  SystemDaemon  8MB
   offset 14336  Ramdisk cpio  8MB
 
+vendor.img (32MB, ext2, P2)
+  bin/  driver daemons (.drv)
+  etc/  drivers.json
+
 system.img (128MB, ext2)
   bin/  framework services
   apps/ user applications
@@ -314,9 +318,101 @@ system.img (128MB, ext2)
       </div>
     </div>
     <div class="pipe">
-      <div><span class="n">01</span><b>init</b><p>First userspace process. Finds the ramdisk via the device tree, starts devmgr and fsmgr, then runs <span class="mono">/root/etc/init.rc</span>.</p></div>
-      <div><span class="n">02</span><b>zygote</b><p>Reads <span class="mono">init.json</span>, loads service ELFs from ext2 into SHM and starts framework services via <span class="mono">start_process_from_shm()</span>.</p></div>
+      <div><span class="n">01</span><b>init</b><p>First userspace process. Finds the ramdisk via the device tree, starts devmgr and fsmgr, then runs <span class="mono">/root/etc/init.rc</span> — its <span class="mono">exec</span> lines spawn the boot-critical block driver daemon with explicit linear maps.</p></div>
+      <div><span class="n">02</span><b>zygote</b><p>Reads <span class="mono">init.json</span>, loads service ELFs from ext2 into SHM and starts framework services via <span class="mono">start_process_from_shm()</span>; it also reads the vendor partition's <span class="mono">drivers.json</span> to spawn the remaining driver daemons.</p></div>
       <div><span class="n">03</span><b>appmgr</b><p>Manages the app registry from <span class="mono">applist.json</span> and launches app processes on demand.</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Hardware drivers as independent processes.</h2>
+      <p>Drivers run as EL0 daemon processes; devmgr keeps a registry and forwards IPC per class. Only boot-critical drivers stay in the kernel.</p>
+    </div>
+    <div class="svg-scroll">
+    <svg class="arch-svg" viewBox="0 0 800 320" role="img" aria-label="Driver-daemon architecture: six driver daemon processes register with devmgr's registry over the driver_mgr protocol and receive per-class IPC forwards; block.drv is spawned by init.rc exec, the rest by zygote drivers.json">
+      <defs>
+        <marker id="arrw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z"></path>
+        </marker>
+      </defs>
+
+      <!-- devmgr registry -->
+      <rect class="layer" x="40" y="40" width="210" height="160"></rect>
+      <text class="name" x="64" y="72">devmgr</text>
+      <text class="desc" x="64" y="98">driver_daemon_mgr</text>
+      <text class="desc" x="64" y="114">spinlock registry · 32 entries</text>
+      <text class="desc" x="64" y="134">per-class forward · lazy pool cref</text>
+      <text class="desc" x="64" y="154">in-process peripheral mgr fallback</text>
+
+      <!-- driver daemons -->
+      <rect class="comp" x="470" y="40" width="150" height="32"></rect><text class="comp-t" x="545" y="60" text-anchor="middle">display.drv · 0x41</text>
+      <rect class="comp" x="640" y="40" width="150" height="32"></rect><text class="comp-t" x="715" y="60" text-anchor="middle">block.drv · 0x42</text>
+      <rect class="comp" x="470" y="88" width="150" height="32"></rect><text class="comp-t" x="545" y="108" text-anchor="middle">net.drv · 0x43</text>
+      <rect class="comp" x="640" y="88" width="150" height="32"></rect><text class="comp-t" x="715" y="108" text-anchor="middle">snd.drv · 0x44</text>
+      <rect class="comp" x="470" y="136" width="150" height="32"></rect><text class="comp-t" x="545" y="156" text-anchor="middle">input.drv · 0x45</text>
+      <rect class="comp" x="640" y="136" width="150" height="32"></rect><text class="comp-t" x="715" y="156" text-anchor="middle">bt.drv · 0x46</text>
+
+      <!-- register / forward arrows -->
+      <line class="flow" x1="470" y1="56" x2="252" y2="56" marker-start="url(#arrw)"></line>
+      <text class="desc" x="360" y="48" text-anchor="middle">register (driver_mgr 0x30)</text>
+      <line class="flow" x1="250" y1="140" x2="468" y2="140"></line>
+      <text class="desc" x="360" y="160" text-anchor="middle">forward per-class IPC</text>
+
+      <!-- spawn paths -->
+      <rect class="layer" x="40" y="230" width="330" height="64"></rect>
+      <text class="name" x="64" y="258">init.rc exec</text>
+      <text class="desc" x="64" y="278">ramdisk · explicit linear-map triplets → block.drv</text>
+      <rect class="layer" x="430" y="230" width="330" height="64"></rect>
+      <text class="name" x="454" y="258">zygote · drivers.json</text>
+      <text class="desc" x="454" y="278">vendor partition · maps + affinity → other daemons</text>
+      <line class="flow" x1="200" y1="230" x2="715" y2="170"></line>
+      <text class="desc" x="380" y="210" text-anchor="end">block.drv</text>
+      <line class="flow" x1="580" y1="230" x2="545" y2="170"></line>
+      <text class="desc" x="640" y="208">other daemons</text>
+    </svg>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <span class="tag">REGISTER &amp; FORWARD</span>
+        <h3>Register once, forward per class</h3>
+        <p>A driver daemon registers over the <code>driver_mgr</code> IDL (service 0x30) with <code>register_driver()</code>, submitting compatible, name, class and service ID. devmgr keeps a spinlock-protected registry (<code>driver_daemon_mgr</code>, up to 32 entries); the first forward lazily resolves the endpoint-pool cref (128 × 50 ms retries), then <code>OSIpcEndPointPoolCall5()</code> connects directly. The in-process peripheral managers remain as a fallback.</p>
+      </article>
+      <article class="card">
+        <span class="tag">TWO SPAWN PATHS</span>
+        <h3>Two spawn paths</h3>
+        <p>The boot-critical block driver is exec'd from the ramdisk by init.rc with explicit <span class="mono">⟨start⟩ ⟨size⟩ ⟨attr⟩</span> linear-map triplets. The remaining daemons are spawned by zygote from the vendor partition's <code>drivers.json</code> — each entry carries maps (device / uncached / normal) and a CPU affinity, with the DTB map prepended automatically.</p>
+      </article>
+      <article class="card">
+        <span class="tag">MEMORY ISOLATION</span>
+        <h3>Only the regions you need</h3>
+        <p>Each daemon process receives only the MMIO / DMA linear maps it needs — a driver crash cannot take down the kernel or reach another device's memory. The libdriver lifecycle: <code>drv_init → drv_get_mmio → drv_register → publish class service → drv_main_loop</code>.</p>
+      </article>
+    </div>
+    <div class="split">
+      <div>
+<pre><code># init.rc — boot-critical block driver (ramdisk)
+exec /vendor/block.drv.elf \
+  0xFE340000 0x1000 device \
+  0xFE200000 0x1000 device \
+  0xFE00B000 0x1000 device</code></pre>
+      </div>
+      <div>
+<pre><code>// drivers.json — remaining driver daemons (vendor)
+{
+  "services": [{
+    "name": "virtio-net.drv",
+    "path": "/vendor/bin/virtio-net.drv.elf",
+    "maps": [
+      { "start": "0x0A000000", "size": "0x4000",
+        "attr": "device" },
+      { "start": "0x52000000", "size": "0x100000",
+        "attr": "uncached" }
+    ],
+    "affinity": "0xF"
+  }]
+}</code></pre>
+      </div>
     </div>
   </section>
 
