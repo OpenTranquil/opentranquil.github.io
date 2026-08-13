@@ -24,10 +24,15 @@ import sys
 for f in sys.argv[1:]:
     s = open(f, encoding='utf-8').read()
     bad = []
-    for tag in ('div','section','span','p','table','pre','svg','g','article','ul','li','tr','td','th'):
-        o, c = s.count(f'<{tag}'), s.count(f'</{tag}>')
-        # <tag may appear with attributes; count '<tag' occurrences instead of '<tag>'
-        o = len([i for i in range(len(s)) if s.startswith(f'<{tag}', i)])
+    for tag in ('div','section','span','p','table','pre','svg','g','article','ul','li','tr','td','th','line'):
+        # match exact tag boundaries: <tag> or <tag attr — avoids <pre> matching p, <line matching li, <thead> matching th
+        o = 0
+        i = s.find('<'+tag)
+        while i != -1:
+            if s.startswith('<'+tag+'>', i) or s.startswith('<'+tag+' ', i):
+                o += 1
+            i = s.find('<'+tag, i+1)
+        c = s.count('</'+tag+'>')
         if o != c:
             bad.append(f'{tag}: open={o} close={c}')
     print(f, 'OK' if not bad else 'MISMATCH ' + ', '.join(bad))

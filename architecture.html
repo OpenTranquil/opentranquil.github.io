@@ -98,7 +98,7 @@
         <rect class="comp" x="724" y="157" width="104" height="30"></rect><text class="comp-t" x="776" y="176" text-anchor="middle">SMP scheduler</text>
         <rect class="comp" x="838" y="157" width="52" height="30"></rect><text class="comp-t" x="864" y="176" text-anchor="middle">futex</text>
         <rect class="comp" x="900" y="157" width="92" height="30"></rect><text class="comp-t" x="946" y="176" text-anchor="middle">IRQ · timer</text>
-        <rect class="comp" x="1002" y="157" width="66" height="30"></rect><text class="comp-t" x="1035" y="176" text-anchor="middle">drivers</text>
+        <rect class="comp" x="984" y="157" width="84" height="30"></rect><text class="comp-t" x="1026" y="176" text-anchor="middle">base drivers</text>
       </g>
       </g>
 
@@ -307,6 +307,10 @@ execute_context_s    // 执行状态
   offset 12288  SystemDaemon  8MB
   offset 14336  Ramdisk cpio  8MB
 
+vendor.img (32MB, ext2, P2)
+  bin/  driver daemons (.drv)
+  etc/  drivers.json
+
 system.img (128MB, ext2)
   bin/  framework services
   apps/ user applications
@@ -314,8 +318,8 @@ system.img (128MB, ext2)
       </div>
     </div>
     <div class="pipe">
-      <div><span class="n">01</span><b>init</b><p>首个用户态进程。解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <span class="mono">/root/etc/init.rc</span>。</p></div>
-      <div><span class="n">02</span><b>zygote</b><p>读取 <span class="mono">init.json</span>，把服务 ELF 从 ext2 载入 SHM，经 <span class="mono">start_process_from_shm()</span> 启动框架服务。</p></div>
+      <div><span class="n">01</span><b>init</b><p>首个用户态进程。解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <span class="mono">/root/etc/init.rc</span>——其中 <span class="mono">exec</span> 行以显式线性映射拉起启动关键的 block 驱动 daemon。</p></div>
+      <div><span class="n">02</span><b>zygote</b><p>读取 <span class="mono">init.json</span>，把服务 ELF 从 ext2 载入 SHM，经 <span class="mono">start_process_from_shm()</span> 启动框架服务；同时读取 vendor 分区的 <span class="mono">drivers.json</span>，拉起其余驱动 daemons。</p></div>
       <div><span class="n">03</span><b>appmgr</b><p>按 <span class="mono">applist.json</span> 管理应用注册表，按需启动应用进程。</p></div>
     </div>
   </section>
