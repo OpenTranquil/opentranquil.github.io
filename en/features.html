@@ -104,7 +104,7 @@
       <h2>Independent framework services.</h2>
     </div>
     <div class="grid c3 feature-ledger">
-      <div class="card"><span class="tag">devmgr</span><h3>Device management</h3><p>Device driver framework and peripheral management.</p></div>
+      <div class="card"><span class="tag">devmgr</span><h3>Device management</h3><p>Driver-daemon registry, per-class IPC forwarding and peripheral management.</p></div>
       <div class="card"><span class="tag">fsmgr</span><h3>Filesystems</h3><p>VFS abstraction: rootfs, ext2, FAT32, procfs, sysfs.</p></div>
       <div class="card"><span class="tag">netmgr</span><h3>Network stack</h3><p>lwIP TCP/IP; mbedTLS for HTTPS scenarios.</p></div>
       <div class="card"><span class="tag">windowmgr</span><h3>Window compositor</h3><p>Window compositing and surface management on the 800×480 canvas.</p></div>
@@ -121,7 +121,7 @@
 
   <section class="sec">
     <div class="sec-head">
-      <h2>In-kernel drivers and the graphics stack.</h2>
+      <h2>Built-in kernel drivers · driver daemons · graphics stack.</h2>
     </div>
     <div class="split">
       <div class="card">
@@ -130,20 +130,31 @@
           <span class="badge">UART PL011</span><span class="badge">GICv2 / v3</span><span class="badge">ARM Timer</span>
           <span class="badge">RTC PL031</span><span class="badge">PMU</span><span class="badge">Cache CCS</span>
           <span class="badge">DMA PL330</span><span class="badge">Mali GPU</span><span class="badge">Watchdog</span>
-          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">VirtIO block</span>
-          <span class="badge">VirtIO net</span><span class="badge">VirtIO input</span><span class="badge">spin-table</span>
+          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">spin-table</span>
         </div>
       </div>
       <div class="card">
-        <h3 class="mb-3">Graphics &amp; third-party libraries</h3>
+        <h3 class="mb-3">Driver daemons (independent processes)</h3>
+        <div class="badges">
+          <span class="badge">display.drv 0x41</span><span class="badge">block.drv 0x42</span><span class="badge">net.drv 0x43</span>
+          <span class="badge">snd.drv 0x44</span><span class="badge">input.drv 0x45</span><span class="badge">bt.drv 0x46</span>
+        </div>
         <ul class="ck">
-          <li><b>LVGL</b> UI component library</li>
-          <li><b>FreeType</b> font rendering</li>
-          <li><b>PortableGL</b> software GL</li>
-          <li><b>lwIP · mbedTLS · musl · cJSON · minimp3 · toybox</b></li>
-          <li>Upstream sources are never modified directly — adaptation layers live in <code>os/libs/</code> and <code>sys/ulibs/</code></li>
+          <li>Drivers run as independent EL0 processes; devmgr's registry forwards IPC per class</li>
+          <li>QemuVirt: fw_cfg, virtio-gpu / blk / net / snd / input</li>
+          <li>CM4: emmc2, rpi, rpi-fb, rpi-touch, rpi-wlan, rpi-bt</li>
         </ul>
       </div>
+    </div>
+    <div class="card">
+      <h3 class="mb-3">Graphics &amp; third-party libraries</h3>
+      <ul class="ck">
+        <li><b>LVGL</b> UI component library</li>
+        <li><b>FreeType</b> font rendering</li>
+        <li><b>PortableGL</b> software GL</li>
+        <li><b>lwIP · mbedTLS · musl · cJSON · minimp3 · toybox</b></li>
+        <li>Upstream sources are never modified directly — adaptation layers live in <code>os/libs/</code> and <code>sys/ulibs/</code></li>
+      </ul>
     </div>
   </section>
 
