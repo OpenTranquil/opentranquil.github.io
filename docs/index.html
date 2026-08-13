@@ -83,7 +83,7 @@
 
     <section class="doc-sec" id="intro">
       <h2>项目简介</h2>
-      <p class="lede">TranquilOS 是面向 AArch64 的 object-capability 微内核操作系统。系统以 capability 作为统一授权模型，将进程管理、内存管理、IPC 命名空间、设备抽象、文件系统、网络协议栈、窗口合成与应用生命周期拆分为边界清晰的用户态服务；EL1 微内核专注于调度、IPC、异常、中断、定时器、futex、基础驱动与 capability 对象分发。</p>
+      <p class="lede">TranquilOS 是面向 AArch64 的 object-capability 微内核操作系统。系统以 capability 作为统一授权模型，将进程管理、内存管理、IPC 命名空间、设备抽象、文件系统、网络协议栈、窗口合成与应用生命周期拆分为边界清晰的用户态服务——硬件驱动同样以独立进程（driver daemons）运行，由 devmgr 注册表按类转发；EL1 微内核专注于调度、IPC、异常、中断、定时器、futex、基础驱动与 capability 对象分发。</p>
       <p>设计参考了 seL4 等内核的对象能力模型，目标是在 AArch64 平台上验证「微内核 + capability 授权 + 用户态系统服务」的系统化组合：内核对象如何被显式授权、服务如何发现与通信、图形桌面如何作为普通用户态组件运行、构建系统如何把分散组件组装为可启动镜像。</p>
       <p>完整设计文档在内核仓库 <code>docs/</code> 目录：<code>basic_theory.md</code>（AArch64 架构、MMU、上下文切换、驱动、capability、IPC、调度）、<code>microkernel_design.md</code>（微内核设计）、<code>idl.md</code>（接口定义与代码生成）、<code>async_ipc_design.md</code>。</p>
     </section>
@@ -111,7 +111,7 @@ ninja -C out Windowmgr</code></pre>
   virt/          Type-1 hypervisor（EL2）
   boot/          Bootloader
   trustee/       可信执行环境（stub）
-  uapps/         启动与核心服务：base/ init、idle；core/ devmgr、fsmgr
+  uapps/         启动与核心服务：base/ init、idle；core/ devmgr、fsmgr、drivers/（driver_mgr IDL）
   ulibs/         libc、libcrt、libsyscall、libsystem、libsync、libfdt、libalgorithm
 os/              OS 用户态
   base/          zygote、netmgr
@@ -119,9 +119,9 @@ os/              OS 用户态
   apps/          用户应用
   libs/          libwindow、libgraphics、libgl、liblvgl、liblwip 等
   thrid_party/   lvgl、freetype、mbedtls、lwip、musl 等三方源码
-platform/        平台配置：QemuVirt / Pi3b / Pi4b / CM4（DTB、链接脚本、构建运行脚本）
+platform/        平台配置：QemuVirt / Pi3b / Pi4b / CM4（DTB、链接脚本、脚本；vendor/ 驱动 daemon 与 drivers.json）
 build/           GN 构建系统与工具链定义
-images/          ramdisk（cpio）与 system 镜像模板
+images/          ramdisk（cpio）、vendor 与 system 镜像模板
 docs/            设计文档</code></pre>
       <p><b>三方库约定：</b>不直接修改上游源码，平台适配与兼容封装集中在 <code>os/libs/</code> 与 <code>sys/ulibs/</code>；升级三方库时整目录替换并验证适配层。</p>
     </section>
@@ -132,7 +132,7 @@ docs/            设计文档</code></pre>
       <pre><code>从 EL2 启动：bootloader → hypervisor → kernel → systemd
 从 EL1 启动：bootloader → kernel → systemd</code></pre>
       <p>hypervisor 提供 stage-2 地址转换、VM/VCPU/PCPU 生命周期管理、vGIC、vTimer、vPMU 与 hypcall 接口；虚拟机与内核一同打包进 boot.img。</p>
-      <p>用户态启动顺序：<b>init</b>（首个用户态进程）解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <code>/root/etc/init.rc</code>；<b>zygote</b> 读取 <code>init.json</code>，把服务 ELF 从 ext2 载入 SHM 后调 <code>start_process_from_shm()</code> 启动框架服务；<b>appmgr</b> 按 <code>applist.json</code> 管理应用注册表并按需拉起应用。</p>
+      <p>用户态启动顺序：<b>init</b>（首个用户态进程）解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <code>/root/etc/init.rc</code>——其中 <code>exec</code> 行以显式 linear-map 三元组拉起启动关键的 block 驱动 daemon；<b>zygote</b> 读取 <code>init.json</code>，把服务 ELF 从 ext2 载入 SHM 后调 <code>start_process_from_shm()</code> 启动框架服务，并读取 vendor 分区的 <code>drivers.json</code> 拉起其余驱动 daemons；<b>appmgr</b> 按 <code>applist.json</code> 管理应用注册表并按需拉起应用。</p>
     </section>
 
     <section class="doc-sec" id="capability">
@@ -240,7 +240,7 @@ client/include/   公开客户端 API 头文件</code></pre>
           <tr><td>appmgr</td><td>应用生命周期：注册表、按需拉起</td></tr>
           <tr><td>windowmgr</td><td>窗口合成器与 surface 管理、输入分发</td></tr>
           <tr><td>statemgr</td><td>系统级 KV 状态存储</td></tr>
-          <tr><td>devmgr</td><td>设备驱动框架与外设管理</td></tr>
+          <tr><td>devmgr</td><td>驱动 daemon 注册表与按类 IPC 转发；外设管理</td></tr>
           <tr><td>fsmgr</td><td>文件系统抽象：rootfs、ext2、FAT32、procfs、sysfs</td></tr>
           <tr><td>netmgr</td><td>lwIP TCP/IP 网络栈</td></tr>
           <tr><td>mmimgr</td><td>多模态输入管理</td></tr>
@@ -297,12 +297,21 @@ client/include/   公开客户端 API 头文件</code></pre>
         </tbody>
       </table>
       <pre><code>boot.img (64MB)
-  offset 0      Bootloader    8MB     system.img (128MB, ext2)
-  offset 2048   DTB           8MB       bin/   framework services
-  offset 4096   Hypervisor   16MB       apps/  user applications
-  offset 8192   Kernel       16MB       etc/   fonts · icons · init config
+  offset 0      Bootloader    8MB
+  offset 2048   DTB           8MB
+  offset 4096   Hypervisor   16MB
+  offset 8192   Kernel       16MB
   offset 12288  SystemDaemon  8MB
-  offset 14336  Ramdisk cpio  8MB</code></pre>
+  offset 14336  Ramdisk cpio  8MB
+
+vendor.img (32MB, ext2, P2)
+  bin/  driver daemons (.drv)
+  etc/  drivers.json
+
+system.img (128MB, ext2)
+  bin/  framework services
+  apps/ user applications
+  etc/  fonts · icons · init config</code></pre>
     </section>
 
   </main>
