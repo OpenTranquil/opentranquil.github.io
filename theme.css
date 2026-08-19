@@ -105,8 +105,7 @@
 :root {
   --wrap-width:     78rem;
   --content-width:  48rem;
-  --header-height:  3.5rem;
-  --sidebar-width:  180px;
+  --header-height:  4.25rem;
 }
 
 /* --- Animation --- */

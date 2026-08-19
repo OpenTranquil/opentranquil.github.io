@@ -280,64 +280,6 @@ html[lang^="zh"] .principles h3{letter-spacing:-.018em}
   *{animation:none!important;transition:none!important}
 }
 
-/* ---------- sidebar (desktop) ---------- */
-@media (min-width: 901px) {
-  .hd {
-    position: fixed;
-    top: 0; left: 0;
-    width: var(--sidebar-width);
-    height: 100vh;
-    border-bottom: 0;
-    border-right: 1px solid var(--color-border-1);
-    overflow-y: auto;
-  }
-  .hd-in {
-    height: auto;
-    min-height: 100vh;
-    max-width: none;
-    margin: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: var(--space-7) var(--space-5);
-    gap: var(--space-8);
-  }
-  .hd-nav {
-    flex-direction: column;
-    margin-right: 0;
-    gap: 0;
-    width: 100%;
-  }
-  .hd-nav a {
-    padding: var(--space-2) 0;
-    display: block;
-  }
-  .hd-r {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
-    margin-top: auto;
-    width: 100%;
-  }
-  .brand {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-4);
-    font-size: var(--text-xs);
-  }
-  .brand-mark {
-    width: 28px;
-    height: 28px;
-    flex: 0 0 28px;
-  }
-
-  .hd-btn {
-    justify-content: flex-start;
-    padding: 0;
-  }
-
-  body { padding-left: var(--sidebar-width); }
-}
-
 /* ---------- responsive ---------- */
 @media (max-width:1020px){
   .hero{grid-template-columns:1fr;gap:var(--space-7);padding:var(--space-10) 0 var(--space-7)}
