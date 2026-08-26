@@ -17,15 +17,12 @@
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
   <a href="index.html" class="brand" aria-label="TranquilOS home">
-    <span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span>
+    <svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="Primary navigation">
     <a href="architecture.html" class="on" aria-current="page">Architecture</a>
-    <a href="features.html">Features</a>
     <a href="screenshots.html">Screenshots</a>
-    <a href="build.html">Build</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="download.html">Downloads</a>
+    <a href="build.html">Build &amp; Download</a>
     <a href="docs/index.html">Docs</a>
   </nav>
   <div class="hd-r">
@@ -39,13 +36,13 @@
 <main class="w">
 
   <section class="phero">
-    <h1>Privilege layers. Capability authority. Isolated services.</h1>
+    <h1>Architecture &amp; implementation.</h1>
     <p class="lede">EL3 boots the system, EL2 runs the hypervisor, EL1 the microkernel, and EL0 the system services and applications. Layers interact only through capabilities, IPC and shared memory.</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>Four runtime layers. Clear boundaries.</h2>
+      <h2>Four runtime layers.</h2>
       <p>Boot moves upward through EL3 → EL2 → EL1 → EL0; runtime communication uses capabilities, IPC and SHM.</p>
     </div>
     <div class="svg-scroll">
@@ -179,11 +176,124 @@
     </svg>
     </div>
   </section>
-
-  <section class="sec">
+<section class="sec">
+    <div class="sec-head">
+      <h2>Core system services.</h2>
+    </div>
+    <div class="grid c4 feature-ledger">
+      <div class="card"><span class="tag">procmgr</span><h3>Process management</h3><p>Process / thread lifecycle, ELF loading, PID lookup.</p></div>
+      <div class="card"><span class="tag">memmgr</span><h3>Memory management</h3><p>Buddy physical-page allocator, virtual address spaces, SHM.</p></div>
+      <div class="card"><span class="tag">ipcmgr</span><h3>IPC namespace</h3><p>Endpoint / pool creation, name service, capability cloning.</p></div>
+      <div class="card"><span class="tag">virtmgr</span><h3>VM management</h3><p>VM creation and lifecycle management.</p></div>
+    </div>
+  </section>
+<section class="sec">
+    <div class="sec-head">
+      <h2>Independent framework services.</h2>
+    </div>
+    <div class="grid c3 feature-ledger">
+      <div class="card"><span class="tag">devmgr</span><h3>Device management</h3><p>Driver-daemon registry, per-class IPC forwarding and peripheral management.</p></div>
+      <div class="card"><span class="tag">fsmgr</span><h3>Filesystems</h3><p>VFS abstraction: rootfs, ext2, FAT32, procfs, sysfs.</p></div>
+      <div class="card"><span class="tag">netmgr</span><h3>Network stack</h3><p>lwIP TCP/IP; mbedTLS for HTTPS scenarios.</p></div>
+      <div class="card"><span class="tag">windowmgr</span><h3>Window compositor</h3><p>Window compositing and surface management on the 800×480 canvas.</p></div>
+      <div class="card"><span class="tag">appmgr</span><h3>App lifecycle</h3><p>App registry management; launches app processes on demand.</p></div>
+      <div class="card"><span class="tag">mmimgr</span><h3>Multi-modal input</h3><p>Unified management and dispatch of keyboard, pointer and other input.</p></div>
+      <div class="card"><span class="tag">audiomgr</span><h3>Audio service</h3><p>Audio output management (VirtIO sound).</p></div>
+      <div class="card"><span class="tag">fontmgr</span><h3>Font rendering</h3><p>FreeType rasterization and text layout support.</p></div>
+      <div class="card"><span class="tag">statemgr</span><h3>State store</h3><p>System-wide key-value state service.</p></div>
+      <div class="card"><span class="tag">timemgr</span><h3>Time service</h3><p>Timekeeping, RTC alarms and NTP sync.</p></div>
+      <div class="card"><span class="tag">agentmgr</span><h3>AI agent framework</h3><p>A system-level service framework for AI agents.</p></div>
+      <div class="card"><span class="tag">imemgr</span><h3>Input methods</h3><p>Input method editor (IME) service.</p></div>
+    </div>
+  </section>
+<section class="sec">
     <div class="split">
       <div>
-        <h2>Every kernel object is reached through a capability.</h2>
+        <h2>The kernel keeps only a boot allocator — memory policy lives in EL0.</h2>
+        <p class="lede">The kernel keeps only a boot allocator. Memory policy lives in SystemDaemon across four components: procmgr, memmgr, ipcmgr and virtmgr.</p>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>Component</th><th>Responsibility</th></tr></thead>
+          <tbody>
+            <tr><td>procmgr</td><td>Spawn ELF, process/thread teardown, PID lookup</td></tr>
+            <tr><td>memmgr</td><td>Buddy physical pages, virtual address spaces, SHM</td></tr>
+            <tr><td>ipcmgr</td><td>Endpoint/pool creation, name service, capability cloning</td></tr>
+            <tr><td>virtmgr</td><td>VM creation and lifecycle</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Hardware drivers as independent processes.</h2>
+      <p>Drivers run as EL0 daemon processes; devmgr keeps a registry and forwards IPC per class. Only boot-critical drivers stay in the kernel.</p>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <span class="tag">REGISTER &amp; FORWARD</span>
+        <h3>Register once, forward per class</h3>
+        <p>Daemons register their service info over the IDL; devmgr forwards per class.</p>
+      </article>
+      <article class="card">
+        <span class="tag">TWO SPAWN PATHS</span>
+        <h3>Two spawn paths</h3>
+        <p>The boot-critical block driver is exec'd by init.rc; other daemons are spawned by zygote from drivers.json.</p>
+      </article>
+      <article class="card">
+        <span class="tag">MEMORY ISOLATION</span>
+        <h3>Memory isolation</h3>
+        <p>Each daemon maps only its own MMIO / DMA regions — a crash cannot reach the kernel.</p>
+      </article>
+    </div>
+    <div class="badges mt-5">
+      <span class="badge">display.drv</span><span class="badge">block.drv</span><span class="badge">net.drv</span>
+      <span class="badge">snd.drv</span><span class="badge">input.drv</span><span class="badge">bt.drv</span>
+    </div>
+  </section>
+<section class="sec">
+    <div class="sec-head">
+      <h2>Service skeleton and IDL codegen.</h2>
+      <p><code>main.c</code> registers, <code>service.c</code> dispatches, and <code>client/</code> wraps IPC; generation also validates the ABI.</p>
+    </div>
+    <div class="split">
+      <div>
+<pre><code>// service.c — the same dispatch pattern in every service
+static handler_fn handlers[] = {
+  [IPC_SERVICE_FUNCTION_CREATE] = handler_create,
+  [IPC_SERVICE_FUNCTION_DESTROY] = handler_destroy,
+  // ...
+};
+
+IPC_ENDPOINT void service_entry(
+    uint64_t cref, uint64_t method,
+    uint64_t a1, uint64_t a2, uint64_t a3) {
+  if (method &lt; HANDLERS_COUNT &amp;&amp; handlers[method])
+    OSIpcEndPointPoolReply(handlers[method](a1, a2, a3));
+  else
+    OSIpcEndPointPoolReply(0);
+}</code></pre>
+      </div>
+      <div>
+<pre><code>// statemgr_ipc.idl
+service statemgr_ipc {
+    id = 0x9;
+
+    struct query  { version = 1; char key[64]; };
+    struct result { version = 1; uint32_t found; };
+
+    uint64_t get(in query *request,
+                 out result *response) id = 0x1;
+};</code></pre>
+        <p class="note">Transport structs declare a <b>version</b>; the generator adds <b>abi_size</b> / <b>abi_version</b> fields validated by the server. Variable-length data passes an explicit SHM handle and length.</p>
+      </div>
+    </div>
+  </section>
+<section class="sec">
+    <div class="split">
+      <div>
+        <h2>Capability object dispatch.</h2>
         <p class="lede">Each process stores accessible kernel objects in a CNode. A 64-bit cref combines a cnode ID and slot; the kernel checks object type and rights before dispatch.</p>
         <div class="badges">
           <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
@@ -204,22 +314,21 @@
       </div>
     </div>
   </section>
-
-  <section class="sec">
+<section class="sec">
     <div class="sec-head">
-      <h2>Cross-process calls that behave like functions.</h2>
+      <h2>Synchronous IPC: migrating threads.</h2>
       <p>Synchronous IPC migrates the caller's context into the callee's address space—no server-thread scheduling wait.</p>
     </div>
     <div class="grid c2">
       <article class="card">
         <span class="tag">MIGRATING THREAD</span>
         <h3>Switch execution context, not scheduling state</h3>
-        <p>Thanks to the scontext/xcontext split, the kernel constructs the target process's <code>execute_context_s</code> on IPC: arguments go into x0–x7 per the AAPCS, the entry address into pc, and a trampoline address into lr — when the handler returns, the trampoline issues a REPLY call that switches back to the caller. Scheduling metadata stays under the scheduler's control the whole time, so even heavy IPC never starves other threads.</p>
+        <p>Based on the scontext/xcontext split: IPC builds the callee's execute context (arguments x0–x7, entry pc, trampoline lr) and switches back on return; scheduling metadata is unaffected.</p>
       </article>
       <article class="card">
         <span class="tag">ENDPOINT &amp; POOL</span>
         <h3>Single-threaded endpoints and elastic pools</h3>
-        <p>An endpoint is single-threaded — one handler thread per endpoint. An endpoint pool load-balances across pre-allocated endpoints for multi-threaded services (elastic IPC), while the client API stays identical in both modes. A kernel name service lives at cref <code>0x1</code>: services register with <code>sys_register_service()</code>, clients look them up with <code>sys_get_service()</code>.</p>
+        <p>Endpoints are single-threaded; endpoint pools load-balance across pre-allocated endpoints (elastic IPC). The kernel ships a name service: register with <code>sys_register_service()</code>, look up with <code>sys_get_service()</code>.</p>
       </article>
     </div>
     <div class="pipe">
@@ -232,11 +341,10 @@
     </div>
     <p class="note">SHM is the only data channel between processes — TranquilOS has no message-copying IPC. All bulk data moves through shared memory; IPC argument slots carry handles and scalars only.</p>
   </section>
-
-  <section class="sec">
+<section class="sec">
     <div class="split">
       <div>
-        <h2>Scheduling and execution are two data structures.</h2>
+        <h2>Scheduling &amp; execution split.</h2>
         <p class="lede">The TCB is split into scheduling and execution entities. Each CPU schedules locally and touches register state only on real switches; CFS plugs in as a kernel module.</p>
         <div class="badges">
           <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
@@ -256,28 +364,23 @@ execute_context_s    // execution state
       </div>
     </div>
   </section>
-
   <section class="sec">
-    <div class="split">
-      <div>
-        <h2>The kernel keeps only a boot allocator — memory policy lives in EL0.</h2>
-        <p class="lede">The kernel keeps only a boot allocator. Memory policy lives in SystemDaemon across four components: procmgr, memmgr, ipcmgr and virtmgr.</p>
-      </div>
-      <div>
-        <table class="tbl">
-          <thead><tr><th>Component</th><th>Responsibility</th></tr></thead>
-          <tbody>
-            <tr><td>procmgr</td><td>Spawn ELF, process/thread teardown, PID lookup</td></tr>
-            <tr><td>memmgr</td><td>Buddy physical pages, virtual address spaces, SHM</td></tr>
-            <tr><td>ipcmgr</td><td>Endpoint/pool creation, name service, capability cloning</td></tr>
-            <tr><td>virtmgr</td><td>VM creation and lifecycle</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="sec-head">
+      <h2>Built-in kernel drivers.</h2>
+      <p>Boot-critical device drivers stay in the kernel; all other drivers are isolated processes.</p>
     </div>
+    <div class="card">
+        <h3 class="mb-3">Built-in kernel drivers</h3>
+        <div class="badges">
+          <span class="badge">UART PL011</span><span class="badge">GICv2 / v3</span><span class="badge">ARM Timer</span>
+          <span class="badge">RTC PL031</span><span class="badge">PMU</span><span class="badge">Cache CCS</span>
+          <span class="badge">DMA PL330</span><span class="badge">Mali GPU</span><span class="badge">Watchdog</span>
+          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">spin-table</span>
+        </div>
+      </div>
   </section>
 
-  <section class="sec">
+<section class="sec">
     <div class="sec-head">
       <h2>Boot: leveled initcalls, fixed image layout.</h2>
       <p>The linker places initialization functions into dedicated sections for levels LV0–LV7, and the kernel runs them in order; the bootloader decides whether to start the hypervisor first or enter the kernel directly, based on CurrentEL.</p>
@@ -318,104 +421,16 @@ system.img (128MB, ext2)
       </div>
     </div>
     <div class="pipe">
-      <div><span class="n">01</span><b>init</b><p>First userspace process. Finds the ramdisk via the device tree, starts devmgr and fsmgr, then runs <span class="mono">/root/etc/init.rc</span> — its <span class="mono">exec</span> lines spawn the boot-critical block driver daemon with explicit linear maps.</p></div>
-      <div><span class="n">02</span><b>zygote</b><p>Reads <span class="mono">init.json</span>, loads service ELFs from ext2 into SHM and starts framework services via <span class="mono">start_process_from_shm()</span>; it also reads the vendor partition's <span class="mono">drivers.json</span> to spawn the remaining driver daemons.</p></div>
+      <div><span class="n">01</span><b>init</b><p>First userspace process; runs init.rc and starts devmgr and fsmgr.</p></div>
+      <div><span class="n">02</span><b>zygote</b><p>Launches framework services and driver daemons per init.json / drivers.json.</p></div>
       <div><span class="n">03</span><b>appmgr</b><p>Manages the app registry from <span class="mono">applist.json</span> and launches app processes on demand.</p></div>
     </div>
   </section>
-
-  <section class="sec">
-    <div class="sec-head">
-      <h2>Hardware drivers as independent processes.</h2>
-      <p>Drivers run as EL0 daemon processes; devmgr keeps a registry and forwards IPC per class. Only boot-critical drivers stay in the kernel.</p>
-    </div>
-    <div class="grid c3">
-      <article class="card">
-        <span class="tag">REGISTER &amp; FORWARD</span>
-        <h3>Register once, forward per class</h3>
-        <p>A driver daemon registers over the <code>driver_mgr</code> IDL (service 0x30) with <code>register_driver()</code>, submitting compatible, name, class and service ID. devmgr keeps a spinlock-protected registry (<code>driver_daemon_mgr</code>, up to 32 entries); the first forward lazily resolves the endpoint-pool cref (128 × 50 ms retries), then <code>OSIpcEndPointPoolCall5()</code> connects directly. The in-process peripheral managers remain as a fallback.</p>
-      </article>
-      <article class="card">
-        <span class="tag">TWO SPAWN PATHS</span>
-        <h3>Two spawn paths</h3>
-        <p>The boot-critical block driver is exec'd from the ramdisk by init.rc with explicit <span class="mono">⟨start⟩ ⟨size⟩ ⟨attr⟩</span> linear-map triplets. The remaining daemons are spawned by zygote from the vendor partition's <code>drivers.json</code> — each entry carries maps (device / uncached / normal) and a CPU affinity, with the DTB map prepended automatically.</p>
-      </article>
-      <article class="card">
-        <span class="tag">MEMORY ISOLATION</span>
-        <h3>Only the regions you need</h3>
-        <p>Each daemon process receives only the MMIO / DMA linear maps it needs — a driver crash cannot take down the kernel or reach another device's memory. The libdriver lifecycle: <code>drv_init → drv_get_mmio → drv_register → publish class service → drv_main_loop</code>.</p>
-      </article>
-    </div>
-    <div class="split">
-      <div>
-<pre><code># init.rc — boot-critical block driver (ramdisk)
-exec /vendor/block.drv.elf \
-  0xFE340000 0x1000 device \
-  0xFE200000 0x1000 device \
-  0xFE00B000 0x1000 device</code></pre>
-      </div>
-      <div>
-<pre><code>// drivers.json — remaining driver daemons (vendor)
-{
-  "services": [{
-    "name": "virtio-net.drv",
-    "path": "/vendor/bin/virtio-net.drv.elf",
-    "maps": [
-      { "start": "0x0A000000", "size": "0x4000",
-        "attr": "device" },
-      { "start": "0x52000000", "size": "0x100000",
-        "attr": "uncached" }
-    ],
-    "affinity": "0xF"
-  }]
-}</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-head">
-      <h2>One service skeleton. IDL-generated interfaces.</h2>
-      <p><code>main.c</code> registers, <code>service.c</code> dispatches, and <code>client/</code> wraps IPC; generation also validates the ABI.</p>
-    </div>
-    <div class="split">
-      <div>
-<pre><code>// service.c — the same dispatch pattern in every service
-static handler_fn handlers[] = {
-  [IPC_SERVICE_FUNCTION_CREATE] = handler_create,
-  [IPC_SERVICE_FUNCTION_DESTROY] = handler_destroy,
-  // ...
-};
-
-IPC_ENDPOINT void service_entry(
-    uint64_t cref, uint64_t method,
-    uint64_t a1, uint64_t a2, uint64_t a3) {
-  if (method &lt; HANDLERS_COUNT &amp;&amp; handlers[method])
-    OSIpcEndPointPoolReply(handlers[method](a1, a2, a3));
-  else
-    OSIpcEndPointPoolReply(0);
-}</code></pre>
-      </div>
-      <div>
-<pre><code>// statemgr_ipc.idl
-service statemgr_ipc {
-    id = 0x9;
-
-    struct query  { version = 1; char key[64]; };
-    struct result { version = 1; uint32_t found; };
-
-    uint64_t get(in query *request,
-                 out result *response) id = 0x1;
-};</code></pre>
-        <p class="note">Struct pointers use server-owned fixed receive buffers. The first call establishes SHM authorization per caller, method and parameter slot; later calls reuse the connection-level CRef and mapped address. A per-method lock covers copying, IPC and copy-back. Transport structs must declare a <b>version</b>; the generator adds <b>abi_size</b> / <b>abi_version</b> fields validated by the server. Variable-length data passes an explicit SHM handle and length.</p>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="ft"><div class="ft-in">
-  <div class="l"><span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span></div>
+  <div class="ft-word" aria-hidden="true">TranquilOS</div>
+  <div class="l"><svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span></div>
   <div class="r">
     <span>Capability-Based Microkernel for AArch64</span>
     <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>

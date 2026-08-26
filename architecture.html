@@ -17,15 +17,12 @@
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
   <a href="index.html" class="brand" aria-label="TranquilOS 首页">
-    <span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span>
+    <svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="主导航">
     <a href="architecture.html" class="on" aria-current="page">架构</a>
-    <a href="features.html">特性</a>
     <a href="screenshots.html">截图</a>
-    <a href="build.html">构建</a>
-    <a href="roadmap.html">路线图</a>
-    <a href="download.html">下载</a>
+    <a href="build.html">构建下载</a>
     <a href="docs/index.html">文档</a>
   </nav>
   <div class="hd-r">
@@ -39,13 +36,13 @@
 <main class="w">
 
   <section class="phero">
-    <h1>权限分层，能力授权，服务隔离。</h1>
+    <h1>架构与实现。</h1>
     <p class="lede">EL3 完成引导，EL2 运行 hypervisor，EL1 运行微内核，EL0 承载系统服务与应用。层间只通过 capability、IPC 和共享内存交互。</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>四层运行时，边界清晰。</h2>
+      <h2>四层运行时。</h2>
       <p>启动自底向上沿 EL3 → EL2 → EL1 → EL0 交接；运行时通过 capability、IPC 与 SHM 通信。</p>
     </div>
     <div class="svg-scroll">
@@ -179,11 +176,124 @@
     </svg>
     </div>
   </section>
-
-  <section class="sec">
+<section class="sec">
+    <div class="sec-head">
+      <h2>核心系统服务。</h2>
+    </div>
+    <div class="grid c4 feature-ledger">
+      <div class="card"><span class="tag">procmgr</span><h3>进程管理</h3><p>进程 / 线程生命周期、ELF 装载、PID 查找。</p></div>
+      <div class="card"><span class="tag">memmgr</span><h3>内存管理</h3><p>buddy 物理页分配器、虚拟地址空间、SHM 共享内存。</p></div>
+      <div class="card"><span class="tag">ipcmgr</span><h3>IPC 命名空间</h3><p>endpoint / pool 创建、name service、capability 克隆。</p></div>
+      <div class="card"><span class="tag">virtmgr</span><h3>虚拟机管理</h3><p>VM 创建与生命周期管理。</p></div>
+    </div>
+  </section>
+<section class="sec">
+    <div class="sec-head">
+      <h2>独立框架服务。</h2>
+    </div>
+    <div class="grid c3 feature-ledger">
+      <div class="card"><span class="tag">devmgr</span><h3>设备管理</h3><p>驱动 daemon 注册表、按类 IPC 转发与外设管理。</p></div>
+      <div class="card"><span class="tag">fsmgr</span><h3>文件系统</h3><p>VFS 抽象：rootfs、ext2、FAT32、procfs、sysfs。</p></div>
+      <div class="card"><span class="tag">netmgr</span><h3>网络协议栈</h3><p>lwIP TCP/IP；mbedTLS 支持 HTTPS 场景。</p></div>
+      <div class="card"><span class="tag">windowmgr</span><h3>窗口合成</h3><p>窗口合成器与 surface 管理，800×480 系统画布。</p></div>
+      <div class="card"><span class="tag">appmgr</span><h3>应用生命周期</h3><p>应用注册表管理，按需启动应用进程。</p></div>
+      <div class="card"><span class="tag">mmimgr</span><h3>多模态输入</h3><p>键盘、指针等输入事件的统一管理与分发。</p></div>
+      <div class="card"><span class="tag">audiomgr</span><h3>音频服务</h3><p>音频输出管理（VirtIO sound）。</p></div>
+      <div class="card"><span class="tag">fontmgr</span><h3>字体渲染</h3><p>FreeType 字体光栅化与排版支持。</p></div>
+      <div class="card"><span class="tag">statemgr</span><h3>状态存储</h3><p>系统级 KV 状态管理服务。</p></div>
+      <div class="card"><span class="tag">timemgr</span><h3>时间服务</h3><p>计时、RTC 闹钟与 NTP 同步。</p></div>
+      <div class="card"><span class="tag">agentmgr</span><h3>AI Agent 框架</h3><p>面向 AI agent 的系统级服务框架。</p></div>
+      <div class="card"><span class="tag">imemgr</span><h3>输入法</h3><p>输入法编辑器（IME）服务。</p></div>
+    </div>
+  </section>
+<section class="sec">
     <div class="split">
       <div>
-        <h2>所有内核对象，只经 capability 访问。</h2>
+        <h2>内核只留 boot allocator，内存策略在 EL0。</h2>
+        <p class="lede">内核只保留启动期分配器。内存策略位于 SystemDaemon，由 procmgr、memmgr、ipcmgr 与 virtmgr 四个组件实现。</p>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>组件</th><th>职责</th></tr></thead>
+          <tbody>
+            <tr><td>procmgr</td><td>spawn ELF、进程/线程销毁、PID 查找</td></tr>
+            <tr><td>memmgr</td><td>buddy 物理页分配、虚拟地址空间、SHM 管理</td></tr>
+            <tr><td>ipcmgr</td><td>endpoint / pool 创建、命名服务、capability 克隆</td></tr>
+            <tr><td>virtmgr</td><td>VM 创建与生命周期管理</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="sec-head">
+      <h2>硬件驱动，独立进程运行。</h2>
+      <p>驱动以 EL0 daemon 进程运行；devmgr 维护注册表并按类转发 IPC；启动关键驱动留在内核。</p>
+    </div>
+    <div class="grid c3">
+      <article class="card">
+        <span class="tag">REGISTER &amp; FORWARD</span>
+        <h3>注册一次，按类转发</h3>
+        <p>daemon 经 IDL 注册服务信息，devmgr 按类转发 IPC。</p>
+      </article>
+      <article class="card">
+        <span class="tag">TWO SPAWN PATHS</span>
+        <h3>两条拉起路径</h3>
+        <p>关键块驱动由 init.rc 拉起；其余 daemon 由 zygote 读取 drivers.json 拉起。</p>
+      </article>
+      <article class="card">
+        <span class="tag">MEMORY ISOLATION</span>
+        <h3>内存隔离</h3>
+        <p>每个 daemon 只映射自己的 MMIO / DMA 区域，崩溃不波及内核。</p>
+      </article>
+    </div>
+    <div class="badges mt-5">
+      <span class="badge">display.drv</span><span class="badge">block.drv</span><span class="badge">net.drv</span>
+      <span class="badge">snd.drv</span><span class="badge">input.drv</span><span class="badge">bt.drv</span>
+    </div>
+  </section>
+<section class="sec">
+    <div class="sec-head">
+      <h2>服务骨架与 IDL 代码生成。</h2>
+      <p><code>main.c</code> 注册服务，<code>service.c</code> 分发方法，<code>client/</code> 封装 IPC；生成器同时校验 ABI。</p>
+    </div>
+    <div class="split">
+      <div>
+<pre><code>// service.c — 每个服务相同的分发模式
+static handler_fn handlers[] = {
+  [IPC_SERVICE_FUNCTION_CREATE] = handler_create,
+  [IPC_SERVICE_FUNCTION_DESTROY] = handler_destroy,
+  // ...
+};
+
+IPC_ENDPOINT void service_entry(
+    uint64_t cref, uint64_t method,
+    uint64_t a1, uint64_t a2, uint64_t a3) {
+  if (method &lt; HANDLERS_COUNT &amp;&amp; handlers[method])
+    OSIpcEndPointPoolReply(handlers[method](a1, a2, a3));
+  else
+    OSIpcEndPointPoolReply(0);
+}</code></pre>
+      </div>
+      <div>
+<pre><code>// statemgr_ipc.idl
+service statemgr_ipc {
+    id = 0x9;
+
+    struct query  { version = 1; char key[64]; };
+    struct result { version = 1; uint32_t found; };
+
+    uint64_t get(in query *request,
+                 out result *response) id = 0x1;
+};</code></pre>
+        <p class="note">传输结构体必须带 <b>version</b>；生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验，变长数据显式传 SHM 句柄与长度。</p>
+      </div>
+    </div>
+  </section>
+<section class="sec">
+    <div class="split">
+      <div>
+        <h2>Capability 对象分发。</h2>
         <p class="lede">每个进程用 CNode 保存可访问的内核对象。64 位 cref 由 cnode ID 与 slot 组成；每次分发前，内核检查对象类型与 rights mask。</p>
         <div class="badges">
           <span class="badge">VSpace</span><span class="badge">CNode</span><span class="badge">Endpoint</span>
@@ -204,22 +314,21 @@
       </div>
     </div>
   </section>
-
-  <section class="sec">
+<section class="sec">
     <div class="sec-head">
-      <h2>跨进程调用，像函数调用。</h2>
+      <h2>同步 IPC：线程迁移。</h2>
       <p>同步 IPC 把调用方上下文直接迁入被调地址空间，不等待服务线程调度。</p>
     </div>
     <div class="grid c2">
       <article class="card">
         <span class="tag">MIGRATING THREAD</span>
         <h3>只切执行上下文，不动调度状态</h3>
-        <p>得益于 scontext / xcontext 分离：IPC 时内核构造目标进程的 <code>execute_context_s</code>，按 AAPCS 把参数放入 x0–x7，接口函数地址放入 pc，跳板函数地址放入 lr——接口返回时跳板发起 REPLY 调用切回调用方。调度元数据全程由调度器独立控制，IPC 再频繁也不会饿死其他线程。</p>
+        <p>基于 scontext / xcontext 分离：IPC 时内核构造目标进程的执行上下文（参数 x0–x7、函数地址 pc、跳板 lr），返回时切回调用方；调度元数据不受影响。</p>
       </article>
       <article class="card">
         <span class="tag">ENDPOINT &amp; POOL</span>
         <h3>单线程端点与弹性端点池</h3>
-        <p>Endpoint 为单线程模型，一个 handler 线程处理一个端点；Endpoint Pool 在预分配的多个端点间负载均衡，支撑多线程服务（弹性 IPC）。客户端接口在两种模式下保持一致。内核内置 name service（cref <code>0x1</code>），服务经 <code>sys_register_service()</code> 注册，客户端以 <code>sys_get_service()</code> 查找。</p>
+        <p>Endpoint 为单线程模型；Endpoint Pool 在预分配端点间负载均衡（弹性 IPC）。内核内置 name service，服务经 <code>sys_register_service()</code> 注册，客户端以 <code>sys_get_service()</code> 查找。</p>
       </article>
     </div>
     <div class="pipe">
@@ -232,11 +341,10 @@
     </div>
     <p class="note">SHM 是进程间唯一的数据通道——TranquilOS 没有消息拷贝式 IPC，所有批量数据都走共享内存，IPC 参数槽只传句柄与标量。</p>
   </section>
-
-  <section class="sec">
+<section class="sec">
     <div class="split">
       <div>
-        <h2>调度与执行，是两份数据结构。</h2>
+        <h2>调度与执行分离。</h2>
         <p class="lede">TCB 拆成调度实体与执行实体。每个 CPU 独立调度，只在真实切换时触碰寄存器状态；CFS 作为内核模块挂接。</p>
         <div class="badges">
           <span class="badge">per-CPU runqueue</span><span class="badge">load balancing</span>
@@ -256,28 +364,23 @@ execute_context_s    // 执行状态
       </div>
     </div>
   </section>
-
   <section class="sec">
-    <div class="split">
-      <div>
-        <h2>内核只留 boot allocator，内存策略在 EL0。</h2>
-        <p class="lede">内核只保留启动期分配器。内存策略位于 SystemDaemon，由 procmgr、memmgr、ipcmgr 与 virtmgr 四个组件实现。</p>
-      </div>
-      <div>
-        <table class="tbl">
-          <thead><tr><th>组件</th><th>职责</th></tr></thead>
-          <tbody>
-            <tr><td>procmgr</td><td>spawn ELF、进程/线程销毁、PID 查找</td></tr>
-            <tr><td>memmgr</td><td>buddy 物理页分配、虚拟地址空间、SHM 管理</td></tr>
-            <tr><td>ipcmgr</td><td>endpoint / pool 创建、命名服务、capability 克隆</td></tr>
-            <tr><td>virtmgr</td><td>VM 创建与生命周期管理</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="sec-head">
+      <h2>内核基础驱动。</h2>
+      <p>启动关键设备驱动留在内核；其余设备驱动以独立进程运行。</p>
     </div>
+    <div class="card">
+        <h3 class="mb-3">内核基础驱动</h3>
+        <div class="badges">
+          <span class="badge">UART PL011</span><span class="badge">GICv2 / v3</span><span class="badge">ARM Timer</span>
+          <span class="badge">RTC PL031</span><span class="badge">PMU</span><span class="badge">Cache CCS</span>
+          <span class="badge">DMA PL330</span><span class="badge">Mali GPU</span><span class="badge">Watchdog</span>
+          <span class="badge">PSCI</span><span class="badge">VirtIO console</span><span class="badge">spin-table</span>
+        </div>
+      </div>
   </section>
 
-  <section class="sec">
+<section class="sec">
     <div class="sec-head">
       <h2>启动：initcall 分级初始化，镜像布局固定。</h2>
       <p>链接器把初始化函数按 LV0–LV7 放入专用段，内核逐级执行；bootloader 根据 CurrentEL 决定先起 hypervisor 还是直入内核。</p>
@@ -318,104 +421,16 @@ system.img (128MB, ext2)
       </div>
     </div>
     <div class="pipe">
-      <div><span class="n">01</span><b>init</b><p>首个用户态进程。解析设备树找到 ramdisk，拉起 devmgr 与 fsmgr，执行 <span class="mono">/root/etc/init.rc</span>——其中 <span class="mono">exec</span> 行以显式线性映射拉起启动关键的 block 驱动 daemon。</p></div>
-      <div><span class="n">02</span><b>zygote</b><p>读取 <span class="mono">init.json</span>，把服务 ELF 从 ext2 载入 SHM，经 <span class="mono">start_process_from_shm()</span> 启动框架服务；同时读取 vendor 分区的 <span class="mono">drivers.json</span>，拉起其余驱动 daemons。</p></div>
+      <div><span class="n">01</span><b>init</b><p>首个用户态进程，执行 init.rc 并拉起 devmgr 与 fsmgr。</p></div>
+      <div><span class="n">02</span><b>zygote</b><p>按 init.json / drivers.json 拉起框架服务与其余驱动 daemons。</p></div>
       <div><span class="n">03</span><b>appmgr</b><p>按 <span class="mono">applist.json</span> 管理应用注册表，按需启动应用进程。</p></div>
     </div>
   </section>
-
-  <section class="sec">
-    <div class="sec-head">
-      <h2>硬件驱动，独立进程运行。</h2>
-      <p>驱动以 EL0 daemon 进程运行，devmgr 维护注册表并按类转发 IPC；只有启动关键驱动留在内核。</p>
-    </div>
-    <div class="grid c3">
-      <article class="card">
-        <span class="tag">REGISTER &amp; FORWARD</span>
-        <h3>注册一次，按类转发</h3>
-        <p>驱动 daemon 经 <code>driver_mgr</code> IDL（服务 0x30）调用 <code>register_driver()</code>，提交 compatible、name、class 与服务 ID。devmgr 用 spinlock 保护注册表（<code>driver_daemon_mgr</code>，最多 32 项）；首次转发懒解析 endpoint pool cref（重试 128 × 50ms），之后 <code>OSIpcEndPointPoolCall5()</code> 直连。进程内外设管理器保留为 fallback。</p>
-      </article>
-      <article class="card">
-        <span class="tag">TWO SPAWN PATHS</span>
-        <h3>两条拉起路径</h3>
-        <p>启动关键的 block 驱动由 init.rc <code>exec</code> 以显式 <span class="mono">⟨start⟩ ⟨size⟩ ⟨attr⟩</span> 三元组从 ramdisk 拉起；其余 daemon 由 zygote 读取 vendor 分区的 <code>drivers.json</code> 拉起——每个条目带 maps（device / uncached / normal）与 CPU affinity，DTB map 自动前置。</p>
-      </article>
-      <article class="card">
-        <span class="tag">MEMORY ISOLATION</span>
-        <h3>只映射自己需要的区域</h3>
-        <p>每个 daemon 进程只获得自己需要的 MMIO / DMA linear maps——驱动崩溃不会拖垮内核，也拿不到其他设备的内存。libdriver 生命周期：<code>drv_init → drv_get_mmio → drv_register → 发布类服务 → drv_main_loop</code>。</p>
-      </article>
-    </div>
-    <div class="split">
-      <div>
-<pre><code># init.rc — 启动关键 block 驱动（ramdisk）
-exec /vendor/block.drv.elf \
-  0xFE340000 0x1000 device \
-  0xFE200000 0x1000 device \
-  0xFE00B000 0x1000 device</code></pre>
-      </div>
-      <div>
-<pre><code>// drivers.json — 其余驱动 daemon（vendor 分区）
-{
-  "services": [{
-    "name": "virtio-net.drv",
-    "path": "/vendor/bin/virtio-net.drv.elf",
-    "maps": [
-      { "start": "0x0A000000", "size": "0x4000",
-        "attr": "device" },
-      { "start": "0x52000000", "size": "0x100000",
-        "attr": "uncached" }
-    ],
-    "affinity": "0xF"
-  }]
-}</code></pre>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-head">
-      <h2>同一服务骨架，IDL 生成接口。</h2>
-      <p><code>main.c</code> 注册服务，<code>service.c</code> 分发方法，<code>client/</code> 封装 IPC；生成器同时校验 ABI。</p>
-    </div>
-    <div class="split">
-      <div>
-<pre><code>// service.c — 每个服务相同的分发模式
-static handler_fn handlers[] = {
-  [IPC_SERVICE_FUNCTION_CREATE] = handler_create,
-  [IPC_SERVICE_FUNCTION_DESTROY] = handler_destroy,
-  // ...
-};
-
-IPC_ENDPOINT void service_entry(
-    uint64_t cref, uint64_t method,
-    uint64_t a1, uint64_t a2, uint64_t a3) {
-  if (method &lt; HANDLERS_COUNT &amp;&amp; handlers[method])
-    OSIpcEndPointPoolReply(handlers[method](a1, a2, a3));
-  else
-    OSIpcEndPointPoolReply(0);
-}</code></pre>
-      </div>
-      <div>
-<pre><code>// statemgr_ipc.idl
-service statemgr_ipc {
-    id = 0x9;
-
-    struct query  { version = 1; char key[64]; };
-    struct result { version = 1; uint32_t found; };
-
-    uint64_t get(in query *request,
-                 out result *response) id = 0x1;
-};</code></pre>
-        <p class="note">结构体指针使用服务端持有的固定接收缓冲区：首次调用按“调用方 + 方法 + 参数槽”建立 SHM 授权，后续复用连接级 CRef 与映射地址；每个方法用独立锁覆盖复制、IPC 与回写。传输结构体必须带 <b>version</b>，生成器附加 <b>abi_size</b> / <b>abi_version</b> 由服务端校验；变长数据显式传 SHM 句柄与长度。</p>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="ft"><div class="ft-in">
-  <div class="l"><span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span></div>
+  <div class="ft-word" aria-hidden="true">TranquilOS</div>
+  <div class="l"><svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span></div>
   <div class="r">
     <span>Capability-Based Microkernel for AArch64</span>
     <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>

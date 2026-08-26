@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS is an object-capability microkernel operating system for AArch64: EL2 Type-1 hypervisor, EL1 microkernel, privileged EL0 SystemDaemon and userspace services, migrating-thread IPC, GN/Ninja build, runs on QEMU and Raspberry Pi.">
-<meta name="theme-color" content="#11110F">
+<meta name="theme-color" content="#0A0A0B">
 <script src="../theme-init.js"></script>
 <link rel="icon" type="image/svg+xml" href="../branding/tranquilos-final-line/mark-color.svg">
 <title>TranquilOS — Object-Capability Microkernel OS for AArch64</title>
@@ -17,184 +17,154 @@
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="Open navigation menu">
   <a href="index.html" class="brand" aria-label="TranquilOS home">
-    <span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span>
+    <svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="Primary navigation">
     <a href="architecture.html">Architecture</a>
-    <a href="features.html">Features</a>
     <a href="screenshots.html">Screenshots</a>
-    <a href="build.html">Build</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="download.html">Downloads</a>
+    <a href="build.html">Build &amp; Download</a>
     <a href="docs/index.html">Docs</a>
   </nav>
   <div class="hd-r">
     <a class="hd-btn" href="../index.html" hreflang="zh-CN" lang="zh-CN"><span class="accent">中文</span></a>
-    <button class="hd-btn" id="tog" type="button" aria-label="Toggle theme">☾</button>
     <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
   </div>
   <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
 </div></header>
 
-<main class="w">
-
-  <section class="hero">
-    <div class="hero-copy">
-      <h1>From boot to desktop.</h1>
-      <p class="lead">A complete AArch64 object-capability microkernel system. EL1 keeps only scheduling, IPC and exceptions; everything else runs in isolated userspace services.</p>
+<section class="hero">
+  <div class="hero-in">
+    <div class="hero-copy" data-reveal>
+      <p class="eyebrow">Object-Capability Microkernel · AArch64</p>
+      <h1><span class="hero-line">An object-capability microkernel</span><span class="hero-line">for AArch64.</span></h1>
+      <p class="lead">EL1 keeps only scheduling, IPC and exceptions; processes, memory, files, network, devices and graphics are isolated userspace services coordinated over capability and IPC.</p>
       <div class="hero-actions">
-        <a class="btn primary" href="architecture.html">Architecture <span class="arr">→</span></a>
+        <a class="btn primary" href="architecture.html">Explore architecture <span class="arr">→</span></a>
         <a class="btn" href="screenshots.html">Screenshots</a>
-        <a class="btn" href="build.html">Build</a>
+        <a class="btn" href="build.html">Build &amp; download</a>
+      </div>
+      <div class="hero-chips">
+        <span>AARCH64 · EL0–EL3</span>
+        <span>GN/NINJA + IDL</span>
+        <span>800×480 · 14+ APPS</span>
+        <span>QEMU VIRT · PI 3B / 4B / CM4</span>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="system-plate" role="img" aria-label="TranquilOS system section: lower EL3 boot, EL2 virtualization, EL1 microkernel, and upper EL0 services (including driver daemons) and applications">
-      <svg viewBox="0 0 560 602" aria-hidden="true">
-        <defs>
-          <marker id="plate-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M0 0L8 4L0 8Z"></path>
-          </marker>
-        </defs>
-        <g class="plate-grid">
-          <line x1="16" y1="28" x2="544" y2="28"/><line x1="62" y1="20" x2="62" y2="582"/>
-          <line x1="16" y1="118" x2="544" y2="118"/><line x1="16" y1="252" x2="544" y2="252"/>
-          <line x1="16" y1="364" x2="544" y2="364"/><line x1="16" y1="474" x2="544" y2="474"/>
-          <line x1="16" y1="580" x2="544" y2="580"/>
-        </g>
-        <text class="plate-el" x="17" y="78">APP</text>
-        <text class="plate-el" x="17" y="174">EL0</text>
-        <text class="plate-el" x="17" y="308">EL1</text>
-        <text class="plate-el" x="17" y="419">EL2</text>
-        <text class="plate-el" x="17" y="530">EL3</text>
 
-        <rect class="plate-band" x="88" y="48" width="430" height="52"/>
-        <text class="plate-name" x="108" y="79">APPLICATIONS</text>
-        <text class="plate-meta plate-count" x="500" y="79" text-anchor="end">14+ GRAPHICAL APPS</text>
-
-        <rect class="plate-band" x="88" y="138" width="430" height="96"/>
-        <text class="plate-name" x="108" y="168">USERSPACE SERVICES</text>
-        <g class="plate-services">
-          <rect x="108" y="180" width="70" height="20"/><rect x="186" y="180" width="54" height="20"/>
-          <rect x="248" y="180" width="54" height="20"/><rect x="310" y="180" width="82" height="20"/>
-          <rect x="400" y="180" width="92" height="20"/>
-          <text x="143" y="193" text-anchor="middle">SYSTEMD</text><text x="213" y="193" text-anchor="middle">FSD</text>
-          <text x="275" y="193" text-anchor="middle">NETD</text><text x="351" y="193" text-anchor="middle">DEVMGR</text>
-          <text x="446" y="193" text-anchor="middle">WINDOW</text>
-          <rect x="108" y="206" width="44" height="16"/><rect x="158" y="206" width="44" height="16"/>
-          <rect x="208" y="206" width="44" height="16"/><rect x="258" y="206" width="44" height="16"/>
-          <rect x="308" y="206" width="44" height="16"/><rect x="358" y="206" width="44" height="16"/>
-          <text x="130" y="217" text-anchor="middle">DSP</text><text x="180" y="217" text-anchor="middle">BLK</text>
-          <text x="230" y="217" text-anchor="middle">NET</text><text x="280" y="217" text-anchor="middle">SND</text>
-          <text x="330" y="217" text-anchor="middle">INP</text><text x="380" y="217" text-anchor="middle">BT</text>
-          <text class="plate-meta" x="409" y="217">DRV ×6</text>
-        </g>
-
-        <rect class="plate-band plate-kernel" x="88" y="272" width="430" height="74"/>
-        <text class="plate-name" x="108" y="302">MICROKERNEL</text>
-        <text class="plate-meta" x="108" y="327">CAPABILITY</text><text class="plate-meta" x="220" y="327">IPC</text>
-        <text class="plate-meta" x="278" y="327">SCHEDULER</text><text class="plate-meta" x="414" y="327">IRQ / TIME</text>
-
-        <rect class="plate-band" x="88" y="384" width="430" height="72"/>
-        <text class="plate-name" x="108" y="418">HYPERVISOR</text>
-        <text class="plate-meta" x="500" y="418" text-anchor="end">STAGE–2 · vGIC · vTIMER</text>
-
-        <rect class="plate-band" x="88" y="496" width="430" height="62"/>
-        <text class="plate-name" x="108" y="528">BOOTLOADER</text>
-        <text class="plate-meta" x="500" y="528" text-anchor="end">PLATFORM INIT · IMAGE LOAD</text>
-
-        <path class="plate-flow" marker-end="url(#plate-arrow)" d="M102 527H74V420H102V309H74V197H102V74H102"/>
-        <circle class="plate-node" cx="102" cy="527" r="4"/><circle class="plate-node" cx="102" cy="420" r="4"/>
-        <circle class="plate-node" cx="102" cy="309" r="4"/><circle class="plate-node" cx="102" cy="197" r="4"/>
-        <circle class="plate-node" cx="102" cy="74" r="4"/>
-      </svg>
-    </div>
-  </section>
+<main class="w">
 
   <section class="sec sec-principles">
-    <div class="sec-head">
-      <h2>Three principles.</h2>
+    <div class="sec-head" data-reveal>
+      <h2>Design principles.</h2>
+      <p>Kernel-object access requires a capability; files, network, devices and graphics are isolated userspace services; the boot chain is verifiable layer by layer.</p>
     </div>
-    <div class="principles">
+    <div class="principles" data-reveal>
       <article>
         <span class="principle-no">01</span>
-        <div><h3>No ambient authority</h3></div>
-        <p>Every kernel-object access presents a capability, type and rights.</p>
+        <h3>No implicit rights</h3>
+        <p>Every kernel-object access names a capability, a type and rights explicitly.</p>
       </article>
       <article>
         <span class="principle-no">02</span>
-        <div><h3>Userspace is the system</h3></div>
-        <p>Files, networking, devices and graphics stay isolated and cooperate over IPC.</p>
+        <h3>Userspace is the system</h3>
+        <p>Files, network, devices and graphics are isolated from each other and cooperate via IPC.</p>
       </article>
       <article>
         <span class="principle-no">03</span>
-        <div><h3>Reproducible end to end</h3></div>
-        <p>Every layer from bootloader to desktop can be isolated and verified.</p>
+        <h3>Reproducible end-to-end</h3>
+        <p>Build and boot steps are repeatable; every step from bootloader to desktop produces an independent artifact.</p>
       </article>
     </div>
   </section>
 
   <section class="sec sec-boot">
-    <div class="sec-head">
-      <h2>Six-stage boot.</h2>
+    <div class="sec-head" data-reveal>
+      <h2>Boot sequence.</h2>
+      <p>From the reset vector, exception levels hand over one by one up to the graphical desktop.</p>
     </div>
-    <ol class="boot-sequence">
-      <li><span class="boot-no">01 / EL3</span><h3>Bootloader</h3><p>Initialize the platform and load images.</p></li>
-      <li><span class="boot-no">02 / EL2</span><h3>Hypervisor</h3><p>Establish stage-2 and virtual interrupts.</p></li>
-      <li><span class="boot-no">03 / EL1</span><h3>Microkernel</h3><p>Take over capabilities, IPC and scheduling.</p></li>
-      <li><span class="boot-no">04 / EL0</span><h3>SystemDaemon</h3><p>Create processes, memory and namespaces.</p></li>
-      <li><span class="boot-no">05 / EL0</span><h3>Framework</h3><p>Start independent userspace services.</p></li>
-      <li><span class="boot-no">06 / APP</span><h3>Applications</h3><p>Enter the complete graphical desktop.</p></li>
+    <ol class="boot-sequence" id="boot-seq" data-reveal>
+      <li><span class="boot-no">01 / EL3</span><h3>Bootloader</h3><p>Platform init, image load.</p></li>
+      <li><span class="boot-no">02 / EL2</span><h3>Hypervisor</h3><p>Stage-2 tables and virtual interrupts.</p></li>
+      <li><span class="boot-no">03 / EL1</span><h3>Microkernel</h3><p>Takes over capability, IPC and scheduling.</p></li>
+      <li><span class="boot-no">04 / EL0</span><h3>SystemDaemon</h3><p>Creates processes, memory and namespaces.</p></li>
+      <li><span class="boot-no">05 / EL0</span><h3>Framework</h3><p>Launches independent userspace services.</p></li>
+      <li><span class="boot-no">06 / APP</span><h3>Applications</h3><p>A full graphical desktop comes up.</p></li>
     </ol>
   </section>
 
   <section class="sec sec-decisions">
-    <div class="sec-head">
+    <div class="sec-head" data-reveal>
       <h2>The kernel boundary.</h2>
+      <p>EL1 keeps: capability objects, IPC endpoints, timers and exception entry.</p>
     </div>
-    <div class="kernel-register">
+    <div class="kernel-register" data-reveal>
       <article>
-        <span class="register-code">CAP / 01</span><h3>Object-capability</h3>
-        <p>A 64-bit cref selects a CNode slot; object type and rights mask grant access.</p>
+        <h3>Object-capability</h3>
+        <p>A 64-bit cref locates a CNode slot; object type and rights mask authorize together.</p>
       </article>
       <article>
-        <span class="register-code">IPC / 02</span><h3>Migrating-thread IPC</h3>
-        <p>The caller's context migrates into the callee's address space—no queue wake-up.</p>
+        <h3>Migrating-thread IPC</h3>
+        <p>The caller's execution context migrates into the callee's address space — no queue wake-up.</p>
       </article>
       <article>
-        <span class="register-code">SMP / 03</span><h3>Split schedule/execute contexts</h3>
-        <p>Scheduling metadata and register state are separate; each CPU schedules locally.</p>
+        <h3>Schedule / execute split</h3>
+        <p>Scheduling metadata and register state are separate; each CPU schedules independently.</p>
       </article>
       <article>
-        <span class="register-code">IDL / 04</span><h3>Generated service bindings</h3>
-        <p>.idl files generate clients, services, transport structures and ABI checks.</p>
+        <h3>Service interface generation</h3>
+        <p>.idl generates client, server, transport structs and ABI validation.</p>
       </article>
     </div>
   </section>
 
   <section class="sec sec-coverage">
-    <div class="sec-head">
-      <h2>The complete system.</h2>
+    <div class="sec-head" data-reveal>
+      <h2>System composition.</h2>
+      <p>The runtime has five layers: apps, services, microkernel, virtualization, boot.</p>
     </div>
-    <div class="coverage-plate">
-      <article><span class="level">APP</span><div><h3>Graphics &amp; applications</h3><p>LVGL · FreeType · PortableGL · 14+ applications</p></div></article>
-      <article><span class="level">EL0</span><div><h3>System services</h3><p>process · memory · file · network · device · window</p></div></article>
-      <article><span class="level">EL1</span><div><h3>Kernel core</h3><p>exceptions · MMU · SMP · IPC · IRQ · timer · futex</p></div></article>
-      <article><span class="level">EL2</span><div><h3>Virtualization</h3><p>Type-1 · stage-2 · vGIC · vTimer · hypcall</p></div></article>
-      <article><span class="level">EL3</span><div><h3>Boot</h3><p>platform init · image loading · exception-level handoff</p></div></article>
+    <div class="coverage-plate" data-reveal>
+      <article class="cp-app">
+        <span class="level">APP</span>
+        <div><h3>Graphics &amp; apps</h3><p>LVGL · FreeType · PortableGL · 14+ applications</p></div>
+        <span class="plate-tag">LVGL · FREETYPE · PORTABLEGL</span>
+      </article>
+      <article class="cp-el0">
+        <span class="level">EL0</span>
+        <div><h3>System services</h3><p>Process · memory · files · network · devices · windows</p></div>
+        <span class="plate-tag">12 SERVICES · 6 DRIVER DAEMONS</span>
+      </article>
+      <article class="cp-el1">
+        <span class="level">EL1</span>
+        <div><h3>Kernel core</h3><p>Exceptions · MMU · SMP · IPC · IRQ · timer · futex</p></div>
+        <span class="plate-tag">THE WHOLE KERNEL</span>
+      </article>
+      <article class="cp-el2">
+        <span class="level">EL2</span>
+        <div><h3>Virtualization</h3><p>Type-1 · stage-2 · vGIC · vTimer · hypcall</p></div>
+        <span class="plate-tag">OPTIONAL AT BOOT</span>
+      </article>
+      <article class="cp-el3">
+        <span class="level">EL3</span>
+        <div><h3>Boot</h3><p>Platform init · image load · exception handoff</p></div>
+        <span class="plate-tag">8MB BOOTLOADER</span>
+      </article>
     </div>
   </section>
 
   <section class="sec">
     <div class="split">
-      <div>
-        <h2 class="split-h2">One command starts the system.</h2>
-        <p class="lede">The script builds, assembles the images and launches QEMU.</p>
+      <div data-reveal>
+        <h2 class="split-h2">Quick start.</h2>
+        <p class="lede">The script builds, assembles the images, and launches QEMU.</p>
         <a class="btn primary" href="build.html">Build guide <span class="arr">→</span></a>
       </div>
-      <div class="term">
-        <div class="term-h"><span>quick start</span></div>
-        <div class="term-b"><span class="cm"># requires toolchains/aarch64-elf (see Build page)</span>
+      <div class="term" data-reveal data-delay="1">
+        <div class="term-h"><span>quick start — qemu virt</span></div>
+        <button class="term-copy" type="button" data-copy data-copy-done="✓ Copied" aria-label="Copy commands">Copy</button>
+        <div class="term-b"><span class="cm"># needs toolchains/aarch64-elf (see build page)</span>
 <span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
 <span class="p">$</span> <span class="c">cd kernel</span>
 <span class="p">$</span> <span class="c">source env_setup.sh && ./run_qemu_virt.sh</span>
@@ -207,7 +177,8 @@
 </main>
 
 <footer class="ft"><div class="ft-in">
-  <div class="l"><span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span></div>
+  <div class="ft-word" aria-hidden="true">TranquilOS</div>
+  <div class="l"><svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span></div>
   <div class="r">
     <span>Capability-Based Microkernel for AArch64</span>
     <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>

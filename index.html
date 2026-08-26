@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS 是面向 AArch64 的 object-capability 微内核操作系统：EL2 Type-1 hypervisor、EL1 微内核、EL0 SystemDaemon 与用户态系统服务，迁移线程 IPC，GN/Ninja 构建，可运行于 QEMU 与 Raspberry Pi。">
-<meta name="theme-color" content="#11110F">
+<meta name="theme-color" content="#0A0A0B">
 <script src="theme-init.js"></script>
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>TranquilOS — AArch64 Object-Capability 微内核操作系统</title>
@@ -17,128 +17,75 @@
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
   <a href="index.html" class="brand" aria-label="TranquilOS 首页">
-    <span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span>
+    <svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="主导航">
     <a href="architecture.html">架构</a>
-    <a href="features.html">特性</a>
     <a href="screenshots.html">截图</a>
-    <a href="build.html">构建</a>
-    <a href="roadmap.html">路线图</a>
-    <a href="download.html">下载</a>
+    <a href="build.html">构建下载</a>
     <a href="docs/index.html">文档</a>
   </nav>
   <div class="hd-r">
     <a class="hd-btn" href="en/index.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
-    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
     <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
   </div>
   <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
 </div></header>
 
-<main class="w">
-
-  <section class="hero">
-    <div class="hero-copy">
-      <h1><span class="hero-line">从引导，</span><span class="hero-line">到桌面。</span></h1>
-      <p class="lead">完整运行的 AArch64 object-capability 微内核系统。EL1 仅保留调度、IPC 与异常，其余位于隔离的用户态服务。</p>
+<section class="hero">
+  <div class="hero-in">
+    <div class="hero-copy" data-reveal>
+      <p class="eyebrow">Object-Capability Microkernel · AArch64</p>
+      <h1><span class="hero-line">面向 AArch64 的 object-capability</span><span class="hero-line">微内核操作系统。</span></h1>
+      <p class="lead">EL1 仅保留调度、IPC 与异常；进程、内存、文件、网络、设备与图形均为隔离的用户态服务，经 capability 与 IPC 协作。</p>
       <div class="hero-actions">
-        <a class="btn primary" href="architecture.html">架构 <span class="arr">→</span></a>
-        <a class="btn" href="screenshots.html">截图</a>
-        <a class="btn" href="build.html">构建</a>
+        <a class="btn primary" href="architecture.html">进入架构 <span class="arr">→</span></a>
+        <a class="btn" href="screenshots.html">查看截图</a>
+        <a class="btn" href="build.html">构建与下载</a>
+      </div>
+      <div class="hero-chips">
+        <span>AARCH64 · EL0–EL3</span>
+        <span>GN/NINJA + IDL</span>
+        <span>800×480 · 14+ APPS</span>
+        <span>QEMU VIRT · PI 3B / 4B / CM4</span>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="system-plate" role="img" aria-label="TranquilOS 系统剖面：底层 EL3 引导、EL2 虚拟化、EL1 微内核、上层 EL0 系统服务（含驱动 daemon）与应用">
-      <svg viewBox="0 0 560 602" aria-hidden="true">
-        <defs>
-          <marker id="plate-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M0 0L8 4L0 8Z"></path>
-          </marker>
-        </defs>
-        <g class="plate-grid">
-          <line x1="16" y1="28" x2="544" y2="28"/><line x1="62" y1="20" x2="62" y2="582"/>
-          <line x1="16" y1="118" x2="544" y2="118"/><line x1="16" y1="252" x2="544" y2="252"/>
-          <line x1="16" y1="364" x2="544" y2="364"/><line x1="16" y1="474" x2="544" y2="474"/>
-          <line x1="16" y1="580" x2="544" y2="580"/>
-        </g>
-        <text class="plate-el" x="17" y="78">APP</text>
-        <text class="plate-el" x="17" y="174">EL0</text>
-        <text class="plate-el" x="17" y="308">EL1</text>
-        <text class="plate-el" x="17" y="419">EL2</text>
-        <text class="plate-el" x="17" y="530">EL3</text>
 
-        <rect class="plate-band" x="88" y="48" width="430" height="52"/>
-        <text class="plate-name" x="108" y="79">APPLICATIONS</text>
-        <text class="plate-meta plate-count" x="500" y="79" text-anchor="end">14+ GRAPHICAL APPS</text>
-
-        <rect class="plate-band" x="88" y="138" width="430" height="96"/>
-        <text class="plate-name" x="108" y="168">USERSPACE SERVICES</text>
-        <g class="plate-services">
-          <rect x="108" y="180" width="70" height="20"/><rect x="186" y="180" width="54" height="20"/>
-          <rect x="248" y="180" width="54" height="20"/><rect x="310" y="180" width="82" height="20"/>
-          <rect x="400" y="180" width="92" height="20"/>
-          <text x="143" y="193" text-anchor="middle">SYSTEMD</text><text x="213" y="193" text-anchor="middle">FSD</text>
-          <text x="275" y="193" text-anchor="middle">NETD</text><text x="351" y="193" text-anchor="middle">DEVMGR</text>
-          <text x="446" y="193" text-anchor="middle">WINDOW</text>
-          <rect x="108" y="206" width="44" height="16"/><rect x="158" y="206" width="44" height="16"/>
-          <rect x="208" y="206" width="44" height="16"/><rect x="258" y="206" width="44" height="16"/>
-          <rect x="308" y="206" width="44" height="16"/><rect x="358" y="206" width="44" height="16"/>
-          <text x="130" y="217" text-anchor="middle">DSP</text><text x="180" y="217" text-anchor="middle">BLK</text>
-          <text x="230" y="217" text-anchor="middle">NET</text><text x="280" y="217" text-anchor="middle">SND</text>
-          <text x="330" y="217" text-anchor="middle">INP</text><text x="380" y="217" text-anchor="middle">BT</text>
-          <text class="plate-meta" x="409" y="217">DRV ×6</text>
-        </g>
-
-        <rect class="plate-band plate-kernel" x="88" y="272" width="430" height="74"/>
-        <text class="plate-name" x="108" y="302">MICROKERNEL</text>
-        <text class="plate-meta" x="108" y="327">CAPABILITY</text><text class="plate-meta" x="220" y="327">IPC</text>
-        <text class="plate-meta" x="278" y="327">SCHEDULER</text><text class="plate-meta" x="414" y="327">IRQ / TIME</text>
-
-        <rect class="plate-band" x="88" y="384" width="430" height="72"/>
-        <text class="plate-name" x="108" y="418">HYPERVISOR</text>
-        <text class="plate-meta" x="500" y="418" text-anchor="end">STAGE–2 · vGIC · vTIMER</text>
-
-        <rect class="plate-band" x="88" y="496" width="430" height="62"/>
-        <text class="plate-name" x="108" y="528">BOOTLOADER</text>
-        <text class="plate-meta" x="500" y="528" text-anchor="end">PLATFORM INIT · IMAGE LOAD</text>
-
-        <path class="plate-flow" marker-end="url(#plate-arrow)" d="M102 527H74V420H102V309H74V197H102V74H102"/>
-        <circle class="plate-node" cx="102" cy="527" r="4"/><circle class="plate-node" cx="102" cy="420" r="4"/>
-        <circle class="plate-node" cx="102" cy="309" r="4"/><circle class="plate-node" cx="102" cy="197" r="4"/>
-        <circle class="plate-node" cx="102" cy="74" r="4"/>
-      </svg>
-    </div>
-  </section>
+<main class="w">
 
   <section class="sec sec-principles">
-    <div class="sec-head">
-      <h2>三条原则。</h2>
+    <div class="sec-head" data-reveal>
+      <h2>设计原则。</h2>
+      <p>访问内核对象必须给出 capability；文件、网络、设备与图形为隔离的用户态服务；启动链逐层可独立验证。</p>
     </div>
-    <div class="principles">
+    <div class="principles" data-reveal>
       <article>
         <span class="principle-no">01</span>
-        <div><h3>没有隐式权限</h3></div>
+        <h3>没有隐式权限</h3>
         <p>访问任何内核对象，都要同时给出能力、类型与权限。</p>
       </article>
       <article>
         <span class="principle-no">02</span>
-        <div><h3>用户态是系统主体</h3></div>
+        <h3>用户态是系统主体</h3>
         <p>文件、网络、设备与图形各自隔离，由 IPC 协作。</p>
       </article>
       <article>
         <span class="principle-no">03</span>
-        <div><h3>端到端可复现</h3></div>
-        <p>从 bootloader 到桌面，每一层都能独立定位与验证。</p>
+        <h3>端到端可复现</h3>
+        <p>构建与启动可重复执行；从 bootloader 到桌面的每一步都有独立产物。</p>
       </article>
     </div>
   </section>
 
   <section class="sec sec-boot">
-    <div class="sec-head">
-      <h2>六步启动。</h2>
+    <div class="sec-head" data-reveal>
+      <h2>启动序列。</h2>
+      <p>从复位向量开始，异常级逐层交接至图形桌面。</p>
     </div>
-    <ol class="boot-sequence">
+    <ol class="boot-sequence" id="boot-seq" data-reveal>
       <li><span class="boot-no">01 / EL3</span><h3>Bootloader</h3><p>平台初始化，装载镜像。</p></li>
       <li><span class="boot-no">02 / EL2</span><h3>Hypervisor</h3><p>建立 stage-2 与虚拟中断。</p></li>
       <li><span class="boot-no">03 / EL1</span><h3>Microkernel</h3><p>接管 capability、IPC 与调度。</p></li>
@@ -149,51 +96,74 @@
   </section>
 
   <section class="sec sec-decisions">
-    <div class="sec-head">
+    <div class="sec-head" data-reveal>
       <h2>内核边界。</h2>
+      <p>EL1 只保留：capability 对象、IPC 端点、定时器与异常入口。</p>
     </div>
-    <div class="kernel-register">
+    <div class="kernel-register" data-reveal>
       <article>
-        <span class="register-code">CAP / 01</span><h3>Object-capability</h3>
+        <h3>Object-capability</h3>
         <p>64 位 cref 定位 CNode slot；对象类型与 rights mask 共同授权。</p>
       </article>
       <article>
-        <span class="register-code">IPC / 02</span><h3>迁移线程 IPC</h3>
+        <h3>迁移线程 IPC</h3>
         <p>调用方执行上下文直接迁入被调地址空间，避开消息队列唤醒。</p>
       </article>
       <article>
-        <span class="register-code">SMP / 03</span><h3>调度/执行上下文分离</h3>
+        <h3>调度/执行上下文分离</h3>
         <p>调度元数据与寄存器状态分离；每个 CPU 独立调度。</p>
       </article>
       <article>
-        <span class="register-code">IDL / 04</span><h3>服务接口代码生成</h3>
+        <h3>服务接口代码生成</h3>
         <p>.idl 生成客户端、服务端、传输结构与 ABI 校验。</p>
       </article>
     </div>
   </section>
 
   <section class="sec sec-coverage">
-    <div class="sec-head">
-      <h2>完整系统。</h2>
+    <div class="sec-head" data-reveal>
+      <h2>系统构成。</h2>
+      <p>运行时分五层：应用、系统服务、微内核、虚拟化、引导。</p>
     </div>
-    <div class="coverage-plate">
-      <article><span class="level">APP</span><div><h3>图形与应用</h3><p>LVGL · FreeType · PortableGL · 14+ applications</p></div></article>
-      <article><span class="level">EL0</span><div><h3>系统服务</h3><p>进程 · 内存 · 文件 · 网络 · 设备 · 窗口</p></div></article>
-      <article><span class="level">EL1</span><div><h3>内核核心</h3><p>异常 · MMU · SMP · IPC · IRQ · timer · futex</p></div></article>
-      <article><span class="level">EL2</span><div><h3>虚拟化</h3><p>Type-1 · stage-2 · vGIC · vTimer · hypcall</p></div></article>
-      <article><span class="level">EL3</span><div><h3>引导</h3><p>平台初始化 · 镜像装载 · 异常级交接</p></div></article>
+    <div class="coverage-plate" data-reveal>
+      <article class="cp-app">
+        <span class="level">APP</span>
+        <div><h3>图形与应用</h3><p>LVGL · FreeType · PortableGL · 14+ applications</p></div>
+        <span class="plate-tag">LVGL · FREETYPE · PORTABLEGL</span>
+      </article>
+      <article class="cp-el0">
+        <span class="level">EL0</span>
+        <div><h3>系统服务</h3><p>进程 · 内存 · 文件 · 网络 · 设备 · 窗口</p></div>
+        <span class="plate-tag">12 SERVICES · 6 DRIVER DAEMONS</span>
+      </article>
+      <article class="cp-el1">
+        <span class="level">EL1</span>
+        <div><h3>内核核心</h3><p>异常 · MMU · SMP · IPC · IRQ · timer · futex</p></div>
+        <span class="plate-tag">THE WHOLE KERNEL</span>
+      </article>
+      <article class="cp-el2">
+        <span class="level">EL2</span>
+        <div><h3>虚拟化</h3><p>Type-1 · stage-2 · vGIC · vTimer · hypcall</p></div>
+        <span class="plate-tag">OPTIONAL AT BOOT</span>
+      </article>
+      <article class="cp-el3">
+        <span class="level">EL3</span>
+        <div><h3>引导</h3><p>平台初始化 · 镜像装载 · 异常级交接</p></div>
+        <span class="plate-tag">8MB BOOTLOADER</span>
+      </article>
     </div>
   </section>
 
   <section class="sec">
     <div class="split">
-      <div>
-        <h2 class="split-h2">一条命令，启动系统。</h2>
+      <div data-reveal>
+        <h2 class="split-h2">快速开始。</h2>
         <p class="lede">脚本完成构建、镜像组装，并启动 QEMU。</p>
         <a class="btn primary" href="build.html">构建指南 <span class="arr">→</span></a>
       </div>
-      <div class="term">
-        <div class="term-h"><span>quick start</span></div>
+      <div class="term" data-reveal data-delay="1">
+        <div class="term-h"><span>quick start — qemu virt</span></div>
+        <button class="term-copy" type="button" data-copy data-copy-done="✓ 已复制" aria-label="复制命令">复制</button>
         <div class="term-b"><span class="cm"># 需要 toolchains/aarch64-elf（见构建页）</span>
 <span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
 <span class="p">$</span> <span class="c">cd kernel</span>
@@ -207,7 +177,8 @@
 </main>
 
 <footer class="ft"><div class="ft-in">
-  <div class="l"><span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span></div>
+  <div class="ft-word" aria-hidden="true">TranquilOS</div>
+  <div class="l"><svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span></div>
   <div class="r">
     <span>Capability-Based Microkernel for AArch64</span>
     <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>

@@ -1,6 +1,8 @@
-/* Apply the saved theme before styles render to prevent a visible color transition. */
+/* Apply the fixed dark theme before styles render.
+   Dark-only design: the site always renders in dark mode.
+   Also flags JS availability for progressive-enhancement selectors (.js gate). */
 try {
-  const theme = localStorage.getItem("tq-theme") || "dark";
-  document.documentElement.setAttribute("data-theme", theme);
-  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#11110F" : "#F2F3F0");
+  document.documentElement.classList.add("js");
+  document.documentElement.setAttribute("data-theme", "dark");
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", "#0A0A0B");
 } catch (e) {}

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="TranquilOS 构建指南 — 工具链准备、GN/Ninja 构建流水线、QemuVirt / Pi3B / Pi4B / CM4 四平台运行方式与镜像布局。">
-<meta name="theme-color" content="#11110F">
+<meta name="theme-color" content="#0A0A0B">
 <script src="theme-init.js"></script>
 <link rel="icon" type="image/svg+xml" href="branding/tranquilos-final-line/mark-color.svg">
 <title>构建 — TranquilOS</title>
@@ -17,20 +17,16 @@
 <header class="hd"><div class="hd-in">
   <input type="checkbox" id="nav-toggle" aria-label="打开导航菜单">
   <a href="index.html" class="brand" aria-label="TranquilOS 首页">
-    <span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span>
+    <svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span>
   </a>
   <nav class="hd-nav" aria-label="主导航">
     <a href="architecture.html">架构</a>
-    <a href="features.html">特性</a>
     <a href="screenshots.html">截图</a>
-    <a href="build.html" class="on" aria-current="page">构建</a>
-    <a href="roadmap.html">路线图</a>
-    <a href="download.html">下载</a>
+    <a href="build.html" class="on" aria-current="page">构建下载</a>
     <a href="docs/index.html">文档</a>
   </nav>
   <div class="hd-r">
     <a class="hd-btn" href="en/build.html" hreflang="en" lang="en"><span class="accent">EN</span></a>
-    <button class="hd-btn" id="tog" type="button" aria-label="切换主题">☾</button>
     <a class="hd-btn gh" href="https://github.com/nerossoft/TranquilOS">GitHub</a>
   </div>
   <label for="nav-toggle" class="nav-burger"><span></span><span></span><span></span></label>
@@ -39,111 +35,137 @@
 <main class="w">
 
   <section class="phero">
-    <h1>一条确定的构建链。</h1>
-    <p class="lede">GN/Ninja 编译 boot、hypervisor、kernel 与用户态组件；脚本组装镜像并启动目标平台。</p>
+    <h1>构建与下载。</h1>
+    <p class="lede">选择平台查看构建与启动方式；镜像布局与工具链说明在下方。</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>准备工具链。</h2>
+      <h2>按平台构建。</h2>
     </div>
-    <div class="grid c2">
-      <div class="card">
-        <span class="tag">TOOLCHAIN</span>
-        <h3>交叉编译器</h3>
-        <p>TranquilOS 产出 freestanding AArch64 二进制，不能用宿主机默认编译器。从 <code>newos.org/toolchains</code> 下载工具链并解压到仓库 <code>toolchains/</code> 目录。默认使用 <code>aarch64-elf</code>（面向 bare-metal 的 GCC 12.2.0）。</p>
+    <div class="plat-box">
+      <input class="plat-rad" type="radio" name="plat" id="plat-qemu" checked>
+      <input class="plat-rad" type="radio" name="plat" id="plat-pi3b">
+      <input class="plat-rad" type="radio" name="plat" id="plat-pi4b">
+      <input class="plat-rad" type="radio" name="plat" id="plat-cm4">
+      <div class="plat-tabs">
+        <label for="plat-qemu">QemuVirt</label>
+        <label for="plat-pi3b">Pi 3B</label>
+        <label for="plat-pi4b">Pi 4B</label>
+        <label for="plat-cm4">CM4</label>
       </div>
-      <div class="card">
-        <span class="tag">MACOS ONLY</span>
-        <h3>e2fsprogs</h3>
-        <p>system.img 是 ext2 文件系统镜像。macOS 上组装镜像依赖 Homebrew 的 e2fsprogs。缺少它时编译可以成功，但镜像组装会失败。</p>
-        <pre class="mt-3"><code>brew install e2fsprogs</code></pre>
-      </div>
-    </div>
-    <p class="note mt-4"><b>注意：</b><code>env_setup.sh</code> 必须在每个新 shell 中 source，它导出 <code>OS_BASE_DIR=~/kernel</code> 并把 gn 与编译器加入 PATH。<code>OS_BASE_DIR</code> 硬编码为 <code>~/kernel</code>——仓库检出到其他路径时先修改它。</p>
-  </section>
+      <div class="plat-panels">
 
-  <section class="sec">
-    <div class="split">
-      <div>
-        <h2 class="split-h2">一条命令，构建并启动。</h2>
-        <p class="lede">QemuVirt 是主要开发平台。脚本完成构建、镜像组装并启动带 ramfb 与 VirtIO 的 4 核虚拟机。</p>
-        <a class="btn primary" href="download.html">不想编译？下载预构建镜像 <span class="arr">→</span></a>
-      </div>
-      <div class="term">
-        <div class="term-h"><span>quick start — qemu virt</span></div>
-        <div class="term-b"><span class="p">$</span> <span class="c">git clone https://github.com/nerossoft/TranquilOS kernel</span>
-<span class="p">$</span> <span class="c">cd kernel</span>
-<span class="cm"># 解压工具链到 toolchains/ 之后：</span>
-<span class="p">$</span> <span class="c">source env_setup.sh && ./run_qemu_virt.sh</span>
-<span class="ok">✓ gn gen out --args='platform="QemuVirt"'</span>
-<span class="ok">✓ ninja: boot · hypervisor · kernel · systemd · apps</span>
-<span class="ok">✓ boot.img (64M) · system.img (128M, ext2)</span>
-<span class="ok">✓ qemu virt: 4 cores · 2G · HVF · ramfb 800×480</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-head">
-      <h2>四个启动目标。</h2>
-    </div>
-    <div class="tbl-wrap">
-    <table class="tbl">
-      <thead><tr><th>平台</th><th>脚本</th><th>显示</th><th>说明</th></tr></thead>
-      <tbody>
-        <tr><td>QemuVirt</td><td><code>./run_qemu_virt.sh</code></td><td>ramfb 图形</td><td>主要开发平台。VirtIO console/block/net/input/sound，设备组合最完整。</td></tr>
-        <tr><td>Pi3B (QEMU)</td><td><code>./run_qemu_pi3b.sh</code></td><td><code>-nographic</code> 串口</td><td>树莓派 3B 模拟，headless，适合串口路径验证。</td></tr>
-        <tr><td>Pi4B (QEMU)</td><td><code>./run_qemu_pi4b.sh</code></td><td>SD 卡镜像</td><td>经 <code>mkpiimg.sh</code> 生成 MBR 分区 SD 镜像启动。</td></tr>
-        <tr><td>CM4（真机）</td><td><code>./run_board_cm4.sh</code></td><td>HDMI</td><td>真实硬件。经 USB 以 <code>rpiboot</code> 刷写 Compute Module 4，需要实体底板。</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-head">
-      <h2>手动构建与单目标编译。</h2>
-    </div>
-    <div class="split">
-      <div>
+        <div class="plat-panel" data-panel="qemu">
+          <div class="split">
+            <div>
 <pre><code>source env_setup.sh
-
-# 配置（platform 默认 QemuVirt，可省略）
 gn gen out --args='platform="QemuVirt"'
+ninja -C out</code></pre>
+              <p class="plat-note"><code>./run_qemu_virt.sh</code> 随后完成镜像组装并启动 QEMU 虚拟机。</p>
+            </div>
+            <div>
+              <div class="fact"><b>显示</b><span>ramfb · 800×480</span></div>
+              <div class="fact"><b>设备</b><span>VirtIO console / block / net / input / sound</span></div>
+              <div class="fact"><b>运行</b><span>4 核 SMP · 2G · HVF (macOS)</span></div>
+              <div class="fact"><b>用法</b><span>主要开发平台</span></div>
+            </div>
+          </div>
+        </div>
 
-# 全量构建
+        <div class="plat-panel" data-panel="pi3b">
+          <div class="split">
+            <div>
+<pre><code>source env_setup.sh
+gn gen out --args='platform="Pi3b"'
+ninja -C out</code></pre>
+              <p class="plat-note"><code>./run_qemu_pi3b.sh</code> 直接启动 3B 模拟，无图形输出。</p>
+            </div>
+            <div>
+              <div class="fact"><b>显示</b><span><code>-nographic</code> 串口</span></div>
+              <div class="fact"><b>运行</b><span>headless 模拟</span></div>
+              <div class="fact"><b>用途</b><span>串口路径验证</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="plat-panel" data-panel="pi4b">
+          <div class="split">
+            <div>
+<pre><code>source env_setup.sh
+gn gen out --args='platform="Pi4b"'
 ninja -C out
+./mkpiimg.sh</code></pre>
+              <p class="plat-note"><code>./run_qemu_pi4b.sh</code> 从 SD 镜像启动；<code>mkpiimg.sh</code> 生成 MBR 分区 SD 镜像。</p>
+            </div>
+            <div>
+              <div class="fact"><b>显示</b><span>SD 卡镜像</span></div>
+              <div class="fact"><b>SD 镜像</b><span><code>mkpiimg.sh</code> · MBR 分区</span></div>
+              <div class="fact"><b>运行</b><span><code>./run_qemu_pi4b.sh</code></span></div>
+            </div>
+          </div>
+        </div>
 
-# 只构建某个服务 / 应用
-ninja -C out Windowmgr</code></pre>
-      </div>
-      <div>
-        <table class="tbl">
-          <thead><tr><th>工具链</th><th>用途</th></tr></thead>
-          <tbody>
-            <tr><td><code>aarch64-elf</code></td><td>默认，macOS 交叉编译（GCC 12.2.0）</td></tr>
-            <tr><td><code>aarch64-linux-gnu</code></td><td>Linux 交叉编译，需自行安装</td></tr>
-            <tr><td><code>clang</code></td><td>Clang 构建，需自行安装</td></tr>
-            <tr><td><code>hostgcc</code></td><td>宿主 GCC，用于工具类目标</td></tr>
-          </tbody>
-        </table>
-        <p class="note mt-4">切换工具链：<code>gn gen out --args='toolchain="clang"'</code>。GN 目标只有四种：<b>executable / source_set / group / config</b>；每个用户态可执行文件以 <code>libcrt/start.S</code> 提供 <code>_start</code>，并链接平台专用链接脚本。</p>
+        <div class="plat-panel" data-panel="cm4">
+          <div class="split">
+            <div>
+<pre><code>source env_setup.sh
+gn gen out --args='platform="CM4"'
+ninja -C out</code></pre>
+              <p class="plat-note"><code>./run_board_cm4.sh</code> 完成编译与镜像；<code>tranquil-cm4.img</code> 写入 eMMC 或 SD。</p>
+            </div>
+            <div>
+              <div class="fact"><b>显示</b><span>HDMI</span></div>
+              <div class="fact"><b>主机</b><span>CM4 IO 底板 + USB slave</span></div>
+              <div class="fact"><b>用途</b><span>真实硬件验证</span></div>
+            </div>
+          </div>
+          <h3 class="flash-h">烧录镜像。</h3>
+          <p class="plat-note">写错目标盘会覆盖其他磁盘——每一步都先确认设备编号。</p>
+          <div class="grid c3">
+            <div class="card">
+              <span class="tag">MACOS</span>
+              <h3>diskutil + dd</h3>
+              <p>插入 SD 卡或让 CM4 eMMC 进入 mass-storage 模式：</p>
+              <pre class="mt-3"><code>diskutil list
+diskutil unmountDisk /dev/diskN
+sudo dd if=tranquil-cm4.img \
+  of=/dev/rdiskN bs=4m \
+  status=progress conv=sync
+sync && diskutil eject /dev/diskN</code></pre>
+            </div>
+            <div class="card">
+              <span class="tag">LINUX</span>
+              <h3>lsblk + dd</h3>
+              <p>写入整盘设备，不要写分区节点（如 <code>sdX1</code>）：</p>
+              <pre class="mt-3"><code>lsblk
+sudo umount /dev/sdX*
+sudo dd if=tranquil-cm4.img \
+  of=/dev/sdX bs=4M \
+  status=progress conv=fsync
+sync</code></pre>
+            </div>
+            <div class="card">
+              <span class="tag">RPIBOOT</span>
+              <h3>eMMC 直写</h3>
+              <p>CM4 IO 底板设置 USB boot 跳线，USB slave 口连主机：</p>
+              <pre class="mt-3"><code>rpiboot
+# eMMC 以块设备出现后，
+# 按 macOS / Linux 步骤写入，
+# 完成后断电、移除跳线、上电</code></pre>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>run 脚本背后的四步流水线。</h2>
+      <h2>镜像分区与布局。</h2>
     </div>
-    <div class="pipe">
-      <div><span class="n">01</span><b>build.sh</b><p><span class="mono">gn gen</span> + <span class="mono">ninja</span>：编译全部 ELF——bootloader、hypervisor、kernel、SystemDaemon、服务与应用。</p></div>
-      <div><span class="n">02</span><b>make_boot_img.sh</b><p><span class="mono">objcopy</span> 转 raw binary，按固定偏移 <span class="mono">dd</span> 进 64MB boot.img。</p></div>
-      <div><span class="n">03</span><b>make_system_img.sh</b><p>strip ELF，经 <span class="mono">mke2fs</span> + <span class="mono">debugfs</span> 生成 128MB ext2 system.img，写入服务、应用、字体与配置。</p></div>
-      <div><span class="n">04</span><b>run.sh</b><p>启动 QEMU：4 核 SMP、2G 内存、macOS HVF 加速、VirtIO 设备与 ramfb 显示。</p></div>
-    </div>
-    <div class="split mt-4">
+    <div class="split">
       <div>
 <pre><code>boot.img (64MB)
   offset 0      Bootloader    8MB
@@ -154,37 +176,55 @@ ninja -C out Windowmgr</code></pre>
   offset 14336  Ramdisk cpio  8MB</code></pre>
       </div>
       <div>
-<pre><code>system.img (128MB, ext2)
-  bin/   framework services
-  apps/  user applications
-  etc/   fonts · icons · init config
+<pre><code>vendor.img (32MB, ext2)
+  bin/  driver daemons (.drv)
+  etc/  drivers.json
 
-# QEMU 后端可用环境变量覆盖：
-QEMU_DISPLAY_BACKEND="cocoa,zoom-interpolation=on,..."
-QEMU_SERIAL_BACKEND="mon:stdio"
-QEMU_MONITOR_BACKEND="none"</code></pre>
+system.img (128MB, ext2)
+  zygote · framework services
+  system UI · app ELFs
+
+user.img (64MB, ext2)
+  用户数据模板：示例音乐 · 图片
+  游戏 · AI 配置</code></pre>
       </div>
     </div>
+    <div class="facts mt-4">
+      <div class="fact"><b>boot.img</b><span>无分区表，按固定偏移装载（上表）</span></div>
+      <div class="fact"><b>vendor / system / user</b><span>ext2 分区镜像（mke2fs + debugfs）</span></div>
+      <div class="fact"><b>raw 磁盘镜像</b><span>FAT32 boot + ext2 vendor + ext2 system + ext2 user 四分区，由 <code>make_all_img.sh</code> 组装</span></div>
+      <div class="fact"><b>CM4 boot 分区</b><span>树莓派固件 + boot.img + DTB</span></div>
+    </div>
+    <p class="note mt-4"><code>make_boot_img.sh</code> 以 objcopy + dd 按上述偏移组装 boot.img；<code>make_system_img.sh</code> / <code>make_user_img.sh</code> 组装 ext2 分区镜像；<code>make_all_img.sh</code> 将四个分区写入 raw 磁盘镜像。</p>
   </section>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>源码树导览。</h2>
+      <h2>工具链。</h2>
     </div>
-    <div class="grid c3">
-      <div class="card"><h3>sys/</h3><p>系统基础（TCB）：<code>kernel/</code> 微内核、<code>virt/</code> hypervisor、<code>boot/</code> 引导、<code>uapps/</code> init 与核心服务、<code>ulibs/</code> libc 与 syscall 等底层库。</p></div>
-      <div class="card"><h3>os/</h3><p>OS 用户态：<code>base/</code> zygote 与 netmgr、<code>framework/</code> 窗口/应用/字体/音频等服务、<code>apps/</code> 用户应用、<code>libs/</code> 共享库、<code>thrid_party/</code> 三方源码。</p></div>
-      <div class="card"><h3>platform/</h3><p>平台配置：QemuVirt、Pi3b、Pi4b、CM4 各自的 DTB、链接脚本、固件与构建/运行脚本。</p></div>
-      <div class="card"><h3>build/</h3><p>GN 构建系统与工具链定义。</p></div>
-      <div class="card"><h3>images/</h3><p>ramdisk（cpio）与 system 镜像模板。</p></div>
-      <div class="card"><h3>docs/</h3><p>设计文档：basic_theory、microkernel_design、idl、async_ipc_design。</p></div>
+    <div class="grid c2">
+      <div class="card">
+        <span class="tag">TOOLCHAIN</span>
+        <h3>交叉编译器</h3>
+        <p>产物为 freestanding AArch64 二进制。从 <code>newos.org/toolchains</code> 下载并解压到仓库 <code>toolchains/</code>，默认 <code>aarch64-elf</code>（GCC 12.2.0）。</p>
+      </div>
+      <div class="card">
+        <span class="tag">MACOS ONLY</span>
+        <h3>e2fsprogs</h3>
+        <p>system.img 为 ext2 镜像；macOS 组装依赖 Homebrew e2fsprogs，缺少时组装会失败。</p>
+        <pre class="mt-3"><code>brew install e2fsprogs</code></pre>
+      </div>
     </div>
+    <p class="note mt-4"><b>注意：</b>每个新 shell 都要 source <code>env_setup.sh</code>；<code>OS_BASE_DIR</code> 固定为 <code>~/kernel</code>，检出到其他路径时需修改。</p>
   </section>
+
 
 </main>
 
+
 <footer class="ft"><div class="ft-in">
-  <div class="l"><span class="brand-mark" aria-hidden="true"></span><span>TranquilOS</span></div>
+  <div class="ft-word" aria-hidden="true">TranquilOS</div>
+  <div class="l"><svg class="brand-mark" viewBox="0 0 320 320" aria-hidden="true" focusable="false"><path d="M78 226H242" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round"/><path d="M92 210L136 132L162 170L198 106L230 210" fill="none" stroke="currentColor" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/><path d="M106 240Q162 206 218 240" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg><span>TranquilOS</span></div>
   <div class="r">
     <span>Capability-Based Microkernel for AArch64</span>
     <a href="https://github.com/nerossoft/TranquilOS">GitHub</a>
