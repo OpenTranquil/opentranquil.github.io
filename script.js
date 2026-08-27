@@ -133,10 +133,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (heroCanvas) {
     const ctx = heroCanvas.getContext("2d");
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    const FOV = 620;
+    let FOV = 440;
+    const ARMS = 3;
+    const SPIRAL_TIGHT = 4.0;            // arm winding (rad)
     const pts = [];
     let W = 0, H = 0, cx = 0, cy = 0;
-    let baseY = 0, tiltX = 0, tiltY = 0, tX = 0, tY = 0, t = 0;
+    let coreR = 0, armLen = 0;
+    let curSpin = 0, curParRot = 0, curTilt = 0, tRot = 0, tTilt = 0, last = 0, t = 0;
     let raf = null, started = false, visible = true;
 
     const white = a => "rgba(242,237,237," + a + ")";
@@ -144,15 +147,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const build = () => {
       pts.length = 0;
-      const n = W < 640 ? 320 : 720;
+      const n = W < 640 ? 460 : 1000;
       for (let i = 0; i < n; i++) {
-        pts.push({
-          x: (Math.random() * 2 - 1) * 0.75,
-          y: (Math.random() * 2 - 1) * 0.55,
-          z: (Math.random() * 2 - 1),
-          ph: Math.random() * 6.2832,
-          acc: i % 21 === 0
-        });
+        const kind = Math.random();
+        let r, a, hot;
+        if (kind < 0.42) {                 // central bulge
+          r = coreR * Math.pow(Math.random(), 1.4);
+          a = Math.random() * 6.2832;
+          hot = 1;
+        } else if (kind < 0.93) {          // spiral arm
+          const arm = i % ARMS;
+          const tt = Math.pow(Math.random(), 1.8);
+          r = coreR + tt * armLen;
+          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + (Math.random() - 0.5) * 0.38;
+          hot = 1 - tt * 0.5;
+        } else {                           // scattered field
+          r = coreR + Math.random() * armLen;
+          a = Math.random() * 6.2832;
+          hot = 0.3;
+        }
+        pts.push({ r, a, hot, ph: Math.random() * 6.2832, acc: i % 23 === 0 });
       }
     };
 
@@ -163,42 +177,79 @@ document.addEventListener("DOMContentLoaded", () => {
       heroCanvas.height = H * DPR;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       cx = W / 2; cy = H / 2;
+      coreR = Math.min(W, H) * 0.14;
+      armLen = Math.min(W, H) * 0.66;
+      // keep the near side from crossing the camera plane; weaker perspective so a
+      // larger galaxy still fits the (short, wide) hero without clipping
+      FOV = Math.max(500, (coreR + armLen) * 4);
       build();
     };
 
     const draw = () => {
-      t += 0.016;
-      baseY += 0.0016;
-      tiltX += (tX - tiltX) * 0.05;
-      tiltY += (tY - tiltY) * 0.05;
-      const ry = baseY + tiltY;
-      const rx = -0.22 + tiltX;
-      const sY = Math.sin(ry), cY = Math.cos(ry);
-      const sX = Math.sin(rx), cX = Math.cos(rx);
-      const X = W * 0.72, Y = H * 0.52, Z = 200;
-      ctx.clearRect(0, 0, W, H);
+      const now = performance.now();
+      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      last = now;
+      t += dt;
+      curSpin += dt * 0.06;                      // slow rigid rotation
+      curParRot += (tRot - curParRot) * 0.05;    // cursor parallax
+      curTilt += (tTilt - curTilt) * 0.05;
+      const tilt = 0.48 + curTilt;               // ~28deg for subtle depth
+      const sE = Math.sin(tilt), cE = Math.cos(tilt);
+      const breath = 1 + 0.02 * Math.sin(t * 0.6);
+
+      const list = [];
       for (let i = 0; i < pts.length; i++) {
         const p = pts[i];
-        const x1 = p.x * cY + p.z * sY;
-        const z1 = -p.x * sY + p.z * cY;
-        const y1 = p.y * cX - z1 * sX;
-        const z2 = p.y * sX + z1 * cX;
-        const s = FOV / (FOV + z2 * Z);
-        if (s <= 0.03) continue;
-        const sx = cx + x1 * X * s;
-        const sy = cy + y1 * Y * s;
-        if (sx < -14 || sx > W + 14 || sy < -14 || sy > H + 14) continue;
-        const depth = Math.max(0, Math.min(1, (z2 + 1) / 2));
-        const tw = 0.6 + 0.4 * Math.sin(t * 2 + p.ph);
-        const alpha = ((1 - depth) * 0.42 + 0.03) * tw;
-        const r = 1.0 + s * 1.8;
-        ctx.fillStyle = p.acc ? blue(alpha) : white(alpha);
+        const ang = p.a + curSpin + curParRot;
+        const r = p.r * breath;
+        const wx = r * Math.cos(ang);
+        const wz = r * Math.sin(ang);
+        const depth = wz * cE;
+        const s = FOV / (FOV + depth);
+        if (s <= 0.02) continue;
+        const px = cx + wx * s;
+        const py = cy + (-wz * sE) * s;
+        if (px < -14 || px > W + 14 || py < -14 || py > H + 14) continue;
+        const depth01 = Math.max(0, Math.min(1, (depth / (armLen * cE) + 1) / 2));
+        const nearBright = 1 - depth01 * 0.55;
+        const tw = 0.62 + 0.38 * Math.sin(t * 2 + p.ph);
+        const alpha = Math.max(0, (0.06 + 0.40 * p.hot * nearBright) * tw);
+        const size = 0.7 + s * 1.1 + p.hot * 1.0;
+        list.push({ x: px, y: py, s: size, a: alpha, d: depth, acc: p.acc });
+      }
+      list.sort((a, b) => b.d - a.d);            // farthest first
+
+      ctx.clearRect(0, 0, W, H);
+
+      // elliptical disk halo (matches the tilted galaxy)
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(1, sE);
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, armLen * 0.9);
+      g.addColorStop(0, "rgba(242,237,237,0.10)");
+      g.addColorStop(0.5, "rgba(242,237,237,0.04)");
+      g.addColorStop(1, "rgba(242,237,237,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(-armLen, -armLen, armLen * 2, armLen * 2);
+      ctx.restore();
+
+      // bright glowing core
+      const c = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(50, coreR * 2.4));
+      c.addColorStop(0, "rgba(242,237,237,0.20)");
+      c.addColorStop(0.35, "rgba(242,237,237,0.07)");
+      c.addColorStop(1, "rgba(242,237,237,0)");
+      ctx.fillStyle = c;
+      ctx.fillRect(0, 0, W, H);
+
+      for (let i = 0; i < list.length; i++) {
+        const q = list[i];
+        ctx.fillStyle = q.acc ? blue(q.a) : white(q.a);
         ctx.beginPath();
-        ctx.arc(sx, sy, r, 0, 6.2832);
+        ctx.arc(q.x, q.y, q.s, 0, 6.2832);
         ctx.fill();
-        if (s > 1.15 && !p.acc) {
-          ctx.globalAlpha = alpha * 0.28;
-          ctx.beginPath(); ctx.arc(sx, sy, r * 2.6, 0, 6.2832); ctx.fill();
+        if (q.s > 2.1) {
+          ctx.globalAlpha = q.a * 0.24;
+          ctx.beginPath(); ctx.arc(q.x, q.y, q.s * 2.2, 0, 6.2832); ctx.fill();
           ctx.globalAlpha = 1;
         }
       }
@@ -222,8 +273,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // gentle tilt toward the pointer across the viewport (no layout reads)
     window.addEventListener("mousemove", e => {
-      tY = (e.clientX / window.innerWidth - 0.5) * 0.6;
-      tX = (e.clientY / window.innerHeight - 0.5) * 0.5;
+      tRot = (e.clientX / window.innerWidth - 0.5) * 0.18;
+      tTilt = (e.clientY / window.innerHeight - 0.5) * 0.10;
     }, { passive: true });
     window.addEventListener("resize", resize, { passive: true });
     window.addEventListener("load", resize, { passive: true });
