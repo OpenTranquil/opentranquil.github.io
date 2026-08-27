@@ -128,4 +128,117 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("mouseleave", hide);
   }
 
+  /* ----- hero 3D particle background (decorative; JS-gated) ----- */
+  const heroCanvas = document.getElementById("hero-particles");
+  if (heroCanvas) {
+    const ctx = heroCanvas.getContext("2d");
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const FOV = 620;
+    const pts = [];
+    let W = 0, H = 0, cx = 0, cy = 0;
+    let baseY = 0, tiltX = 0, tiltY = 0, tX = 0, tY = 0, t = 0;
+    let raf = null, started = false, visible = true;
+
+    const white = a => "rgba(242,237,237," + a + ")";
+    const blue = a => "rgba(122,170,214," + a + ")";
+
+    const build = () => {
+      pts.length = 0;
+      const n = W < 640 ? 320 : 720;
+      for (let i = 0; i < n; i++) {
+        pts.push({
+          x: (Math.random() * 2 - 1) * 0.75,
+          y: (Math.random() * 2 - 1) * 0.55,
+          z: (Math.random() * 2 - 1),
+          ph: Math.random() * 6.2832,
+          acc: i % 21 === 0
+        });
+      }
+    };
+
+    const resize = () => {
+      W = heroCanvas.clientWidth || 1;
+      H = heroCanvas.clientHeight || 1;
+      heroCanvas.width = W * DPR;
+      heroCanvas.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      cx = W / 2; cy = H / 2;
+      build();
+    };
+
+    const draw = () => {
+      t += 0.016;
+      baseY += 0.0016;
+      tiltX += (tX - tiltX) * 0.05;
+      tiltY += (tY - tiltY) * 0.05;
+      const ry = baseY + tiltY;
+      const rx = -0.22 + tiltX;
+      const sY = Math.sin(ry), cY = Math.cos(ry);
+      const sX = Math.sin(rx), cX = Math.cos(rx);
+      const X = W * 0.72, Y = H * 0.52, Z = 200;
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        const x1 = p.x * cY + p.z * sY;
+        const z1 = -p.x * sY + p.z * cY;
+        const y1 = p.y * cX - z1 * sX;
+        const z2 = p.y * sX + z1 * cX;
+        const s = FOV / (FOV + z2 * Z);
+        if (s <= 0.03) continue;
+        const sx = cx + x1 * X * s;
+        const sy = cy + y1 * Y * s;
+        if (sx < -14 || sx > W + 14 || sy < -14 || sy > H + 14) continue;
+        const depth = Math.max(0, Math.min(1, (z2 + 1) / 2));
+        const tw = 0.6 + 0.4 * Math.sin(t * 2 + p.ph);
+        const alpha = ((1 - depth) * 0.42 + 0.03) * tw;
+        const r = 1.0 + s * 1.8;
+        ctx.fillStyle = p.acc ? blue(alpha) : white(alpha);
+        ctx.beginPath();
+        ctx.arc(sx, sy, r, 0, 6.2832);
+        ctx.fill();
+        if (s > 1.15 && !p.acc) {
+          ctx.globalAlpha = alpha * 0.28;
+          ctx.beginPath(); ctx.arc(sx, sy, r * 2.6, 0, 6.2832); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+    };
+
+    const frame = () => {
+      if (!started || !visible || document.hidden) return;
+      draw();
+      raf = requestAnimationFrame(frame);
+    };
+    const start = () => {
+      if (started) return;
+      started = true;
+      if (prefersReduced) { draw(); return; }
+      raf = requestAnimationFrame(frame);
+    };
+    const stop = () => {
+      started = false;
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+    };
+
+    // gentle tilt toward the pointer across the viewport (no layout reads)
+    window.addEventListener("mousemove", e => {
+      tY = (e.clientX / window.innerWidth - 0.5) * 0.6;
+      tX = (e.clientY / window.innerHeight - 0.5) * 0.5;
+    }, { passive: true });
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("load", resize, { passive: true });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stop(); else if (visible) start();
+    });
+
+    resize();
+    new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        visible = en.isIntersecting;
+        if (visible) start(); else stop();
+      });
+    }, { threshold: 0 }).observe(heroCanvas);
+    start();
+  }
+
 });
