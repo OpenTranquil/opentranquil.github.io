@@ -82,52 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* ----- cursor inversion lens (decorative; primary pointer only) ----- */
-  // A round "spotlight" that trails the pointer and inverts colors beneath it.
-  // Skipped on touch / coarse pointers; respects prefers-reduced-motion.
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (finePointer) {
-    const lens = document.createElement("div");
-    lens.className = "cursor-invert";
-    lens.setAttribute("aria-hidden", "true");
-    document.body.appendChild(lens);
-
-    let tx = -1000, ty = -1000;  // pointer target
-    let cx = -1000, cy = -1000;  // current (smoothed) position
-    let shown = false;
-
-    const place = () => { lens.style.transform = "translate3d(" + cx + "px," + cy + "px,0)"; };
-    const reveal = () => {
-      if (!shown) {
-        shown = true;
-        cx = tx; cy = ty;        // snap onto the pointer on first appearance
-        place();
-        lens.style.opacity = "1";
-      }
-    };
-    const hide = () => { shown = false; lens.style.opacity = "0"; };
-
-    if (prefersReduced) {
-      window.addEventListener("mousemove", (e) => {
-        cx = tx = e.clientX; cy = ty = e.clientY;
-        reveal(); place();
-      }, { passive: true });
-    } else {
-      const tick = () => {
-        cx += (tx - cx) * 0.22;
-        cy += (ty - cy) * 0.22;
-        place();
-        requestAnimationFrame(tick);
-      };
-      window.addEventListener("mousemove", (e) => {
-        tx = e.clientX; ty = e.clientY; reveal();
-      }, { passive: true });
-      requestAnimationFrame(tick);
-    }
-
-    document.addEventListener("mouseleave", hide);
-  }
-
   /* ----- hero 3D particle background (decorative; JS-gated) ----- */
   const heroCanvas = document.getElementById("hero-particles");
   if (heroCanvas) {
@@ -140,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let W = 0, H = 0, cx = 0, cy = 0;
     let coreR = 0, armLen = 0;
     let curSpin = 0, curParRot = 0, curTilt = 0, tRot = 0, tTilt = 0, last = 0, t = 0;
+    let focus = 0, nearGalaxy = false;   // hover: tighten arms while pointer is over the galaxy
     let raf = null, started = false, visible = true;
 
     const white = a => "rgba(242,237,237," + a + ")";
@@ -150,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const n = W < 640 ? 520 : 1300;
       for (let i = 0; i < n; i++) {
         const kind = Math.random();
-        let r, a, hot;
+        let r, a, hot, jit = 0, jr = 0;
         if (kind < 0.45) {                 // central bulge
           r = coreR * Math.pow(Math.random(), 1.4);
           a = Math.random() * 6.2832;
@@ -158,15 +113,17 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (kind < 0.97) {          // spiral arm (dominant)
           const arm = i % ARMS;
           const tt = Math.pow(Math.random(), 1.15);   // even along the arm
+          jit = (Math.random() - 0.5) * 0.60;   // angular fuzz (loose default, 3x)
+          jr = (Math.random() - 0.5) * 0.18;    // radial fuzz (3x)
           r = coreR + tt * armLen;
-          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + (Math.random() - 0.5) * 0.14;
+          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + jit;
           hot = 1 - tt * 0.45;
         } else {                           // sparse scattered field
           r = coreR + Math.random() * armLen;
           a = Math.random() * 6.2832;
           hot = 0.25;
         }
-        pts.push({ r, a, hot, ph: Math.random() * 6.2832, acc: i % 23 === 0 });
+        pts.push({ r, a, hot, jit, jr, arm: kind >= 0.45 && kind < 0.97 ? 1 : 0, ph: Math.random() * 6.2832, acc: i % 23 === 0 });
       }
     };
 
@@ -196,12 +153,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const tilt = 0.48 + curTilt;               // ~28deg for subtle depth
       const sE = Math.sin(tilt), cE = Math.cos(tilt);
       const breath = 1 + 0.02 * Math.sin(t * 0.6);
+      focus += ((nearGalaxy ? 1 : 0) - focus) * 0.08;
 
       const list = [];
       for (let i = 0; i < pts.length; i++) {
         const p = pts[i];
-        const ang = p.a + curSpin + curParRot;
-        const r = p.r * breath;
+        // pointer on the galaxy -> crisp the arms (suppress fuzz) + slight glow;
+        // default (loose) state keeps the wide, fluffy arm band
+        const loose = 1 - 0.65 * focus;
+        const ang = p.a + curSpin + curParRot - p.jit * loose;
+        const r = p.r * breath + p.jr * armLen * loose;
         const wx = r * Math.cos(ang);
         const wz = r * Math.sin(ang);
         const depth = wz * cE;
@@ -213,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const depth01 = Math.max(0, Math.min(1, (depth / (armLen * cE) + 1) / 2));
         const nearBright = 1 - depth01 * 0.5;
         const tw = 0.82 + 0.18 * Math.sin(t * 2 + p.ph);
-        const alpha = Math.max(0, (0.10 + 0.52 * p.hot * nearBright) * tw);
+        let alpha = Math.max(0, (0.10 + 0.52 * p.hot * nearBright) * tw);
+        if (p.arm) alpha *= 1 + 0.12 * focus;
         const size = 0.8 + s * 1.2 + p.hot * 1.1;
         list.push({ x: px, y: py, s: size, a: alpha, d: depth, acc: p.acc });
       }
@@ -273,6 +235,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // gentle tilt toward the pointer across the viewport (no layout reads)
     window.addEventListener("mousemove", e => {
+      const r = heroCanvas.getBoundingClientRect();
+      // trigger over the galaxy disk itself (tilted ellipse), not the whole hero
+      const R = coreR + armLen;
+      const nx = (e.clientX - (r.left + r.width / 2)) / R;
+      const ny = (e.clientY - (r.top + r.height / 2)) / (R * 0.6);
+      nearGalaxy = nx * nx + ny * ny <= 1;
       tRot = (e.clientX / window.innerWidth - 0.5) * 0.18;
       tTilt = (e.clientY / window.innerHeight - 0.5) * 0.10;
     }, { passive: true });
