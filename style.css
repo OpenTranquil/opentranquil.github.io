@@ -435,3 +435,29 @@ html[lang^="zh"]{line-break:strict}
 .facts{max-width:var(--content-width)}
 .facts .fact:first-child{padding-top:0}
 .facts .fact:last-child{border-bottom:0}
+
+/* ============================================================
+   Cursor inversion lens — a round "spotlight" that trails the
+   pointer and inverts the colors beneath it (invert(1) backdrop).
+   Decorative: pointer-events none, so it never blocks the UI.
+   Matched to the near-monochrome terminal palette.
+   ============================================================ */
+.cursor-invert{
+  --cursor-size:132px;
+  position:fixed;
+  top:0;
+  left:0;
+  width:var(--cursor-size);
+  height:var(--cursor-size);
+  margin:calc(var(--cursor-size) / -2) 0 0 calc(var(--cursor-size) / -2);
+  border:1px solid rgba(242,237,237,.30);
+  border-radius:50%;
+  background:transparent;
+  -webkit-backdrop-filter:invert(1);
+  backdrop-filter:invert(1);
+  pointer-events:none;
+  z-index:9999;
+  opacity:0;
+  transition:opacity var(--duration-normal) var(--ease-out);
+  will-change:transform,opacity;
+}

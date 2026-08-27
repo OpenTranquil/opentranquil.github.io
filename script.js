@@ -260,4 +260,50 @@ document.addEventListener("DOMContentLoaded", () => {
     start();
   }
 
+  /* ----- cursor inversion lens (decorative; primary pointer only) ----- */
+  // A round "spotlight" that trails the pointer and inverts colors beneath it.
+  // Skipped on touch / coarse pointers; respects prefers-reduced-motion.
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (finePointer) {
+    const lens = document.createElement("div");
+    lens.className = "cursor-invert";
+    lens.setAttribute("aria-hidden", "true");
+    document.body.appendChild(lens);
+
+    let tx = -1000, ty = -1000;  // pointer target
+    let cx = -1000, cy = -1000;  // current (smoothed) position
+    let shown = false;
+
+    const place = () => { lens.style.transform = "translate3d(" + cx + "px," + cy + "px,0)"; };
+    const reveal = () => {
+      if (!shown) {
+        shown = true;
+        cx = tx; cy = ty;        // snap onto the pointer on first appearance
+        place();
+        lens.style.opacity = "1";
+      }
+    };
+    const hide = () => { shown = false; lens.style.opacity = "0"; };
+
+    if (prefersReduced) {
+      window.addEventListener("mousemove", (e) => {
+        cx = tx = e.clientX; cy = ty = e.clientY;
+        reveal(); place();
+      }, { passive: true });
+    } else {
+      const tick = () => {
+        cx += (tx - cx) * 0.22;
+        cy += (ty - cy) * 0.22;
+        place();
+        requestAnimationFrame(tick);
+      };
+      window.addEventListener("mousemove", (e) => {
+        tx = e.clientX; ty = e.clientY; reveal();
+      }, { passive: true });
+      requestAnimationFrame(tick);
+    }
+
+    document.addEventListener("mouseleave", hide);
+  }
+
 });
