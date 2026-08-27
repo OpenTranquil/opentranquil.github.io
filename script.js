@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const build = () => {
       pts.length = 0;
-      const n = W < 640 ? 460 : 1000;
+      const n = W < 640 ? 520 : 1300;
       for (let i = 0; i < n; i++) {
         const kind = Math.random();
         let r, a, hot;
@@ -157,9 +157,9 @@ document.addEventListener("DOMContentLoaded", () => {
           hot = 1;
         } else if (kind < 0.97) {          // spiral arm (dominant)
           const arm = i % ARMS;
-          const tt = Math.pow(Math.random(), 1.8);
+          const tt = Math.pow(Math.random(), 1.15);   // even along the arm
           r = coreR + tt * armLen;
-          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + (Math.random() - 0.5) * 0.24;
+          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + (Math.random() - 0.5) * 0.14;
           hot = 1 - tt * 0.45;
         } else {                           // sparse scattered field
           r = coreR + Math.random() * armLen;
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (px < -14 || px > W + 14 || py < -14 || py > H + 14) continue;
         const depth01 = Math.max(0, Math.min(1, (depth / (armLen * cE) + 1) / 2));
         const nearBright = 1 - depth01 * 0.5;
-        const tw = 0.68 + 0.32 * Math.sin(t * 2 + p.ph);
+        const tw = 0.82 + 0.18 * Math.sin(t * 2 + p.ph);
         const alpha = Math.max(0, (0.10 + 0.52 * p.hot * nearBright) * tw);
         const size = 0.8 + s * 1.2 + p.hot * 1.1;
         list.push({ x: px, y: py, s: size, a: alpha, d: depth, acc: p.acc });
@@ -235,8 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // bright glowing core
       const c = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(50, coreR * 2.4));
-      c.addColorStop(0, "rgba(242,237,237,0.26)");
-      c.addColorStop(0.35, "rgba(242,237,237,0.08)");
+      c.addColorStop(0, "rgba(242,237,237,0.20)");
+      c.addColorStop(0.35, "rgba(242,237,237,0.06)");
       c.addColorStop(1, "rgba(242,237,237,0)");
       ctx.fillStyle = c;
       ctx.fillRect(0, 0, W, H);
