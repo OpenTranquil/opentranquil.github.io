@@ -94,29 +94,33 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 /* ============================================================
    Install / command panel
    ============================================================ */
-.term{position:relative;max-width:34rem;margin:0 auto;border:1px solid var(--color-border-2);border-radius:var(--radius-xs);background:var(--color-terminal);overflow:hidden;text-align:left}
+.term{position:relative;max-width:34rem;margin:0 auto;border:1px solid var(--color-text-1);border-radius:var(--radius-xs);background:var(--color-text-1);color:var(--color-bg);overflow:hidden;text-align:left}
 .hero .term{margin-top:var(--space-6)}
-.term-h{display:flex;align-items:center;gap:var(--space-3);height:38px;padding:0 var(--space-4);border-bottom:1px solid var(--color-border-1)}
-.term-h span{font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);color:var(--color-text-3);letter-spacing:.04em}
-.term-b{padding:var(--space-4) var(--space-5);font:400 var(--text-xs)/1.85 var(--font-mono);color:var(--color-text-2);overflow-x:auto;white-space:pre}
-.term-b .p{color:var(--color-text-3)}
-.term-b .c{color:var(--color-text-1)}
-.term-b .ok{color:var(--color-ok)}
-.term-b .cm{color:var(--color-text-3)}
+.term-h{display:flex;align-items:center;gap:var(--space-3);height:38px;padding:0 var(--space-4);border-bottom:1px solid rgba(12,12,14,.2)}
+.term-h span{font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);color:rgba(12,12,14,.6);letter-spacing:.04em}
+.term-b{padding:var(--space-4) var(--space-5);font:400 var(--text-xs)/1.85 var(--font-mono);color:rgba(12,12,14,.8);overflow-x:auto;white-space:pre}
+.term-b .p{color:rgba(12,12,14,.55)}
+.term-b .c{color:var(--color-bg)}
+.term-b .ok{color:#27795A}
+.term-b .cm{color:rgba(12,12,14,.45)}
 .term-b .tl{display:block}
-.term-copy{position:absolute;top:7px;right:var(--space-3);height:24px;padding:0 var(--space-3);border:1px solid var(--color-border-2);border-radius:var(--radius-xs);background:transparent;color:var(--color-text-3);font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);cursor:pointer;transition:border-color var(--duration-fast),color var(--duration-fast)}
-.term-copy:hover{border-color:var(--color-text-1);color:var(--color-text-1)}
-.term-copy.done{color:var(--color-ok);border-color:var(--color-ok)}
+.term-copy{position:absolute;top:7px;right:var(--space-3);height:24px;padding:0 var(--space-3);border:1px solid rgba(12,12,14,.35);border-radius:var(--radius-xs);background:transparent;color:rgba(12,12,14,.65);font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);cursor:pointer;transition:color var(--duration-fast),background var(--duration-fast)}
+.term-copy:hover{background:var(--color-bg);color:var(--color-text-1)}
+.term-copy.done{color:#27795A;border-color:#27795A}
 
 /* ============================================================
    Content rows — opencode-style [*] ledger lines
    ============================================================ */
-/* row hover feedback */
-.principles article:hover,.boot-sequence li:hover,.kernel-register article:hover,.coverage-plate article:hover,.pipe>div:hover,.feature-ledger>.card:hover{background:rgba(242,237,237,.02)}
+/* row hover feedback — invert to paper (white) bg + dark text */
+.principles article,.boot-sequence li,.kernel-register article,.coverage-plate article,.pipe>div,.feature-ledger>.card{transition:background var(--duration-fast),color var(--duration-fast)}
+.principles article:hover,.boot-sequence li:hover,.kernel-register article:hover,.coverage-plate article:hover,.pipe>div:hover,.feature-ledger>.card:hover{background:var(--color-text-1);color:var(--color-bg)}
+.principles article:hover h3,.boot-sequence li:hover h3,.kernel-register article:hover h3,.coverage-plate article:hover h3,.pipe>div:hover b,.feature-ledger>.card:hover h3{color:var(--color-bg)}
+.principles article:hover p,.boot-sequence li:hover p,.kernel-register article:hover p,.coverage-plate article:hover p,.pipe>div:hover p,.feature-ledger>.card:hover p{color:rgba(12,12,14,.72)}
+.principles article:hover .principle-no,.boot-sequence li:hover .boot-no,.kernel-register article:hover .register-code,.coverage-plate article:hover .level,.pipe>div:hover .n,.feature-ledger>.card:hover .tag{color:rgba(12,12,14,.6)}
 
 /* principles: three statements -> ruled rows */
 .principles{display:block;border-top:1px solid var(--color-border-2);text-align:left}
-.principles article{position:relative;display:grid;grid-template-columns:13rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) 0;border-bottom:1px solid var(--color-border-1)}
+.principles article{position:relative;display:grid;grid-template-columns:13rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) var(--space-4);border-bottom:1px solid var(--color-border-1)}
 .principle-no{font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);color:var(--color-text-3)}
 .principle-no::before{content:"[*] "}
 .principles h3{margin:0 0 var(--space-2);font-size:var(--text-base);font-weight:var(--weight-bold);letter-spacing:0}
@@ -124,7 +128,7 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 
 /* boot sequence: six steps -> rows */
 .boot-sequence{display:block;margin:0;padding:0;list-style:none;border-top:1px solid var(--color-border-2);text-align:left}
-.boot-sequence li{display:grid;grid-template-columns:13rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) 0;border-bottom:1px solid var(--color-border-1)}
+.boot-sequence li{display:grid;grid-template-columns:13rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) var(--space-4);border-bottom:1px solid var(--color-border-1)}
 .boot-no{font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);color:var(--color-text-3)}
 .boot-no::before{content:"[*] "}
 .boot-sequence h3{margin:0 0 var(--space-2);font-size:var(--text-base);font-weight:var(--weight-bold)}
@@ -132,16 +136,16 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 
 /* kernel register / coverage ladder -> same ledger language */
 .kernel-register{display:block;border-top:1px solid var(--color-border-2);text-align:left}
-.kernel-register article{display:grid;grid-template-columns:13rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) 0;border-bottom:1px solid var(--color-border-1)}
+.kernel-register article{display:grid;grid-template-columns:13rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) var(--space-4);border-bottom:1px solid var(--color-border-1)}
 .register-code{font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);color:var(--color-text-3)}
 .register-code::before{content:"[*] "}
 .kernel-register h3{margin:0 0 var(--space-2);font-size:var(--text-base);font-weight:var(--weight-bold)}
 .kernel-register p{margin:0;color:var(--color-text-2);font-size:var(--text-base);line-height:var(--leading-normal)}
 
-.coverage-plate{display:block;border-top:1px solid var(--color-border-2);text-align:left}
-.coverage-plate article{position:relative;display:grid;grid-template-columns:10rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) 0;border-bottom:1px solid var(--color-border-1)}
-.coverage-plate .level{font-size:var(--text-base);font-weight:var(--weight-bold);color:var(--color-text-1)}
-.coverage-plate h3{margin:0 0 var(--space-2);font-size:var(--text-base);font-weight:var(--weight-bold)}
+.coverage-plate{display:block;background:transparent;color:var(--color-text-1);text-align:left;padding:0 var(--space-6)}
+.coverage-plate article{position:relative;display:grid;grid-template-columns:10rem minmax(0,1fr);gap:var(--space-5) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-5) var(--space-4);border-bottom:1px solid var(--color-border-1)}
+.coverage-plate .level{font-size:var(--text-base);font-weight:var(--weight-bold);color:var(--color-text-3)}
+.coverage-plate h3{margin:0 0 var(--space-2);font-size:var(--text-base);font-weight:var(--weight-bold);color:var(--color-text-1)}
 .coverage-plate p{margin:0;color:var(--color-text-2);font-size:var(--text-base);line-height:var(--leading-normal)}
 .coverage-plate .plate-tag{display:none}
 
@@ -161,14 +165,14 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 
 /* ledger rows for services */
 .feature-ledger{display:block;gap:0;border-top:1px solid var(--color-border-2);text-align:left}
-.feature-ledger>.card{display:grid;grid-template-columns:7rem minmax(10rem,.8fr) minmax(16rem,1.2fr);gap:clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;margin:0;padding:var(--space-4) 0;border:0;border-bottom:1px solid var(--color-border-1);border-radius:0;background:transparent}
-.feature-ledger>.card:hover{background:transparent}
+.feature-ledger>.card{display:grid;grid-template-columns:7rem minmax(10rem,.8fr) minmax(16rem,1.2fr);gap:clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;margin:0;padding:var(--space-4) var(--space-4);border:0;border-bottom:1px solid var(--color-border-1);border-radius:0;background:transparent}
+.feature-ledger>.card:hover{background:var(--color-text-1)}
 .feature-ledger>.card .tag,.feature-ledger>.card h3{margin:0}
 .feature-ledger>.card .tag::before{content:""}
 
 /* pipeline rows */
 .pipe{display:block;border-top:1px solid var(--color-border-2);text-align:left}
-.pipe>div{position:relative;display:grid;grid-template-columns:5rem minmax(0,1fr);gap:var(--space-4) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-4) 0;border-bottom:1px solid var(--color-border-1)}
+.pipe>div{position:relative;display:grid;grid-template-columns:5rem minmax(0,1fr);gap:var(--space-4) clamp(var(--space-5),3vw,var(--space-8));align-items:baseline;padding:var(--space-4) var(--space-4);border-bottom:1px solid var(--color-border-1)}
 .pipe .n{font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);color:var(--color-text-3)}
 .pipe .n::before{content:"[*] "}
 .pipe b{font-size:var(--text-base);font-weight:var(--weight-bold);margin:0 0 var(--space-2)}
