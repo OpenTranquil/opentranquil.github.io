@@ -158,8 +158,11 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .grid.c2{grid-template-columns:repeat(2,1fr)}
 .grid.c3{grid-template-columns:repeat(3,1fr)}
 .grid.c4{grid-template-columns:repeat(4,1fr)}
-.card{position:relative;padding:var(--space-5);border:1px solid var(--color-border-1);border-radius:var(--radius-xs);background:transparent;transition:border-color var(--duration-normal),transform var(--duration-normal)}
-.card:hover{border-color:var(--color-border-2)}
+.card{position:relative;padding:var(--space-5);border:1px solid var(--color-border-1);border-radius:var(--radius-xs);background:transparent;transition:border-color var(--duration-normal),transform var(--duration-normal),background var(--duration-fast),color var(--duration-fast)}
+.card:hover{background:var(--color-text-1);border-color:var(--color-text-1);color:var(--color-bg)}
+.card:hover h3{color:var(--color-bg)}
+.card:hover p{color:rgba(12,12,14,.72)}
+.card:hover .tag{color:rgba(12,12,14,.6)}
 .grid:not(.feature-ledger) .card:hover{transform:translateY(-2px)}
 .card .tag{display:block;margin-bottom:var(--space-3);font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);color:var(--color-text-3)}
 .card .tag::before{content:"[*] "}
@@ -205,8 +208,11 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .tbl th{font:var(--weight-medium) var(--text-xs)/1.4 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-3);text-align:left;padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-border-2);background:transparent}
 .tbl td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-border-1);color:var(--color-text-2);vertical-align:top;overflow-wrap:anywhere}
 .tbl tr:last-child td{border-bottom:0}
-.tbl tbody tr{transition:background var(--duration-fast)}
-.tbl tbody tr:hover{background:rgba(242,237,237,.03)}
+.tbl tbody tr{transition:background var(--duration-fast),color var(--duration-fast)}
+.tbl tbody tr:hover{background:var(--color-text-1);color:var(--color-bg)}
+.tbl tbody tr:hover td{color:rgba(12,12,14,.72)}
+.tbl tbody tr:hover td:first-child{color:var(--color-bg)}
+.tbl tbody tr:hover code{color:var(--color-bg)}
 .tbl td:first-child{color:var(--color-text-1);font-weight:var(--weight-medium);white-space:nowrap}
 .tbl code{font-size:var(--text-sm);color:var(--color-text-1);background:none;padding:0}
 
