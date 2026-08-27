@@ -216,10 +216,13 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .tbl td:first-child{color:var(--color-text-1);font-weight:var(--weight-medium);white-space:nowrap}
 .tbl code{font-size:var(--text-sm);color:var(--color-text-1);background:none;padding:0}
 
-/* code blocks */
-pre{border:1px solid var(--color-border-1);border-radius:var(--radius-xs);background:var(--color-terminal);padding:var(--space-5);overflow-x:auto;font:400 var(--text-sm)/1.75 var(--font-mono);color:var(--color-text-2)}
+/* code blocks — invert to paper (white) on hover; cards keep their code inline */
+pre{border:1px solid var(--color-border-1);border-radius:var(--radius-xs);background:var(--color-terminal);padding:var(--space-5);overflow-x:auto;font:400 var(--text-sm)/1.75 var(--font-mono);color:var(--color-text-2);transition:background var(--duration-fast),color var(--duration-fast),border-color var(--duration-fast)}
+pre:hover{background:var(--color-text-1);color:var(--color-bg);border-color:var(--color-text-1)}
+.card:hover pre{background:var(--color-text-1);color:var(--color-bg);border-color:var(--color-text-1)}
 pre code{color:inherit;background:none;padding:0}
 p code,li code,td code,.prose code{font-size:.88em;color:var(--color-text-1);background:transparent;padding:0;border-radius:0}
+.card:hover code{color:var(--color-bg)}
 a:hover code{color:var(--color-accent-bright)}
 
 /* page hero (subpages) */
@@ -426,8 +429,9 @@ html[lang^="zh"]{line-break:strict}
 .plat-panel{display:none}
 .plat-note{margin:var(--space-4) 0 0;color:var(--color-text-2);font-size:var(--text-base);line-height:var(--leading-normal)}
 .plat-note code{color:var(--color-text-1)}
+.plat-note + .grid{margin-top:var(--space-4)}
 .flash-h{margin:var(--space-7) 0 var(--space-3);font-size:var(--text-base);font-weight:var(--weight-bold)}
-.fact{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:var(--space-4);padding:var(--space-3) 0;border-bottom:1px solid var(--color-border-1)}
+.fact{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:var(--space-4);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-border-1)}
 .fact b{font-weight:var(--weight-semi);color:var(--color-text-1)}
 .fact span{color:var(--color-text-2);font-size:var(--text-base)}
 @media (max-width:900px){
@@ -441,6 +445,11 @@ html[lang^="zh"]{line-break:strict}
 .facts{max-width:var(--content-width)}
 .facts .fact:first-child{padding-top:0}
 .facts .fact:last-child{border-bottom:0}
+/* fact rows — invert to paper (white) on hover, same feedback as table rows */
+.fact{transition:background var(--duration-fast),color var(--duration-fast)}
+.fact:hover{background:var(--color-text-1);color:var(--color-bg)}
+.fact:hover b{color:var(--color-bg)}
+.fact:hover span{color:rgba(12,12,14,.72)}
 
 /* ============================================================
    Cursor inversion lens — a round "spotlight" that trails the
