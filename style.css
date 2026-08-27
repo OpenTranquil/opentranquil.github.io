@@ -32,9 +32,9 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .brand:hover{color:var(--color-text-1)}
 .brand-mark{display:block;width:22px;height:22px;flex:0 0 22px}
 .hd-nav{display:flex;gap:var(--space-2);margin-right:auto}
-.hd-nav a{padding:var(--space-1) var(--space-2);border-radius:var(--radius-xs);color:var(--color-text-2);font-size:var(--text-sm);font-weight:var(--weight-medium);white-space:nowrap;transition:color var(--duration-fast)}
-.hd-nav a:hover{color:var(--color-text-1)}
-.hd-nav a.on,.hd-nav a[aria-current="page"]{color:var(--color-text-1);font-weight:var(--weight-bold)}
+.hd-nav a{padding:var(--space-1) var(--space-2);border-radius:var(--radius-xs);color:var(--color-text-2);font-size:var(--text-sm);font-weight:var(--weight-medium);white-space:nowrap;background-image:linear-gradient(currentColor,currentColor);background-size:0 1px;background-repeat:no-repeat;background-position:left 100%;transition:color var(--duration-fast),background-size var(--duration-fast)}
+.hd-nav a:hover{color:var(--color-text-1);background-size:100% 1px}
+.hd-nav a.on,.hd-nav a[aria-current="page"]{color:var(--color-text-1);font-weight:var(--weight-bold);background-size:100% 1px}
 .hd-r{display:flex;align-items:center;gap:var(--space-2);flex-shrink:0}
 .hd-btn{height:30px;display:inline-flex;align-items:center;gap:var(--space-2);padding:0 var(--space-3);border:1px solid var(--color-border-2);border-radius:var(--radius-xs);background:transparent;color:var(--color-text-2);font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);cursor:pointer;white-space:nowrap;transition:color var(--duration-fast),border-color var(--duration-fast),background var(--duration-fast)}
 .hd-btn:hover{color:var(--color-text-1);border-color:var(--color-text-3)}
@@ -73,7 +73,8 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .btn.primary .arr{color:var(--color-bg);font-family:var(--font-mono)}
 .btn.primary:hover{background:var(--color-accent-bright);border-color:var(--color-accent-bright);color:var(--color-bg)}
 .btn.disabled,.btn[aria-disabled="true"]{border-color:var(--color-border-1);background:transparent;color:var(--color-text-3);cursor:default;pointer-events:none}
-.btn .arr{font-family:var(--font-mono)}
+.btn .arr{font-family:var(--font-mono);transition:transform var(--duration-fast)}
+.btn:hover .arr{transform:translateX(3px)}
 .btn.loading{pointer-events:none;opacity:.7;position:relative}
 .btn.loading::after{content:"";width:12px;height:12px;border:1.5px solid var(--color-border-2);border-top-color:var(--color-text-1);border-radius:50%;animation:spin .6s linear infinite;margin-left:var(--space-1)}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -94,19 +95,19 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 /* ============================================================
    Install / command panel
    ============================================================ */
-.term{position:relative;max-width:34rem;margin:0 auto;border:1px solid var(--color-text-1);border-radius:var(--radius-xs);background:var(--color-text-1);color:var(--color-bg);overflow:hidden;text-align:left}
+.term{position:relative;max-width:34rem;margin:0 auto;border:1px solid var(--color-border-2);border-radius:var(--radius-xs);background:var(--color-surface-1);color:var(--color-text-1);overflow:hidden;text-align:left}
 .hero .term{margin-top:var(--space-6)}
-.term-h{display:flex;align-items:center;gap:var(--space-3);height:38px;padding:0 var(--space-4);border-bottom:1px solid rgba(12,12,14,.2)}
-.term-h span{font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);color:rgba(12,12,14,.6);letter-spacing:.04em}
-.term-b{padding:var(--space-4) var(--space-5);font:400 var(--text-xs)/1.85 var(--font-mono);color:rgba(12,12,14,.8);overflow-x:auto;white-space:pre}
-.term-b .p{color:rgba(12,12,14,.55)}
-.term-b .c{color:var(--color-bg)}
-.term-b .ok{color:#27795A}
-.term-b .cm{color:rgba(12,12,14,.45)}
+.term-h{display:flex;align-items:center;gap:var(--space-3);height:38px;padding:0 var(--space-4);border-bottom:1px solid var(--color-border-1)}
+.term-h span{font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);color:var(--color-text-3);letter-spacing:.04em}
+.term-b{padding:var(--space-4) var(--space-5);font:400 var(--text-xs)/1.85 var(--font-mono);color:var(--color-text-2);overflow-x:auto;white-space:pre}
+.term-b .p{color:var(--color-text-3)}
+.term-b .c{color:var(--color-text-1)}
+.term-b .ok{color:var(--color-ok)}
+.term-b .cm{color:var(--color-text-3)}
 .term-b .tl{display:block}
-.term-copy{position:absolute;top:7px;right:var(--space-3);height:24px;padding:0 var(--space-3);border:1px solid rgba(12,12,14,.35);border-radius:var(--radius-xs);background:transparent;color:rgba(12,12,14,.65);font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);cursor:pointer;transition:color var(--duration-fast),background var(--duration-fast)}
-.term-copy:hover{background:var(--color-bg);color:var(--color-text-1)}
-.term-copy.done{color:#27795A;border-color:#27795A}
+.term-copy{position:absolute;top:7px;right:var(--space-3);height:24px;padding:0 var(--space-3);border:1px solid var(--color-border-2);border-radius:var(--radius-xs);background:transparent;color:var(--color-text-2);font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);cursor:pointer;transition:color var(--duration-fast),background var(--duration-fast)}
+.term-copy:hover{background:var(--color-text-1);color:var(--color-bg)}
+.term-copy.done{color:var(--color-ok);border-color:var(--color-ok)}
 
 /* ============================================================
    Content rows — opencode-style [*] ledger lines
@@ -156,8 +157,9 @@ code,kbd,pre{font-family:var(--font-mono);font-variant-ligatures:none}
 .grid.c2{grid-template-columns:repeat(2,1fr)}
 .grid.c3{grid-template-columns:repeat(3,1fr)}
 .grid.c4{grid-template-columns:repeat(4,1fr)}
-.card{position:relative;padding:var(--space-5);border:1px solid var(--color-border-1);border-radius:var(--radius-xs);background:transparent;transition:border-color var(--duration-normal)}
+.card{position:relative;padding:var(--space-5);border:1px solid var(--color-border-1);border-radius:var(--radius-xs);background:transparent;transition:border-color var(--duration-normal),transform var(--duration-normal)}
 .card:hover{border-color:var(--color-border-2)}
+.grid:not(.feature-ledger) .card:hover{transform:translateY(-2px)}
 .card .tag{display:block;margin-bottom:var(--space-3);font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);color:var(--color-text-3)}
 .card .tag::before{content:"[*] "}
 .card h3{margin:0 0 var(--space-2);font-size:var(--text-base);font-weight:var(--weight-bold);letter-spacing:0}
@@ -298,6 +300,27 @@ a:hover code{color:var(--color-accent-bright)}
 .js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
 .js [data-reveal].in{opacity:1;transform:none}
 
+/* hero entrance — staggered rise (load-time, JS-gated) */
+.js .hero-copy>*{opacity:0;transform:translateY(16px);animation:hero-rise .7s var(--ease-out) forwards}
+.js .hero-copy>*:nth-child(1){animation-delay:.05s}
+.js .hero-copy>*:nth-child(2){animation-delay:.16s}
+.js .hero-copy>*:nth-child(3){animation-delay:.27s}
+.js .hero-copy>*:nth-child(4){animation-delay:.38s}
+.js .hero-copy>*:nth-child(5){animation-delay:.49s}
+@keyframes hero-rise{to{opacity:1;transform:none}}
+
+/* ledger rows — cascade reveal inside their data-reveal section */
+.js .principles,.js .boot-sequence,.js .kernel-register,.js .coverage-plate{opacity:1;transform:none;transition:none}
+.js .principles article,.js .boot-sequence li,.js .kernel-register article,.js .coverage-plate article{opacity:0;transform:translateY(12px);transition:background var(--duration-fast),color var(--duration-fast)}
+.js .principles.in article,.js .boot-sequence.in li,.js .kernel-register.in article,.js .coverage-plate.in article{animation:row-rise .6s var(--ease-out) forwards}
+.js .principles.in article:nth-child(1),.js .boot-sequence.in li:nth-child(1),.js .kernel-register.in article:nth-child(1),.js .coverage-plate.in article:nth-child(1){animation-delay:.05s}
+.js .principles.in article:nth-child(2),.js .boot-sequence.in li:nth-child(2),.js .kernel-register.in article:nth-child(2),.js .coverage-plate.in article:nth-child(2){animation-delay:.13s}
+.js .principles.in article:nth-child(3),.js .boot-sequence.in li:nth-child(3),.js .kernel-register.in article:nth-child(3),.js .coverage-plate.in article:nth-child(3){animation-delay:.21s}
+.js .principles.in article:nth-child(4),.js .boot-sequence.in li:nth-child(4),.js .kernel-register.in article:nth-child(4),.js .coverage-plate.in article:nth-child(4){animation-delay:.29s}
+.js .principles.in article:nth-child(5),.js .boot-sequence.in li:nth-child(5),.js .kernel-register.in article:nth-child(5),.js .coverage-plate.in article:nth-child(5){animation-delay:.37s}
+.js .principles.in article:nth-child(6),.js .boot-sequence.in li:nth-child(6),.js .kernel-register.in article:nth-child(6),.js .coverage-plate.in article:nth-child(6){animation-delay:.45s}
+@keyframes row-rise{to{opacity:1;transform:none}}
+
 /* ============================================================
    Footer
    ============================================================ */
@@ -315,6 +338,8 @@ html[lang^="zh"]{line-break:strict}
   html{scroll-behavior:auto}
   *{animation:none!important;transition:none!important}
   .js [data-reveal]{opacity:1;transform:none}
+  .js .hero-copy>*{opacity:1;transform:none}
+  .js .principles article,.js .boot-sequence li,.js .kernel-register article,.js .coverage-plate article{opacity:1;transform:none}
 }
 
 /* ============================================================
