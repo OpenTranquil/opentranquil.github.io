@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
     let FOV = 440;
     const ARMS = 3;
-    const SPIRAL_TIGHT = 4.0;            // arm winding (rad)
+    const SPIRAL_TIGHT = 4.6;            // arm winding (rad)
     const pts = [];
     let W = 0, H = 0, cx = 0, cy = 0;
     let coreR = 0, armLen = 0;
@@ -151,20 +151,20 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let i = 0; i < n; i++) {
         const kind = Math.random();
         let r, a, hot;
-        if (kind < 0.42) {                 // central bulge
+        if (kind < 0.45) {                 // central bulge
           r = coreR * Math.pow(Math.random(), 1.4);
           a = Math.random() * 6.2832;
           hot = 1;
-        } else if (kind < 0.93) {          // spiral arm
+        } else if (kind < 0.97) {          // spiral arm (dominant)
           const arm = i % ARMS;
           const tt = Math.pow(Math.random(), 1.8);
           r = coreR + tt * armLen;
-          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + (Math.random() - 0.5) * 0.38;
-          hot = 1 - tt * 0.5;
-        } else {                           // scattered field
+          a = (arm / ARMS) * 6.2832 + tt * SPIRAL_TIGHT + (Math.random() - 0.5) * 0.24;
+          hot = 1 - tt * 0.45;
+        } else {                           // sparse scattered field
           r = coreR + Math.random() * armLen;
           a = Math.random() * 6.2832;
-          hot = 0.3;
+          hot = 0.25;
         }
         pts.push({ r, a, hot, ph: Math.random() * 6.2832, acc: i % 23 === 0 });
       }
@@ -211,10 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const py = cy + (-wz * sE) * s;
         if (px < -14 || px > W + 14 || py < -14 || py > H + 14) continue;
         const depth01 = Math.max(0, Math.min(1, (depth / (armLen * cE) + 1) / 2));
-        const nearBright = 1 - depth01 * 0.55;
-        const tw = 0.62 + 0.38 * Math.sin(t * 2 + p.ph);
-        const alpha = Math.max(0, (0.06 + 0.40 * p.hot * nearBright) * tw);
-        const size = 0.7 + s * 1.1 + p.hot * 1.0;
+        const nearBright = 1 - depth01 * 0.5;
+        const tw = 0.68 + 0.32 * Math.sin(t * 2 + p.ph);
+        const alpha = Math.max(0, (0.10 + 0.52 * p.hot * nearBright) * tw);
+        const size = 0.8 + s * 1.2 + p.hot * 1.1;
         list.push({ x: px, y: py, s: size, a: alpha, d: depth, acc: p.acc });
       }
       list.sort((a, b) => b.d - a.d);            // farthest first
@@ -226,8 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.translate(cx, cy);
       ctx.scale(1, sE);
       const g = ctx.createRadialGradient(0, 0, 0, 0, 0, armLen * 0.9);
-      g.addColorStop(0, "rgba(242,237,237,0.10)");
-      g.addColorStop(0.5, "rgba(242,237,237,0.04)");
+      g.addColorStop(0, "rgba(242,237,237,0.14)");
+      g.addColorStop(0.5, "rgba(242,237,237,0.05)");
       g.addColorStop(1, "rgba(242,237,237,0)");
       ctx.fillStyle = g;
       ctx.fillRect(-armLen, -armLen, armLen * 2, armLen * 2);
@@ -235,8 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // bright glowing core
       const c = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(50, coreR * 2.4));
-      c.addColorStop(0, "rgba(242,237,237,0.20)");
-      c.addColorStop(0.35, "rgba(242,237,237,0.07)");
+      c.addColorStop(0, "rgba(242,237,237,0.26)");
+      c.addColorStop(0.35, "rgba(242,237,237,0.08)");
       c.addColorStop(1, "rgba(242,237,237,0)");
       ctx.fillStyle = c;
       ctx.fillRect(0, 0, W, H);
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.arc(q.x, q.y, q.s, 0, 6.2832);
         ctx.fill();
         if (q.s > 2.1) {
-          ctx.globalAlpha = q.a * 0.24;
+          ctx.globalAlpha = q.a * 0.3;
           ctx.beginPath(); ctx.arc(q.x, q.y, q.s * 2.2, 0, 6.2832); ctx.fill();
           ctx.globalAlpha = 1;
         }
